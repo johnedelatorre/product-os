@@ -12,7 +12,7 @@ Documents include TL;DR blocks, scannable headings, and numbered steps while mai
 
 ---
 
-## Agent Roster (38 Agents)
+## Agent Roster (39 Agents)
 
 ### Pipeline Agents (7)
 
@@ -96,6 +96,12 @@ Documents include TL;DR blocks, scannable headings, and numbered steps while mai
 | OKR Agent | `okr-agent.md` | OKRs and metric trees | `/product-os:okrs` |
 | Retro Facilitator | `retro-facilitator.md` | Retrospectives | `/product-os:retro` |
 | PR/FAQ Author | `prfaq-author.md` | Amazon-style PR/FAQ | `/product-os:prfaq` |
+
+### Guided Mode Agent (1)
+
+| Agent | File | Role | Command |
+|-------|------|------|---------|
+| Guide | `guide.md` | Step-by-step phase guidance with progress tracking | `/product-os:guide` |
 
 ---
 

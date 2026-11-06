@@ -45,7 +45,20 @@ Product OS provides a complete pipeline from raw requirement to shipped, measure
 
 ## How to Use
 
-### Full Pipeline (Recommended)
+### Guided Mode (Recommended for New PMs)
+
+```
+/product-os:guide --initiative <slug> --project <slug>
+```
+
+Walks you step-by-step through all 9 phases:
+1. Intake → 2. Discovery → 3. Prioritize → 4. Define → 5. Design → 6. Review → 7. Deliver → 8. Launch → 9. Measure
+
+Progress is tracked in `progress.yaml`. Check status with `/product-os:status`. Do the next step with `/product-os:next`.
+
+See `docs/guides/guided-workflow.md` for the full playbook.
+
+### Full Pipeline (Automated)
 
 ```
 /product-os:new-project
