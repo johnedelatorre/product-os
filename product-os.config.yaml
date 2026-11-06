@@ -1,0 +1,134 @@
+# Product OS Configuration
+# Copy this file and customize for your organization
+
+# Project metadata
+project:
+  name: "Product OS"
+  version: "1.0.0"
+
+# Confluence settings
+confluence:
+  # Your Atlassian instance URL
+  base_url: "https://yourcompany.atlassian.net/wiki"
+  
+  # Space key for product documentation
+  space_key: "PROD"
+  
+  # Parent page ID for Initiatives section
+  # Find via: Confluence > Space Settings > Space Details > Page ID
+  initiatives_parent_page_id: "123456789"
+  
+  # Page naming convention
+  page_prefix: ""  # Optional prefix for all pages
+
+# Jira settings
+jira:
+  # Your Atlassian instance URL
+  base_url: "https://yourcompany.atlassian.net"
+  
+  # Project key for stories
+  project_key: "PROJ"
+  
+  # Issue type mapping
+  issue_types:
+    epic: "Epic"
+    story: "Story"
+    # Use "Task" if your project doesn't have Story type
+    # story: "Task"
+  
+  # Custom field IDs
+  # Find via: Jira Admin > Issues > Custom Fields, or API
+  # GET /rest/api/3/field
+  custom_fields:
+    # Story points field ID
+    story_points: "customfield_10016"
+    
+    # Epic link field ID (for linking stories to epics)
+    epic_link: "customfield_10014"
+    
+    # Epic name field ID
+    epic_name: "customfield_10011"
+    
+    # Start date field (if using custom field)
+    start_date: "customfield_10015"
+    
+    # Optional: Custom field for Product OS ID tracking
+    # Enables idempotent sync by matching on this field
+    product_os_id: ""  # e.g., "customfield_10100"
+  
+  # How to map discipline labels
+  # "labels" - Apply as Jira labels (frontend, backend)
+  # "components" - Apply as Jira components
+  discipline_mapping: "labels"
+  
+  # Component names if using discipline_mapping: "components"
+  components:
+    frontend: "Frontend"
+    backend: "Backend"
+  
+  # Labels applied to all Product OS issues
+  default_labels:
+    - "product-os"
+
+# Flow rendering settings
+flows:
+  # Default targets (always generated)
+  default_targets:
+    - "mermaid"
+  
+  # Enabled targets (can be requested via --targets)
+  enabled_targets:
+    - "mermaid"
+    - "claude-artifact"
+    - "figjam"
+    - "excalidraw"
+    - "drawio"
+    # - "lucidchart"
+    # - "miro"
+    # - "whimsical"
+
+# Figma settings (when using Figma MCP)
+figma:
+  # Default file for design system tokens
+  design_system_file: ""  # Figma file URL
+  
+  # FigJam file for flows
+  figjam_file: ""  # FigJam file URL
+
+# Team settings
+team:
+  # Default team velocity (story points per sprint)
+  velocity: 40
+  
+  # Sprint duration in days
+  sprint_days: 14
+  
+  # Story point scale
+  point_scale: "fibonacci"  # "fibonacci" or "linear"
+
+# Accessibility settings
+accessibility:
+  # WCAG conformance level
+  wcag_level: "AA"  # "A", "AA", or "AAA"
+  
+  # Minimum contrast ratios (will use WCAG defaults if not set)
+  contrast:
+    text: 4.5
+    large_text: 3.0
+    ui_components: 3.0
+
+# Output settings
+output:
+  # Directory for initiative workspaces
+  initiatives_dir: "initiatives"
+  
+  # Include timestamps in filenames
+  timestamp_files: false
+
+# Integration settings
+integrations:
+  # Atlassian MCP server name (if configured)
+  atlassian_mcp: "Atlassian"
+  
+  # Figma MCP server name (if configured)
+  figma_mcp: "Figma"
