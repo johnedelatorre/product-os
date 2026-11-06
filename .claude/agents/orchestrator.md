@@ -44,16 +44,55 @@ You coordinate these specialist agents:
 | Jira Sync | `jira-sync.md` | Create/update Jira issues | Epics, stories | Jira issues |
 | Stakeholder Comms | `stakeholder-comms.md` | Updates, summaries | Any stage | Comms artifacts |
 
+### Discovery Agents
+
+| Agent | File | Role |
+|-------|------|------|
+| Opportunity Tree | `opportunity-tree.md` | Opportunity solution trees |
+| Hypothesis Logger | `hypothesis-logger.md` | Track and validate hypotheses |
+| Market Analyst | `market-analyst.md` | TAM/SAM/SOM, market trends |
+| Competitive Analyst | `competitive-analyst.md` | Competitive analysis |
+| Experiment Designer | `experiment-designer.md` | A/B test design |
+
+### Metrics & Measurement
+
+| Agent | File | Role |
+|-------|------|------|
+| Metrics Designer | `metrics-designer.md` | North star, guardrails, success criteria |
+| Event Tracker | `event-tracker.md` | Analytics tracking plans |
+| Post-Launch Reviewer | `post-launch-reviewer.md` | Post-launch review vs PRD goals |
+
+### Launch & GTM
+
+| Agent | File | Role |
+|-------|------|------|
+| Launch Manager | `launch-manager.md` | Release notes, enablement, changelog |
+| Stakeholder Comms | `stakeholder-comms.md` | Updates, summaries |
+
+### Governance
+
+| Agent | File | Role |
+|-------|------|------|
+| Dependency Tracker | `dependency-tracker.md` | Dependencies and risks with RACI |
+| Gate Keeper | `gate-keeper.md` | DoR/DoD validation |
+| Debt Tracker | `debt-tracker.md` | Tech and design debt |
+| Decision Logger | `decision-logger.md` | ADR-style decisions |
+
+### Continuous Agents
+
+| Agent | File | Role |
+|-------|------|------|
+| Artifact Registry | `artifact-registry.md` | Track all design artifacts |
+| Risk Manager | `risk-manager.md` | Risk register |
+
 ### Tool Agents
 
 | Agent | File | Role |
 |-------|------|------|
 | OKR Agent | `okr-agent.md` | OKRs and metric trees |
 | Roadmap Agent | `roadmap-agent.md` | Now/next/later roadmaps |
-| Competitive Analyst | `competitive-analyst.md` | Competitive analysis |
-| Experiment Designer | `experiment-designer.md` | A/B test design |
-| Risk Manager | `risk-manager.md` | Risk register |
-| Decision Logger | `decision-logger.md` | ADR-style decisions |
+| Strategist | `strategist.md` | RICE/WSJF/MoSCoW/Kano |
+| Project Brief | `project-brief.md` | One-page executive summary |
 | Retro Facilitator | `retro-facilitator.md` | Retrospectives |
 | PR/FAQ Author | `prfaq-author.md` | Amazon-style PR/FAQ |
 
