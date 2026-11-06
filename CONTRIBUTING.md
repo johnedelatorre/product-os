@@ -10,7 +10,6 @@ Thank you for your interest in contributing to Product OS!
 2. Use a clear, descriptive title
 3. Include steps to reproduce
 4. Describe expected vs actual behavior
-5. Include relevant configuration details
 
 ### Suggesting Enhancements
 
@@ -22,22 +21,21 @@ Thank you for your interest in contributing to Product OS!
 ### Pull Requests
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/my-feature`)
+2. Create a feature branch
 3. Make your changes
 4. Update documentation
 5. Submit a pull request
 
-## Development Guidelines
+## Adding Content
 
 ### Adding a New Agent
 
 1. Create agent file in `.claude/agents/`
 2. Create corresponding command in `.claude/commands/`
-3. Create template in `templates/` if needed
-4. Add documentation in `docs/guides/`
-5. Update AGENTS.md with agent specification
-6. Update command reference in docs
-7. Add tests/examples if applicable
+3. Create skill in `.claude/skills/` if needed
+4. Add documentation in `docs/guides/agents/`
+5. Update AGENTS.md roster
+6. Update command reference
 
 ### Agent Structure
 
@@ -60,8 +58,6 @@ Every agent must include:
 ## Outputs
 [Table of outputs with format]
 
-## [Domain-specific sections]
-
 ## Quality Checklist
 [Checklist items for the agent's output]
 
@@ -72,38 +68,24 @@ Every agent must include:
 [What happens after this agent completes]
 ```
 
-### Code Style
+### Documentation Style
 
-- Use clear, descriptive names
-- Include comments for non-obvious logic
-- Follow existing patterns in the codebase
-- Keep files focused on single responsibility
+- Write for PMs and designers, not engineers
+- Avoid jargon and acronyms without explanation
+- Use tables for structured information
+- Include examples for every concept
+- Keep sentences short and clear
 
-### Documentation Requirements
-
-All changes must include:
-
-1. Updated README if user-facing
-2. Updated relevant guide in `docs/guides/`
-3. Updated command reference if adding commands
-4. Updated CHANGELOG.md
-
-## Testing
-
-### Manual Testing
+## Testing Changes
 
 1. Test the full pipeline with `/product-os:new-project`
 2. Test individual commands in isolation
-3. Test with and without Atlassian MCP
-4. Test with and without Figma MCP
-
-### Example Project
-
-Update `examples/acme-dashboard/` if your changes affect output format.
+3. Test with and without Atlassian/Figma MCP
+4. Update `examples/acme-dashboard/` if output format changes
 
 ## Commit Messages
 
-Use clear, descriptive commit messages:
+Use clear, descriptive messages:
 
 ```
 Add [agent/feature]: Brief description

@@ -76,7 +76,7 @@
 ## Pipeline Flow
 
 ### Stage 1: Intake
-**Agent:** `.claude/agents/intake.md`  
+**Agent:** `.claude/agents/intake-analyst.md`  
 **Command:** `/product-os:intake`  
 **Input:** Raw requirement from any source  
 **Output:** Structured problem/opportunity statement  
