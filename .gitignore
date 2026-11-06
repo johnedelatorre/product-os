@@ -1,0 +1,68 @@
+# Environment and secrets
+.env
+.env.local
+.env.*.local
+
+# Credentials (never commit)
+*.pem
+*.key
+secrets/
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+venv/
+env/
+.venv/
+ENV/
+*.egg-info/
+dist/
+build/
+
+# Node (if using for tooling)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Generated outputs (optional - you may want to commit these)
+# Uncomment if you don't want to commit generated artifacts
+# initiatives/*/publish-manifest.json
+# initiatives/*/jira-sync-manifest.json
+# **/axe-results.json
+# **/pa11y-results.json
+# **/lighthouse-*.json
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+
+# Rendered flow outputs (regenerate from canonical spec)
+# Uncomment if you only want to commit the canonical flows.yaml
+# **/*.excalidraw
+# **/*.drawio
+# **/*-figjam.json
+# **/*-miro.json
+# **/flows-artifact.html
+
+# Test outputs
+test-output/
+coverage/
