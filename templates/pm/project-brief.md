@@ -1,5 +1,13 @@
 # Project Brief: [Project Name]
 
+## TL;DR
+
+**Problem:** [One sentence]
+**Solution:** [One sentence]
+**Next Action:** Review and approve this brief to proceed to design
+
+---
+
 | Field | Value |
 |-------|-------|
 | **Initiative** | [Parent initiative] |

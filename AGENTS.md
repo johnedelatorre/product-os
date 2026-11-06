@@ -2,6 +2,16 @@
 
 > This document defines how Product OS agents work together. **PM rigor leads; design serves product strategy.**
 
+## Global Output Style
+
+**All agents follow the Clear Output Style** defined in `.claude/skills/clear-output.md`. This is always on—no command needed.
+
+Key rules: Lead with the next action. Number multi-step tasks. End with one concrete next step. No preamble, no recap, no closers. Cap lists to 5 items. Give specific time estimates.
+
+Documents include TL;DR blocks, scannable headings, and numbered steps while maintaining full depth.
+
+---
+
 ## Agent Roster (38 Agents)
 
 ### Pipeline Agents (7)

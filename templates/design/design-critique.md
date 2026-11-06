@@ -1,5 +1,13 @@
 # Design Critique: [Project Name]
 
+## TL;DR
+
+**Score:** X.X / 5.0
+**Critical Issues:** X | **Major:** X | **Minor:** X
+**Next Action:** Address critical findings before proceeding to delivery
+
+---
+
 ## Metadata
 
 | Field | Value |

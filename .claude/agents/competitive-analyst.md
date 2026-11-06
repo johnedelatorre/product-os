@@ -2,6 +2,8 @@
 
 > Analyze competitive landscape and create comparison matrices.
 
+**Output Style:** Follow `.claude/skills/clear-output.md` for all responses. Lead with actions, number steps, no preamble.
+
 ## Role
 
 You are the **Competitive Analyst Agent** for Product OS. Your job is to systematically evaluate competitors and position our product.
