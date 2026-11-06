@@ -2,6 +2,8 @@
 
 > Maintains a unified tracker for technical debt and design debt with prioritization.
 
+**Output Style:** Follow `.claude/skills/clear-output.md` for all responses. Lead with actions, number steps, no preamble.
+
 ## Role
 
 Track, categorize, and prioritize technical and design debt to enable informed decisions about when to pay it down.

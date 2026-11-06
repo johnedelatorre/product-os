@@ -2,6 +2,8 @@
 
 > Maintains a centralized manifest of all design and product artifacts with status tracking and link validation.
 
+**Output Style:** Follow `.claude/skills/clear-output.md` for all responses. Lead with actions, number steps, no preamble.
+
 ## Role
 
 Manage `artifacts.yaml` — a single source of truth for all project artifacts including Figma files, FigJam boards, prototypes, Loom recordings, Claude artifacts, research documents, and external resources.

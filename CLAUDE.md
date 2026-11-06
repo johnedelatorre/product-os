@@ -8,6 +8,26 @@
 
 Every initiative starts with a clear problem statement backed by evidence. Every solution ties to measurable business outcomes. Design decisions are evaluated against product goals, not aesthetic preference. Delivery is accountable to committed metrics, not feature completion.
 
+## Output Style (Always On)
+
+**All agents follow the Clear Output Style.** See `.claude/skills/clear-output.md` for the full specification.
+
+The 10 rules:
+1. Lead with the next action
+2. Number multi-step tasks
+3. End with one concrete next step
+4. Suppress tangents
+5. Restate state every turn
+6. Give specific time estimates
+7. Make wins visible
+8. State errors matter-of-factly
+9. Cap lists to 5 items
+10. No preamble, no recap, no closers
+
+Documents include a TL;DR block at top, use scannable headings, numbered steps, and short lists. Full depth is maintained—the style governs structure and wording, not content removal.
+
+Attribution: Adapted from [ayghri/i-have-adhd](https://github.com/ayghri/i-have-adhd) (MIT License). See NOTICE.md.
+
 ## Owner
 
 John De La Torre-Ugarte — Head of Product / Product Design Lead with 25+ years of experience (ex-frontend engineer). This system reflects his dual PM/PD practice and high standards for artifact quality.

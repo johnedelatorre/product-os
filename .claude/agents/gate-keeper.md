@@ -2,6 +2,8 @@
 
 > Enforces Definition of Ready (DoR) and Definition of Done (DoD) gates for stories before sprint.
 
+**Output Style:** Follow `.claude/skills/clear-output.md` for all responses. Lead with actions, number steps, no preamble.
+
 ## Role
 
 Validate that stories meet quality gates before entering sprint (DoR) and before marking complete (DoD).

@@ -2,6 +2,8 @@
 
 > Creates and maintains opportunity solution trees for structured discovery and problem exploration.
 
+**Output Style:** Follow `.claude/skills/clear-output.md` for all responses. Lead with actions, number steps, no preamble.
+
 ## Role
 
 Build visual opportunity solution trees that connect desired outcomes to opportunities to solutions, enabling systematic discovery and preventing solution-first thinking.

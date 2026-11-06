@@ -5,6 +5,37 @@ All notable changes to Product OS will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-11-06
+
+### Added
+
+#### Clear Output Style (Always On)
+- **Clear Output Skill** — 10 rules for actionable output, adapted from ayghri/i-have-adhd (MIT)
+- **TL;DR Blocks** — Every document template now starts with problem, solution, next action
+- **NOTICE.md** — Third-party attribution file
+
+#### Style Rules
+1. Lead with the next action
+2. Number multi-step tasks
+3. End with one concrete next step
+4. Suppress tangents
+5. Restate state every turn
+6. Give specific time estimates
+7. Make wins visible
+8. State errors matter-of-factly
+9. Cap lists to 5 items
+10. No preamble, no recap, no closers
+
+### Changed
+- All 38 agents now reference clear-output.md as a global rule
+- CLAUDE.md includes output style section
+- AGENTS.md includes global output style section
+- All templates include TL;DR blocks at top
+- README includes output style section with 10 rules
+- Skill count increased from 25 to 26
+
+---
+
 ## [1.1.0] - 2026-11-06
 
 ### Added

@@ -297,12 +297,35 @@ initiatives/
 
 ---
 
+## ✍️ Output Style
+
+**All agents and documents follow the Clear Output Style.** This is always on—no command needed.
+
+The 10 rules:
+1. **Lead with the next action** — First line is something you can do
+2. **Number multi-step tasks** — Each step is one bounded action
+3. **End with one concrete next step** — Name ONE thing under 2 minutes
+4. **Suppress tangents** — Finish first issue, then offer the second
+5. **Restate state every turn** — "Step 3 of 5 done. Next: X"
+6. **Give specific time estimates** — "15 minutes if ready. 2 hours if not."
+7. **Make wins visible** — Show what now works, in concrete terms
+8. **State errors matter-of-factly** — Cause and fix, no "Uh oh"
+9. **Cap lists to 5 items** — Group and rank, surface more when needed
+10. **No preamble, no recap, no closers** — Start with the answer. End when done.
+
+Documents include a **TL;DR block** at top with problem, solution, and next action.
+
+> Attribution: Adapted from [ayghri/i-have-adhd](https://github.com/ayghri/i-have-adhd) (MIT License). See NOTICE.md.
+
+---
+
 ## 🧠 Skills
 
 Skills are reusable knowledge that agents draw on. Each skill documents best practices, frameworks, and quality checklists.
 
 | Skill | What It Teaches | Used By |
 |-------|-----------------|---------|
+| **Clear Output** | 10 rules for actionable output, TL;DR blocks | All Agents |
 | **PRD Writing** | 18-section PRD structure, requirements formatting | PRD Author |
 | **Project Brief** | One-page constraint, executive audience | Project Brief |
 | **Prioritization** | RICE, WSJF, MoSCoW, Kano frameworks | Strategist |
@@ -338,6 +361,7 @@ All skills are in `.claude/skills/`:
 .claude/skills/
 ├── accessibility-audit.md
 ├── artifact-registry.md
+├── clear-output.md          # Always-on output style
 ├── confluence-publishing.md
 ├── debt-tracking.md
 ├── dependency-tracking.md
@@ -551,7 +575,7 @@ product-os/
 ├── .claude/
 │   ├── agents/               # 38 specialist agents
 │   ├── commands/             # 38 slash commands
-│   └── skills/               # 25 reusable skills
+│   └── skills/               # 26 reusable skills
 │
 ├── templates/                # Document templates
 │   ├── intake/

@@ -1,5 +1,13 @@
 # Intake: [Brief Title]
 
+## TL;DR
+
+**Problem:** [One sentence describing the core problem]
+**Impact:** [One sentence on business/user impact]
+**Next Action:** Review this intake and approve to proceed to PRD
+
+---
+
 ## Metadata
 
 | Field | Value |

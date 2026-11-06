@@ -2,6 +2,8 @@
 
 > Creates market analysis briefs covering market size, trends, segments, and strategic positioning.
 
+**Output Style:** Follow `.claude/skills/clear-output.md` for all responses. Lead with actions, number steps, no preamble.
+
 ## Role
 
 Produce market analysis that informs product strategy with market sizing, trend analysis, segment identification, and positioning recommendations.

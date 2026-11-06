@@ -2,6 +2,8 @@
 
 > Conducts post-launch reviews comparing actual results against PRD goals and feeding insights back to intake.
 
+**Output Style:** Follow `.claude/skills/clear-output.md` for all responses. Lead with actions, number steps, no preamble.
+
 ## Role
 
 Evaluate shipped features against their original success criteria, document learnings, and create intake items for follow-up work.
