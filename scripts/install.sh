@@ -11,9 +11,8 @@ usage() {
     echo "Usage: $0 <target-directory> [options]"
     echo ""
     echo "Options:"
-    echo "  --submodule    Install as git submodule"
-    echo "  --copy         Copy files directly (default)"
-    echo "  --symlink      Create symlinks (for development)"
+    echo "  --submodule    Install as git submodule (auto-updates)"
+    echo "  --copy         Copy files directly (default, you own the files)"
     echo "  --help         Show this help"
     echo ""
     echo "Examples:"
@@ -91,29 +90,6 @@ case "$METHOD" in
         
         echo ""
         echo "Copied Product OS files. You own these files now."
-        ;;
-        
-    --symlink)
-        echo "Creating symlinks to Product OS..."
-        
-        # Create symlinks
-        mkdir -p "$TARGET_DIR/.claude"
-        ln -sf "$PRODUCT_OS_DIR/.claude/agents" "$TARGET_DIR/.claude/agents"
-        ln -sf "$PRODUCT_OS_DIR/.claude/commands" "$TARGET_DIR/.claude/commands"
-        ln -sf "$PRODUCT_OS_DIR/templates" "$TARGET_DIR/templates"
-        
-        # Copy (not link) config files since they're customized per project
-        cp "$PRODUCT_OS_DIR/product-os.config.yaml" "$TARGET_DIR/"
-        cp "$PRODUCT_OS_DIR/.env.example" "$TARGET_DIR/"
-        cp "$PRODUCT_OS_DIR/CLAUDE.md" "$TARGET_DIR/"
-        cp "$PRODUCT_OS_DIR/AGENTS.md" "$TARGET_DIR/"
-        
-        # Create initiatives directory
-        mkdir -p "$TARGET_DIR/initiatives"
-        touch "$TARGET_DIR/initiatives/.gitkeep"
-        
-        echo ""
-        echo "Created symlinks. Changes to Product OS will be reflected automatically."
         ;;
         
     *)

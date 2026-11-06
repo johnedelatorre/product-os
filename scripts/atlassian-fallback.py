@@ -71,7 +71,7 @@ class ConfluencePublisher:
 
     def markdown_to_storage(self, markdown: str) -> str:
         """Convert Markdown to Confluence storage format."""
-        # Basic conversion - in production, use a proper library
+        # Basic conversion - for complex docs, consider using a proper library
         html = markdown
         
         # Headers
