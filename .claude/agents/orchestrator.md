@@ -87,6 +87,12 @@ You coordinate these specialist agents:
 | Artifact Registry | `artifact-registry.md` | Track all design artifacts |
 | Risk Manager | `risk-manager.md` | Risk register |
 
+### Guided Mode
+
+| Agent | File | Role |
+|-------|------|------|
+| Guide | `guide.md` | Step-by-step phase guidance with progress tracking |
+
 ### Tool Agents
 
 | Agent | File | Role |
@@ -344,6 +350,17 @@ Tool agents are invoked on-demand, not as part of the standard pipeline:
 ```
 
 These can be called at any point and don't require pipeline context.
+
+## Guide Agent Integration
+
+When running in Guided Mode (`/product-os:guide`), the Guide Agent manages phase transitions:
+
+1. **Phase Transitions** — Guide tracks progress in `progress.yaml` and advances phases
+2. **Specialist Delegation** — Guide invokes Orchestrator for complex multi-agent stages
+3. **Progress State** — Orchestrator updates `pipeline-state.json`; Guide updates `progress.yaml`
+4. **Handoff** — When Guide calls Orchestrator, Orchestrator returns control after stage completion
+
+The Orchestrator remains the conductor for multi-agent stages (PM, Design, Delivery). The Guide is the coach that walks PMs through the overall journey.
 
 ## Reporting
 

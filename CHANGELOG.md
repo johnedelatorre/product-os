@@ -5,6 +5,38 @@ All notable changes to Product OS will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2026-11-06
+
+### Added
+
+#### Guided Mode
+- **Guide Agent** — Walks PMs through all 9 phases step-by-step with progress tracking
+- **`progress.yaml`** — Per-initiative state file tracking current phase, document status, and exit criteria
+- **Phase System** — 9 phases: Intake → Discovery → Prioritize → Define → Design → Review → Deliver → Launch → Measure
+- **Skip Handling** — Optional phases can be skipped with documented risks
+
+#### Commands
+- `/product-os:guide` — Start or resume guided mode, or jump to a specific phase
+- `/product-os:status` — Show current progress through the 9 phases
+- `/product-os:next` — Execute the next recommended step automatically
+
+#### Skills
+- **Guided Workflow Skill** — Progress schema, phase order, exit criteria, and state management
+
+#### Documentation
+- `docs/guides/guided-workflow.md` — Full playbook with phase-by-phase checklists
+- Mermaid sequence diagram showing Guide ↔ Specialist ↔ Progress flow
+
+### Changed
+- Agent count increased from 38 to 39
+- Skill count increased from 26 to 27
+- Command count increased from 38 to 41
+- CLAUDE.md updated with Guided Mode section
+- Orchestrator updated to reference Guide agent for phase transitions
+- README updated with Guided Mode section and sequence diagram
+
+---
+
 ## [1.2.0] - 2026-11-06
 
 ### Added

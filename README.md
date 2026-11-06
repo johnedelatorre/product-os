@@ -25,7 +25,7 @@ Meanwhile, the strategic work—prioritization, trade-offs, stakeholder alignmen
 
 ### The Solution
 
-Product OS gives you **38 specialist AI agents** that handle artifact creation while you make the decisions. Tell an agent what you need, review its output, approve or revise, and move on.
+Product OS gives you **39 specialist AI agents** that handle artifact creation while you make the decisions. Tell an agent what you need, review its output, approve or revise, and move on.
 
 Every agent follows PM best practices. Every document follows a proven template. Every output syncs to Confluence and Jira automatically.
 
@@ -213,6 +213,68 @@ Once approved, Confluence pages and Jira tickets are created automatically. Afte
 
 ---
 
+## 🧭 Guided Mode
+
+**New to Product OS?** Use Guided Mode to walk through every phase step-by-step.
+
+```bash
+# Start guided mode
+/product-os:guide --initiative customer-onboarding --project signup
+
+# Check progress
+/product-os:status
+
+# Do the next recommended step
+/product-os:next
+```
+
+### The 9 Phases
+
+```mermaid
+sequenceDiagram
+    participant PM as Product Manager
+    participant Guide as Guide Agent
+    participant Spec as Specialist Agent
+    participant Progress as progress.yaml
+
+    PM->>Guide: /product-os:guide
+    Guide->>Progress: Load or create state
+    Guide->>PM: Show current phase, explain purpose
+    
+    loop For each document in phase
+        Guide->>PM: Ask key questions
+        PM->>Guide: Provide inputs
+        Guide->>Spec: Delegate document creation
+        Spec->>Guide: Return document
+        Guide->>Progress: Update document status
+        Guide->>PM: Show result, ask for review
+    end
+    
+    Guide->>Progress: Check exit criteria
+    alt Exit criteria passed
+        Guide->>Progress: Mark phase complete
+        Guide->>PM: Advance to next phase
+    else Exit criteria not met
+        Guide->>PM: Show gaps, suggest fixes
+    end
+```
+
+| # | Phase | Purpose | Can Skip? |
+|---|-------|---------|-----------|
+| 1 | **Intake** | Transform requirements into problem statement | No |
+| 2 | **Discovery** | Explore problem space | Yes |
+| 3 | **Prioritize** | Decide if and when to build | No |
+| 4 | **Define** | PRD, brief, metrics, plan | No |
+| 5 | **Design** | Flows, wireframes, prototype | No |
+| 6 | **Review** | Critique, UX review, accessibility | No |
+| 7 | **Deliver** | Epics, stories, Confluence, Jira | No |
+| 8 | **Launch** | Release notes, enablement | No |
+| 9 | **Measure** | Post-launch review, follow-ups | No |
+
+Progress is tracked in `progress.yaml`. See [`docs/guides/guided-workflow.md`](docs/guides/guided-workflow.md) for the full playbook.
+
+---
+
 ## 📄 Documents
 
 Product OS generates these documents. Each follows a proven template and syncs to your tools.
@@ -393,7 +455,7 @@ All skills are in `.claude/skills/`:
 
 ## 🤖 Agents at a Glance
 
-Product OS includes **38 specialist agents**, each with a single responsibility.
+Product OS includes **39 specialist agents**, each with a single responsibility.
 
 ### Pipeline Agents
 
@@ -573,9 +635,9 @@ product-os/
 ├── .env.example              # Credentials template
 │
 ├── .claude/
-│   ├── agents/               # 38 specialist agents
-│   ├── commands/             # 38 slash commands
-│   └── skills/               # 26 reusable skills
+│   ├── agents/               # 39 specialist agents
+│   ├── commands/             # 41 slash commands
+│   └── skills/               # 27 reusable skills
 │
 ├── templates/                # Document templates
 │   ├── intake/
