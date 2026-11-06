@@ -25,7 +25,7 @@ Meanwhile, the strategic work—prioritization, trade-offs, stakeholder alignmen
 
 ### The Solution
 
-Product OS gives you **27 specialist AI agents** that handle artifact creation while you make the decisions. Tell an agent what you need, review its output, approve or revise, and move on.
+Product OS gives you **38 specialist AI agents** that handle artifact creation while you make the decisions. Tell an agent what you need, review its output, approve or revise, and move on.
 
 Every agent follows PM best practices. Every document follows a proven template. Every output syncs to Confluence and Jira automatically.
 
@@ -53,7 +53,7 @@ The agents ask for your approval at every stage. Nothing publishes without your 
 
 ## 🔄 How It Works
 
-Product OS follows a flexible pipeline from intake to delivery. Here's the full flow:
+Product OS follows a PM-led workflow from intake to measurement. Here's the full flow:
 
 ```mermaid
 flowchart TD
@@ -63,12 +63,33 @@ flowchart TD
         ANY --> TRIAGE
     end
 
-    subgraph PM["📋 PM"]
+    subgraph DISCOVERY["🔍 Discovery"]
+        direction TB
+        OPP[Opportunity<br/>Tree]
+        HYP[Hypothesis<br/>Logger]
+        MKT[Market &<br/>Competitive]
+        EXP[Experiment<br/>Designer]
+        TRIAGE -.->|optional| OPP
+        OPP --> HYP
+        OPP --> MKT
+        HYP --> EXP
+    end
+
+    subgraph PRIORITIZE["⚖️ Prioritize"]
+        STRAT[Strategist<br/>RICE/WSJF]
+        ROAD[Roadmap<br/>Agent]
+        TRIAGE --> STRAT
+        STRAT --> ROAD
+    end
+
+    subgraph DEFINE["📋 Define"]
         PRD[PRD Author]
         BRIEF[Project Brief]
-        PLAN[Project Planner]
-        TRIAGE --> PRD
+        METRICS[Metrics<br/>Designer]
+        PLAN[Project<br/>Planner]
+        STRAT --> PRD
         PRD --> BRIEF
+        PRD --> METRICS
         PRD --> PLAN
     end
 
@@ -83,50 +104,75 @@ flowchart TD
         WIRE --> PROTO
     end
 
-    subgraph REVIEW["🔍 Review"]
+    subgraph REVIEW["✅ Review & Gates"]
         CRIT[Design Critic]
         UX[UX Reviewer]
-        A11Y[Accessibility<br/>Auditor]
+        A11Y[Accessibility]
+        GATE[DoR/DoD<br/>Gate]
         PROTO --> CRIT
         PROTO --> UX
         PROTO --> A11Y
+        CRIT --> GATE
+        UX --> GATE
+        A11Y --> GATE
     end
 
-    subgraph DELIVERY["🚀 Delivery"]
+    subgraph DELIVER["🚀 Engineering Delivery"]
         EPIC[Delivery Agent]
-        CONF[Confluence<br/>Publisher]
+        CONF[Confluence]
         JIRA[Jira Sync]
-        CRIT --> EPIC
-        UX --> EPIC
-        A11Y --> EPIC
+        GATE --> EPIC
         EPIC --> CONF
         EPIC --> JIRA
     end
 
-    subgraph LEARN["📈 Learn"]
-        METRICS[Measure &<br/>Learn]
-        JIRA --> METRICS
-        METRICS -.->|"Insights feed<br/>next cycle"| ANY
+    subgraph LAUNCH["📣 Launch"]
+        GTM[Launch<br/>Manager]
+        COMMS[Stakeholder<br/>Comms]
+        JIRA --> GTM
+        GTM --> COMMS
+    end
+
+    subgraph MEASURE["📈 Measure"]
+        TRACK[Event<br/>Tracker]
+        REVIEW_L[Post-Launch<br/>Review]
+        GTM --> TRACK
+        TRACK --> REVIEW_L
+        REVIEW_L -.->|insights| ANY
+    end
+
+    subgraph CONTINUOUS["🔄 Continuous"]
+        direction LR
+        ARTIFACT[Artifact<br/>Registry]
+        DECISION[Decision<br/>Log]
+        DEBT[Debt<br/>Tracker]
+        DEPS[Dependency<br/>Tracker]
     end
 
     style INTAKE fill:#e0f2fe
-    style PM fill:#fef3c7
+    style DISCOVERY fill:#fef9c3
+    style PRIORITIZE fill:#fef3c7
+    style DEFINE fill:#fed7aa
     style DESIGN fill:#fce7f3
     style REVIEW fill:#e0e7ff
-    style DELIVERY fill:#d1fae5
-    style LEARN fill:#f3e8ff
+    style DELIVER fill:#d1fae5
+    style LAUNCH fill:#cffafe
+    style MEASURE fill:#f3e8ff
+    style CONTINUOUS fill:#f1f5f9
 ```
 
 ### Flexible, Not Rigid
 
 This isn't a waterfall process. Product OS is designed for how product work actually happens:
 
-- **Start anywhere** — Jump in at any stage. Have wireframes already? Start at prototype. Have a PRD? Start at design.
-- **Skip stages** — Not every project needs every artifact. Small features might go straight from intake to stories.
-- **Iterate freely** — Go back and revise. The agents update downstream documents automatically.
-- **Run in parallel** — Design critique and UX review can happen simultaneously. So can Confluence and Jira sync.
+- **Start anywhere** — Jump in at any stage. Have a PRD? Start at design. Have wireframes? Start at prototype.
+- **Skip stages** — Not every project needs discovery. Small features might go straight from intake to stories.
+- **Iterate freely** — Go back and revise. Run discovery in parallel with define.
+- **Run in parallel** — Design critique, UX review, and accessibility can happen simultaneously.
 
 The pipeline is a guide, not a gate. Use the pieces you need.
+
+**Continuous agents** (Artifact Registry, Decision Log, Debt Tracker, Dependency Tracker) run throughout the entire lifecycle, not just at specific stages.
 
 ---
 
@@ -161,9 +207,9 @@ cp .env.example .env
 
 The orchestrator guides you through each stage, showing outputs and waiting for your approval before continuing.
 
-### 5. Ship
+### 5. Ship and Measure
 
-Once approved, Confluence pages and Jira tickets are created automatically. Your backlog is ready for sprint planning.
+Once approved, Confluence pages and Jira tickets are created automatically. After launch, run post-launch review to close the loop.
 
 ---
 
@@ -173,31 +219,42 @@ Product OS generates these documents. Each follows a proven template and syncs t
 
 | Document | What It Is | When to Use | Agent | Destination |
 |----------|-----------|-------------|-------|-------------|
-| **Intake** | Structured problem statement from raw input | First step for any new work | Intake Analyst | Local |
-| **PRD** | Comprehensive requirements (18 sections) | Features that need full specification | PRD Author | Confluence |
-| **Project Brief** | One-page executive summary | Stakeholder alignment, kickoffs | Project Brief | Confluence |
-| **Project Plan** | Phases, milestones, timeline | Complex multi-phase projects | Project Planner | Confluence |
-| **RACI Matrix** | Who's responsible, accountable, consulted, informed | Cross-functional projects | Project Planner | Confluence |
-| **Gantt Chart** | Timeline with dependencies (Mermaid) | Sprint planning, Jira Plans | Project Planner | Confluence + Jira |
-| **Prioritization** | RICE/WSJF/MoSCoW/Kano scoring | Backlog grooming, roadmap decisions | Strategist | Local |
-| **Design Brief** | Design direction and constraints | Before wireframes begin | Product Designer | Confluence |
-| **User Flows** | Step-by-step user journeys (YAML + Mermaid) | Any feature with multiple steps | Flow Designer | Confluence |
-| **Wireframes** | Low-fidelity screen layouts | Before visual design | Wireframer | Confluence |
-| **Prototype** | Clickable HTML/React demo | User testing, stakeholder demos | Prototyper | Local |
-| **Design Critique** | Severity-rated visual feedback | Before handoff to engineering | Design Critic | Confluence |
-| **UX Review** | Heuristics evaluation | Quality gate | UX Reviewer | Confluence |
-| **Accessibility Audit** | WCAG 2.2 AA compliance check | Before launch | Accessibility Auditor | Confluence |
-| **Epics** | High-level work containers | Grouping related stories | Delivery Agent | Jira |
-| **Stories** | User stories with acceptance criteria | Sprint backlog | Delivery Agent | Jira |
+| **Intake** | Structured problem statement | First step for any new work | Intake Analyst | Local |
+| **Opportunity Tree** | Outcome → opportunities → solutions | Discovery phase | Opportunity Tree | Confluence |
+| **Hypothesis Log** | Assumptions with validation status | Throughout discovery | Hypothesis Logger | Confluence |
+| **Market Analysis** | TAM/SAM/SOM, trends, segments | Strategic planning | Market Analyst | Confluence |
+| **PRD** | Comprehensive requirements (18 sections) | Features needing full spec | PRD Author | Confluence |
+| **Project Brief** | One-page executive summary | Stakeholder alignment | Project Brief | Confluence |
+| **Metrics Framework** | North star, inputs, guardrails | Every initiative | Metrics Designer | Confluence |
+| **Project Plan** | Phases, milestones, timeline | Complex projects | Project Planner | Confluence |
+| **RACI Matrix** | Responsibility assignment | Cross-functional projects | Project Planner | Confluence |
+| **Gantt Chart** | Timeline with dependencies | Sprint planning, Jira Plans | Project Planner | Confluence + Jira |
+| **Prioritization** | RICE/WSJF/MoSCoW/Kano scoring | Backlog grooming | Strategist | Local |
+| **Design Brief** | Design direction and constraints | Before wireframes | Product Designer | Confluence |
+| **User Flows** | Step-by-step journeys (YAML + Mermaid) | Multi-step features | Flow Designer | Confluence |
+| **Wireframes** | Low-fidelity layouts | Before visual design | Wireframer | Confluence |
+| **Prototype** | Clickable HTML/React demo | User testing | Prototyper | Local |
+| **Design Critique** | Severity-rated visual feedback | Before handoff | Design Critic | Confluence |
+| **UX Review** | Nielsen's heuristics evaluation | Quality gate | UX Reviewer | Confluence |
+| **Accessibility Audit** | WCAG 2.2 AA compliance | Before launch | Accessibility Auditor | Confluence |
+| **Artifact Registry** | Links to all design assets | Throughout project | Artifact Registry | Confluence |
+| **Gate Report** | DoR/DoD compliance | Sprint planning | Gate Keeper | Local |
+| **Epics & Stories** | User stories with ACs and points | Sprint backlog | Delivery Agent | Jira |
+| **Dependency Register** | Dependencies + risks + RACI | Project planning | Dependency Tracker | Confluence |
+| **Debt Register** | Tech and design debt | Ongoing | Debt Tracker | Confluence |
+| **Event Tracking Plan** | Analytics events spec | Before launch | Event Tracker | Confluence |
+| **Release Notes** | Customer-facing changes | Launch | Launch Manager | Confluence |
+| **Enablement** | Sales/support materials | Launch | Launch Manager | Local |
+| **Post-Launch Review** | Results vs PRD goals | 14+ days after | Post-Launch Reviewer | Confluence |
 | **OKRs** | Objectives and key results | Quarterly planning | OKR Agent | Confluence |
-| **Roadmap** | Now/Next/Later prioritized view | Stakeholder communication | Roadmap Agent | Confluence |
+| **Roadmap** | Now/Next/Later view | Stakeholder comm | Roadmap Agent | Confluence |
 | **Competitive Analysis** | Feature matrix, SWOT | Strategic planning | Competitive Analyst | Confluence |
-| **Experiment Design** | A/B test hypothesis and setup | Data-driven decisions | Experiment Designer | Confluence |
-| **Risk Register** | Risks with probability and mitigation | Project planning | Risk Manager | Confluence |
-| **Decision Log** | ADR-style decision records | Capturing rationale | Decision Logger | Confluence |
-| **PR/FAQ** | Amazon-style press release + FAQ | Early concept validation | PR/FAQ Author | Local |
-| **Retrospective** | Start/Stop/Continue + actions | End of project | Retro Facilitator | Confluence |
-| **Stakeholder Update** | Progress summary for executives | Weekly updates | Stakeholder Comms | Email/Confluence |
+| **Experiment Design** | A/B test setup with sample size | Data-driven decisions | Experiment Designer | Confluence |
+| **Risk Register** | Risks with mitigations | Project planning | Risk Manager | Confluence |
+| **Decision Log** | ADR-style records | Capturing rationale | Decision Logger | Confluence |
+| **PR/FAQ** | Amazon-style press release | Early validation | PR/FAQ Author | Local |
+| **Retrospective** | Start/Stop/Continue | End of project | Retro Facilitator | Confluence |
+| **Stakeholder Update** | Progress summary | Weekly | Stakeholder Comms | Email/Confluence |
 
 <details>
 <summary><strong>Where documents live locally</strong></summary>
@@ -207,21 +264,31 @@ initiatives/
 └── [initiative-name]/
     └── [project-name]/
         ├── intake.md
+        ├── opportunity-tree.yaml
+        ├── hypothesis-log.yaml
         ├── prd.md
         ├── project-brief.md
+        ├── metrics-framework.md
         ├── project-plan.md
         ├── raci.md
         ├── gantt.md
         ├── design-brief.md
-        ├── flows.yaml          # Canonical spec
-        ├── flows.md            # Mermaid render
+        ├── flows.yaml
+        ├── flows.md
         ├── wireframes.md
         ├── prototype.html
+        ├── artifacts.yaml
         ├── design-critique.md
         ├── ux-review.md
         ├── accessibility-audit.md
+        ├── gate-report.md
         ├── epics.md
         ├── stories.md
+        ├── dependency-register.yaml
+        ├── debt-register.yaml
+        ├── tracking-plan.yaml
+        ├── release-notes.md
+        ├── post-launch-review.md
         ├── publish-manifest.json
         └── jira-sync-manifest.json
 ```
@@ -236,21 +303,31 @@ Skills are reusable knowledge that agents draw on. Each skill documents best pra
 
 | Skill | What It Teaches | Used By |
 |-------|-----------------|---------|
-| **PRD Writing** | 18-section PRD structure, requirements formatting, success metrics | PRD Author |
-| **Project Brief** | One-page constraint, executive audience, what to include/exclude | Project Brief |
-| **Prioritization** | RICE, WSJF, MoSCoW, Kano frameworks with scoring guides | Strategist |
-| **Story Pointing** | Fibonacci scale, complexity factors, estimation rationale | Delivery Agent |
-| **Discipline Labeling** | Frontend/backend/fullstack assignment with decision criteria | Delivery Agent |
-| **RACI Matrix** | Responsibility assignment, one-R rule, stakeholder mapping | Project Planner |
-| **Gantt Generation** | Mermaid syntax, dependency types, Jira Plans integration | Project Planner |
-| **User Flows** | Canonical YAML spec, multi-target rendering, flow patterns | Flow Designer |
-| **Wireframing** | ASCII and HTML formats, layout patterns, annotation style | Wireframer |
-| **Prototype Generation** | Self-contained HTML, React artifacts, state management | Prototyper |
-| **Design Critique** | Visual hierarchy, Gestalt principles, severity ratings | Design Critic |
-| **UX Heuristics** | Nielsen's 10 heuristics, Laws of UX, evaluation process | UX Reviewer |
-| **Accessibility Audit** | WCAG 2.2 AA criteria, axe-core integration, remediation | Accessibility Auditor |
-| **Confluence Publishing** | Page hierarchy, backlog tables, Mermaid embedding | Confluence Publisher |
-| **Jira Sync** | Epic/story creation, custom fields, dependency links | Jira Sync |
+| **PRD Writing** | 18-section PRD structure, requirements formatting | PRD Author |
+| **Project Brief** | One-page constraint, executive audience | Project Brief |
+| **Prioritization** | RICE, WSJF, MoSCoW, Kano frameworks | Strategist |
+| **Story Pointing** | Fibonacci scale, complexity factors | Delivery Agent |
+| **Discipline Labeling** | Frontend/backend/fullstack assignment | Delivery Agent |
+| **RACI Matrix** | Responsibility assignment, one-R rule | Project Planner |
+| **Gantt Generation** | Mermaid syntax, Jira Plans integration | Project Planner |
+| **User Flows** | Canonical YAML spec, multi-target rendering | Flow Designer |
+| **Wireframing** | ASCII and HTML formats, layout patterns | Wireframer |
+| **Prototype Generation** | Self-contained HTML, React artifacts | Prototyper |
+| **Design Critique** | Visual hierarchy, Gestalt, severity ratings | Design Critic |
+| **UX Heuristics** | Nielsen's 10 heuristics, Laws of UX | UX Reviewer |
+| **Accessibility Audit** | WCAG 2.2 AA criteria, axe-core | Accessibility Auditor |
+| **Confluence Publishing** | Page hierarchy, backlog tables | Confluence Publisher |
+| **Jira Sync** | Epic/story creation, dependency links | Jira Sync |
+| **Artifact Registry** | Design artifact tracking, link validation | Artifact Registry |
+| **Opportunity Tree** | Outcome-opportunity-solution mapping | Opportunity Tree |
+| **Hypothesis Logging** | Hypothesis format, validation tracking | Hypothesis Logger |
+| **Metrics Framework** | North star, inputs, guardrails | Metrics Designer |
+| **Event Tracking** | Analytics event specification | Event Tracker |
+| **Post-Launch Review** | Goal comparison, learning loop | Post-Launch Reviewer |
+| **Launch GTM** | Release notes, enablement, changelog | Launch Manager |
+| **Dependency Tracking** | Dependencies, risks, RACI integration | Dependency Tracker |
+| **DoR/DoD Gates** | Definition of Ready/Done criteria | Gate Keeper |
+| **Debt Tracking** | Tech and design debt prioritization | Debt Tracker |
 
 <details>
 <summary><strong>Full skill files</strong></summary>
@@ -260,11 +337,21 @@ All skills are in `.claude/skills/`:
 ```
 .claude/skills/
 ├── accessibility-audit.md
+├── artifact-registry.md
 ├── confluence-publishing.md
+├── debt-tracking.md
+├── dependency-tracking.md
 ├── design-critique.md
 ├── discipline-labeling.md
+├── dor-dod-gates.md
+├── event-tracking.md
 ├── gantt-generation.md
+├── hypothesis-logging.md
 ├── jira-sync.md
+├── launch-gtm.md
+├── metrics-framework.md
+├── opportunity-tree.md
+├── post-launch-review.md
 ├── prd-writing.md
 ├── prioritization.md
 ├── project-brief.md
@@ -282,69 +369,108 @@ All skills are in `.claude/skills/`:
 
 ## 🤖 Agents at a Glance
 
-Product OS includes **27 specialist agents**, each with a single responsibility.
+Product OS includes **38 specialist agents**, each with a single responsibility.
 
 ### Pipeline Agents
 
-These agents form the core workflow from intake to delivery.
+Core workflow from intake through prioritization and definition.
 
 | Agent | Command | What It Does |
 |-------|---------|--------------|
-| **Orchestrator** | `/product-os:new-project` | Runs the full pipeline with human checkpoints |
-| **Intake Analyst** | `/product-os:intake` | Structures raw requirements into problem statements |
-| **PRD Author** | `/product-os:prd` | Writes comprehensive 18-section PRDs |
-| **Project Brief** | `/product-os:brief` | Creates one-page executive summaries |
-| **Project Planner** | `/product-os:plan` | Generates RACI, Gantt, and project plans |
-| **Strategist** | `/product-os:prioritize` | Applies RICE/WSJF/MoSCoW/Kano prioritization |
+| **Orchestrator** | `/product-os:new-project` | Runs full pipeline with checkpoints |
+| **Intake Analyst** | `/product-os:intake` | Structures raw requirements |
+| **Strategist** | `/product-os:prioritize` | RICE/WSJF/MoSCoW/Kano scoring |
+| **Roadmap Agent** | `/product-os:roadmap` | Now/Next/Later roadmaps |
+| **PRD Author** | `/product-os:prd` | Comprehensive 18-section PRDs |
+| **Project Brief** | `/product-os:brief` | One-page executive summaries |
+| **Project Planner** | `/product-os:plan` | RACI, Gantt, project plans |
+
+### Discovery Agents
+
+Optional/parallel phase for exploring problem space.
+
+| Agent | Command | What It Does |
+|-------|---------|--------------|
+| **Opportunity Tree** | `/product-os:opportunity-tree` | Outcome → opportunity → solution trees |
+| **Hypothesis Logger** | `/product-os:hypotheses` | Track and validate hypotheses |
+| **Market Analyst** | `/product-os:market` | TAM/SAM/SOM, trends, segments |
+| **Competitive Analyst** | `/product-os:competitive` | Feature matrices, SWOT |
+| **Experiment Designer** | `/product-os:experiment` | A/B test design with sample sizes |
+| **UX Researcher** | `/product-os:research` | Research plans, synthesis |
 
 ### Design Agents
 
-These agents handle design artifacts from brief to prototype.
+Artifacts from brief through prototype.
 
 | Agent | Command | What It Does |
 |-------|---------|--------------|
-| **Product Designer** | `/product-os:design-brief` | Creates design briefs and direction |
-| **Flow Designer** | `/product-os:flows` | Generates user flows, journey maps, sitemaps |
-| **Wireframer** | `/product-os:wireframes` | Creates low-fidelity screen layouts |
-| **Prototyper** | `/product-os:prototype` | Builds clickable HTML/React prototypes |
-| **Figma Agent** | `/product-os:figma` | Integrates with Figma via MCP |
-| **UX Researcher** | `/product-os:research` | Plans studies and synthesizes findings |
+| **Product Designer** | `/product-os:design-brief` | Design briefs and direction |
+| **Flow Designer** | `/product-os:flows` | User flows, journey maps |
+| **Wireframer** | `/product-os:wireframes` | Low-fidelity layouts |
+| **Prototyper** | `/product-os:prototype` | Clickable HTML/React |
+| **Figma Agent** | `/product-os:figma` | Figma MCP integration |
 
-### Review Agents
+### Review & Gate Agents
 
-These agents provide quality gates before delivery.
+Quality gates before delivery.
 
 | Agent | Command | What It Does |
 |-------|---------|--------------|
-| **Design Critic** | `/product-os:critique` | Gives severity-rated visual feedback |
-| **UX Reviewer** | `/product-os:ux-review` | Evaluates against Nielsen's heuristics |
-| **Accessibility Auditor** | `/product-os:a11y` | Audits for WCAG 2.2 AA compliance |
+| **Design Critic** | `/product-os:critique` | Severity-rated visual feedback |
+| **UX Reviewer** | `/product-os:ux-review` | Nielsen's heuristics evaluation |
+| **Accessibility Auditor** | `/product-os:a11y` | WCAG 2.2 AA audit |
+| **Gate Keeper** | `/product-os:gate` | DoR/DoD validation |
 
 ### Delivery Agents
 
-These agents create tickets and publish documentation.
+Tickets and documentation.
 
 | Agent | Command | What It Does |
 |-------|---------|--------------|
-| **Delivery Agent** | `/product-os:deliver` | Creates epics and stories with points |
-| **Confluence Publisher** | `/product-os:publish` | Publishes all docs to Confluence |
+| **Delivery Agent** | `/product-os:deliver` | Epics and stories with points |
+| **Confluence Publisher** | `/product-os:publish` | Publishes to Confluence |
 | **Jira Sync** | `/product-os:jira-sync` | Creates/updates Jira issues |
-| **Stakeholder Comms** | `/product-os:comms` | Writes updates and release notes |
+
+### Metrics & Measurement Agents
+
+Success definition and tracking.
+
+| Agent | Command | What It Does |
+|-------|---------|--------------|
+| **Metrics Designer** | `/product-os:metrics` | North star, guardrails, success criteria |
+| **Event Tracker** | `/product-os:tracking` | Analytics event specifications |
+| **Post-Launch Reviewer** | `/product-os:review-launch` | Results vs PRD goals |
+
+### Launch & GTM Agents
+
+Go-to-market and communications.
+
+| Agent | Command | What It Does |
+|-------|---------|--------------|
+| **Launch Manager** | `/product-os:launch` | Release notes, enablement, changelog |
+| **Stakeholder Comms** | `/product-os:comms` | Updates and summaries |
+
+### Governance Agents
+
+Ongoing tracking and compliance.
+
+| Agent | Command | What It Does |
+|-------|---------|--------------|
+| **Artifact Registry** | `/product-os:artifacts` | Track all design artifacts |
+| **Dependency Tracker** | `/product-os:dependencies` | Dependencies + risks + RACI |
+| **Risk Manager** | `/product-os:risks` | Risk register |
+| **Debt Tracker** | `/product-os:debt` | Tech and design debt |
+| **Decision Logger** | `/product-os:decision` | ADR-style decisions |
 
 ### Tool Agents
 
-These agents handle specialized PM tasks.
+Specialized tasks.
 
 | Agent | Command | What It Does |
 |-------|---------|--------------|
-| **OKR Agent** | `/product-os:okrs` | Defines objectives and key results |
-| **Roadmap Agent** | `/product-os:roadmap` | Creates Now/Next/Later roadmaps |
-| **Competitive Analyst** | `/product-os:competitive` | Analyzes competitors and market |
-| **Experiment Designer** | `/product-os:experiment` | Designs A/B tests with sample sizes |
-| **Risk Manager** | `/product-os:risks` | Maintains risk registers |
-| **Decision Logger** | `/product-os:decision` | Records decisions in ADR format |
-| **Retro Facilitator** | `/product-os:retro` | Runs retrospectives |
-| **PR/FAQ Author** | `/product-os:prfaq` | Writes Amazon-style PR/FAQs |
+| **OKR Agent** | `/product-os:okrs` | Objectives and key results |
+| **Retro Facilitator** | `/product-os:retro` | Retrospectives |
+| **PR/FAQ Author** | `/product-os:prfaq` | Amazon-style PR/FAQs |
 
 <details>
 <summary><strong>Full agent documentation</strong></summary>
@@ -423,9 +549,9 @@ product-os/
 ├── .env.example              # Credentials template
 │
 ├── .claude/
-│   ├── agents/               # 27 specialist agents
-│   ├── commands/             # 25 slash commands
-│   └── skills/               # 15 reusable skills
+│   ├── agents/               # 38 specialist agents
+│   ├── commands/             # 38 slash commands
+│   └── skills/               # 25 reusable skills
 │
 ├── templates/                # Document templates
 │   ├── intake/

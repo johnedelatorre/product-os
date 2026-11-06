@@ -2,42 +2,88 @@
 
 > This document defines how Product OS agents work together. **PM rigor leads; design serves product strategy.**
 
-## Agent Roster
+## Agent Roster (38 Agents)
 
-### Core Pipeline Agents
+### Pipeline Agents (7)
 
 | Agent | File | Role | Command |
 |-------|------|------|---------|
 | Orchestrator | `orchestrator.md` | Coordinate pipeline, manage checkpoints | `/product-os:new-project` |
 | Intake Analyst | `intake-analyst.md` | Structure raw requirements | `/product-os:intake` |
+| Strategist | `strategist.md` | RICE/WSJF/MoSCoW/Kano prioritization | `/product-os:prioritize` |
+| Roadmap Agent | `roadmap-agent.md` | Now/Next/Later roadmaps | `/product-os:roadmap` |
 | PRD Author | `prd-author.md` | Write comprehensive PRD | `/product-os:prd` |
 | Project Brief | `project-brief.md` | One-page executive summary | `/product-os:brief` |
-| Strategist | `strategist.md` | RICE/WSJF/MoSCoW/Kano prioritization | `/product-os:prioritize` |
 | Project Planner | `project-planner.md` | RACI, Gantt, timeline | `/product-os:plan` |
+
+### Discovery Agents (6)
+
+| Agent | File | Role | Command |
+|-------|------|------|---------|
+| Opportunity Tree | `opportunity-tree.md` | Outcome-opportunity-solution trees | `/product-os:opportunity-tree` |
+| Hypothesis Logger | `hypothesis-logger.md` | Track and validate hypotheses | `/product-os:hypotheses` |
+| Market Analyst | `market-analyst.md` | TAM/SAM/SOM, trends, segments | `/product-os:market` |
+| Competitive Analyst | `competitive-analyst.md` | Competitive analysis | `/product-os:competitive` |
+| Experiment Designer | `experiment-designer.md` | A/B test design | `/product-os:experiment` |
 | UX Researcher | `ux-researcher.md` | Research plans, synthesis | `/product-os:research` |
+
+### Design Agents (5)
+
+| Agent | File | Role | Command |
+|-------|------|------|---------|
 | Product Designer | `product-designer.md` | Design brief, direction | `/product-os:design-brief` |
 | Flow Designer | `flow-designer.md` | User flows, journey maps, sitemap | `/product-os:flows` |
 | Wireframer | `wireframer.md` | Lo-fi wireframes | `/product-os:wireframes` |
 | Prototyper | `prototyper.md` | Clickable HTML/React prototypes | `/product-os:prototype` |
 | Figma Agent | `figma-agent.md` | Figma MCP integration | `/product-os:figma` |
+
+### Review & Gate Agents (4)
+
+| Agent | File | Role | Command |
+|-------|------|------|---------|
 | Design Critic | `design-critic.md` | Visual design critique | `/product-os:critique` |
 | UX Reviewer | `ux-reviewer.md` | Nielsen heuristics, Laws of UX | `/product-os:ux-review` |
 | Accessibility Auditor | `accessibility-auditor.md` | WCAG 2.2 AA audit | `/product-os:a11y` |
+| Gate Keeper | `gate-keeper.md` | DoR/DoD validation | `/product-os:gate` |
+
+### Delivery Agents (3)
+
+| Agent | File | Role | Command |
+|-------|------|------|---------|
 | Delivery Agent | `delivery-agent.md` | Epics, stories, story points | `/product-os:deliver` |
 | Confluence Publisher | `confluence-publisher.md` | Publish to Confluence | `/product-os:publish` |
 | Jira Sync | `jira-sync.md` | Create/update Jira issues | `/product-os:jira-sync` |
-| Stakeholder Comms | `stakeholder-comms.md` | Updates, summaries, release notes | `/product-os:comms` |
 
-### Tool Agents
+### Metrics & Measurement Agents (3)
+
+| Agent | File | Role | Command |
+|-------|------|------|---------|
+| Metrics Designer | `metrics-designer.md` | North star, guardrails, success criteria | `/product-os:metrics` |
+| Event Tracker | `event-tracker.md` | Analytics tracking plans | `/product-os:tracking` |
+| Post-Launch Reviewer | `post-launch-reviewer.md` | Results vs PRD goals | `/product-os:review-launch` |
+
+### Launch & GTM Agents (2)
+
+| Agent | File | Role | Command |
+|-------|------|------|---------|
+| Launch Manager | `launch-manager.md` | Release notes, enablement, changelog | `/product-os:launch` |
+| Stakeholder Comms | `stakeholder-comms.md` | Updates, summaries | `/product-os:comms` |
+
+### Governance Agents (5)
+
+| Agent | File | Role | Command |
+|-------|------|------|---------|
+| Artifact Registry | `artifact-registry.md` | Track design artifacts | `/product-os:artifacts` |
+| Dependency Tracker | `dependency-tracker.md` | Dependencies + risks + RACI | `/product-os:dependencies` |
+| Risk Manager | `risk-manager.md` | Risk register | `/product-os:risks` |
+| Debt Tracker | `debt-tracker.md` | Tech and design debt | `/product-os:debt` |
+| Decision Logger | `decision-logger.md` | ADR-style decisions | `/product-os:decision` |
+
+### Tool Agents (3)
 
 | Agent | File | Role | Command |
 |-------|------|------|---------|
 | OKR Agent | `okr-agent.md` | OKRs and metric trees | `/product-os:okrs` |
-| Roadmap Agent | `roadmap-agent.md` | Now/Next/Later roadmaps | `/product-os:roadmap` |
-| Competitive Analyst | `competitive-analyst.md` | Competitive analysis | `/product-os:competitive` |
-| Experiment Designer | `experiment-designer.md` | A/B test design | `/product-os:experiment` |
-| Risk Manager | `risk-manager.md` | Risk register | `/product-os:risks` |
-| Decision Logger | `decision-logger.md` | ADR-style decisions | `/product-os:decision` |
 | Retro Facilitator | `retro-facilitator.md` | Retrospectives | `/product-os:retro` |
 | PR/FAQ Author | `prfaq-author.md` | Amazon-style PR/FAQ | `/product-os:prfaq` |
 

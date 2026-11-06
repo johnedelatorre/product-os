@@ -5,6 +5,65 @@ All notable changes to Product OS will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-11-06
+
+### Added
+
+#### Discovery Agents
+- **Opportunity Tree Agent** — Outcome-opportunity-solution trees for structured discovery
+- **Hypothesis Logger Agent** — Track assumptions through validation with outcomes
+- **Market Analyst Agent** — TAM/SAM/SOM sizing, trends, segments, positioning
+
+#### Metrics & Measurement Agents
+- **Metrics Designer Agent** — North star, input metrics, guardrails, success criteria
+- **Event Tracker Agent** — Analytics tracking plans for Pendo, Amplitude, Mixpanel, Segment
+- **Post-Launch Reviewer Agent** — Compare results to PRD goals, create follow-up intake
+
+#### Launch & GTM Agents
+- **Launch Manager Agent** — Release notes, sales/support enablement, changelog entries
+
+#### Governance Agents
+- **Artifact Registry Agent** — Track Figma, FigJam, Loom, prototypes with link validation
+- **Dependency Tracker Agent** — Dependencies and risks integrated with RACI
+- **Gate Keeper Agent** — Definition of Ready and Definition of Done validation
+- **Debt Tracker Agent** — Technical and design debt with prioritization
+
+#### Skills
+- Artifact registry management
+- Opportunity solution trees
+- Hypothesis logging and validation
+- Metrics framework design
+- Event tracking specifications
+- Post-launch review process
+- Launch and GTM materials
+- Dependency and risk tracking
+- DoR/DoD gate criteria
+- Tech and design debt tracking
+
+#### Commands
+- `/product-os:artifacts` — Manage artifact registry
+- `/product-os:opportunity-tree` — Create opportunity trees
+- `/product-os:hypotheses` — Manage hypothesis log
+- `/product-os:market` — Create market analysis
+- `/product-os:metrics` — Design metrics framework
+- `/product-os:tracking` — Create event tracking plan
+- `/product-os:review-launch` — Post-launch review
+- `/product-os:launch` — Create launch materials
+- `/product-os:dependencies` — Manage dependencies
+- `/product-os:gate` — Run DoR/DoD checks
+- `/product-os:debt` — Manage debt tracker
+
+### Changed
+
+- Expanded orchestrator to include all new agents
+- Updated README with new PM-led workflow diagram
+- Reorganized agent documentation by category
+- Increased agent count from 27 to 38
+- Increased skill count from 15 to 25
+- Increased command count from 25 to 38
+
+---
+
 ## [1.0.0] - 2026-11-06
 
 ### Added
