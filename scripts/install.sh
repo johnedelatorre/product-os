@@ -12,7 +12,7 @@ set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PRODUCT_OS_DIR="$(dirname "$SCRIPT_DIR")"
-VERSION="1.4.0"
+VERSION="1.5.0"
 
 # Colors for output
 RED='\033[0;31m'

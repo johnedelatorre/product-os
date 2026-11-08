@@ -62,3 +62,5 @@ Each finding includes:
 ## Skill Reference
 
 See `.claude/skills/intended-vs-implemented.md` for full methodology.
+
+The audit compares code against the intended-state docs described in `.claude/skills/shipping-artifacts.md` (architecture, flows, permissions, variables, test coverage). If those docs are missing, create or update them first; an audit without them is Not Verified.

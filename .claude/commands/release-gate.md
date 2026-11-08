@@ -90,3 +90,5 @@ If unavailable: **Mark Not Verified, block release**
 ## Skill Reference
 
 See `.claude/skills/release-gate.md` for full methodology.
+
+For code releases, the shipping artifacts in `.claude/skills/shipping-artifacts.md` must exist and be current before the gate can pass.

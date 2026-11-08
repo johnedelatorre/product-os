@@ -36,7 +36,7 @@ Comprehensive accessibility evaluation with automated and manual testing.
 | 2.1.2 No Keyboard Trap | Can navigate away | Tab into and out of all areas |
 | 2.4.3 Focus Order | Logical tab order | Tab sequence matches visual |
 | 2.4.7 Focus Visible | Clear focus indicator | Tab and observe |
-| 2.5.8 Target Size | ≥ 24×24 CSS pixels | Measure touch targets |
+| 2.5.8 Target Size | ≥ 24×24 CSS pixels (44×44 recommended) | Measure touch targets |
 
 ### Understandable
 

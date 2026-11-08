@@ -130,7 +130,7 @@ Keep "Already have account?" as text link.
 
 ## Tips
 
-1. **Be specific** — "Button too small" → "Button is 32px, should be 44px minimum"
+1. **Be specific** — "Button too small" → "Button is 20px, below the 24×24px WCAG 2.2 AA minimum (44px recommended)"
 2. **Provide fixes** — Don't just identify problems
 3. **Note positives** — What's working well
 4. **Calibrate severity** — Critical = truly blocks launch

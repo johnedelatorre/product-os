@@ -5,6 +5,33 @@ All notable changes to Product OS will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0] - 2026-11-08
+
+### Added
+- **Claude Code plugin** — `.claude-plugin/plugin.json` (plugin `product-os`, commands from `./.claude/commands/`) and `.claude-plugin/marketplace.json` (marketplace `product-os`). Commands load namespaced as `/product-os:<command>`.
+- **Installer `--register-plugin`** — Enables the plugin in the target project (`claude plugin marketplace add … --scope project` + `claude plugin install product-os@product-os --scope project`).
+- **YAML frontmatter** on all 46 commands and 39 agents; agents now register as Claude Code subagents.
+- **Validator checks** — `scripts/validate.sh` verifies command/agent frontmatter, plugin manifests, and that every `/product-os:<command>` reference resolves to a real command file.
+- **Guide agent doc** — `docs/guides/agents/guide.md`; agent index now lists all 39 agents.
+- **Full command reference** — `docs/reference/commands.md` documents all 46 commands, grouped by phase.
+- **Guide existing-work detection** — On start, the guide scans the project directory and marks existing artifacts `complete`/`in_progress` in `progress.yaml` instead of recreating them.
+
+### Changed
+- **Renamed commands** — The 19 `product-os-*.md` command files dropped the prefix (`guide.md`, `status.md`, `next.md`, `gate.md`, `handover.md`, …) so `/product-os:<x>` maps to `.claude/commands/<x>.md`.
+- **Installer** — No longer copies commands into the target's `.claude/commands/` (un-namespaced `/status`, `/plan`, `/next` collided with Claude Code built-ins). A reference copy goes to `.claude/product-os/commands/` (symlinked in submodule mode). The installer lists old Product OS command files left in `.claude/commands/` so they can be removed.
+- **Atlassian integration** — Confluence Publisher and Jira Sync agents/skills prefer connected Atlassian MCP tools, search before creating, update in place, record IDs in `publish-manifest.json` / `jira-sync-manifest.json`, read field IDs from the instance, handle team-managed Jira projects (`parent` field, "Story point estimate"), and always show proposed changes and require explicit human approval before any write. `.env` is only needed for the REST fallback.
+- **Atlassian REST fallback** — Cloud search path fixed.
+- **progress.yaml location** standardized on `initiatives/<initiative>/<project>/progress.yaml`; guide example updated to schema v1.1.
+- **Accessibility** — WCAG 2.2 AA everywhere; touch targets 24×24 CSS px minimum (2.5.8, AA), 44×44 px recommended.
+
+### Fixed
+- 26 references to nonexistent commands (e.g. `/product-os:rice`, `/product-os:stories`, `/product-os:resume`) now point to real commands (`/product-os:prioritize --framework rice`, `/product-os:deliver`, re-running `/product-os:new-project`, …).
+- AGENTS.md pointed at nonexistent agent files and a 6-stage pipeline; it now references the real agent files and matches the orchestrator's 7 stages.
+- README: plugin install flow, "Upgrading from ≤1.4" note, approval-gated publishing wording, all 40 skills listed, PRD section count (19).
+- CLAUDE.md: workspace file list (`flows.yaml`/`flows.md`, `prototype.html`, `progress.yaml`, `HANDOVER.md`), Atlassian MCP-first configuration.
+- `shipping-artifacts` skill is now linked from `/product-os:audit-intent` and `/product-os:release-gate`.
+- Guide: `--skip` and `<phase>` documented; `/product-os:prd --continue` replaced with a real invocation; Context Freshness links its skill.
+
 ## [1.4.0] - 2026-11-08
 
 ### Added

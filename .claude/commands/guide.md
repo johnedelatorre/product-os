@@ -11,6 +11,7 @@ Start or resume guided mode, or jump to a specific phase.
 ```
 /product-os:guide --initiative <slug> --project <slug>
 /product-os:guide <phase>
+/product-os:guide --skip [<document|phase>]
 ```
 
 ## Arguments
@@ -19,7 +20,8 @@ Start or resume guided mode, or jump to a specific phase.
 |----------|----------|-------------|
 | `--initiative` | For new | Initiative slug |
 | `--project` | For new | Project slug |
-| `<phase>` | For jump | Phase to jump to |
+| `<phase>` | For jump | Phase to jump to (earlier phases with no artifacts are marked skipped) |
+| `--skip [<document\|phase>]` | No | Skip the current (or named) document or optional phase; records `skip_reason` and `skip_risks` in `progress.yaml` |
 
 ## Phases
 
@@ -53,13 +55,14 @@ Start or resume guided mode, or jump to a specific phase.
 
 ## What It Does
 
-1. Loads or creates `progress.yaml`
-2. Shows current phase and document status
-3. Explains what's needed and why
-4. Asks key questions to gather inputs
-5. Calls specialist agents to create documents
-6. Reviews outputs against exit criteria
-7. Suggests next step
+1. Loads or creates `initiatives/<initiative>/<project>/progress.yaml` (migrating v1.0 files to schema v1.1)
+2. Scans the project directory for existing artifacts and marks them `complete` or `in_progress` instead of recreating them
+3. Shows current phase and document status
+4. Explains what's needed and why
+5. Asks key questions to gather inputs
+6. Calls specialist agents to create documents
+7. Reviews outputs against exit criteria
+8. Suggests next step
 
 ## Agent
 

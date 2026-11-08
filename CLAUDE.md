@@ -38,10 +38,10 @@ Product OS works in both **Claude Code** and **Cursor**:
 
 | Platform | Commands | Agents |
 |----------|----------|--------|
-| Claude Code | Slash commands (`/product-os:*`) | Native Task delegation |
+| Claude Code | Plugin slash commands (`/product-os:*`, from `.claude-plugin/`) | Native Task delegation (agents in `.claude/agents/` register as subagents via frontmatter) |
 | Cursor | Role-based invocation | `.cursor/agents/` + role-based |
 
-Canonical content lives in `.claude/` (read by both platforms). See `docs/guides/platform-compatibility.md`.
+Canonical content lives in `.claude/` (read by both platforms). Skills in `.claude/skills/` are reference documents read by path. See `docs/guides/platform-compatibility.md`.
 
 ## What This System Does
 
@@ -50,9 +50,9 @@ Product OS provides a complete pipeline from raw requirement to shipped, measure
 1. **Intake** — Structure any input (executive ask, customer feedback, analytics signal) into a problem/opportunity statement
 2. **Proposal** — For new ideas: research, propose solution, interface first (see `.claude/skills/proposal.md`)
 3. **PM Agent** — Deep PRD, project brief, project plan, RACI, Gantt chart with full strategic and delivery context
-4. **Design Agent** — Design brief, user flows, wireframes, prototype specs, Figma hand-off with design critique
+4. **Design Agents** — Design brief, user flows, wireframes, clickable prototypes, Figma sync, then design critique, UX review, and accessibility audit
 5. **Delivery Agent** — Epics, user stories with acceptance criteria, story points, engineering hand-off
-6. **Publisher** — Write to Confluence, create Jira epics/stories, link everything together
+6. **Publisher** — After human approval, write to Confluence, create or update Jira epics/stories, link everything together
 7. **Tools** — RICE/WSJF prioritization, OKRs, roadmaps, competitive analysis, experiments, and more
 
 ## How to Use
@@ -66,7 +66,7 @@ Product OS provides a complete pipeline from raw requirement to shipped, measure
 Walks you step-by-step through all 9 phases:
 1. Intake → 2. Discovery → 3. Prioritize → 4. Define → 5. Design → 6. Review → 7. Deliver → 8. Launch → 9. Measure
 
-Progress is tracked in `progress.yaml`. Check status with `/product-os:status`. Do the next step with `/product-os:next`.
+Progress is tracked in `initiatives/<initiative>/<project>/progress.yaml`. Check status with `/product-os:status`. Do the next step with `/product-os:next`.
 
 See `docs/guides/guided-workflow.md` for the full playbook.
 
@@ -87,14 +87,14 @@ Run any stage independently:
 /product-os:propose         # Research idea, propose solution (new ideas only)
 /product-os:prd             # Generate full PRD
 /product-os:design-brief    # Create design brief from PRD
-/product-os:stories         # Generate Jira-ready stories
-/product-os:publish         # Push to Confluence + Jira
+/product-os:deliver         # Generate Jira-ready epics + stories
+/product-os:publish         # Publish to Confluence + Jira (after approval)
 ```
 
 ### Tools (Head-of-Product Utilities)
 
 ```
-/product-os:rice            # RICE prioritization scoring
+/product-os:prioritize      # RICE/WSJF/MoSCoW/Kano scoring (--framework)
 /product-os:okrs            # OKR definition and metric trees
 /product-os:roadmap         # Now/Next/Later roadmap
 /product-os:experiment      # A/B test design with sample size
@@ -139,7 +139,7 @@ Every artifact must meet these bars:
 ### Design Artifacts  
 - [ ] Tied to specific PRD requirements
 - [ ] User flows cover happy path + edge cases + errors
-- [ ] Accessibility (WCAG 2.1 AA minimum) addressed
+- [ ] Accessibility (WCAG 2.2 AA minimum) addressed
 - [ ] Heuristic evaluation performed
 - [ ] Hand-off spec complete for implementation
 
@@ -164,18 +164,22 @@ initiatives/
         ├── raci.md
         ├── gantt.md
         ├── design-brief.md
-        ├── user-flows.md
+        ├── flows.yaml
+        ├── flows.md
         ├── wireframes.md
-        ├── prototype-spec.md
+        ├── prototype.html
         ├── design-critique.md
         ├── epics.md
         ├── stories.md
+        ├── progress.yaml          # Guided-mode state
         └── publish-manifest.json
 ```
 
+`HANDOVER.md` (session handover) lives at the repo root unless the project already has a status or handoff file (see `.claude/skills/session-handover.md`).
+
 ## Configuration
 
-See `product-os.config.yaml` for Confluence/Jira settings. Copy `.env.example` to `.env` for API credentials (never commit secrets).
+See `product-os.config.yaml` for Confluence/Jira settings. Prefer the connected Atlassian MCP tools (no credentials needed). Copy `.env.example` to `.env` only if you use the REST fallback (`scripts/atlassian-fallback.py`); never commit secrets. Nothing is written to Confluence or Jira without explicit human approval.
 
 ## Subagents
 

@@ -54,7 +54,7 @@ Adds per-phase document breakdown:
 ```
 Phase: Define
   ▶ prd.md — in progress
-    Sections complete: 14/18
+    Sections complete: 15/19
     Missing: Success Metrics, Experiments, Milestones, Appendices
   · project-brief.md — not started
   · metrics-framework.md — not started
@@ -63,7 +63,7 @@ Phase: Define
 
 ## What It Does
 
-1. Reads `initiatives/<slug>/progress.yaml`
+1. Reads `initiatives/<initiative>/<project>/progress.yaml`
 2. Calculates phase and document completion
 3. Lists gates passed
 4. Recommends next action

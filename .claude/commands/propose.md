@@ -58,7 +58,7 @@ Creates `initiatives/<initiative>/<project>/proposal.md`
 
 - `/product-os:prd` — After proposal accepted, create full PRD
 - `/product-os:intake` — For raw requirements (not ideas)
-- `/product-os:beachhead` — For segment selection
+- `/product-os:market` — Market analysis, including beachhead segment selection (see `.claude/skills/beachhead-segment.md`)
 
 ## Skill Reference
 

@@ -51,7 +51,7 @@ At each stage, the orchestrator:
 
 1. **Don't skip checkpoints** — they catch issues early
 2. **Use `--skip-stages` sparingly** — breaks downstream
-3. **Save state** — if interrupted, use `/product-os:resume`
+3. **Save state** — if interrupted, re-run `/product-os:new-project` with the same initiative/project; it resumes from `pipeline-state.json`
 
 ## Related
 

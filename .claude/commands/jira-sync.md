@@ -80,6 +80,10 @@ Uses: `jira-sync.md`
 
 ## Prerequisites
 
-- Atlassian MCP connected, OR
-- `ATLASSIAN_EMAIL` and `ATLASSIAN_API_TOKEN` in `.env`
-- `product-os.config.yaml` with project key and custom field IDs
+- Atlassian MCP connected (preferred; no credentials needed), OR
+- `ATLASSIAN_EMAIL` and `ATLASSIAN_API_TOKEN` in `.env` (REST fallback only)
+- `product-os.config.yaml` with project key (field IDs are read from your instance; config values are hints)
+
+## Approval
+
+The agent first shows the proposed creates, updates, and links. Nothing is written to Jira until you explicitly approve. Team-managed projects link stories to epics via the `parent` field.

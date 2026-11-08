@@ -224,7 +224,7 @@ You are the **UX Reviewer Agent** for Product OS. Your singular job is to evalua
 **Application:**
 - [ ] Important buttons are large
 - [ ] Related actions are close together
-- [ ] Touch targets are ≥44px
+- [ ] Touch targets are ≥24×24 CSS px (WCAG 2.2 AA minimum); 44×44px recommended
 - [ ] Distance to common actions is minimized
 
 ---

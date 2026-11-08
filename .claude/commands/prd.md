@@ -22,25 +22,26 @@ Generate a comprehensive Product Requirements Document.
 
 ## Output
 
-Generates `prd.md` with 18 sections:
-1. Header and stakeholders
-2. Problem statement
+Generates `prd.md` following `templates/pm/prd.md` (header plus 19 numbered sections):
+1. Problem statement
+2. Hypotheses
 3. Background and evidence
 4. Goals and non-goals
 5. User types and personas
 6. Jobs-to-be-done
-7. Use cases and user stories
+7. Use cases
 8. Functional requirements (numbered, MoSCoW)
 9. Non-functional requirements
 10. Success metrics with formulas
-11. Analytics and instrumentation plan
-12. Backend/API/integration needs
-13. Infrastructure needs
-14. Dependencies
-15. Risks and mitigations
-16. Assumptions
+11. Analytics and instrumentation
+12. Technical needs
+13. Dependencies
+14. Risks and mitigations
+15. Alternatives considered
+16. Rollout plan
 17. Open questions
-18. Rollout plan
+18. AI feature specification (if applicable)
+19. Appendix
 
 ## Example
 

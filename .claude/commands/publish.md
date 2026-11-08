@@ -68,9 +68,13 @@ Uses: `confluence-publisher.md`
 
 ## Prerequisites
 
-- Atlassian MCP connected, OR
-- `ATLASSIAN_EMAIL` and `ATLASSIAN_API_TOKEN` in `.env`
+- Atlassian MCP connected (preferred; no credentials needed), OR
+- `ATLASSIAN_EMAIL` and `ATLASSIAN_API_TOKEN` in `.env` (REST fallback only)
 - `product-os.config.yaml` with space key and parent page
+
+## Approval
+
+The agent first shows the publish plan (pages to create or update, and where). Nothing is written to Confluence until you explicitly approve.
 
 ## See Also
 

@@ -163,7 +163,7 @@ Evaluate designs against Nielsen's heuristics and Laws of UX.
 
 → Important buttons should be large
 → Related actions close together
-→ Touch targets ≥ 44px
+→ Touch targets ≥ 24×24px (WCAG 2.2 AA minimum), 44×44px recommended
 
 ### Hick's Law
 **More choices = longer decision time.**

@@ -27,7 +27,7 @@ Meanwhile, the strategic work—prioritization, trade-offs, stakeholder alignmen
 
 Product OS gives you **39 specialist AI agents** that handle artifact creation while you make the decisions. Tell an agent what you need, review its output, approve or revise, and move on.
 
-Every agent follows PM best practices. Every document follows a proven template. Every output syncs to Confluence and Jira automatically.
+Every agent follows PM best practices. Every document follows a proven template. Every output can be published to Confluence and Jira once you approve the proposed changes.
 
 ### Who It's For
 
@@ -183,15 +183,26 @@ The pipeline is a guide, not a gate. Use the pieces you need.
 ```bash
 git clone https://github.com/johnedelatorre/product-os.git
 cd product-os
-./scripts/install.sh /path/to/your/project
+./scripts/install.sh /path/to/your/project --register-plugin
+```
+
+`--register-plugin` enables the `product-os` Claude Code plugin in your project, which is where the `/product-os:*` commands come from. Or install the plugin directly inside Claude Code (≥ 2.1.275):
+
+```
+/plugin install product-os --marketplace johnedelatorre/product-os
 ```
 
 ### 2. Configure
 
 ```bash
-cp .env.example .env
-# Add your Atlassian email and API token to .env
 # Edit product-os.config.yaml with your Confluence space and Jira project
+```
+
+If the Atlassian MCP server is connected in your client, no credentials are needed. Only the REST fallback (`scripts/atlassian-fallback.py`) needs `.env`:
+
+```bash
+cp .env.example .env
+# Add your Atlassian email and API token (REST fallback only)
 ```
 
 ### 3. Run Your First Project
@@ -209,9 +220,17 @@ The orchestrator guides you through each stage, showing outputs and waiting for 
 
 ### 5. Ship and Measure
 
-Once approved, Confluence pages and Jira tickets are created automatically. After launch, run post-launch review to close the loop.
+When you're ready to publish, Product OS shows the proposed Confluence pages and Jira issues and writes them only after you approve. After launch, run post-launch review to close the loop.
 
 ---
+
+## 🆕 What's New in v1.5
+
+- **Claude Code plugin:** Product OS ships as a plugin (`.claude-plugin/`). Commands are namespaced as `/product-os:<command>` so they never collide with Claude Code built-ins like `/status` or `/plan`.
+- **Renamed commands:** `product-os-guide.md` → `guide.md` (and 18 others), so `/product-os:guide`, `/product-os:status`, `/product-os:next` resolve directly.
+- **Frontmatter everywhere:** All 46 commands and 39 agents have YAML frontmatter; agents register as Claude Code subagents.
+- **Installer:** No longer copies commands into `.claude/commands/`; new `--register-plugin` flag.
+- **Doc accuracy:** Every `/product-os:` reference resolves to a real command (enforced by `scripts/validate.sh`).
 
 ## 🆕 What's New in v1.4
 
@@ -293,7 +312,7 @@ Product OS works in both **Claude Code** and **Cursor**.
 
 | Platform | Support Level | Slash Commands | Native Subagents |
 |----------|---------------|----------------|------------------|
-| Claude Code | Full | Yes | Yes (Task tool) |
+| Claude Code | Full | Yes (plugin, `/product-os:*`) | Yes (agents with frontmatter) |
 | Cursor | Full | Role-based | Partial |
 
 ### Fresh Install
@@ -309,13 +328,36 @@ cd product-os
 # Or install for specific platform
 ./scripts/install.sh /path/to/your/project --platform claude
 ./scripts/install.sh /path/to/your/project --platform cursor
+
+# Also enable the Claude Code plugin in the target (needs the claude CLI)
+./scripts/install.sh /path/to/your/project --platform claude --register-plugin
 ```
+
+### Enabling the Claude Code Plugin
+
+Claude Code gets the 46 commands from the `product-os` plugin, namespaced as `/product-os:<command>`. Pick one:
+
+```bash
+# A. Let the installer do it
+./scripts/install.sh /path/to/your/project --register-plugin
+
+# B. Manually, from your project directory
+claude plugin marketplace add /path/to/product-os --scope project   # or: johnedelatorre/product-os
+claude plugin install product-os@product-os --scope project
+```
+
+```
+# C. One step, inside Claude Code (≥ 2.1.275)
+/plugin install product-os --marketplace johnedelatorre/product-os
+```
+
+**Why a plugin?** Copying commands into `.claude/commands/` registers them un-namespaced (`/status`, `/plan`, `/next`), which collide with Claude Code built-ins. Plugin commands are always prefixed with `/product-os:`.
 
 ### What Gets Installed
 
 | Platform | Files Installed |
 |----------|-----------------|
-| Claude Code | `.claude/agents/`, `.claude/commands/`, `.claude/skills/`, `CLAUDE.md`, `AGENTS.md` |
+| Claude Code | `.claude/agents/` (registered subagents), `.claude/skills/` (reference docs), `.claude/product-os/commands/` (reference copy of commands), `CLAUDE.md`, `AGENTS.md`. Commands themselves come from the plugin. |
 | Cursor | `.cursor/rules/product-os.mdc` |
 | Both (shared) | `templates/`, `initiatives/`, `product-os.config.yaml` |
 
@@ -335,9 +377,21 @@ The installer is non-destructive:
 
 Modified files are backed up before overwriting. Config files are not overwritten.
 
+In submodule mode (`--submodule`), `.claude/product-os/commands` is a symlink into the submodule instead of a copy.
+
+### Upgrading from ≤1.4
+
+Earlier versions copied (or symlinked) command files into `.claude/commands/`, including `product-os-*.md` files. Those register un-namespaced commands that shadow Claude Code built-ins. After upgrading:
+
+1. Rerun `./scripts/install.sh /path/to/your/project --register-plugin` (or enable the plugin manually).
+2. The installer lists any old Product OS command files it finds in `.claude/commands/`. Delete them.
+3. Use the namespaced commands: `/product-os:guide`, `/product-os:status`, `/product-os:next`, etc.
+
 ---
 
 ## 🖥️ Claude Code Setup
+
+Commands come from the `product-os` plugin (see [Enabling the Claude Code Plugin](#enabling-the-claude-code-plugin)), so every command is invoked as `/product-os:<command>`. Agents in `.claude/agents/` register as subagents. Skills in `.claude/skills/` are reference documents that agents read by path.
 
 ### Start Guided Mode
 
@@ -360,13 +414,17 @@ Modified files are backed up before overwriting. Config files are not overwritte
 ### Use Specialist Commands
 
 ```bash
-/product-os:prd              # Create PRD
-/product-os:propose          # Research idea, propose solution
-/product-os:intake           # Structure raw requirements
-/product-os:handover         # Write session handover
-/product-os:release-gate     # Run release gate process
-/product-os:audit-intent     # Audit code vs documented intent
+/product-os:intake --input "<requirement>"           # Structure raw requirements
+/product-os:propose --idea "<idea>"                  # Research idea, propose solution
+/product-os:prd --from intake.md                     # Create PRD
+/product-os:prioritize --items prd.md --framework rice  # RICE/WSJF/MoSCoW/Kano
+/product-os:deliver --from prd.md --designs design-brief.md,wireframes.md  # Epics + stories
+/product-os:handover                                 # Write session handover
+/product-os:release-gate                             # Run release gate process
+/product-os:audit-intent                             # Audit code vs documented intent
 ```
+
+See the [Command Reference](docs/reference/commands.md) for all 46 commands.
 
 ---
 
@@ -574,7 +632,7 @@ prd.md (stage: Early → Defined → Delivery-ready)                            
 
 ## 📄 Documents
 
-Product OS generates these documents. Each follows a proven template and syncs to your tools.
+Product OS generates these documents. Each follows a proven template and can be published to your tools after your approval.
 
 | Document | What It Is | When to Use | Agent | Destination |
 |----------|-----------|-------------|-------|-------------|
@@ -582,7 +640,7 @@ Product OS generates these documents. Each follows a proven template and syncs t
 | **Opportunity Tree** | Outcome → opportunities → solutions | Discovery phase | Opportunity Tree | Confluence |
 | **Hypothesis Log** | Assumptions with validation status | Throughout discovery | Hypothesis Logger | Confluence |
 | **Market Analysis** | TAM/SAM/SOM, trends, segments | Strategic planning | Market Analyst | Confluence |
-| **PRD** | Comprehensive requirements (18 sections) | Features needing full spec | PRD Author | Confluence |
+| **PRD** | Comprehensive requirements (19 sections) | Features needing full spec | PRD Author | Confluence |
 | **Project Brief** | One-page executive summary | Stakeholder alignment | Project Brief | Confluence |
 | **Metrics Framework** | North star, inputs, guardrails | Every initiative | Metrics Designer | Confluence |
 | **Project Plan** | Phases, milestones, timeline | Complex projects | Project Planner | Confluence |
@@ -685,21 +743,31 @@ Skills are reusable knowledge that agents draw on. Each skill documents best pra
 | Skill | What It Teaches | Used By |
 |-------|-----------------|---------|
 | **Clear Output** | 10 rules for actionable output, TL;DR blocks | All Agents |
-| **PRD Writing** | 18-section PRD structure, requirements formatting | PRD Author |
+| **Guided Workflow** | 9-phase `progress.yaml` state tracking | Guide |
+| **Session Handover** | State, evidence, next action for the next session | Guide, `/product-os:handover` |
+| **Context Freshness** | Verify baselines and assumptions are current | Guide, Orchestrator |
+| **Proposal** | Research an idea, propose a solution interface-first | Intake Analyst, PRD Author |
+| **PRD Writing** | 19-section PRD structure, requirements formatting | PRD Author |
 | **Project Brief** | One-page constraint, executive audience | Project Brief |
 | **Prioritization** | RICE, WSJF, MoSCoW, Kano frameworks | Strategist |
+| **Beachhead Segment** | Choosing the first market segment to win | Market Analyst, Strategist |
+| **Value Proposition** | 6-part value proposition with JTBD framing | Market Analyst, Strategist |
+| **Value Curve** | Differentiation vs. deliberate parity by factor | Competitive Analyst, Strategist |
+| **Growth Loops** | Product-driven acquisition flywheels | Roadmap Agent |
+| **Estimation** | Early sizing vs. sprint-ready estimates | Orchestrator, Delivery Agent |
 | **Story Pointing** | Fibonacci scale, complexity factors | Delivery Agent |
 | **Discipline Labeling** | Frontend/backend/fullstack assignment | Delivery Agent |
 | **RACI Matrix** | Responsibility assignment, one-R rule | Project Planner |
 | **Gantt Generation** | Mermaid syntax, Jira Plans integration | Project Planner |
+| **Jobs → Screen Map** | Job → screen → question → primary action | Flow Designer, Design Critic |
 | **User Flows** | Canonical YAML spec, multi-target rendering | Flow Designer |
 | **Wireframing** | ASCII and HTML formats, layout patterns | Wireframer |
 | **Prototype Generation** | Self-contained HTML, React artifacts | Prototyper |
 | **Design Critique** | Visual hierarchy, Gestalt, severity ratings | Design Critic |
 | **UX Heuristics** | Nielsen's 10 heuristics, Laws of UX | UX Reviewer |
 | **Accessibility Audit** | WCAG 2.2 AA criteria, axe-core | Accessibility Auditor |
-| **Confluence Publishing** | Page hierarchy, backlog tables | Confluence Publisher |
-| **Jira Sync** | Epic/story creation, dependency links | Jira Sync |
+| **Confluence Publishing** | Page hierarchy, backlog tables, approval before writes | Confluence Publisher |
+| **Jira Sync** | Epic/story creation, dependency links, approval before writes | Jira Sync |
 | **Artifact Registry** | Design artifact tracking, link validation | Artifact Registry |
 | **Opportunity Tree** | Outcome-opportunity-solution mapping | Opportunity Tree |
 | **Hypothesis Logging** | Hypothesis format, validation tracking | Hypothesis Logger |
@@ -710,27 +778,39 @@ Skills are reusable knowledge that agents draw on. Each skill documents best pra
 | **Dependency Tracking** | Dependencies, risks, RACI integration | Dependency Tracker |
 | **DoR/DoD Gates** | Definition of Ready/Done criteria | Gate Keeper |
 | **Debt Tracking** | Tech and design debt prioritization | Debt Tracker |
+| **Release Gate** | Go/no-go, verification, rollback before shipping | Gate Keeper, Launch Manager |
+| **Independent Review** | Fresh, unsteered code review with bounded iterations | Gate Keeper |
+| **Intended vs. Implemented** | Audit code against documented intent | Gate Keeper, `/product-os:audit-intent` |
+| **Shipping Artifacts** | Docs that make AI-built code reviewable | `/product-os:audit-intent`, `/product-os:release-gate` |
 
 <details>
 <summary><strong>Full skill files</strong></summary>
 
-All skills are in `.claude/skills/`:
+All 40 skills are in `.claude/skills/`. They are reference documents that agents read by path (not registered Claude Code skills):
 
 ```
 .claude/skills/
 ├── accessibility-audit.md
 ├── artifact-registry.md
+├── beachhead-segment.md
 ├── clear-output.md          # Always-on output style
 ├── confluence-publishing.md
+├── context-freshness.md
 ├── debt-tracking.md
 ├── dependency-tracking.md
 ├── design-critique.md
 ├── discipline-labeling.md
 ├── dor-dod-gates.md
+├── estimation.md
 ├── event-tracking.md
 ├── gantt-generation.md
+├── growth-loops.md
+├── guided-workflow.md
 ├── hypothesis-logging.md
+├── independent-review.md
+├── intended-vs-implemented.md
 ├── jira-sync.md
+├── jobs-screen-map.md
 ├── launch-gtm.md
 ├── metrics-framework.md
 ├── opportunity-tree.md
@@ -738,11 +818,17 @@ All skills are in `.claude/skills/`:
 ├── prd-writing.md
 ├── prioritization.md
 ├── project-brief.md
+├── proposal.md
 ├── prototype-generation.md
 ├── raci-matrix.md
+├── release-gate.md
+├── session-handover.md
+├── shipping-artifacts.md
 ├── story-pointing.md
 ├── user-flows.md
 ├── ux-heuristics.md
+├── value-curve.md
+├── value-proposition.md
 └── wireframing.md
 ```
 
@@ -764,7 +850,7 @@ Core workflow from intake through prioritization and definition.
 | **Intake Analyst** | `/product-os:intake` | Structures raw requirements |
 | **Strategist** | `/product-os:prioritize` | RICE/WSJF/MoSCoW/Kano scoring |
 | **Roadmap Agent** | `/product-os:roadmap` | Now/Next/Later roadmaps |
-| **PRD Author** | `/product-os:prd` | Comprehensive 18-section PRDs |
+| **PRD Author** | `/product-os:prd` | Comprehensive 19-section PRDs |
 | **Project Brief** | `/product-os:brief` | One-page executive summaries |
 | **Project Planner** | `/product-os:plan` | RACI, Gantt, project plans |
 
@@ -888,8 +974,10 @@ jira:
   project_key: "PROJ"
 ```
 
+With the Atlassian MCP server connected, no credentials are needed. `.env` is only for the REST fallback (`scripts/atlassian-fallback.py`):
+
 ```bash
-# .env
+# .env (REST fallback only)
 ATLASSIAN_EMAIL=your@email.com
 ATLASSIAN_API_TOKEN=your-api-token
 ```
@@ -929,12 +1017,20 @@ product-os/
 ├── CHANGELOG.md
 ├── CONTRIBUTING.md
 ├── product-os.config.yaml    # Configuration template
-├── .env.example              # Credentials template
+├── .env.example              # Credentials template (REST fallback only)
+│
+├── .claude-plugin/
+│   ├── plugin.json           # Claude Code plugin manifest (name: product-os)
+│   └── marketplace.json      # Marketplace "product-os" (plugin source ./)
 │
 ├── .claude/
-│   ├── agents/               # 39 specialist agents
-│   ├── commands/             # 46 slash commands
-│   └── skills/               # 40 reusable skills
+│   ├── agents/               # 39 specialist agents (subagents, with frontmatter)
+│   ├── commands/             # 46 commands, served by the plugin as /product-os:<name>
+│   └── skills/               # 40 reusable skills (reference docs)
+│
+├── .cursor/
+│   ├── rules/product-os.mdc  # Cursor rules
+│   └── agents/               # 3 native Cursor adapters
 │
 ├── templates/                # Document templates
 │   ├── intake/
@@ -960,6 +1056,8 @@ product-os/
 │
 └── scripts/
     ├── install.sh
+    ├── validate.sh
+    ├── test-install.sh
     └── atlassian-fallback.py
 ```
 

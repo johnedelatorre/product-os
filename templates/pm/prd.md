@@ -162,7 +162,7 @@
 | Performance | Page load time | <2s p95 | [Baseline] | Must |
 | Scalability | Concurrent users | [Target] | [Current] | Should |
 | Security | [Requirement] | | | Must |
-| Accessibility | WCAG level | 2.1 AA | | Must |
+| Accessibility | WCAG level | 2.2 AA | | Must |
 | Reliability | Uptime | 99.9% | | Must |
 
 ---

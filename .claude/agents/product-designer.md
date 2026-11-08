@@ -134,9 +134,9 @@ When principles conflict:
 ### Accessibility Constraints
 | Requirement | Standard |
 |-------------|----------|
-| Minimum compliance | WCAG 2.1 AA |
+| Minimum compliance | WCAG 2.2 AA |
 | Color contrast | 4.5:1 text, 3:1 UI |
-| Target size | 44x44px minimum |
+| Target size | 24×24 CSS px minimum (WCAG 2.2 AA, 2.5.8); 44×44px recommended |
 | Keyboard | Full keyboard navigation |
 
 ### Platform Constraints
@@ -196,7 +196,7 @@ When principles conflict:
 - [ ] Task completion rate > [X]%
 
 ### Accessibility
-- [ ] WCAG 2.1 AA compliance
+- [ ] WCAG 2.2 AA compliance
 - [ ] Screen reader tested
 - [ ] Keyboard navigation complete
 

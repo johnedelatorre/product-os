@@ -98,7 +98,7 @@ The Intake Analyst:
 **Checkpoint:** Human approves PRD and plan
 
 Three agents work in sequence:
-1. **PRD Author** — Comprehensive 18-section PRD
+1. **PRD Author** — Comprehensive 19-section PRD
 2. **Project Brief** — One-page executive summary
 3. **Project Planner** — RACI, Gantt, timeline
 
@@ -219,10 +219,9 @@ Use `--skip-stages` to bypass stages:
 If the pipeline is interrupted:
 
 ```bash
-/product-os:resume \
+/product-os:new-project \
   --initiative onboarding \
-  --project signup \
-  --from-stage review
+  --project signup
 ```
 
-State is tracked in `pipeline-state.json`.
+Re-running `/product-os:new-project` for an existing project reads `pipeline-state.json` and continues from the first stage that is not completed. Use `--skip-stages` to skip stages explicitly. For guided mode, `/product-os:guide` resumes from `progress.yaml`.

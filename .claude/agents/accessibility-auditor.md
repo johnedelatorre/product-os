@@ -204,7 +204,7 @@ You are the **Accessibility Auditor Agent** for Product OS. Your singular job is
 - [ ] Dragging has single-pointer alternative
 
 **2.5.8 Target Size (Minimum) (AA)** [WCAG 2.2]
-- [ ] Touch targets are ≥24×24 CSS pixels
+- [ ] Touch targets are ≥24×24 CSS pixels (44×44 recommended; 44×44 is the AAA level in 2.5.5)
 - [ ] Or have sufficient spacing from other targets
 
 ---
