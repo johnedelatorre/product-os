@@ -1,118 +1,107 @@
-# Product OS Project Rules for Cursor
+---
+description: "Product OS PM rigor rules for AI-assisted product development workflows"
+alwaysApply: true
+---
+
+# Product OS Project Rules
 
 > Product OS is a portable product management and design operating system for AI-assisted product development.
 
-## Overview
+## Philosophy
 
-This file configures Cursor to use Product OS. The canonical content lives in `.claude/` and `templates/` — this file references it.
+**PM rigor leads; design serves product strategy.**
 
-## Core Files to Read
+Every initiative starts with a clear problem statement backed by evidence. Every solution ties to measurable business outcomes. Design decisions are evaluated against product goals, not aesthetic preference.
 
-When working on Product OS projects, read these files for context:
+## Canonical Content Location
 
-1. **CLAUDE.md** — Philosophy, commands, quality standards
-2. **AGENTS.md** — Agent roster and orchestration
-3. **.claude/skills/clear-output.md** — Output style (always on)
-4. **.claude/skills/guided-workflow.md** — Phase-by-phase workflow
+Product OS canonical content lives in `.claude/`:
+- **Agents:** `.claude/agents/*.md` — 39 specialist agents
+- **Skills:** `.claude/skills/*.md` — 40 reusable skills
+- **Commands:** `.claude/commands/*.md` — Command definitions
+
+Also read:
+- **CLAUDE.md** — Philosophy, quality standards
+- **AGENTS.md** — Agent roster, orchestration
+
+## Output Style
+
+Follow `.claude/skills/clear-output.md`:
+1. Lead with the next action
+2. Number multi-step tasks
+3. End with one concrete next step
+4. No preamble, no recap, no closers
+5. Cap lists to 5 items
 
 ## Guided Workflow
 
 Product OS follows a 9-phase guided workflow:
 
-1. **Intake** — Structure raw requirements
-2. **Discovery** — Explore problem space (optional)
-3. **Prioritize** — Score and sequence
-4. **Define** — PRD, brief, plan, metrics
-5. **Design** — Brief, flows, wireframes
-6. **Review** — Gates and critique
-7. **Deliver** — Epics, stories, traceability
-8. **Launch** — Release notes, enablement
-9. **Measure** — Post-launch review
+1. **Intake** — Structure raw requirements → `.claude/agents/intake-analyst.md`
+2. **Discovery** — Explore problem space (optional) → `.claude/agents/opportunity-tree.md`
+3. **Prioritize** — Score and sequence → `.claude/agents/strategist.md`
+4. **Define** — PRD, brief, plan, metrics → `.claude/agents/prd-author.md`
+5. **Design** — Brief, flows, wireframes → `.claude/agents/product-designer.md`
+6. **Review** — Gates and critique → `.claude/agents/gate-keeper.md`
+7. **Deliver** — Epics, stories, traceability → `.claude/agents/delivery-agent.md`
+8. **Launch** — Release notes, enablement → `.claude/agents/launch-manager.md`
+9. **Measure** — Post-launch review → `.claude/agents/post-launch-reviewer.md`
 
-## Using Specialist Agents
+## How to Use Agents in Cursor
 
-Product OS has 39 specialist agents in `.claude/agents/`. In Cursor:
-
-### Sequential Execution (Role-Based)
-
-Read the relevant agent file and follow its instructions:
+**Role-based invocation:** Read the agent file and follow its instructions.
 
 ```
-Read .claude/agents/prd-author.md and create a PRD for [project]
+Read .claude/agents/guide.md and help me start a project called [name]
 ```
 
-### With Subagents (If Available)
+```
+Read .claude/agents/prd-author.md and create a PRD for [feature]
+```
 
-Some Product OS agents are available as Cursor subagent types:
-- `accessibility-auditor`
-- `competitive-analyst`
-- `delivery-agent`
-- `design-critic`
-- `gate-keeper`
-- `guide`
-- `market-analyst`
-- `product-designer`
-- `ux-reviewer`
-- (see full list in conversation context)
+```
+Read .claude/skills/proposal.md and research this idea: [idea]
+```
 
-Use via Task tool when appropriate for parallel or specialized work.
+**Sequential execution:** For multi-agent workflows, invoke each agent in sequence by reading its file.
 
-## Key Commands
+**Note:** Native parallel subagent delegation depends on platform capabilities. When unavailable, use sequential role-based execution.
 
-These are Product OS conceptual commands. Invoke by asking Cursor to:
+## Key Skills
 
-| Command | What to Do |
-|---------|------------|
-| `guide` | Read `.claude/agents/guide.md`, track progress in `progress.yaml` |
-| `intake` | Read `.claude/agents/intake-analyst.md`, create `intake.md` |
-| `prd` | Read `.claude/agents/prd-author.md`, create `prd.md` |
-| `propose` | Read `.claude/skills/proposal.md`, create `proposal.md` |
-| `handover` | Read `.claude/skills/session-handover.md`, create `HANDOVER.md` |
+| Skill | Purpose | File |
+|-------|---------|------|
+| Proposal | Research idea, propose solution | `.claude/skills/proposal.md` |
+| Beachhead Segment | Choose first market segment | `.claude/skills/beachhead-segment.md` |
+| Value Proposition | 6-part value prop | `.claude/skills/value-proposition.md` |
+| Release Gate | Code shipping process | `.claude/skills/release-gate.md` |
+| Session Handover | Cross-session state | `.claude/skills/session-handover.md` |
+| Estimation | T-shirt → Fibonacci staging | `.claude/skills/estimation.md` |
 
 ## Progress Tracking
 
-Track progress in `initiatives/<initiative>/<project>/progress.yaml`:
-
-```yaml
-initiative: my-initiative
-project: my-project
-current_phase: define
-current_document: prd
-```
+Track progress in `initiatives/<initiative>/<project>/progress.yaml`.
 
 ## Session Handover
 
-For work spanning sessions, create `HANDOVER.md`:
+Before ending a session, create `HANDOVER.md`:
 
-```markdown
-# Session Handover
-
-## Objective
-[What the work is for]
-
-## Where It Stands
-[Built, committed, pushed status]
-
-## Next Action
-[One concrete step - never "continue"]
 ```
+Read .claude/skills/session-handover.md and create a handover
+```
+
+For long-running work, maintain `STATUS.md` per `.claude/skills/session-handover.md`.
 
 ## Code Shipping Requirements
 
 When shipping code (not PM-only artifacts):
+- Intent vs. implementation audit required
+- Independent review required (genuinely separate reviewer)
+- Test evidence required
+- Owner explicit GO required (silence is never go)
+- If tools unavailable: mark Not Verified and **block release**
 
-1. **Tests passing** — Verify CI
-2. **Intent vs. implementation** — Run audit (`.claude/skills/intended-vs-implemented.md`)
-3. **Independent review** — Fresh reviewer required (or mark Not Verified and block)
-4. **Owner explicit GO** — Silence is never go
-
-## Output Style
-
-Follow `.claude/skills/clear-output.md`:
-- Lead with next action
-- Number multi-step tasks
-- End with one concrete next step
-- No preamble, no recap
+See `.claude/skills/release-gate.md` and `.claude/skills/independent-review.md`.
 
 ## Quality Standards
 

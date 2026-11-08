@@ -166,6 +166,12 @@ install_cursor() {
         log_warn "Cursor rules file not found in Product OS source"
     fi
     
+    # Copy Cursor native agents if they exist
+    if [[ -d "$PRODUCT_OS_DIR/.cursor/agents" ]]; then
+        safe_copy_dir "$PRODUCT_OS_DIR/.cursor/agents" "$target_dir/.cursor/agents" "$force"
+        log_info "Cursor native agents installed"
+    fi
+    
     log_info "Cursor support installed"
 }
 
@@ -176,27 +182,31 @@ install_copy() {
     
     log_info "Installing Product OS (copy mode, platform: $platform)..."
     
-    # Install Claude Code support
-    if [[ "$platform" == "both" ]] || [[ "$platform" == "claude" ]]; then
-        # Create .claude directory structure
-        mkdir -p "$target_dir/.claude"
-        
-        # Copy agents, commands, AND skills
-        safe_copy_dir "$PRODUCT_OS_DIR/.claude/agents" "$target_dir/.claude/agents" "$force"
-        safe_copy_dir "$PRODUCT_OS_DIR/.claude/commands" "$target_dir/.claude/commands" "$force"
-        safe_copy_dir "$PRODUCT_OS_DIR/.claude/skills" "$target_dir/.claude/skills" "$force"
-        
-        # Handle CLAUDE.md and AGENTS.md carefully
-        merge_claude_md "$target_dir"
-        merge_agents_md "$target_dir"
-        
-        log_info "Claude Code support installed"
-    fi
+    # ALWAYS install canonical content (.claude/) - it's the shared source of truth
+    # Both Cursor and Claude Code read from .claude/ for agents, skills, and commands
+    # Cursor also reads CLAUDE.md and AGENTS.md automatically
     
-    # Install Cursor support
+    # Create .claude directory structure
+    mkdir -p "$target_dir/.claude"
+    
+    # Copy agents, commands, AND skills (required for both platforms)
+    safe_copy_dir "$PRODUCT_OS_DIR/.claude/agents" "$target_dir/.claude/agents" "$force"
+    safe_copy_dir "$PRODUCT_OS_DIR/.claude/commands" "$target_dir/.claude/commands" "$force"
+    safe_copy_dir "$PRODUCT_OS_DIR/.claude/skills" "$target_dir/.claude/skills" "$force"
+    
+    # Handle CLAUDE.md and AGENTS.md (read by both Cursor and Claude Code)
+    merge_claude_md "$target_dir"
+    merge_agents_md "$target_dir"
+    
+    log_info "Canonical content (.claude/) installed"
+    
+    # Install Cursor-specific support (native .cursor/rules/ and .cursor/agents/)
     if [[ "$platform" == "both" ]] || [[ "$platform" == "cursor" ]]; then
         install_cursor "$target_dir" "$force"
     fi
+    
+    # Note: Claude Code uses .claude/commands/ for slash commands
+    # Cursor doesn't have native slash commands but reads the content
     
     # Copy templates (shared by both platforms)
     safe_copy_dir "$PRODUCT_OS_DIR/templates" "$target_dir/templates" "$force"
@@ -253,32 +263,39 @@ install_submodule() {
         log_info "Updated product-os submodule"
     fi
     
-    # Install Claude Code support
-    if [[ "$platform" == "both" ]] || [[ "$platform" == "claude" ]]; then
-        # Create symlinks to .claude directory (including skills)
-        mkdir -p .claude
-        
-        # Remove old symlinks if they exist
-        rm -f .claude/agents .claude/commands .claude/skills 2>/dev/null || true
-        
-        ln -sf ../product-os/.claude/agents .claude/agents
-        ln -sf ../product-os/.claude/commands .claude/commands
-        ln -sf ../product-os/.claude/skills .claude/skills
-        log_info "Created symlinks for agents, commands, and skills"
-        
-        # Handle CLAUDE.md and AGENTS.md carefully
-        merge_claude_md "$target_dir"
-        merge_agents_md "$target_dir"
-        
-        log_info "Claude Code support installed"
-    fi
+    # ALWAYS install canonical content (.claude/) - required for both platforms
+    # Create symlinks to .claude directory (including skills)
+    mkdir -p .claude
     
-    # Install Cursor support
+    # Remove old symlinks if they exist
+    rm -f .claude/agents .claude/commands .claude/skills 2>/dev/null || true
+    
+    ln -sf ../product-os/.claude/agents .claude/agents
+    ln -sf ../product-os/.claude/commands .claude/commands
+    ln -sf ../product-os/.claude/skills .claude/skills
+    log_info "Created symlinks for agents, commands, and skills"
+    
+    # Handle CLAUDE.md and AGENTS.md (read by both Cursor and Claude Code)
+    merge_claude_md "$target_dir"
+    merge_agents_md "$target_dir"
+    
+    log_info "Canonical content (.claude/) installed"
+    
+    # Install Cursor-specific support
     if [[ "$platform" == "both" ]] || [[ "$platform" == "cursor" ]]; then
         mkdir -p .cursor/rules
         if [[ -f "product-os/.cursor/rules/product-os.mdc" ]]; then
             ln -sf ../../product-os/.cursor/rules/product-os.mdc .cursor/rules/product-os.mdc
             log_info "Created symlink for Cursor rules"
+        fi
+        if [[ -d "product-os/.cursor/agents" ]]; then
+            mkdir -p .cursor/agents
+            for agent in product-os/.cursor/agents/*.md; do
+                if [[ -f "$agent" ]]; then
+                    ln -sf "../../$agent" ".cursor/agents/$(basename "$agent")"
+                fi
+            done
+            log_info "Created symlinks for Cursor native agents"
         fi
     fi
     

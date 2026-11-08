@@ -434,7 +434,7 @@ else
 fi
 
 # ============================================================
-# Test 17: Platform: Cursor only
+# Test 17: Platform: Cursor only (still installs canonical .claude)
 # ============================================================
 log_test "Platform: Cursor only installation"
 
@@ -449,10 +449,11 @@ else
     log_fail "Cursor rules missing"
 fi
 
-if [[ ! -d "$TEST_DIR/.claude" ]]; then
-    log_pass "Claude files correctly excluded"
+# Canonical .claude content IS installed (Cursor needs it)
+if [[ -d "$TEST_DIR/.claude/agents" ]] && [[ -d "$TEST_DIR/.claude/skills" ]]; then
+    log_pass "Canonical .claude content installed (required by Cursor)"
 else
-    log_fail "Claude files should not exist in cursor-only mode"
+    log_fail "Canonical .claude content missing (Cursor rules would break)"
 fi
 
 # Templates should still be present (shared)
@@ -521,6 +522,142 @@ if [[ -f "$TEST_DIR/.cursor/rules/product-os.mdc" ]]; then
     log_pass "Product OS Cursor rules added"
 else
     log_fail "Product OS Cursor rules not added"
+fi
+
+# ============================================================
+# Test 21: Cursor MDC file has proper frontmatter
+# ============================================================
+log_test "Cursor MDC file has proper frontmatter"
+
+TEST_DIR="$TEST_ROOT/cursor-frontmatter"
+mkdir -p "$TEST_DIR"
+
+"$INSTALLER" "$TEST_DIR" --copy > /dev/null 2>&1
+
+# Check MDC has YAML frontmatter
+if head -5 "$TEST_DIR/.cursor/rules/product-os.mdc" | grep -q "^---"; then
+    log_pass "MDC file has frontmatter delimiter"
+else
+    log_fail "MDC file missing frontmatter"
+fi
+
+# Check for alwaysApply or description (required for activation)
+if grep -q "alwaysApply:" "$TEST_DIR/.cursor/rules/product-os.mdc" || \
+   grep -q "description:" "$TEST_DIR/.cursor/rules/product-os.mdc"; then
+    log_pass "MDC file has activation policy"
+else
+    log_fail "MDC file missing alwaysApply or description"
+fi
+
+# ============================================================
+# Test 22: Cursor-only installs canonical .claude content
+# ============================================================
+log_test "Cursor-only installs canonical .claude content"
+
+TEST_DIR="$TEST_ROOT/cursor-deps"
+mkdir -p "$TEST_DIR"
+
+"$INSTALLER" "$TEST_DIR" --copy --platform cursor > /dev/null 2>&1
+
+# Cursor rules reference .claude paths - verify those exist
+if [[ -d "$TEST_DIR/.claude/agents" ]] && \
+   [[ -d "$TEST_DIR/.claude/skills" ]]; then
+    log_pass "Cursor install includes .claude dependencies"
+else
+    log_fail "Cursor install missing .claude dependencies (rules would break)"
+fi
+
+# Verify CLAUDE.md exists (Cursor reads it automatically)
+if [[ -f "$TEST_DIR/CLAUDE.md" ]] || [[ -f "$TEST_DIR/CLAUDE.product-os.md" ]]; then
+    log_pass "CLAUDE.md present for Cursor"
+else
+    log_fail "CLAUDE.md missing (Cursor auto-applies it)"
+fi
+
+# ============================================================
+# Test 23: Cursor rules reference only existing paths
+# ============================================================
+log_test "Cursor rules reference only existing paths"
+
+TEST_DIR="$TEST_ROOT/cursor-refs-valid"
+mkdir -p "$TEST_DIR"
+
+"$INSTALLER" "$TEST_DIR" --copy > /dev/null 2>&1
+
+# Extract .claude paths from rules and verify they exist
+MISSING=0
+for path in $(grep -oE '\.claude/[a-z/-]+\.md' "$TEST_DIR/.cursor/rules/product-os.mdc" 2>/dev/null | sort -u); do
+    if [[ ! -f "$TEST_DIR/$path" ]]; then
+        log_warn "Rule references missing: $path"
+        MISSING=$((MISSING + 1))
+    fi
+done
+
+if [[ $MISSING -eq 0 ]]; then
+    log_pass "All Cursor rule references resolve"
+else
+    log_fail "$MISSING Cursor rule references missing"
+fi
+
+# ============================================================
+# Test 24: No false subagent_type claims in rules
+# ============================================================
+log_test "No false subagent_type claims in rules"
+
+TEST_DIR="$TEST_ROOT/no-false-subagents"
+mkdir -p "$TEST_DIR"
+
+"$INSTALLER" "$TEST_DIR" --copy > /dev/null 2>&1
+
+# Check rules don't claim specific subagent_types that aren't portable
+if grep -qiE "subagent_type|available.*subagent" "$TEST_DIR/.cursor/rules/product-os.mdc" 2>/dev/null; then
+    log_fail "Rules claim specific subagent_types (not portable)"
+else
+    log_pass "Rules don't make false subagent_type claims"
+fi
+
+# ============================================================
+# Test 25: Cursor native agents have proper format
+# ============================================================
+log_test "Cursor native agents have proper format"
+
+TEST_DIR="$TEST_ROOT/cursor-agents-format"
+mkdir -p "$TEST_DIR"
+
+"$INSTALLER" "$TEST_DIR" --copy > /dev/null 2>&1
+
+if [[ -d "$TEST_DIR/.cursor/agents" ]]; then
+    # Check at least one agent has YAML frontmatter
+    VALID=0
+    for agent in "$TEST_DIR/.cursor/agents"/*.md; do
+        if [[ -f "$agent" ]] && head -3 "$agent" | grep -q "^---"; then
+            VALID=$((VALID + 1))
+        fi
+    done
+    if [[ $VALID -gt 0 ]]; then
+        log_pass "Cursor agents have YAML frontmatter"
+    else
+        log_fail "Cursor agents missing frontmatter"
+    fi
+else
+    log_warn "No .cursor/agents directory (optional)"
+fi
+
+# ============================================================
+# Test 26: Command inventory consistency
+# ============================================================
+log_test "Command inventory consistency"
+
+# Count commands in .claude/commands
+CMD_COUNT=$(ls "$PRODUCT_OS_DIR/.claude/commands/"*.md 2>/dev/null | wc -l)
+
+# Check README mentions similar count
+README_CMD=$(grep -oP '\d+(?=.*command)' "$PRODUCT_OS_DIR/README.md" | head -1)
+
+if [[ -n "$README_CMD" ]] && [[ "$README_CMD" -eq "$CMD_COUNT" ]] 2>/dev/null; then
+    log_pass "README command count matches actual ($CMD_COUNT)"
+else
+    log_warn "README says $README_CMD commands, found $CMD_COUNT"
 fi
 
 # ============================================================

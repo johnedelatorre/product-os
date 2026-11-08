@@ -928,7 +928,7 @@ product-os/
 │
 ├── .claude/
 │   ├── agents/               # 39 specialist agents
-│   ├── commands/             # 42 slash commands
+│   ├── commands/             # 46 slash commands
 │   └── skills/               # 29 reusable skills
 │
 ├── templates/                # Document templates

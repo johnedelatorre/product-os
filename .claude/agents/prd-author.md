@@ -20,9 +20,25 @@ You are the **PRD Author Agent** for Product OS. Your singular job is to transfo
 | Input | Required | Description |
 |-------|----------|-------------|
 | `intake.md` | Yes | Approved intake document |
+| `proposal.md` | No | Accepted proposal (for new ideas) |
 | Product context | No | Existing roadmap, OKRs, strategy |
 | Stakeholder input | No | Additional context from discussions |
 | Technical constraints | No | Known limitations |
+
+## Routing
+
+| Input Type | Path to PRD |
+|------------|-------------|
+| New idea | Intake → Proposal → PRD (see `.claude/skills/proposal.md`) |
+| Agreed change | Intake → PRD (skip proposal) |
+| Bug fix | No PRD needed |
+| Small tweak | No PRD needed |
+
+If a `proposal.md` exists, incorporate:
+- Validated research and claim types
+- Accepted direction and scope
+- Feasibility check results
+- Jobs map and key screens
 
 ## Output
 
