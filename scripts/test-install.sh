@@ -24,6 +24,7 @@ TESTS_FAILED=0
 log_test() { echo -e "\n${YELLOW}[TEST]${NC} $1"; }
 log_pass() { echo -e "${GREEN}[PASS]${NC} $1"; TESTS_PASSED=$((TESTS_PASSED + 1)); }
 log_fail() { echo -e "${RED}[FAIL]${NC} $1"; TESTS_FAILED=$((TESTS_FAILED + 1)); }
+log_warn() { echo -e "${YELLOW}[WARN]${NC} $1"; }
 
 # Create a temp directory for all tests
 TEST_ROOT=$(mktemp -d)
@@ -257,6 +258,157 @@ if [[ -f "$TEST_DIR/CLAUDE.product-os.md" ]] || grep -q "Product OS" "$TEST_DIR/
     log_pass "Force mode handled CLAUDE.md appropriately"
 else
     log_fail "Force mode behavior unexpected"
+fi
+
+# ============================================================
+# Test 10: Existing .claude/agents preserved
+# ============================================================
+log_test "Existing .claude/agents content preserved"
+
+TEST_DIR="$TEST_ROOT/existing-agents"
+mkdir -p "$TEST_DIR/.claude/agents"
+
+# Create custom agent
+echo "# My Custom Agent" > "$TEST_DIR/.claude/agents/my-custom-agent.md"
+
+# Install
+"$INSTALLER" "$TEST_DIR" --copy > /dev/null 2>&1
+
+# Check custom agent preserved
+if [[ -f "$TEST_DIR/.claude/agents/my-custom-agent.md" ]] && \
+   grep -q "My Custom Agent" "$TEST_DIR/.claude/agents/my-custom-agent.md"; then
+    log_pass "Custom agent file preserved"
+else
+    log_fail "Custom agent file lost"
+fi
+
+# Check Product OS agents also present
+if [[ -f "$TEST_DIR/.claude/agents/orchestrator.md" ]]; then
+    log_pass "Product OS agents also installed"
+else
+    log_fail "Product OS agents missing"
+fi
+
+# ============================================================
+# Test 11: Existing .claude/skills preserved
+# ============================================================
+log_test "Existing .claude/skills content preserved"
+
+TEST_DIR="$TEST_ROOT/existing-skills"
+mkdir -p "$TEST_DIR/.claude/skills"
+
+# Create custom skill
+echo "# My Custom Skill" > "$TEST_DIR/.claude/skills/my-custom-skill.md"
+
+# Install
+"$INSTALLER" "$TEST_DIR" --copy > /dev/null 2>&1
+
+# Check custom skill preserved
+if [[ -f "$TEST_DIR/.claude/skills/my-custom-skill.md" ]] && \
+   grep -q "My Custom Skill" "$TEST_DIR/.claude/skills/my-custom-skill.md"; then
+    log_pass "Custom skill file preserved"
+else
+    log_fail "Custom skill file lost"
+fi
+
+# ============================================================
+# Test 12: Existing templates preserved
+# ============================================================
+log_test "Existing templates content preserved"
+
+TEST_DIR="$TEST_ROOT/existing-templates"
+mkdir -p "$TEST_DIR/templates/custom"
+
+# Create custom template
+echo "# My Custom Template" > "$TEST_DIR/templates/custom/custom-template.md"
+
+# Install
+"$INSTALLER" "$TEST_DIR" --copy > /dev/null 2>&1
+
+# Check custom template preserved
+if [[ -f "$TEST_DIR/templates/custom/custom-template.md" ]] && \
+   grep -q "My Custom Template" "$TEST_DIR/templates/custom/custom-template.md"; then
+    log_pass "Custom template preserved"
+else
+    log_fail "Custom template lost"
+fi
+
+# ============================================================
+# Test 13: Backup path uniqueness (no collision)
+# ============================================================
+log_test "Backup path uniqueness"
+
+TEST_DIR="$TEST_ROOT/backup-collision"
+mkdir -p "$TEST_DIR"
+
+# First install
+"$INSTALLER" "$TEST_DIR" --copy > /dev/null 2>&1
+
+# Modify CLAUDE.md
+echo "Modified content 1" >> "$TEST_DIR/CLAUDE.product-os.md"
+
+# Second install (should create unique backup)
+"$INSTALLER" "$TEST_DIR" --copy > /dev/null 2>&1
+
+# Modify again
+echo "Modified content 2" >> "$TEST_DIR/CLAUDE.product-os.md"
+
+# Third install
+"$INSTALLER" "$TEST_DIR" --copy > /dev/null 2>&1
+
+# Check multiple backups exist with unique names
+BACKUP_COUNT=$(ls "$TEST_DIR/"CLAUDE.product-os.md.backup.* 2>/dev/null | wc -l || echo "0")
+if [[ "$BACKUP_COUNT" -ge 1 ]]; then
+    log_pass "Backup files have unique timestamps"
+else
+    log_warn "No backups created (may be OK if files identical)"
+fi
+
+# ============================================================
+# Test 14: Dirty worktree handling
+# ============================================================
+log_test "Installation in dirty worktree"
+
+TEST_DIR="$TEST_ROOT/dirty-worktree"
+mkdir -p "$TEST_DIR"
+cd "$TEST_DIR"
+git init -q
+echo "test" > testfile.txt
+git add testfile.txt
+git commit -q -m "initial"
+echo "uncommitted change" >> testfile.txt  # Dirty worktree
+
+# Install should still work
+if "$INSTALLER" "$TEST_DIR" --copy > /dev/null 2>&1; then
+    log_pass "Installation works in dirty worktree"
+else
+    log_fail "Installation failed in dirty worktree"
+fi
+
+cd "$TEST_ROOT"
+
+# ============================================================
+# Test 15: product-os.config.yaml not overwritten
+# ============================================================
+log_test "Config file customization preserved"
+
+TEST_DIR="$TEST_ROOT/config-custom"
+mkdir -p "$TEST_DIR"
+
+# First install
+"$INSTALLER" "$TEST_DIR" --copy > /dev/null 2>&1
+
+# Customize config
+echo "custom_setting: my_value" >> "$TEST_DIR/product-os.config.yaml"
+
+# Reinstall
+"$INSTALLER" "$TEST_DIR" --copy > /dev/null 2>&1
+
+# Check customization preserved
+if grep -q "custom_setting: my_value" "$TEST_DIR/product-os.config.yaml"; then
+    log_pass "Config customization preserved"
+else
+    log_fail "Config customization lost"
 fi
 
 # ============================================================

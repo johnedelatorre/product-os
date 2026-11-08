@@ -1,0 +1,58 @@
+# Test fixture: v1.0 progress with custom/unknown fields (should be preserved)
+initiative: custom-initiative
+project: custom-project
+created: 2026-10-15T08:00:00Z
+last_updated: 2026-11-03T14:00:00Z
+
+current_phase: design
+current_document: wireframes.md
+
+# Custom field that should be preserved
+team_notes: "This is a custom field the team added"
+custom_metadata:
+  sprint: 12
+  team: alpha
+
+phases:
+  intake:
+    status: complete
+    exit_criteria_passed: true
+    # Custom per-phase field
+    reviewer: "Jane Doe"
+    
+  discovery:
+    status: complete
+    exit_criteria_passed: true
+    
+  prioritize:
+    status: complete
+    exit_criteria_passed: true
+    
+  define:
+    status: complete
+    exit_criteria_passed: true
+    documents:
+      prd.md:
+        status: complete
+        # Custom per-document field
+        version: "2.1"
+        
+  design:
+    status: in_progress
+    documents:
+      design-brief.md:
+        status: complete
+      wireframes.md:
+        status: in_progress
+
+gates_passed:
+  - intake_approved
+  - prd_approved
+  - design_direction_approved
+
+# Custom artifacts structure
+artifacts_registered:
+  - id: figma-main
+    type: figma
+    url: "https://figma.com/file/abc123"
+    custom_tag: "primary"

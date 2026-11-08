@@ -238,11 +238,13 @@ Synthesizes perspectives from feasibility, UX, strategy, research, privacy/secur
 
 ### Estimation Stages
 
-| Phase | Method | Precision | Purpose |
-|-------|--------|-----------|---------|
-| Prioritize | T-shirt (S/M/L/XL) | ±100% | Roadmap sequencing |
-| Define | Epic ranges (weeks) | ±50% | Resource planning |
-| Deliver | Fibonacci (1-13) | ±30% | Sprint commitment |
+| Phase | Method | Purpose |
+|-------|--------|---------|
+| Prioritize | T-shirt (S/M/L/XL) | Roadmap sequencing |
+| Define | Epic ranges (weeks) with confidence | Resource planning |
+| Deliver | Fibonacci (1-13) | Sprint commitment |
+
+Precision varies by team—calibrate to your own historical data.
 
 Spikes handle unknowns. Provisional estimates marked as TBD. See `estimation.md` skill.
 

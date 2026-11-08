@@ -237,6 +237,71 @@ definition_of_done:
 
 ---
 
+## Gate Blocking Rules
+
+### What Blocks Sprint Entry (DoR)
+
+| Status | Blocks? | Rationale |
+|--------|---------|-----------|
+| ✅ Pass | No | Ready for sprint |
+| ⚠️ Conditional | **Depends** | Can enter if condition is minor AND owner commits to fix by sprint start |
+| ❌ Fail | **Yes** | Cannot enter sprint until fixed |
+| N/A | No | Not applicable (documented reason) |
+| 🔍 Not Verified | **Yes** | Cannot enter until verified or explicitly accepted as risk |
+
+### What Blocks Publishing/Completion (DoD)
+
+| Status | Blocks Publish? | Rationale |
+|--------|-----------------|-----------|
+| ✅ Pass | No | Ready to publish |
+| ⚠️ Conditional | **Yes for critical** | Minor conditional can proceed; critical conditional blocks |
+| ❌ Fail | **Yes** | Cannot publish until fixed |
+| N/A | No | Not applicable |
+| 🔍 Not Verified | **Yes** | Cannot publish without verification |
+
+### Critical Criteria (Always Block if Not Pass)
+
+These criteria ALWAYS block if not ✅ Pass:
+
+**DoR Critical:**
+- Acceptance criteria defined
+- Story points estimated (team agreement, not PM guess)
+
+**DoD Critical:**
+- Acceptance criteria met
+- No P0/P1 bugs
+- Product approved
+
+**Publishing Critical:**
+- Human approval required (never auto-publish)
+- No unresolved ❌ Fail or 🔍 Not Verified on critical items
+
+### Conditional Acceptance
+
+A ⚠️ Conditional status can proceed ONLY if:
+1. The criterion is not in the Critical list above
+2. There is a documented owner and deadline to resolve
+3. The risk of proceeding is explicitly accepted by PM
+
+```markdown
+## Conditional Acceptance Log
+
+| Criterion | Story | Condition | Owner | Deadline | Risk Accepted By |
+|-----------|-------|-----------|-------|----------|------------------|
+| DOR-005 | PROJ-104 | Add to register | @dev | Sprint start | @pm |
+```
+
+### Not Verified Handling
+
+🔍 Not Verified items require:
+1. Investigation plan documented
+2. Owner assigned
+3. Either: verify before proceeding, OR explicitly accept risk with documented rationale
+
+Never assume "not verified" means "probably fine."
+
+---
+
 ## Compliance Tracking
 
 Track gate compliance over time:

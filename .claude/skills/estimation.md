@@ -13,11 +13,13 @@ Distinguish early-stage sizing from sprint-ready estimates. Use appropriate prec
 
 ## Estimation Phases
 
-| Phase | Method | Precision | Who Estimates | Purpose |
-|-------|--------|-----------|---------------|---------|
-| **Initiative** | T-shirt (S/M/L/XL) | ±100% | PM + Tech Lead | Roadmap sequencing |
-| **Epic** | Range (weeks) | ±50% | Tech Lead + senior eng | Resource planning |
-| **Story** | Fibonacci (1-13) | ±30% | Delivery team | Sprint commitment |
+| Phase | Method | Who Estimates | Purpose |
+|-------|--------|---------------|---------|
+| **Initiative** | T-shirt (S/M/L/XL) | PM + Tech Lead | Roadmap sequencing |
+| **Epic** | Range (weeks) with confidence | Tech Lead + senior eng | Resource planning |
+| **Story** | Fibonacci (1-13) | Delivery team | Sprint commitment |
+
+> **Note:** Precision varies by team and domain. Early estimates have high uncertainty; sprint-ready estimates should be lower. Actual precision depends on your team's calibration—don't assume universal accuracy.
 
 ### Key Principle
 
@@ -27,14 +29,18 @@ Distinguish early-stage sizing from sprint-ready estimates. Use appropriate prec
 
 ## Initiative-Level Sizing (T-Shirt)
 
-Use for roadmap planning and prioritization.
+Use for roadmap planning and prioritization. T-shirt sizes are relative—calibrate to your team's velocity and domain.
 
-| Size | Typical Scope | Team Weeks (Range) | Confidence |
-|------|---------------|-------------------|------------|
-| **S** | Single feature, clear scope | 1-2 weeks | High |
-| **M** | Multiple features, some unknowns | 3-6 weeks | Medium |
-| **L** | Large scope, cross-team | 6-12 weeks | Low |
-| **XL** | Major initiative, high uncertainty | 12+ weeks | Very Low |
+### Example Calibration (Illustrative)
+
+> This is one team's calibration. Your team should define its own based on historical data.
+
+| Size | Scope Description | Confidence |
+|------|-------------------|------------|
+| **S** | Single feature, clear scope | High |
+| **M** | Multiple features, some unknowns | Medium |
+| **L** | Large scope, cross-team | Low |
+| **XL** | Major initiative, high uncertainty | Very Low |
 
 ### T-Shirt Estimation Template
 
