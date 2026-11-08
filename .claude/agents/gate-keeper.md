@@ -152,60 +152,153 @@ definition_of_done:
 
 | Status | Count | Percentage |
 |--------|-------|------------|
-| ✅ Ready | 8 | 67% |
-| ⚠️ Gaps | 3 | 25% |
-| ❌ Not Ready | 1 | 8% |
+| ✅ Pass | 8 | 67% |
+| ⚠️ Conditional | 3 | 25% |
+| ❌ Fail | 1 | 8% |
+
+### Status Key
+
+| Status | Meaning | Action |
+|--------|---------|--------|
+| ✅ Pass | All required criteria met with evidence | Ready for sprint |
+| ⚠️ Conditional | Minor gaps, can proceed with conditions | Fix during sprint or accept risk |
+| ❌ Fail | Critical criteria missing | Cannot enter sprint |
+| N/A | Criterion doesn't apply (with reason) | No action needed |
+| 🔍 Not Verified | Cannot confirm (blocker/access issue) | Investigate before proceeding |
 
 ## Ready for Sprint ✅
 
-| Story | Points | Status |
-|-------|--------|--------|
-| PROJ-101 | 3 | ✅ All criteria met |
-| PROJ-102 | 5 | ✅ All criteria met |
-| PROJ-103 | 2 | ✅ All criteria met |
+| Story | Points | Status | Evidence |
+|-------|--------|--------|----------|
+| PROJ-101 | 3 | ✅ Pass | All criteria verified |
+| PROJ-102 | 5 | ✅ Pass | All criteria verified |
+| PROJ-103 | 2 | ✅ Pass | All criteria verified |
 
-## Has Gaps ⚠️
+## Conditional ⚠️
 
 ### PROJ-104: Implement password reset
 **Points:** 5 | **Discipline:** Backend
 
-| Criterion | Status |
-|-----------|--------|
-| User story format | ✅ |
-| Acceptance criteria | ✅ |
-| Story points | ✅ |
-| Discipline label | ✅ |
-| Dependencies | ⚠️ Missing: Auth API v2 not in register |
-| Designs | N/A (backend) |
-| Technical approach | ✅ |
+| Criterion | Status | Evidence | Notes |
+|-----------|--------|----------|-------|
+| User story format | ✅ Pass | Story follows format | |
+| Acceptance criteria | ✅ Pass | 4 ACs in Gherkin | |
+| Story points | ✅ Pass | 5 pts with rationale | |
+| Discipline label | ✅ Pass | Backend assigned | |
+| Dependencies | ⚠️ Conditional | Auth API v2 listed | Not in dependency register |
+| Designs | N/A | Backend-only story | No UI component |
+| Technical approach | ✅ Pass | Approach doc linked | |
 
-**To fix:** Add dependency on Auth API v2 to register
+**Condition to clear:** Add Auth API v2 to dependency register with status
+**Risk if not cleared:** May be blocked mid-sprint
 
 ---
 
-## Not Ready ❌
+## Failed ❌
 
 ### PROJ-105: Add social login
 **Points:** ? | **Discipline:** ?
 
-| Criterion | Status |
-|-----------|--------|
-| User story format | ❌ Missing "So that" clause |
-| Acceptance criteria | ❌ Only 1 AC defined |
-| Story points | ❌ Not estimated |
-| Discipline label | ❌ Missing |
-| Dependencies | ❌ Not documented |
-| Designs | ❌ No Figma link |
-| Technical approach | ❌ Not discussed |
+| Criterion | Status | Evidence | Notes |
+|-----------|--------|----------|-------|
+| User story format | ❌ Fail | Missing "So that" | No benefit stated |
+| Acceptance criteria | ❌ Fail | 1 AC only | Minimum 3 required |
+| Story points | ❌ Fail | Not estimated | Team hasn't sized |
+| Discipline label | ❌ Fail | Missing | Cannot assign to engineer |
+| Dependencies | 🔍 Not Verified | Not documented | Unknown blockers |
+| Designs | ❌ Fail | No Figma link | UI work requires designs |
+| Technical approach | 🔍 Not Verified | Not discussed | Eng input needed |
 
-**To fix:** Story needs significant refinement before sprint
+**Blocker:** Story needs significant refinement before sprint
+**Recommendation:** Remove from sprint, schedule refinement session
+
+---
+
+## Not Verified Items
+
+| Story | Criterion | Why Not Verified | Resolution |
+|-------|-----------|------------------|------------|
+| PROJ-105 | Dependencies | Story too vague to assess | Refine story first |
+| PROJ-105 | Technical approach | No eng discussion yet | Schedule tech review |
 
 ## Recommendations
 
-1. **PROJ-104** — Add Auth API dependency, then approve
+1. **PROJ-104** — Add Auth API dependency to register, then approve
 2. **PROJ-105** — Remove from sprint, schedule refinement
-3. Overall DoR compliance improving (67% vs 55% last sprint)
+3. **Overall:** DoR compliance improving (67% vs 55% last sprint)
+
+## Gate Decision
+
+**Verdict:** Proceed with conditions
+**Conditions:**
+- PROJ-104 dependency must be registered before sprint start
+- PROJ-105 removed from sprint scope
 ```
+
+---
+
+## Gate Blocking Rules
+
+### What Blocks Sprint Entry (DoR)
+
+| Status | Blocks? | Rationale |
+|--------|---------|-----------|
+| ✅ Pass | No | Ready for sprint |
+| ⚠️ Conditional | **Depends** | Can enter if condition is minor AND owner commits to fix by sprint start |
+| ❌ Fail | **Yes** | Cannot enter sprint until fixed |
+| N/A | No | Not applicable (documented reason) |
+| 🔍 Not Verified | **Yes** | Cannot enter until verified or explicitly accepted as risk |
+
+### What Blocks Publishing/Completion (DoD)
+
+| Status | Blocks Publish? | Rationale |
+|--------|-----------------|-----------|
+| ✅ Pass | No | Ready to publish |
+| ⚠️ Conditional | **Yes for critical** | Minor conditional can proceed; critical conditional blocks |
+| ❌ Fail | **Yes** | Cannot publish until fixed |
+| N/A | No | Not applicable |
+| 🔍 Not Verified | **Yes** | Cannot publish without verification |
+
+### Critical Criteria (Always Block if Not Pass)
+
+These criteria ALWAYS block if not ✅ Pass:
+
+**DoR Critical:**
+- Acceptance criteria defined
+- Story points estimated (team agreement, not PM guess)
+
+**DoD Critical:**
+- Acceptance criteria met
+- No P0/P1 bugs
+- Product approved
+
+**Publishing Critical:**
+- Human approval required (never auto-publish)
+- No unresolved ❌ Fail or 🔍 Not Verified on critical items
+
+### Conditional Acceptance
+
+A ⚠️ Conditional status can proceed ONLY if:
+1. The criterion is not in the Critical list above
+2. There is a documented owner and deadline to resolve
+3. The risk of proceeding is explicitly accepted by PM
+
+```markdown
+## Conditional Acceptance Log
+
+| Criterion | Story | Condition | Owner | Deadline | Risk Accepted By |
+|-----------|-------|-----------|-------|----------|------------------|
+| DOR-005 | PROJ-104 | Add to register | @dev | Sprint start | @pm |
+```
+
+### Not Verified Handling
+
+🔍 Not Verified items require:
+1. Investigation plan documented
+2. Owner assigned
+3. Either: verify before proceeding, OR explicitly accept risk with documented rationale
+
+Never assume "not verified" means "probably fine."
 
 ---
 

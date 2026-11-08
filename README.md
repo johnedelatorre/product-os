@@ -213,6 +213,105 @@ Once approved, Confluence pages and Jira tickets are created automatically. Afte
 
 ---
 
+## 🆕 What's New in v1.4
+
+### PRD Quality
+
+- **PRD Stages:** Mark PRDs as Early (hypotheses), Defined (requirements), or Delivery-ready (evidence-backed)
+- **Testable Hypotheses:** New section for hypotheses with validation status
+- **Evidence Provenance:** Track where claims come from and confidence levels
+- **Alternatives Considered:** Document options not chosen and why
+- **Stop Criteria:** Define when to halt or kill a feature, with owners
+- **AI Feature Spec:** Optional section for AI/ML features with evaluation criteria
+
+### Multi-Perspective PRD Review
+
+```bash
+/product-os:review-prd --from prd.md
+```
+
+Synthesizes perspectives from feasibility, UX, strategy, research, privacy/security, and customer viewpoints. Separates:
+- **Blockers:** Must fix before proceeding
+- **Gaps:** Should address
+- **Suggestions:** Nice to have
+- **Conflicts:** Where reviewers disagree (with resolution owner)
+
+### Estimation Stages
+
+| Phase | Method | Purpose |
+|-------|--------|---------|
+| Prioritize | T-shirt (S/M/L/XL) | Roadmap sequencing |
+| Define | Epic ranges (weeks) with confidence | Resource planning |
+| Deliver | Fibonacci (1-13) | Sprint commitment |
+
+Precision varies by team—calibrate to your own historical data.
+
+Spikes handle unknowns. Provisional estimates marked as TBD. See `estimation.md` skill.
+
+### Traceability
+
+New `traceability.md` template links:
+- Requirements → Epics → Stories → Tests
+- Stories → Review findings → Resolutions
+- Metrics → Instrumentation → Dashboards
+
+Gaps must have documented reasons, not just missing rows.
+
+### Enhanced Gates
+
+Gate reports now have explicit statuses:
+| Status | Meaning |
+|--------|---------|
+| ✅ Pass | Criteria met with evidence |
+| ⚠️ Conditional | Minor gaps, proceed with conditions |
+| ❌ Fail | Cannot proceed |
+| N/A | Not applicable (documented reason) |
+| 🔍 Not Verified | Cannot confirm, investigate first |
+
+### Decision Records
+
+Enhanced with:
+- Reversibility assessment (Easy / Hard / Irreversible)
+- Review triggers (when to re-evaluate)
+- Trade-off summary table
+- Decision-specific roles (separate from project RACI)
+
+### Installer Improvements
+
+- **Non-destructive:** Backs up modified files, never overwrites CLAUDE.md/AGENTS.md
+- **Skills included:** Both copy and submodule modes now include `.claude/skills/`
+- **Idempotent:** Safe to run multiple times
+- **Tested:** See `scripts/test-install.sh`
+
+---
+
+## 📥 Installation
+
+### Fresh Install
+
+```bash
+git clone https://github.com/johnedelatorre/product-os.git
+cd product-os
+./scripts/install.sh /path/to/your/project
+```
+
+### Preserving Existing CLAUDE.md
+
+If you have an existing `CLAUDE.md`, the installer:
+1. Keeps your original file intact
+2. Saves Product OS instructions as `CLAUDE.product-os.md`
+3. You merge the parts you want
+
+### Update Existing Installation
+
+```bash
+./scripts/install.sh /path/to/your/project
+```
+
+Modified files are backed up before overwriting. Config files are not overwritten.
+
+---
+
 ## 🧭 Guided Mode
 
 **New to Product OS?** Use Guided Mode to walk through every phase step-by-step.
@@ -272,6 +371,70 @@ sequenceDiagram
 | 9 | **Measure** | Post-launch review, follow-ups | No |
 
 Progress is tracked in `progress.yaml`. See [`docs/guides/guided-workflow.md`](docs/guides/guided-workflow.md) for the full playbook.
+
+### Bringing Existing Work
+
+Already have a PRD? Don't restart from scratch:
+
+```bash
+# Copy your PRD to the project directory
+cp ~/existing-prd.md initiatives/my-initiative/my-project/prd.md
+
+# Start guided mode - it detects existing files
+/product-os:guide --initiative my-initiative --project my-project
+```
+
+Guide detects existing files and marks them complete. You can jump to any phase.
+
+---
+
+## 🔗 How Artifacts Connect
+
+```
+intake.md ──────────────────────────────────────────────────────────────────┐
+    │                                                                        │
+    ▼                                                                        │
+prd.md (stage: Early → Defined → Delivery-ready)                            │
+    │                                                                        │
+    ├──▶ prd-review.md (if stage ≥ Defined)                                 │
+    │        └── blockers, gaps, suggestions, conflicts                      │
+    │                                                                        │
+    ├──▶ project-brief.md (one-page summary)                                │
+    │                                                                        │
+    ├──▶ metrics-framework.md                                               │
+    │        └── north star, inputs, guardrails, stop criteria              │
+    │                                                                        │
+    └──▶ project-plan.md, raci.md, gantt.md                                 │
+             │                                                               │
+             ▼                                                               │
+    design-brief.md ──▶ flows.yaml ──▶ wireframes.md ──▶ prototype.html    │
+             │                                                               │
+             ▼                                                               │
+    design-critique.md, ux-review.md, accessibility-audit.md                │
+             │                                                               │
+             ▼                                                               │
+    gate-report.md (pass/fail/NA/not-verified with evidence)                │
+             │                                                               │
+             ▼                                                               │
+    epics.md (T-shirt estimates) ──▶ stories.md (Fibonacci points)          │
+             │                           │                                   │
+             │                           ├── Gherkin acceptance criteria     │
+             │                           ├── Testing requirements            │
+             │                           ├── Observability requirements      │
+             │                           └── Rollout/rollback requirements   │
+             │                                                               │
+             ▼                                                               │
+    traceability.md ◀───────────────────────────────────────────────────────┘
+             │
+             ▼
+    Confluence pages + Jira issues (requires human approval)
+             │
+             ▼
+    release-notes.md, enablement.md, launch-checklist.md
+             │
+             ▼
+    post-launch-review.md (metrics vs targets with evidence)
+```
 
 ---
 
@@ -636,8 +799,8 @@ product-os/
 │
 ├── .claude/
 │   ├── agents/               # 39 specialist agents
-│   ├── commands/             # 41 slash commands
-│   └── skills/               # 27 reusable skills
+│   ├── commands/             # 42 slash commands
+│   └── skills/               # 29 reusable skills
 │
 ├── templates/                # Document templates
 │   ├── intake/

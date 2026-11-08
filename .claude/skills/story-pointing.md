@@ -68,15 +68,14 @@ Always document why:
 2. Compare all stories: "Bigger or smaller than reference?"
 3. Place in Fibonacci buckets
 
-### T-Shirt Sizing (then convert)
-| T-Shirt | Points |
-|---------|--------|
-| XS | 1 |
-| S | 2 |
-| M | 3 |
-| L | 5 |
-| XL | 8 |
-| XXL | 13 (consider splitting) |
+### T-Shirt to Points?
+
+> **Warning:** Converting T-shirt sizes directly to points is generally discouraged. T-shirts are for early roadmap sizing; points are for sprint-ready stories. If your team uses T-shirts as a first pass before pointing, create your own calibration—don't assume universal mappings.
+
+Some teams use T-shirts as a quick first pass, then refine:
+1. Use T-shirts for initial grouping ("this feels Medium")
+2. Discuss and refine to Fibonacci during sprint planning
+3. Don't mechanically convert—re-estimate with team input
 
 ## When to Split Stories
 

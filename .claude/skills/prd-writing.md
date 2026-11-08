@@ -6,7 +6,7 @@ Write comprehensive Product Requirements Documents with PM rigor.
 
 - Starting a new feature or product
 - Documenting requirements for an approved intake
-- Need a complete PRD with all 18 sections
+- Need a complete PRD with all 19 sections
 
 ## Quick Start
 
@@ -14,9 +14,23 @@ Write comprehensive Product Requirements Documents with PM rigor.
 /product-os:prd --from intake.md
 ```
 
+## Template
+
+Use `templates/pm/prd.md` as the canonical structure.
+
+## PRD Stages
+
+| Stage | When | Evidence Bar |
+|-------|------|--------------|
+| **Early** | Exploring | Hypotheses unvalidated |
+| **Defined** | Requirements complete | Partial evidence |
+| **Delivery-ready** | Ready to build | Evidence gathered |
+
+Mark incomplete sections `[TBD: what's needed]` rather than fabricating.
+
 ## PRD Structure
 
-A complete PRD includes these 18 sections:
+A complete PRD includes these 19 sections:
 
 1. **Header** — Version, status, stakeholders
 2. **Problem Statement** — What's broken, with evidence

@@ -5,6 +5,90 @@ All notable changes to Product OS will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0] - 2026-11-08
+
+### Added
+
+#### PRD Quality Improvements
+- **PRD Template** — New comprehensive 19-section template at `templates/pm/prd.md`
+- **PRD Stages** — Early (hypotheses), Defined (requirements), Delivery-ready (evidence-backed)
+- **Testable Hypotheses** — New section with validation status and provenance
+- **Alternatives Considered** — Document options not chosen with trade-offs
+- **Stop Criteria** — Define halt/kill conditions with owners and SLAs
+- **AI Feature Specification** — Optional section for AI/ML features
+
+#### Multi-Perspective PRD Review
+- **PRD Review Template** — `templates/pm/prd-review.md` for synthesis
+- **Review Command** — `/product-os:review-prd` synthesizes 6 perspectives
+- **Structured Output** — Blockers, gaps, suggestions, conflicts with resolution ownership
+- **Perspectives** — Feasibility, UX, strategy, research, privacy/security, customer
+
+#### Estimation Improvements
+- **Estimation Skill** — New `.claude/skills/estimation.md` with phase-appropriate methods
+- **T-shirt Sizing** — For initiative/roadmap level (±100%)
+- **Range Estimates** — For epic level with confidence (±50%)
+- **Fibonacci Points** — For sprint-ready stories (±30%)
+- **Spike Handling** — TBD stories with provisional estimates
+
+#### Traceability
+- **Traceability Template** — `templates/delivery/traceability.md`
+- **REQ → Epic → Story → Test** linkage
+- **Review Finding Resolution** tracking
+- **Gap Documentation** — Explicit reasons required, not just missing
+
+#### Enhanced Gates
+- **Gate Status Types** — Pass, Fail, Conditional, N/A, Not Verified
+- **Evidence Requirements** — Each criterion needs proof
+- **Not Verified Handling** — Investigation plan required
+
+#### Decision Records
+- **Reversibility Assessment** — Easy, Hard, Irreversible
+- **Review Triggers** — Conditions for re-evaluation
+- **Trade-off Summary** — Table comparing options
+- **Decision Roles** — Separate from project RACI
+
+#### Context Freshness
+- **Context Freshness Skill** — `.claude/skills/context-freshness.md`
+- **Staleness Thresholds** — Per context type
+- **Verification Checklist** — Pre-launch context validation
+
+#### Installer Improvements
+- **Non-destructive** — Backs up modified files, preserves CLAUDE.md/AGENTS.md
+- **Skills Included** — Fixed bug where skills were omitted
+- **Idempotent** — Safe for repeat runs
+- **Test Suite** — `scripts/test-install.sh` with 14 test cases
+
+#### Validation
+- **Static Validation** — `scripts/validate.sh` checks template paths, completeness
+- **Template Integrity** — Verifies referenced templates exist
+- **Agent Coverage** — Verifies clear-output style applied
+
+### Changed
+
+#### Workflow Updates
+- **Orchestrator** — Added PRD Review stage, traceability generation, estimation guidance
+- **Guide Agent** — Updated phases with PRD stages, review, enhanced gates
+- **Guided Workflow Skill** — Schema v1.1 with artifact stages, structured exit criteria
+- **Progress Schema** — Added `schema_version`, `artifact_stages`, `reviews`, structured `exit_criteria`
+
+#### Agent Improvements
+- **Delivery Agent** — Added spike stories, TBD handling, testing/observability requirements, rollout requirements
+- **Gate Keeper** — Pass/fail/NA/not-verified with evidence
+- **Decision Logger** — Reversibility, review triggers, trade-off summary
+- **Metrics Designer** — Stop criteria with owners and SLAs
+- **UX Researcher** — Contradictions, unsupported assumptions, evidence gaps
+
+#### Documentation
+- **README** — What's New section, artifact connection diagram, installation guide
+- **Guided Workflow Playbook** — Updated phases, PRD stages, estimation, gates
+
+### Counts
+- Agents: 39 (unchanged)
+- Skills: 26 → 29
+- Commands: 41 → 42
+
+---
+
 ## [1.3.0] - 2026-11-06
 
 ### Added

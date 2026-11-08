@@ -1,0 +1,74 @@
+# Test fixture: Full v1.1 progress file (for validation)
+schema_version: "1.1"
+initiative: full-initiative
+project: full-project
+created: 2026-11-01T10:00:00Z
+last_updated: 2026-11-08T12:00:00Z
+
+current_phase: deliver
+current_document: stories.md
+
+artifact_stages:
+  prd: delivery_ready
+  estimation: fibonacci
+
+phases:
+  intake:
+    status: complete
+    started: 2026-11-01T10:00:00Z
+    completed: 2026-11-01T11:00:00Z
+    documents:
+      intake.md:
+        status: complete
+        created: 2026-11-01T11:00:00Z
+    exit_criteria:
+      problem_stated:
+        status: pass
+        evidence: "Problem statement reviewed and approved"
+      evidence_documented:
+        status: pass
+        evidence: "3 customer interviews cited"
+    exit_criteria_passed: true
+    
+  define:
+    status: complete
+    documents:
+      prd.md:
+        status: complete
+      prd-review.md:
+        status: complete
+    exit_criteria:
+      prd_stage_appropriate:
+        status: pass
+        evidence: "Stage set to delivery_ready"
+      prd_review_complete:
+        status: pass
+        evidence: "Review completed 2026-11-05"
+    exit_criteria_passed: true
+
+  deliver:
+    status: in_progress
+    documents:
+      epics.md:
+        status: complete
+      stories.md:
+        status: in_progress
+      traceability.md:
+        status: not_started
+
+gates_passed:
+  - intake_approved
+  - prd_review_complete
+  - design_approved
+
+reviews:
+  prd_review:
+    status: complete
+    blockers_resolved: true
+    recommendation: approve
+
+artifacts_registered:
+  - id: figma-v2
+    type: figma-design
+    url: "https://figma.com/file/xyz"
+    freshness: 2026-11-07T10:00:00Z

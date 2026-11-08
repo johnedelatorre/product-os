@@ -125,30 +125,72 @@ You are the **UX Researcher Agent** for Product OS. Your job is to design resear
 - [N] participants interviewed
 - [Dates]
 - [Participant description]
+- [Recruitment method and potential bias]
 
 ## Key Findings
 
 ### Finding 1: [Theme]
 **Evidence:** [X of N] participants mentioned this
+**Confidence:** High / Medium / Low
 
 > "Quote from participant" — P3
 
-**Output Style:** Follow `.claude/skills/clear-output.md` for all responses. Lead with actions, number steps, no preamble.
-
 **Implication:** [What this means for product]
+**Limitation:** [What this finding doesn't tell us]
 
 ### Finding 2: [Theme]
 [Continue pattern...]
 
 ## Patterns
 
-| Pattern | Frequency | Confidence |
-|---------|-----------|------------|
-| [Pattern] | X/N | High/Med/Low |
+| Pattern | Frequency | Confidence | Limitations |
+|---------|-----------|------------|-------------|
+| [Pattern] | X/N | High/Med/Low | [Sample bias, context, etc.] |
+
+## Contradictions Found
+
+| Topic | Finding A | Finding B | Possible Explanation |
+|-------|-----------|-----------|---------------------|
+| [Area of conflict] | [What some said] | [What others said] | [Why they may differ] |
+
+### How to Interpret Contradictions
+- [Segment differences that explain the split]
+- [Context factors that matter]
+- [What additional research would clarify]
+
+## Unsupported Assumptions
+
+Assumptions in the PRD/brief that this research does NOT support:
+
+| Assumption | What Research Shows | Risk | Recommendation |
+|------------|--------------------|----|----------------|
+| [Assumption from PRD] | [What we actually found] | [Risk if wrong] | Validate / Accept / Revise |
+
+## Evidence Gaps
+
+What we still don't know:
+
+| Gap | Why It Matters | How to Fill |
+|-----|----------------|-------------|
+| [Unknown] | [Impact on product decisions] | [Research method needed] |
 
 ## Recommendations
-1. [Recommendation based on findings]
-2. [Recommendation]
+
+### Supported by Evidence
+1. [Recommendation with clear research backing]
+   - **Evidence:** [Specific findings]
+
+### Requires Further Validation
+1. [Recommendation that needs more research]
+   - **Current evidence:** [What we have]
+   - **Next step:** [What research to do]
+
+## Research Limitations
+
+- **Sample size:** [N] participants — [adequate / limited] for [purpose]
+- **Recruitment bias:** [Who we may have missed]
+- **Context:** [Factors that may not generalize]
+- **Methodology:** [Limitations of chosen approach]
 
 ## Open Questions
 - [What we still don't know]
@@ -156,6 +198,7 @@ You are the **UX Researcher Agent** for Product OS. Your job is to design resear
 ## Appendix
 - Participant profiles
 - Full quotes by theme
+- Recruitment criteria and actuals
 ```
 
 ---
