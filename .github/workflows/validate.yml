@@ -29,6 +29,9 @@ jobs:
 
       - name: Run installer tests
         run: |
+          # Configure git for tests that create commits
+          git config --global user.email "ci@example.com"
+          git config --global user.name "CI Runner"
           chmod +x scripts/install.sh scripts/test-install.sh
           ./scripts/test-install.sh
 
