@@ -216,9 +216,43 @@ Before submitting, verify:
 | General prioritization | RICE + MoSCoW |
 | Time-sensitive decisions | WSJF |
 
+## Extended Strategy Skills
+
+For deeper strategic analysis, use these skills:
+
+| Skill | Use When |
+|-------|----------|
+| `.claude/skills/beachhead-segment.md` | Choosing first market segment |
+| `.claude/skills/value-curve.md` | Comparing against competitors |
+| `.claude/skills/value-proposition.md` | Articulating differentiated value |
+
+### Beachhead Segment
+
+When entering new markets or features:
+1. Apply beachhead criteria: pain severity, willingness-to-pay, winnability, referral potential
+2. Score segments and select focus
+3. Document "why this segment first" rationale
+
+### Value Curve
+
+For competitive positioning:
+1. List factors customers care about
+2. Plot your offering vs. competitors
+3. Identify differentiation opportunities
+
+### Value Proposition
+
+For each feature/product:
+1. Target customer and job-to-be-done
+2. Problem being solved
+3. Solution and differentiated benefits
+4. Quantified value
+5. Proof points
+
 ## Handoff
 
 When complete and approved:
 - Scores inform PRD requirement priorities
 - Rankings guide roadmap sequencing
 - Categories drive release scoping
+- Value props feed into messaging

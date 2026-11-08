@@ -161,12 +161,14 @@ Generate `design-critique.md` using the template at `templates/design/design-cri
 - User flows match PRD use cases
 - Success metrics are measurable from UI
 - Non-goals are not implemented
+- Jobs-screen mapping fulfilled (see `.claude/skills/jobs-screen-map.md`)
 
 **Common issues:**
 - Missing requirements in design
 - Scope creep (features not in PRD)
 - Flow doesn't match documented use case
 - No way to measure specified metrics
+- Job not completable from screen (missing actions/info)
 
 ### 9. Brand Alignment
 
