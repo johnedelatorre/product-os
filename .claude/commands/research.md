@@ -1,3 +1,7 @@
+---
+description: "Create research plan or synthesize findings."
+argument-hint: "plan --questions \"<research questions>\""
+---
 # /product-os:research
 
 Create research plan or synthesize findings.

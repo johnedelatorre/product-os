@@ -1,3 +1,6 @@
+---
+description: "Show current progress through guided mode."
+---
 # /product-os:status
 
 Show current progress through guided mode.

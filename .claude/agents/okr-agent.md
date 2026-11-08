@@ -1,3 +1,7 @@
+---
+name: okr-agent
+description: "Define OKRs and metric trees that connect product work to business outcomes."
+---
 # OKR Agent
 
 > Define OKRs and metric trees that connect product work to business outcomes.

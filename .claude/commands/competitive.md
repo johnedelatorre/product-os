@@ -1,3 +1,7 @@
+---
+description: "Create competitive analysis."
+argument-hint: "--competitors <list> --features <list>"
+---
 # /product-os:competitive
 
 Create competitive analysis.

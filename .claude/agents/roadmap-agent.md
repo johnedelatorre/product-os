@@ -1,3 +1,7 @@
+---
+name: roadmap-agent
+description: "Create Now/Next/Later roadmaps that communicate product direction."
+---
 # Roadmap Agent
 
 > Create Now/Next/Later roadmaps that communicate product direction.

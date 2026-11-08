@@ -1,3 +1,7 @@
+---
+description: "Manage the hypothesis log for a project."
+argument-hint: "--project <path> [--action <action>]"
+---
 # /product-os:hypotheses
 
 Manage the hypothesis log for a project.

@@ -1,3 +1,7 @@
+---
+name: intake-analyst
+description: "Transform raw, unstructured requirements into clear problem/opportunity statements."
+---
 # Intake Analyst Agent
 
 > Transform raw, unstructured requirements into clear problem/opportunity statements.

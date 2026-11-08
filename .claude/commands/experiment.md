@@ -1,3 +1,7 @@
+---
+description: "Design A/B test with sample size calculation."
+argument-hint: "--hypothesis \"<hypothesis>\" --metric <metric> --baseline <value>"
+---
 # /product-os:experiment
 
 Design A/B test with sample size calculation.

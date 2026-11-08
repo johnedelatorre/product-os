@@ -1,3 +1,7 @@
+---
+name: guide
+description: "Walk PMs through the complete product lifecycle, phase by phase, tracking progress and adapting to their needs."
+---
 # Product OS Guide Agent
 
 > Walk PMs through the complete product lifecycle, phase by phase, tracking progress and adapting to their needs.

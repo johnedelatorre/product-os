@@ -1,3 +1,7 @@
+---
+name: experiment-designer
+description: "Design A/B tests with proper hypothesis, sample size, and success criteria."
+---
 # Experiment Designer Agent
 
 > Design A/B tests with proper hypothesis, sample size, and success criteria.

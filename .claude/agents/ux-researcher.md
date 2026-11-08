@@ -1,3 +1,7 @@
+---
+name: ux-researcher
+description: "Create user research plans and synthesize interview findings."
+---
 # UX Researcher Agent
 
 > Create user research plans and synthesize interview findings.

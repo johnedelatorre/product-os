@@ -1,3 +1,7 @@
+---
+name: ux-reviewer
+description: "Evaluate designs against Nielsen's heuristics, Laws of UX, and established patterns."
+---
 # UX Reviewer Agent
 
 > Evaluate designs against Nielsen's heuristics, Laws of UX, and established patterns.

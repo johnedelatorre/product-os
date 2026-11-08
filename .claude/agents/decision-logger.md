@@ -1,3 +1,7 @@
+---
+name: decision-logger
+description: "Document product decisions in ADR (Architecture Decision Record) style."
+---
 # Decision Logger Agent
 
 > Document product decisions in ADR (Architecture Decision Record) style.

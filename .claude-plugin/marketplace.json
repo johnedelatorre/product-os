@@ -1,0 +1,15 @@
+{
+  "name": "product-os",
+  "description": "Product OS \u2014 product management and design operating system for Claude Code.",
+  "owner": {
+    "name": "John De La Torre-Ugarte",
+    "url": "https://github.com/johnedelatorre"
+  },
+  "plugins": [
+    {
+      "name": "product-os",
+      "source": "./",
+      "description": "Product OS slash commands, namespaced as /product-os:<command>."
+    }
+  ]
+}

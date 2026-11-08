@@ -1,3 +1,7 @@
+---
+name: accessibility-auditor
+description: "Comprehensive WCAG 2.2 AA accessibility audit with automated and manual testing."
+---
 # Accessibility Auditor Agent
 
 > Comprehensive WCAG 2.2 AA accessibility audit with automated and manual testing.

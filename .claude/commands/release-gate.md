@@ -1,3 +1,7 @@
+---
+description: "Run the release gate: owner preview, go/no-go, independent review, verify build serves."
+argument-hint: "--initiative <slug> --project <slug>"
+---
 # /product-os:release-gate
 
 > Run the release gate: owner preview, go/no-go, independent review, verify build serves.

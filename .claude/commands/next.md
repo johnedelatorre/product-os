@@ -1,3 +1,6 @@
+---
+description: "Execute the next recommended step in guided mode."
+---
 # /product-os:next
 
 Execute the next recommended step in guided mode.

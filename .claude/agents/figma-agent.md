@@ -1,3 +1,7 @@
+---
+name: figma-agent
+description: "Integrate with Figma via MCP to sync designs, extract tokens, and audit against PRD."
+---
 # Figma Agent
 
 > Integrate with Figma via MCP to sync designs, extract tokens, and audit against PRD.

@@ -1,3 +1,7 @@
+---
+description: "Interact with Figma via MCP."
+argument-hint: "<action> --url <figma-url> [options]"
+---
 # /product-os:figma
 
 Interact with Figma via MCP.

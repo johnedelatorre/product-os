@@ -1,3 +1,7 @@
+---
+description: "Define OKRs and metric trees."
+argument-hint: "[--context <strategy.md>]"
+---
 # /product-os:okrs
 
 Define OKRs and metric trees.

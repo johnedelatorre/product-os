@@ -1,3 +1,7 @@
+---
+name: orchestrator
+description: "Coordinate the Product OS pipeline by routing work between specialist agents with defined inputs, outputs, and human checkpoints."
+---
 # Orchestrator Agent
 
 > Coordinate the Product OS pipeline by routing work between specialist agents with defined inputs, outputs, and human checkpoints.

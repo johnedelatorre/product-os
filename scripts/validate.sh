@@ -277,6 +277,65 @@ else
 fi
 
 # ============================================================
+# Check 13: Commands and agents carry YAML frontmatter
+# ============================================================
+log_check "Command and agent frontmatter"
+
+NO_FM=0
+for f in .claude/commands/*.md; do
+    if [[ "$(head -1 "$f")" != "---" ]] || ! sed -n '2,6p' "$f" | grep -q '^description: '; then
+        log_fail "Command missing frontmatter description: $f"
+        NO_FM=$((NO_FM + 1))
+    fi
+done
+for f in .claude/agents/*.md; do
+    stem=$(basename "$f" .md)
+    if [[ "$(head -1 "$f")" != "---" ]] || ! sed -n '2,6p' "$f" | grep -q "^name: $stem$" || ! sed -n '2,6p' "$f" | grep -q '^description: '; then
+        log_fail "Agent missing name/description frontmatter: $f"
+        NO_FM=$((NO_FM + 1))
+    fi
+done
+if [[ $NO_FM -eq 0 ]]; then
+    log_pass "All commands and agents have frontmatter"
+fi
+
+# ============================================================
+# Check 14: Plugin and marketplace manifests
+# ============================================================
+log_check "Claude Code plugin manifests"
+
+if python3 - <<'PY'
+import json, os, sys
+plugin = json.load(open('.claude-plugin/plugin.json'))
+market = json.load(open('.claude-plugin/marketplace.json'))
+assert plugin['name'] == 'product-os', 'plugin name must be product-os'
+assert os.path.isdir(plugin['commands']), 'plugin commands path missing'
+assert any(p['name'] == 'product-os' and p['source'] == './' for p in market['plugins']), 'marketplace must list product-os at ./'
+PY
+then
+    log_pass "plugin.json and marketplace.json are valid"
+else
+    log_fail "Plugin manifests invalid"
+fi
+
+# ============================================================
+# Check 15: Every /product-os:<command> reference resolves
+# ============================================================
+log_check "Command references resolve to command files"
+
+MISSING_CMDS=0
+for ref in $(grep -rhoE "/product-os:[a-z0-9-]+" README.md CLAUDE.md AGENTS.md docs/ .claude/ .cursor/ templates/ 2>/dev/null | sort -u); do
+    name="${ref#/product-os:}"
+    if [[ ! -f ".claude/commands/$name.md" ]]; then
+        log_fail "Referenced command does not exist: $ref"
+        MISSING_CMDS=$((MISSING_CMDS + 1))
+    fi
+done
+if [[ $MISSING_CMDS -eq 0 ]]; then
+    log_pass "All /product-os: command references resolve"
+fi
+
+# ============================================================
 # Summary
 # ============================================================
 echo ""

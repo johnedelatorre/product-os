@@ -33,6 +33,7 @@ usage() {
     echo "  --copy         Copy files directly (default, you own the files)"
     echo "  --submodule    Install as git submodule (auto-updates)"
     echo "  --platform X   Platform to install for: both, claude, cursor (default: both)"
+    echo "  --register-plugin  Enable the product-os Claude Code plugin in the target (needs the claude CLI)"
     echo "  --force        Overwrite existing files without backup (use with caution)"
     echo "  --help         Show this help"
     echo ""
@@ -45,7 +46,9 @@ usage() {
     echo ""
     echo "The installer will:"
     echo "  - Back up existing CLAUDE.md/AGENTS.md (if present)"
-    echo "  - Copy/link .claude/agents, .claude/commands, .claude/skills"
+    echo "  - Copy/link .claude/agents and .claude/skills"
+    echo "  - Copy/link a reference copy of the commands to .claude/product-os/commands"
+    echo "  - Claude Code commands come from the product-os plugin (/product-os:<command>)"
     echo "  - Copy .cursor/rules/ for Cursor support"
     echo "  - Copy templates/ directory"
     echo "  - Copy config templates (product-os.config.yaml, .env.example)"
@@ -119,6 +122,46 @@ safe_copy_dir() {
         fi
     done
     log_info "Copied directory $dest"
+}
+
+warn_legacy_commands() {
+    local legacy_dir="$1"
+    [[ -d "$legacy_dir" ]] || return 0
+    local found=()
+    for src_file in "$PRODUCT_OS_DIR/.claude/commands"/*.md; do
+        local name=$(basename "$src_file")
+        [[ -f "$legacy_dir/$name" ]] && found+=("$name")
+        [[ -f "$legacy_dir/product-os-$name" ]] && found+=("product-os-$name")
+    done
+    if [[ ${#found[@]} -gt 0 ]]; then
+        log_warn "Found ${#found[@]} Product OS command files from an older install in $legacy_dir"
+        log_warn "They register un-namespaced commands. Remove them once the plugin is enabled:"
+        for name in "${found[@]}"; do echo "    $legacy_dir/$name"; done
+    fi
+}
+
+register_plugin() {
+    local target_dir="$1"
+    local marketplace_source="$2"
+    if ! command -v claude > /dev/null 2>&1; then
+        log_warn "claude CLI not found; skipping plugin registration"
+        return 0
+    fi
+    (
+        cd "$target_dir"
+        claude plugin marketplace add "$marketplace_source" --scope project
+        claude plugin install product-os@product-os --scope project
+    ) && log_info "Enabled the product-os plugin for $target_dir (project scope)"
+}
+
+print_plugin_steps() {
+    local target_dir="$1"
+    local marketplace_source="$2"
+    echo "  Claude Code commands come from the product-os plugin (/product-os:<command>):"
+    echo "    cd \"$target_dir\""
+    echo "    claude plugin marketplace add \"$marketplace_source\" --scope project"
+    echo "    claude plugin install product-os@product-os --scope project"
+    echo "  Or rerun the installer with --register-plugin to do this for you."
 }
 
 merge_claude_md() {
@@ -197,10 +240,16 @@ install_copy() {
     # Create .claude directory structure
     mkdir -p "$target_dir/.claude"
     
-    # Copy agents, commands, AND skills (required for both platforms)
+    # Copy agents and skills (required for both platforms)
     safe_copy_dir "$PRODUCT_OS_DIR/.claude/agents" "$target_dir/.claude/agents" "$force"
-    safe_copy_dir "$PRODUCT_OS_DIR/.claude/commands" "$target_dir/.claude/commands" "$force"
     safe_copy_dir "$PRODUCT_OS_DIR/.claude/skills" "$target_dir/.claude/skills" "$force"
+
+    # Commands are a reference copy only. Claude Code gets them from the
+    # product-os plugin as /product-os:<command>. Copying them into
+    # .claude/commands/ would register un-namespaced names (/status, /plan,
+    # /next) that collide with Claude Code built-ins.
+    safe_copy_dir "$PRODUCT_OS_DIR/.claude/commands" "$target_dir/.claude/product-os/commands" "$force"
+    warn_legacy_commands "$target_dir/.claude/commands"
     
     # Handle CLAUDE.md and AGENTS.md (read by both Cursor and Claude Code)
     merge_claude_md "$target_dir"
@@ -276,12 +325,19 @@ install_submodule() {
     mkdir -p .claude
     
     # Remove old symlinks if they exist
-    rm -f .claude/agents .claude/commands .claude/skills 2>/dev/null || true
+    rm -f .claude/agents .claude/skills 2>/dev/null || true
+    # Older installs symlinked commands here; drop only that symlink
+    if [[ -L .claude/commands ]] && [[ "$(readlink .claude/commands)" == "../product-os/.claude/commands" ]]; then
+        rm -f .claude/commands
+        log_info "Removed legacy .claude/commands symlink (commands now come from the plugin)"
+    fi
     
     ln -sf ../product-os/.claude/agents .claude/agents
-    ln -sf ../product-os/.claude/commands .claude/commands
+    mkdir -p .claude/product-os
+    rm -f .claude/product-os/commands 2>/dev/null || true
+    ln -sf ../../product-os/.claude/commands .claude/product-os/commands
     ln -sf ../product-os/.claude/skills .claude/skills
-    log_info "Created symlinks for agents, commands, and skills"
+    log_info "Created symlinks for agents, skills, and the commands reference copy"
     
     # Handle CLAUDE.md and AGENTS.md (read by both Cursor and Claude Code)
     merge_claude_md "$target_dir"
@@ -367,6 +423,7 @@ shift
 
 METHOD="copy"
 FORCE="false"
+REGISTER_PLUGIN="false"
 PLATFORM="both"
 
 while [[ $# -gt 0 ]]; do
@@ -392,6 +449,9 @@ while [[ $# -gt 0 ]]; do
                     exit 1
                     ;;
             esac
+            ;;
+        --register-plugin)
+            REGISTER_PLUGIN="true"
             ;;
         --force)
             FORCE="true"
@@ -434,13 +494,25 @@ case "$METHOD" in
         ;;
 esac
 
+# The marketplace source the plugin is installed from: the submodule
+# checkout, or this Product OS clone.
+if [[ "$METHOD" == "submodule" ]]; then
+    MARKETPLACE_SOURCE="$TARGET_DIR/product-os"
+else
+    MARKETPLACE_SOURCE="$PRODUCT_OS_DIR"
+fi
+
+if [[ "$REGISTER_PLUGIN" == "true" ]] && { [[ "$PLATFORM" == "both" ]] || [[ "$PLATFORM" == "claude" ]]; }; then
+    register_plugin "$TARGET_DIR" "$MARKETPLACE_SOURCE"
+fi
+
 echo ""
 echo "================================"
 log_info "Installation complete!"
 echo ""
 echo "Platform support installed:"
 if [[ "$PLATFORM" == "both" ]] || [[ "$PLATFORM" == "claude" ]]; then
-    echo "  ✓ Claude Code (.claude/agents, .claude/commands, .claude/skills)"
+    echo "  ✓ Claude Code (.claude/agents, .claude/skills; commands via the product-os plugin)"
 fi
 if [[ "$PLATFORM" == "both" ]] || [[ "$PLATFORM" == "cursor" ]]; then
     echo "  ✓ Cursor (.cursor/rules/product-os.mdc)"
@@ -450,6 +522,9 @@ echo "Next steps:"
 if [[ "$PLATFORM" == "both" ]] || [[ "$PLATFORM" == "claude" ]]; then
     echo "  Claude Code:"
     echo "    1. If you have existing CLAUDE.md, merge from CLAUDE.product-os.md"
+    if [[ "$REGISTER_PLUGIN" != "true" ]]; then
+        print_plugin_steps "$TARGET_DIR" "$MARKETPLACE_SOURCE"
+    fi
     echo "    2. Run /product-os:guide to start your first project"
 fi
 if [[ "$PLATFORM" == "both" ]] || [[ "$PLATFORM" == "cursor" ]]; then
@@ -459,7 +534,7 @@ if [[ "$PLATFORM" == "both" ]] || [[ "$PLATFORM" == "cursor" ]]; then
 fi
 echo ""
 echo "  Both:"
-echo "    1. Copy .env.example to .env and add your Atlassian credentials"
-echo "    2. Edit product-os.config.yaml with your Confluence/Jira settings"
+echo "    1. Edit product-os.config.yaml with your Confluence/Jira settings"
+echo "    2. Atlassian MCP connected? No credentials needed. Otherwise copy .env.example to .env for the REST fallback"
 echo ""
 echo "Documentation: See README.md and docs/guides/platform-compatibility.md"

@@ -18,7 +18,7 @@ Every initiative starts with a clear problem statement backed by evidence. Every
 Product OS canonical content lives in `.claude/`:
 - **Agents:** `.claude/agents/*.md` — 39 specialist agents
 - **Skills:** `.claude/skills/*.md` — 40 reusable skills
-- **Commands:** `.claude/commands/*.md` — Command definitions
+- **Commands:** `.claude/commands/*.md` in the Product OS repo (installed targets keep a reference copy in `.claude/product-os/commands/`; Claude Code runs them as `/product-os:<command>` via the plugin)
 
 Also read:
 - **CLAUDE.md** — Philosophy, quality standards

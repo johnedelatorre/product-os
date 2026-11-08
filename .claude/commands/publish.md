@@ -1,3 +1,7 @@
+---
+description: "Publish all project artifacts to Confluence."
+argument-hint: "--project <path> [--config <config.yaml>]"
+---
 # /product-os:publish
 
 Publish all project artifacts to Confluence.

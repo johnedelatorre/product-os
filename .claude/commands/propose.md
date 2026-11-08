@@ -1,3 +1,7 @@
+---
+description: "Research an idea and propose what to build, interface first. For new ideas \u2014 not agreed changes or bugs."
+argument-hint: "--idea \"I have an idea for...\" --initiative <slug> --project <slug>"
+---
 # /product-os:propose
 
 > Research an idea and propose what to build, interface first. For new ideas — not agreed changes or bugs.

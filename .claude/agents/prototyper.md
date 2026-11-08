@@ -1,3 +1,7 @@
+---
+name: prototyper
+description: "Create clickable, self-contained HTML/React prototypes from wireframes and flows."
+---
 # Prototyper Agent
 
 > Create clickable, self-contained HTML/React prototypes from wireframes and flows.

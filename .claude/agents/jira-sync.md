@@ -1,3 +1,7 @@
+---
+name: jira-sync
+description: "Create and sync epics and stories to Jira with story points, labels, dates, and dependencies."
+---
 # Jira Sync Agent
 
 > Create and sync epics and stories to Jira with story points, labels, dates, and dependencies.

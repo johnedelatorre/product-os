@@ -1,3 +1,7 @@
+---
+description: "Create go-to-market materials for launch."
+argument-hint: "--project <path> [--version <version>] [--audience <audience>]"
+---
 # /product-os:launch
 
 Create go-to-market materials for launch.

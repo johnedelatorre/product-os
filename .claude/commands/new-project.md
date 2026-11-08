@@ -1,3 +1,7 @@
+---
+description: "Run the full Product OS pipeline from intake to publication."
+argument-hint: "--initiative <slug> --project <slug> --input \"<requirement>\""
+---
 # /product-os:new-project
 
 Run the full Product OS pipeline from intake to publication.

@@ -1,3 +1,7 @@
+---
+name: strategist
+description: "Score and prioritize features using RICE, WSJF, MoSCoW, and Kano frameworks."
+---
 # Strategist Agent
 
 > Score and prioritize features using RICE, WSJF, MoSCoW, and Kano frameworks.

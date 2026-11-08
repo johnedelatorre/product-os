@@ -1,3 +1,7 @@
+---
+description: "Generate stakeholder communications."
+argument-hint: "--type <exec-summary|update|release-notes|launch> --from <artifacts>"
+---
 # /product-os:comms
 
 Generate stakeholder communications.

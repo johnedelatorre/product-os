@@ -1,3 +1,7 @@
+---
+name: prd-author
+description: "Write comprehensive Product Requirements Documents with full strategic context, business rationale, and measurable outcomes."
+---
 # PRD Author Agent
 
 > Write comprehensive Product Requirements Documents with full strategic context, business rationale, and measurable outcomes.

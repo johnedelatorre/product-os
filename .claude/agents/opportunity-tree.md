@@ -1,3 +1,7 @@
+---
+name: opportunity-tree
+description: "Creates and maintains opportunity solution trees for structured discovery and problem exploration."
+---
 # Opportunity Solution Tree Agent
 
 > Creates and maintains opportunity solution trees for structured discovery and problem exploration.

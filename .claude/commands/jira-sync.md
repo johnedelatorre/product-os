@@ -1,3 +1,7 @@
+---
+description: "Create and sync epics/stories to Jira."
+argument-hint: "--project <path> [--config <config.yaml>]"
+---
 # /product-os:jira-sync
 
 Create and sync epics/stories to Jira.

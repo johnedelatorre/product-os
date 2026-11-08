@@ -1,3 +1,7 @@
+---
+description: "Audit code against documented intent: find gaps between what docs promise and what code enforces."
+argument-hint: "--scope <path> --docs <path>"
+---
 # /product-os:audit-intent
 
 > Audit code against documented intent: find gaps between what docs promise and what code enforces.

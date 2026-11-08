@@ -1,3 +1,7 @@
+---
+description: "Evaluate designs against UX heuristics and patterns."
+argument-hint: "--designs <path> --flows <flows.md>"
+---
 # /product-os:ux-review
 
 Evaluate designs against UX heuristics and patterns.

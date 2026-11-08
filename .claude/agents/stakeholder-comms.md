@@ -1,3 +1,7 @@
+---
+name: stakeholder-comms
+description: "Generate stakeholder updates, executive summaries, release notes, and launch communications."
+---
 # Stakeholder Comms Agent
 
 > Generate stakeholder updates, executive summaries, release notes, and launch communications.

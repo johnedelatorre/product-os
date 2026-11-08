@@ -1,3 +1,7 @@
+---
+name: post-launch-reviewer
+description: "Conducts post-launch reviews comparing actual results against PRD goals and feeding insights back to intake."
+---
 # Post-Launch Reviewer Agent
 
 > Conducts post-launch reviews comparing actual results against PRD goals and feeding insights back to intake.

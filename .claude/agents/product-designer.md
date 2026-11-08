@@ -1,3 +1,7 @@
+---
+name: product-designer
+description: "Create design briefs that translate PRD requirements into design direction."
+---
 # Product Designer Agent
 
 > Create design briefs that translate PRD requirements into design direction.

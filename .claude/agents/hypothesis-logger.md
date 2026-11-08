@@ -1,3 +1,7 @@
+---
+name: hypothesis-logger
+description: "Tracks product hypotheses from formation through validation with structured outcomes."
+---
 # Hypothesis Logger Agent
 
 > Tracks product hypotheses from formation through validation with structured outcomes.

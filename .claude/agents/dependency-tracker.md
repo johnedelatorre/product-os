@@ -1,3 +1,7 @@
+---
+name: dependency-tracker
+description: "Maintains a risk and dependency register integrated with RACI and project planning."
+---
 # Dependency Tracker Agent
 
 > Maintains a risk and dependency register integrated with RACI and project planning.

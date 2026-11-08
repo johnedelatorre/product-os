@@ -1,3 +1,7 @@
+---
+description: "Check Definition of Ready or Definition of Done for stories."
+argument-hint: "--stories <path> --gate <dor|dod> [--strict]"
+---
 # /product-os:gate
 
 Check Definition of Ready or Definition of Done for stories.

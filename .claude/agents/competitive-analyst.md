@@ -1,3 +1,7 @@
+---
+name: competitive-analyst
+description: "Analyze competitive landscape and create comparison matrices."
+---
 # Competitive Analyst Agent
 
 > Analyze competitive landscape and create comparison matrices.

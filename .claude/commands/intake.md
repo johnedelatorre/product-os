@@ -1,3 +1,7 @@
+---
+description: "Structure a raw requirement into a problem/opportunity statement."
+argument-hint: "--input \"<requirement>\" [--source \"<source>\"]"
+---
 # /product-os:intake
 
 Structure a raw requirement into a problem/opportunity statement.

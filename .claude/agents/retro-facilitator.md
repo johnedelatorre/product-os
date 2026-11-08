@@ -1,3 +1,7 @@
+---
+name: retro-facilitator
+description: "Facilitate retrospectives and document learnings."
+---
 # Retro Facilitator Agent
 
 > Facilitate retrospectives and document learnings.

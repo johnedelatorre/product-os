@@ -1,3 +1,7 @@
+---
+name: gate-keeper
+description: "Enforces Definition of Ready (DoR) and Definition of Done (DoD) gates for stories before sprint."
+---
 # Gate Keeper Agent
 
 > Enforces Definition of Ready (DoR) and Definition of Done (DoD) gates for stories before sprint.

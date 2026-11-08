@@ -1,3 +1,7 @@
+---
+name: flow-designer
+description: "Create comprehensive user flows, journey maps, sitemaps, and system flows from PRD and design brief."
+---
 # Flow Designer Agent
 
 > Create comprehensive user flows, journey maps, sitemaps, and system flows from PRD and design brief.

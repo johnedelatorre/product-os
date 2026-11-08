@@ -1,3 +1,7 @@
+---
+description: "Create an opportunity solution tree for discovery."
+argument-hint: "--outcome <outcome> [--context <path>]"
+---
 # /product-os:opportunity-tree
 
 Create an opportunity solution tree for discovery.

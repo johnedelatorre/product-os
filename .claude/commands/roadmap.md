@@ -1,3 +1,7 @@
+---
+description: "Create Now/Next/Later roadmap."
+argument-hint: "--items <prioritized-items>"
+---
 # /product-os:roadmap
 
 Create Now/Next/Later roadmap.

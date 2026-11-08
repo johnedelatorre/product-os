@@ -1,3 +1,6 @@
+---
+description: "Write the handover for next session: state, evidence, next action, blockers, owner decisions."
+---
 # /product-os:handover
 
 > Write the handover for next session: state, evidence, next action, blockers, owner decisions.

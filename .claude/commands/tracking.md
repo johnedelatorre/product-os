@@ -1,3 +1,7 @@
+---
+description: "Create an event tracking plan for analytics platforms."
+argument-hint: "--from <source> [--platform <platform>]"
+---
 # /product-os:tracking
 
 Create an event tracking plan for analytics platforms.

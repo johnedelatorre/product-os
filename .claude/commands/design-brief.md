@@ -1,3 +1,7 @@
+---
+description: "Create design brief from PRD."
+argument-hint: "--from <prd.md>"
+---
 # /product-os:design-brief
 
 Create design brief from PRD.

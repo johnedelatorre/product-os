@@ -1,3 +1,7 @@
+---
+description: "Manage project dependencies and risks."
+argument-hint: "--project <path> [--action <action>]"
+---
 # /product-os:dependencies
 
 Manage project dependencies and risks.

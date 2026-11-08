@@ -1,3 +1,7 @@
+---
+name: confluence-publisher
+description: "Publish all project artifacts to Confluence with proper hierarchy and backlog tables."
+---
 # Confluence Publisher Agent
 
 > Publish all project artifacts to Confluence with proper hierarchy and backlog tables.

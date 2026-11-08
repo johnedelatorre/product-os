@@ -1,3 +1,7 @@
+---
+description: "Start or resume guided mode, or jump to a specific phase."
+argument-hint: "--initiative <slug> --project <slug>"
+---
 # /product-os:guide
 
 Start or resume guided mode, or jump to a specific phase.

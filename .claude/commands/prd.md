@@ -1,3 +1,7 @@
+---
+description: "Generate a comprehensive Product Requirements Document."
+argument-hint: "--from <intake.md> [--context <files>]"
+---
 # /product-os:prd
 
 Generate a comprehensive Product Requirements Document.

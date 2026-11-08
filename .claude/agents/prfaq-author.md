@@ -1,3 +1,7 @@
+---
+name: prfaq-author
+description: "Write Amazon-style Press Release and FAQ documents."
+---
 # PR/FAQ Author Agent
 
 > Write Amazon-style Press Release and FAQ documents.
