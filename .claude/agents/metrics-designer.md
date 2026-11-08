@@ -101,18 +101,49 @@ Metrics that must not degrade:
 guardrails:
   - name: "Customer Support Tickets"
     formula: "tickets_opened / active_users"
+    baseline: 0.03
+    baseline_date: 2026-11-01
     threshold: "<= 0.05"
     action_if_breached: "Pause rollout, investigate"
+    owner: "@support-lead"
     
   - name: "Page Load Time"
     formula: "p95 load time in ms"
+    baseline: 1500
+    baseline_date: 2026-11-01
     threshold: "<= 2000"
     action_if_breached: "Performance review required"
+    owner: "@eng-lead"
     
   - name: "Error Rate"
     formula: "errors / total_requests"
+    baseline: 0.005
+    baseline_date: 2026-11-01
     threshold: "<= 0.01"
     action_if_breached: "Immediate investigation"
+    owner: "@oncall"
+```
+
+### Stop Criteria
+
+Conditions that would halt or kill the feature:
+
+```yaml
+stop_criteria:
+  - condition: "Error rate exceeds 5% for 1 hour"
+    action: "Automatic rollback via feature flag"
+    owner: "@oncall"
+    sla: "15 minutes"
+    
+  - condition: "Net negative user feedback after 30 days"
+    action: "Product review to decide continue/pivot/stop"
+    owner: "@product-lead"
+    sla: "1 week"
+    
+  - condition: "Adoption below 10% after 60 days"
+    action: "Retrospective and decision to iterate or deprecate"
+    owner: "@product-lead"
+    sla: "2 weeks"
 ```
 
 ---

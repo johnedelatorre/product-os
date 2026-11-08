@@ -126,13 +126,23 @@ sequenceDiagram
 | Document | Agent | Template |
 |----------|-------|----------|
 | `prd.md` | prd-author | `templates/pm/prd.md` |
+| `prd-review.md` | (multi-perspective) | `templates/pm/prd-review.md` |
 | `project-brief.md` | project-brief | `templates/pm/project-brief.md` |
 | `metrics-framework.md` | metrics-designer | `templates/pm/metrics-framework.md` |
 | `project-plan.md` | project-planner | `templates/pm/project-plan.md` |
 
+**PRD Stages:**
+| Stage | When to Use | PRD Review Required |
+|-------|-------------|---------------------|
+| Early | Exploring, hypotheses only | No (optional) |
+| Defined | Requirements complete | Yes |
+| Delivery-ready | Evidence gathered, metrics baselined | Yes |
+
 **Exit Criteria:**
-- [ ] PRD approved by stakeholders
-- [ ] Success metrics have baselines and targets
+- [ ] PRD stage matches intent (Early for exploration, Defined+ for design)
+- [ ] PRD review complete with blockers resolved (if stage ≥ Defined)
+- [ ] Success metrics have baselines (with dates) and targets
+- [ ] Stop criteria defined with owners
 - [ ] RACI has one R per row
 - [ ] Timeline has dependencies mapped
 
@@ -163,10 +173,20 @@ sequenceDiagram
 | `accessibility-audit.md` | accessibility-auditor | `templates/design/accessibility-audit.md` |
 | `gate-report.md` | gate-keeper | — |
 
+**Gate Status Key:**
+| Status | Meaning |
+|--------|---------|
+| ✅ Pass | Criteria met with evidence |
+| ⚠️ Conditional | Minor gaps, can proceed with conditions |
+| ❌ Fail | Critical missing, cannot proceed |
+| N/A | Not applicable (documented reason) |
+| 🔍 Not Verified | Cannot confirm, investigate first |
+
 **Exit Criteria:**
-- [ ] No critical design issues
-- [ ] WCAG 2.2 AA compliance
-- [ ] All stories pass Definition of Ready
+- [ ] No critical design issues (or accepted with documented risk)
+- [ ] WCAG 2.2 AA compliance verified
+- [ ] Gate report complete with evidence for each criterion
+- [ ] Not-verified items have investigation plan
 
 ---
 
@@ -176,15 +196,25 @@ sequenceDiagram
 |----------|-------|----------|
 | `epics.md` | delivery-agent | `templates/delivery/epic.md` |
 | `stories.md` | delivery-agent | `templates/delivery/user-story.md` |
+| `traceability.md` | — | `templates/delivery/traceability.md` |
 | `tracking-plan.yaml` | event-tracker | — |
 | Confluence pages | confluence-publisher | — |
 | Jira issues | jira-sync | — |
 
+**Estimation Guidance:**
+| Level | Method | Who |
+|-------|--------|-----|
+| Epic | T-shirt (S/M/L/XL) or weeks range | Tech Lead |
+| Story | Fibonacci (1-13) | Delivery team |
+| Unknown | Spike first | Team |
+
 **Exit Criteria:**
-- [ ] Stories have acceptance criteria
-- [ ] Stories have points and discipline labels
-- [ ] Confluence pages published
-- [ ] Jira issues created
+- [ ] Stories have testable acceptance criteria (Gherkin)
+- [ ] Stories have points with rationale
+- [ ] Spikes created for unknown scope (no fabricated AC)
+- [ ] Testing and observability requirements specified
+- [ ] Traceability matrix complete (gaps have reasons)
+- [ ] **Human approved** Confluence/Jira publish
 
 ---
 
@@ -195,11 +225,21 @@ sequenceDiagram
 | `release-notes.md` | launch-manager | `templates/launch/release-notes.md` |
 | `enablement.md` | launch-manager | — |
 | `launch-checklist.md` | launch-manager | — |
+| `decision-log.md` | decision-logger | — |
+
+**Context Freshness Check:**
+Before launch, verify:
+- [ ] PRD reflects what was actually built
+- [ ] Metrics baselines are recent (within 30 days)
+- [ ] Dependencies confirmed ready
+- [ ] Rollback procedure still valid
 
 **Exit Criteria:**
 - [ ] Release notes published
 - [ ] Support team enabled
-- [ ] Monitoring in place
+- [ ] Monitoring and alerting in place
+- [ ] Rollback procedure documented and tested
+- [ ] Stop criteria defined with owners
 
 ---
 
@@ -208,12 +248,23 @@ sequenceDiagram
 | Document | Agent | Template |
 |----------|-------|----------|
 | `post-launch-review.md` | post-launch-reviewer | `templates/pm/post-launch-review.md` |
+| `decision-log.md` | decision-logger | — |
 | `followup-intake.md` | intake-analyst | `templates/intake/intake.md` |
 
+**Metrics Review:**
+| Check | Evidence Required |
+|-------|-------------------|
+| Did we hit targets? | Actual vs target with dashboard link |
+| Did guardrails breach? | Guardrail metrics status |
+| Should we stop/rollback? | Stop criteria evaluation |
+| Decision review triggers met? | Check each logged decision |
+
 **Exit Criteria:**
-- [ ] Metrics compared to targets
-- [ ] Learnings documented
-- [ ] Follow-up items created (if any)
+- [ ] Metrics compared to targets **with evidence**
+- [ ] Guardrails verified (not assumed ok)
+- [ ] Learnings documented with specifics
+- [ ] Decision review triggers evaluated
+- [ ] Follow-up items created (or explicit "none needed")
 
 ---
 
@@ -282,6 +333,36 @@ Guided mode is designed to ensure nothing falls through the cracks. Let it promp
 
 ---
 
+## Bringing Existing Work
+
+### Existing PRD
+
+If you already have a PRD and want to use guided mode:
+
+1. Copy your PRD to `initiatives/<initiative>/<project>/prd.md`
+2. Run `/product-os:guide --initiative <slug> --project <slug>`
+3. Guide detects `prd.md` exists and marks Define phase partially complete
+4. Continue from current state
+
+### Existing Progress
+
+If you have a `progress.yaml` from an earlier version:
+
+1. Guide auto-migrates v1.0 schemas to v1.1
+2. New fields get sensible defaults
+3. All existing progress preserved
+4. Review the migrated file to add new optional fields
+
+### Mid-Project Start
+
+You don't have to start at Intake:
+
+1. Run `/product-os:guide <phase>` to jump directly to any phase
+2. Prior phases marked as skipped (you can fill them in later)
+3. Guide warns about missing dependencies but doesn't block
+
+---
+
 ## FAQ
 
 **Q: Can I jump around phases?**
@@ -295,3 +376,12 @@ A: Of course. Run individual commands like `/product-os:prd` directly. Guided mo
 
 **Q: How do I restart from scratch?**
 A: Delete the `progress.yaml` file and run `/product-os:guide` again.
+
+**Q: What if PRD review finds blockers?**
+A: Blockers must be resolved before design phase. Guide tracks blocker status in `progress.yaml` and won't advance until cleared.
+
+**Q: Can I have an Early-stage PRD and still proceed?**
+A: Yes. Early PRDs can skip PRD Review and proceed to design for exploration. Mark the PRD as Defined once requirements are solid.
+
+**Q: What about publishing to Confluence/Jira?**
+A: Publishing always requires explicit human approval. Guide will prompt; never auto-publishes.

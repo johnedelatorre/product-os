@@ -51,6 +51,16 @@ You are the **Decision Logger Agent** for Product OS. Your job is to capture imp
 
 ---
 
+## Recommendation
+
+**Recommended option:** [Option name]
+**Confidence:** High | Medium | Low
+**Urgency:** Immediate | This sprint | This quarter | When convenient
+
+[One paragraph summary of why this option is recommended]
+
+---
+
 ## Decision
 
 [The decision that was made, stated clearly]
@@ -61,32 +71,59 @@ You are the **Decision Logger Agent** for Product OS. Your job is to capture imp
 
 ### Option 1: [Name]
 **Description:** [What this option involves]
+**Effort:** [Relative effort: Low/Medium/High]
 **Pros:**
 - [Advantage]
 - [Advantage]
 **Cons:**
 - [Disadvantage]
 - [Disadvantage]
+**Trade-offs:** [What you gain vs. what you give up]
 
 ### Option 2: [Name]
 **Description:** [What this option involves]
+**Effort:** [Relative effort]
 **Pros:**
 - [Advantage]
 **Cons:**
 - [Disadvantage]
+**Trade-offs:** [What you gain vs. what you give up]
 
 ### Option 3: [Name] ✅ Selected
 **Description:** [What this option involves]
+**Effort:** [Relative effort]
 **Pros:**
 - [Advantage]
 **Cons:**
 - [Disadvantage]
+**Trade-offs:** [What you gain vs. what you give up]
+
+---
+
+## Trade-off Summary
+
+| Option | Key Benefit | Key Cost | Reversibility |
+|--------|-------------|----------|---------------|
+| Option 1 | | | Easy / Hard / Irreversible |
+| Option 2 | | | |
+| Option 3 | | | |
 
 ---
 
 ## Rationale
 
 [Why was this option chosen? What trade-offs were accepted?]
+
+---
+
+## Reversibility
+
+**Reversibility:** Easy | Hard | Irreversible
+
+**To reverse this decision:**
+- [Steps required to undo]
+- [Estimated effort to reverse]
+- [Data/work that would be lost]
 
 ---
 
@@ -100,6 +137,31 @@ You are the **Decision Logger Agent** for Product OS. Your job is to capture imp
 
 ### Risks
 - [Risk introduced by this decision]
+
+---
+
+## Review Triggers
+
+Re-evaluate this decision if:
+- [ ] [Condition that would invalidate the decision]
+- [ ] [Metric threshold breached]
+- [ ] [Time-based review: e.g., "6 months after implementation"]
+- [ ] [Dependency changes: e.g., "if vendor X changes pricing"]
+
+**Scheduled review:** [Date or "None"]
+
+---
+
+## Decision Roles (Optional)
+
+| Role | Person | Responsibility |
+|------|--------|----------------|
+| Driver | | Drives the decision process |
+| Approver | | Final authority |
+| Contributors | | Provide input |
+| Informed | | Need to know outcome |
+
+> Note: These are decision-specific roles, not project RACI.
 
 ---
 

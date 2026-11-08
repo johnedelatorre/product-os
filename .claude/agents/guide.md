@@ -171,20 +171,32 @@ artifacts_registered:
 **Documents:**
 | Document | Why It Matters |
 |----------|----------------|
-| `prd.md` | Complete requirements with 18 sections |
+| `prd.md` | Complete requirements with 19 sections (see template) |
+| `prd-review.md` | Multi-perspective review synthesis (if PRD stage ≥ Defined) |
 | `project-brief.md` | One-page executive summary |
-| `metrics-framework.md` | North star, inputs, guardrails |
+| `metrics-framework.md` | North star, inputs, guardrails, stop criteria |
 | `project-plan.md` | RACI, Gantt, timeline |
+
+**PRD Stages:**
+| Stage | When to Use | PRD Review |
+|-------|-------------|------------|
+| Early | Hypotheses, exploring | Skip (optional) |
+| Defined | Requirements complete | Required |
+| Delivery-ready | Evidence gathered, metrics baselined | Required |
 
 **Key Questions:**
 1. What are the functional requirements?
 2. What are the non-functional requirements?
 3. How will we measure success?
-4. Who needs to do what by when?
+4. What are our hypotheses and what evidence supports them?
+5. What are the rollback/stop criteria?
+6. Who needs to do what by when?
 
 **Exit Criteria:**
-- [ ] PRD approved by stakeholders
+- [ ] PRD stage appropriate for phase (Early ok for exploration, Defined+ for design)
+- [ ] PRD review complete with blockers resolved (if stage ≥ Defined)
 - [ ] Success metrics have baselines and targets
+- [ ] Stop criteria defined with owners
 - [ ] RACI has one R per row
 - [ ] Timeline has dependencies mapped
 
@@ -222,21 +234,31 @@ artifacts_registered:
 **Documents:**
 | Document | Why It Matters |
 |----------|----------------|
-| `design-critique.md` | Visual design feedback |
+| `design-critique.md` | Visual design feedback with severity, evidence, and REQ links |
 | `ux-review.md` | Heuristics evaluation |
 | `accessibility-audit.md` | WCAG 2.2 compliance |
-| `gate-report.md` | DoR validation |
+| `gate-report.md` | DoR validation with pass/fail/NA/not-verified states |
+
+**Gate Status Key:**
+| Status | Meaning | Action |
+|--------|---------|--------|
+| ✅ Pass | Criteria met with evidence | Proceed |
+| ⚠️ Conditional | Minor gaps | Proceed with conditions |
+| ❌ Fail | Critical missing | Cannot proceed |
+| N/A | Not applicable (documented reason) | No action |
+| 🔍 Not Verified | Cannot confirm | Investigate first |
 
 **Key Questions:**
 1. Does the design meet requirements?
 2. Are there usability issues?
 3. Is it accessible?
-4. Are stories ready for sprint?
+4. Can we verify each gate criterion, or are some blocked?
 
 **Exit Criteria:**
-- [ ] No critical design issues
-- [ ] WCAG 2.2 AA compliance
-- [ ] All stories pass Definition of Ready
+- [ ] No critical design issues (or accepted with documented risk)
+- [ ] WCAG 2.2 AA compliance verified
+- [ ] Gate report complete with evidence for each criterion
+- [ ] Not-verified items have investigation plan
 
 ---
 
@@ -247,22 +269,34 @@ artifacts_registered:
 **Documents:**
 | Document | Why It Matters |
 |----------|----------------|
-| `epics.md` | High-level work containers |
-| `stories.md` | Sprint-ready user stories |
-| `tracking-plan.yaml` | Analytics events |
-| Confluence pages | Published documentation |
-| Jira issues | Tickets for sprint |
+| `epics.md` | High-level work containers with T-shirt estimates |
+| `stories.md` | Sprint-ready user stories with Fibonacci points |
+| `traceability.md` | Links REQs → epics → stories → tests |
+| `tracking-plan.yaml` | Analytics events (instrumentation ≠ outcomes) |
+| Confluence pages | Published documentation (requires human approval) |
+| Jira issues | Tickets for sprint (requires human approval) |
+
+**Estimation Guidance:**
+| Level | Method | Precision | Who |
+|-------|--------|-----------|-----|
+| Epic | T-shirt (S/M/L/XL) or weeks range | ±50% | Tech Lead |
+| Story | Fibonacci (1-13) | ±30% | Delivery team |
+| Unknown scope | Spike first | TBD | Team |
 
 **Key Questions:**
 1. How should work be grouped into epics?
 2. What's the story breakdown?
-3. What events need tracking?
+3. What needs spikes vs ready-to-estimate?
+4. What events need tracking (instrumentation vs outcomes)?
+5. Is traceability complete (REQ → story → test)?
 
 **Exit Criteria:**
-- [ ] Stories have acceptance criteria
-- [ ] Stories have points and discipline labels
-- [ ] Confluence pages published
-- [ ] Jira issues created
+- [ ] Stories have testable acceptance criteria (Gherkin)
+- [ ] Stories have points with rationale (not fabricated precision)
+- [ ] Spikes created for unknown scope (not fake AC)
+- [ ] Testing and observability requirements specified
+- [ ] Traceability matrix complete (gaps have documented reasons)
+- [ ] Human approved Confluence/Jira publish
 
 ---
 
@@ -276,16 +310,28 @@ artifacts_registered:
 | `release-notes.md` | Customer communication |
 | `enablement.md` | Sales/support materials |
 | `launch-checklist.md` | Nothing forgotten |
+| `decision-log.md` | Key decisions with reversibility and review triggers |
+
+**Context Freshness:**
+Before launch, verify key context is current:
+- [ ] PRD reflects what was actually built (not original spec if changed)
+- [ ] Metrics baselines are recent (not stale data)
+- [ ] Dependencies status is current
+- [ ] Rollback procedures tested
 
 **Key Questions:**
 1. What do customers need to know?
 2. What does support need to know?
 3. What could go wrong at launch?
+4. What are the rollback triggers and procedures?
+5. Are monitoring and alerts in place?
 
 **Exit Criteria:**
 - [ ] Release notes published
 - [ ] Support team enabled
-- [ ] Monitoring in place
+- [ ] Monitoring and alerting in place
+- [ ] Rollback procedure documented and tested
+- [ ] Stop criteria defined with owners
 
 ---
 
@@ -296,18 +342,31 @@ artifacts_registered:
 **Documents:**
 | Document | Why It Matters |
 |----------|----------------|
-| `post-launch-review.md` | Results vs goals |
+| `post-launch-review.md` | Results vs goals (with evidence) |
+| `decision-log.md` | Review triggers checked |
 | `followup-intake.md` | New work identified |
 
+**Metrics Review:**
+| Check | Evidence Required |
+|-------|-------------------|
+| Did we hit targets? | Actual vs target with dashboard link |
+| Did we breach guardrails? | Guardrail metrics status |
+| Should we stop/rollback? | Stop criteria evaluation |
+| Are review triggers met? | Decision review conditions |
+
 **Key Questions:**
-1. Did we hit our goals?
-2. What surprised us?
-3. What should we do next?
+1. Did we hit our goals? (Show evidence, not just claim)
+2. Did any guardrails breach?
+3. What surprised us?
+4. Do any decisions need review based on triggers?
+5. What should we do next?
 
 **Exit Criteria:**
-- [ ] Metrics compared to targets
-- [ ] Learnings documented
-- [ ] Follow-up items created
+- [ ] Metrics compared to targets with evidence
+- [ ] Guardrails verified (not just assumed ok)
+- [ ] Learnings documented with specifics
+- [ ] Decision review triggers evaluated
+- [ ] Follow-up items created (or explicit "none needed")
 
 ---
 

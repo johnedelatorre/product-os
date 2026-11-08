@@ -150,6 +150,27 @@ Feature: [Feature name]
 ### Technical Notes
 [Any technical considerations for implementation]
 
+### Testing Requirements
+| Test Type | Scope | Notes |
+|-----------|-------|-------|
+| Unit | [What to test] | |
+| Integration | [API contracts] | |
+| E2E | [User flows] | N/A if not applicable |
+
+### Observability Requirements
+| Type | Requirement | Implementation |
+|------|-------------|----------------|
+| Logging | [What to log] | |
+| Metrics | [What to measure] | |
+| Alerts | [What to alert on] | N/A if not applicable |
+
+### Rollout Requirements
+| Aspect | Requirement |
+|--------|-------------|
+| Feature flag | [Flag name or N/A] |
+| Rollback trigger | [When to roll back] |
+| Rollback procedure | [How to roll back] |
+
 ### Out of Scope
 - [Explicit exclusion]
 - [Explicit exclusion]
@@ -158,6 +179,118 @@ Feature: [Feature name]
 
 ## STORY-002: [Story Title]
 [Continue for each story...]
+```
+
+---
+
+## Spike Stories
+
+When uncertainty is high, create a time-boxed spike before implementation stories:
+
+```markdown
+## SPIKE-001: [Research Topic]
+
+### Goal
+[What question(s) must be answered]
+
+### Time-box
+[X] days maximum
+
+### Success Criteria
+- [ ] [Question 1 answered with recommendation]
+- [ ] [Question 2 answered]
+- [ ] [Estimate for implementation stories updated]
+
+### Output Artifacts
+- Recommendation document
+- Updated story estimates
+- Technical approach (if applicable)
+
+### Not a Spike If
+- Scope is clear enough to estimate
+- Similar work done before
+- Can learn by building
+
+### Follow-up Stories
+[Stories that depend on spike results — marked TBD until spike completes]
+```
+
+---
+
+## Handling Partial Scope
+
+When requirements are incomplete, don't fabricate acceptance criteria:
+
+### TBD Stories
+
+```markdown
+## STORY-XXX: [Feature Area] — TBD
+
+**Status:** Blocked on [what's needed]
+
+### What We Know
+- [Known requirement]
+- [Known constraint]
+
+### What's Missing
+- [ ] [Specific question needing answer]
+- [ ] [Decision needed from stakeholder]
+
+### Provisional Estimate
+**Points:** 5-8 (will refine after [blocker resolved])
+
+**Rationale:**
+- Similar to [reference work]
+- Upper bound assumes [complexity]
+- Lower bound assumes [simplicity]
+
+### Acceptance Criteria
+[TBD: Cannot define until [blocker] resolved]
+
+### Do NOT
+- Fabricate precise AC for unknown scope
+- Commit this story to sprint without resolution
+- Treat provisional estimate as final
+```
+
+---
+
+## Business Outcomes vs Instrumentation
+
+Separate what you're measuring from what proves business value:
+
+### Instrumentation AC (Code Works)
+
+```gherkin
+Scenario: Button click event fires
+  Given the feature is enabled
+  When user clicks the signup button
+  Then event "signup_button_clicked" fires
+  And event includes property "source" with value "homepage"
+```
+
+### Adoption AC (Feature Used)
+
+```gherkin
+Scenario: Users complete signup flow
+  Given user is on signup page
+  When user completes all required fields
+  And user clicks submit
+  Then user account is created
+  And user sees confirmation page
+```
+
+### Outcome AC (Business Value) — NOT in Story AC
+
+Business outcomes like "20% lift in conversion" are **metrics to track**, not acceptance criteria:
+- Can't be unit tested
+- Measured over time, not at story completion
+- Belong in PRD success metrics, not story AC
+
+```markdown
+### Success Metric (Track in Dashboard)
+- Conversion rate lift: Target 20% (measured 30 days post-launch)
+- This is NOT an acceptance criterion — it's a PRD metric
 ```
 
 ---

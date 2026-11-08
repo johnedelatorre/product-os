@@ -130,8 +130,25 @@ You coordinate these specialist agents:
 │         │                       │                       │                   │
 │         ▼                       ▼                       ▼                   │
 │     prd.md              priority scores         raci.md, gantt.md          │
-│                                                 project-plan.md             │
-│                     ◆ CHECKPOINT: Human approves PRD and plan               │
+│  (stage: Early/Defined)                         project-plan.md             │
+│                                                                             │
+│                     ◆ CHECKPOINT: Human approves PRD stage and plan         │
+│                       (Early PRD = hypotheses; Defined = requirements)      │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ STAGE 2B: PRD REVIEW (if PRD stage = Defined or Delivery-ready)            │
+│ ┌─────────────────────────────────────────────────────────────────────┐    │
+│ │  Multi-perspective review: feasibility, UX, strategy, research,     │    │
+│ │  privacy/security, customer perspective                             │    │
+│ └─────────────────────────────────────────────────────────────────────┘    │
+│         │                                                                   │
+│         ▼                                                                   │
+│   prd-review.md (blockers, gaps, suggestions, conflicts)                   │
+│                                                                             │
+│                     ◆ CHECKPOINT: Blockers resolved before proceeding       │
+│                       (Skip if PRD stage = Early)                           │
 └─────────────────────────────────────────────────────────────────────────────┘
                                     │
                                     ▼
@@ -174,15 +191,24 @@ You coordinate these specialist agents:
                                     ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │ STAGE 6: DELIVERY                                                           │
-│ ┌─────────────────┐                                                         │
-│ │ Delivery Agent  │ ──▶ epics.md, stories.md                               │
-│ └─────────────────┘                                                         │
-│                     ◆ CHECKPOINT: Human approves stories                    │
+│ ┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐        │
+│ │ Delivery Agent  │ ──▶ │   Gate Keeper   │ ──▶ │ Traceability    │        │
+│ └─────────────────┘     └─────────────────┘     └─────────────────┘        │
+│         │                       │                       │                   │
+│         ▼                       ▼                       ▼                   │
+│  epics.md, stories.md    gate-report.md          traceability.md           │
+│  (spikes for unknowns)   (pass/fail/NA/not-verified)                       │
+│                                                                             │
+│  Estimation: T-shirt for epics, Fibonacci for sprint-ready stories         │
+│  Stories with TBD scope → spike first, provisional estimates               │
+│                                                                             │
+│                     ◆ CHECKPOINT: Human approves stories + gate status      │
+│                       (DoR failures block sprint entry)                     │
 └─────────────────────────────────────────────────────────────────────────────┘
                                     │
                                     ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│ STAGE 7: PUBLISHING                                                         │
+│ STAGE 7: PUBLISHING (requires human approval)                               │
 │ ┌─────────────────────┐     ┌─────────────────┐                            │
 │ │ Confluence Publisher│ ──▶ │    Jira Sync    │                            │
 │ └─────────────────────┘     └─────────────────┘                            │
@@ -190,7 +216,9 @@ You coordinate these specialist agents:
 │         ▼                           ▼                                       │
 │  Confluence pages            Jira issues                                    │
 │  (with backlog table)        (with Gantt dates)                            │
+│                                                                             │
 │                     ◆ CHECKPOINT: Human confirms publication                │
+│                       (Never auto-publish without explicit approval)        │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -361,6 +389,59 @@ When running in Guided Mode (`/product-os:guide`), the Guide Agent manages phase
 4. **Handoff** — When Guide calls Orchestrator, Orchestrator returns control after stage completion
 
 The Orchestrator remains the conductor for multi-agent stages (PM, Design, Delivery). The Guide is the coach that walks PMs through the overall journey.
+
+## Artifact Stages
+
+PRDs and other artifacts have explicit stages indicating completeness:
+
+| Stage | Meaning | Gates Allowed |
+|-------|---------|---------------|
+| **Early** | Hypotheses, incomplete sections | Skip PRD Review |
+| **Defined** | Requirements complete, some evidence | PRD Review required |
+| **Delivery-ready** | All evidence, baselined metrics | Full gates required |
+
+### Stage Transitions
+
+```
+Early → Defined: When requirements formalized and key evidence gathered
+Defined → Delivery-ready: When all hypotheses validated or accepted
+```
+
+### Handling Incomplete Artifacts
+
+- Mark TBD sections explicitly: `[TBD: what's needed to complete]`
+- Don't fabricate content for unknown scope
+- Use spikes to resolve unknowns before delivery
+- Provisional estimates acceptable; update when resolved
+
+## Estimation Stages
+
+Different precision at different phases:
+
+| Phase | Method | Who | Purpose |
+|-------|--------|-----|---------|
+| Prioritize | T-shirt (S/M/L/XL) | PM + Tech Lead | Roadmap sequencing |
+| Define | Epic ranges (weeks) | Tech Lead | Resource planning |
+| Deliver | Fibonacci (1-13) | Delivery team | Sprint commitment |
+
+### Estimation Rules
+
+1. **T-shirt → Range → Points** — Refine as uncertainty decreases
+2. **Never convert directly** — T-shirt ≠ points; re-estimate at each stage
+3. **Flag unknowns** — Use spikes; don't pretend precision you don't have
+4. **Team estimates stories** — PM guesses ≠ team commitment
+
+See `estimation.md` skill for details.
+
+## Traceability
+
+After delivery, generate traceability matrix linking:
+
+- Requirements → Epics → Stories
+- Stories → Tests → Review findings
+- Metrics → Instrumentation → Dashboards
+
+Use `traceability.md` template. Gaps must have explicit reasons (not just missing rows).
 
 ## Reporting
 
