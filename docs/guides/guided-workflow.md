@@ -85,6 +85,43 @@ sequenceDiagram
 - [ ] Stakeholders identified
 - [ ] PM approved problem framing
 
+**After Intake: Routing Decision**
+
+The Guide routes based on intake type:
+
+| Intake Type | Route | Reason |
+|-------------|-------|--------|
+| **New idea** | → Proposal (1.5) | Needs research, interface-first thinking |
+| **Agreed change** | → Discovery (2) or Define (4) | Solution direction known |
+| **Bug fix** | → Deliver (7) | Skip PM phases |
+| **Small tweak** | → Direct implementation | No full workflow needed |
+
+---
+
+### Phase 1.5: Proposal (For New Ideas)
+
+| Document | Agent | Template |
+|----------|-------|----------|
+| `proposal.md` | (via skill) | See `.claude/skills/proposal.md` |
+
+**When Required:**
+- New product idea
+- Major feature requiring research
+- Direction not yet agreed
+
+**Exit Criteria:**
+- [ ] Research phase complete with claim types documented
+- [ ] Feasibility rough-checked
+- [ ] Interface draft shows key screens
+- [ ] Jobs-screen mapping complete
+- [ ] Proposal accepted, rejected, or deferred
+
+**If Rejected:** Archive with reason, stop workflow.
+**If Deferred:** Park for later, stop workflow.
+**If Accepted:** Continue to Discovery or Define.
+
+See `.claude/skills/proposal.md` for the full proposal process.
+
 ---
 
 ### Phase 2: Discovery (Optional)

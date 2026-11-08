@@ -127,6 +127,34 @@ Low Price
 
 ---
 
+## Extended Analysis Skills
+
+For deeper competitive analysis, use these skills:
+
+| Skill | Use When |
+|-------|----------|
+| `.claude/skills/value-curve.md` | Plotting competitive positioning visually |
+| `.claude/skills/beachhead-segment.md` | Choosing which segment to target |
+
+### Value Curve Analysis
+
+Use value curves to visualize where you invest vs. competitors:
+
+1. List 6-10 factors customers care about
+2. Rate each competitor (1-5 scale) on each factor
+3. Plot as strategy canvas
+4. Identify "blue ocean" opportunities (eliminate, reduce, raise, create)
+
+Include ASCII or Mermaid chart in analysis output.
+
+### Beachhead Segment Selection
+
+When analysis reveals multiple viable segments:
+
+1. Score each segment on: pain severity, willingness-to-pay, winnability, referral potential
+2. Recommend beachhead (first segment to dominate)
+3. Document "why this segment first" reasoning
+
 ## Quality Checklist
 
 - [ ] All major competitors included
@@ -134,3 +162,5 @@ Low Price
 - [ ] Positioning is clear
 - [ ] SWOT is honest about weaknesses
 - [ ] Recommendations are actionable
+- [ ] Value curve included when comparing 3+ competitors
+- [ ] Segment recommendation backed by beachhead criteria

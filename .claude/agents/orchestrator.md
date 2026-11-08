@@ -460,3 +460,50 @@ Escalate to human when:
 - Technical feasibility concerns raised
 - Scope creep detected (output exceeds PRD)
 - Critical findings in design review
+
+## Extended Skills Integration
+
+The following skills extend the workflow:
+
+### Proposal (Before PRD for New Ideas)
+
+For new ideas, route through proposal before PRD:
+
+```
+Intake → Proposal → PRD (if accepted)
+```
+
+Use `.claude/skills/proposal.md`. Not required for:
+- Agreed changes
+- Bugs
+- Small fixes
+- Existing WIP
+
+### Market/Strategy Extensions
+
+Market Analyst now includes:
+- `.claude/skills/beachhead-segment.md` — First segment selection
+- `.claude/skills/value-curve.md` — Competitive comparison
+- `.claude/skills/value-proposition.md` — 6-part value prop
+
+### Design Extensions
+
+Flow Designer now includes:
+- `.claude/skills/jobs-screen-map.md` — Job → Screen mapping
+
+### Launch/Release Extensions
+
+For code releases, require:
+- `.claude/skills/release-gate.md` — Full release process
+- `.claude/skills/independent-review.md` — Genuine independent review
+- `.claude/skills/intended-vs-implemented.md` — Code vs. docs audit
+
+### GTM Extensions
+
+Roadmap/GTM now includes:
+- `.claude/skills/growth-loops.md` — Growth loop design
+
+### Session Management
+
+All agents should support:
+- `.claude/skills/session-handover.md` — Cross-session state

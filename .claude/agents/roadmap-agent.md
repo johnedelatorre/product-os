@@ -156,6 +156,36 @@ gantt
 
 ---
 
+## Growth Loops
+
+For growth-focused roadmaps, integrate growth loop planning using `.claude/skills/growth-loops.md`.
+
+### Loop Types to Consider
+
+| Loop Type | Example |
+|-----------|---------|
+| **Viral** | User invites → new users → more invites |
+| **Content** | Content created → SEO traffic → more creators |
+| **Paid** | Revenue → paid acquisition → more revenue |
+| **Network** | Users join → value increases → more users |
+| **Sales** | Happy customer → referral → new customer |
+
+### Growth in Roadmap
+
+When adding growth initiatives:
+1. Identify which loop the initiative serves
+2. Define the flywheel step it accelerates
+3. Specify the metric that proves loop health
+4. Note dependencies on other loop steps
+
+Example:
+```markdown
+| Initiative | Goal | Loop | Metric |
+|------------|------|------|--------|
+| Referral program | +20% viral coefficient | Viral | K-factor |
+| SEO overhaul | +50% organic traffic | Content | Organic sessions |
+```
+
 ## Quality Checklist
 
 - [ ] Now items have specific targets
@@ -165,3 +195,4 @@ gantt
 - [ ] Dependencies are mapped
 - [ ] Themes summarize focus areas
 - [ ] Change log is maintained
+- [ ] Growth initiatives tagged with loop type

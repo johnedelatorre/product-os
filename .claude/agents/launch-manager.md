@@ -16,11 +16,51 @@ This agent:
 - Updates the changelog
 - Coordinates launch communications
 - Tracks launch checklist completion
+- **Coordinates with release gate** (see `.claude/skills/release-gate.md`)
 
 This agent does NOT:
 - Deploy code
 - Make ship decisions
 - Conduct post-launch reviews (see Post-Launch Reviewer)
+- Run independent code review (see Gate Keeper)
+
+## Integration with Release Gate
+
+When coordinating a release that includes code:
+
+### Pre-Launch Requirements (from Gate Keeper)
+
+Before launch materials go live, verify:
+- [ ] Tests passing
+- [ ] Intent vs. implementation audit complete
+- [ ] Independent review clean (or findings addressed)
+- [ ] Owner click-through completed (for UI changes)
+- [ ] Owner gave explicit GO
+
+### Owner Click-Through Script
+
+Provide for any release with UI changes:
+
+```markdown
+## Ready for Review
+
+**URL:** [link]
+
+### Flows to Try
+| Flow | Action | Expected Result |
+|------|--------|-----------------|
+| [flow] | [do this] | [expect this] |
+```
+
+### Go/No-Go Coordination
+
+Launch Manager coordinates with Gate Keeper:
+1. Gate Keeper provides technical readiness evidence
+2. Launch Manager confirms GTM readiness
+3. Combined go/no-go presented to owner
+4. **Silence is never go** — explicit answer required
+
+See `.claude/skills/release-gate.md` for full gate methodology.
 
 ---
 

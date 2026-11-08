@@ -32,16 +32,28 @@ Attribution: Adapted from [ayghri/i-have-adhd](https://github.com/ayghri/i-have-
 
 John De La Torre-Ugarte — Head of Product / Product Design Lead with 25+ years of experience (ex-frontend engineer). This system reflects his dual PM/PD practice and high standards for artifact quality.
 
+## Platform Compatibility
+
+Product OS works in both **Claude Code** and **Cursor**:
+
+| Platform | Commands | Agents |
+|----------|----------|--------|
+| Claude Code | Slash commands (`/product-os:*`) | Native Task delegation |
+| Cursor | Role-based invocation | `.cursor/agents/` + role-based |
+
+Canonical content lives in `.claude/` (read by both platforms). See `docs/guides/platform-compatibility.md`.
+
 ## What This System Does
 
 Product OS provides a complete pipeline from raw requirement to shipped, measured feature:
 
 1. **Intake** — Structure any input (executive ask, customer feedback, analytics signal) into a problem/opportunity statement
-2. **PM Agent** — Deep PRD, project brief, project plan, RACI, Gantt chart with full strategic and delivery context
-3. **Design Agent** — Design brief, user flows, wireframes, prototype specs, Figma hand-off with design critique
-4. **Delivery Agent** — Epics, user stories with acceptance criteria, story points, engineering hand-off
-5. **Publisher** — Write to Confluence, create Jira epics/stories, link everything together
-6. **Tools** — RICE/WSJF prioritization, OKRs, roadmaps, competitive analysis, experiments, and more
+2. **Proposal** — For new ideas: research, propose solution, interface first (see `.claude/skills/proposal.md`)
+3. **PM Agent** — Deep PRD, project brief, project plan, RACI, Gantt chart with full strategic and delivery context
+4. **Design Agent** — Design brief, user flows, wireframes, prototype specs, Figma hand-off with design critique
+5. **Delivery Agent** — Epics, user stories with acceptance criteria, story points, engineering hand-off
+6. **Publisher** — Write to Confluence, create Jira epics/stories, link everything together
+7. **Tools** — RICE/WSJF prioritization, OKRs, roadmaps, competitive analysis, experiments, and more
 
 ## How to Use
 
@@ -72,6 +84,7 @@ Run any stage independently:
 
 ```
 /product-os:intake          # Structure a raw requirement
+/product-os:propose         # Research idea, propose solution (new ideas only)
 /product-os:prd             # Generate full PRD
 /product-os:design-brief    # Create design brief from PRD
 /product-os:stories         # Generate Jira-ready stories
@@ -87,6 +100,30 @@ Run any stage independently:
 /product-os:experiment      # A/B test design with sample size
 /product-os:competitive     # Competitive analysis matrix
 ```
+
+### Code Shipping Commands
+
+```
+/product-os:release-gate    # Full release gate process
+/product-os:audit-intent    # Audit code vs documented intent
+/product-os:handover        # Create session handover
+```
+
+## Code Shipping Requirements
+
+When shipping code (not PM-only artifacts), these are **mandatory**:
+
+| Requirement | Skill |
+|-------------|-------|
+| Intent vs. implementation audit | `.claude/skills/intended-vs-implemented.md` |
+| Independent review | `.claude/skills/independent-review.md` |
+| Test evidence | Project-specific |
+| Owner explicit GO | Silence is never go |
+| Build verification | `.claude/skills/release-gate.md` |
+
+**If tools/reviewer unavailable:** Mark Not Verified and **block release**. Never claim independence that doesn't exist.
+
+**Waivers remain waivers** (not Pass). See `.claude/agents/gate-keeper.md` for blocking rules.
 
 ## Quality Standards
 

@@ -16,11 +16,46 @@ This agent:
 - Segments the market by customer type
 - Maps competitive positioning
 - Recommends strategic positioning
+- **Selects beachhead segment** (see `.claude/skills/beachhead-segment.md`)
+- **Creates value curves** (see `.claude/skills/value-curve.md`)
+- **Builds value propositions** (see `.claude/skills/value-proposition.md`)
 
 This agent does NOT:
 - Analyze specific competitors (see Competitive Analyst)
 - Make product decisions
 - Define pricing strategy
+
+## Extended Capabilities
+
+### Beachhead Segment Selection
+
+When choosing first market:
+1. Score segments on: **burning pain, willingness to pay, winnability, referral potential**
+2. Mark all scoring assumptions with evidence type
+3. Don't invent evidence or universal certainty
+4. See `.claude/skills/beachhead-segment.md`
+
+### Value Curve Analysis
+
+When comparing offerings:
+1. One segment per curve
+2. Factors are customer needs, not features
+3. Every score has source or labeled assumption
+4. Identify: where to lead, where parity is enough, deliberate non-competition
+5. See `.claude/skills/value-curve.md`
+
+### 6-Part Value Proposition
+
+| Part | Question |
+|------|----------|
+| Who | Customer segment |
+| Why | Problem/JTBD |
+| What Before | Current situation |
+| How | Solution |
+| What After | Improved outcome |
+| Alternatives | Why us |
+
+See `.claude/skills/value-proposition.md`
 
 ---
 

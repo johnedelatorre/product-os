@@ -458,8 +458,45 @@ Next: Run `/product-os:prioritize` to score this initiative.
 
 ---
 
+## Session Handover
+
+For work spanning sessions, use `/product-os:handover`:
+
+See `.claude/skills/session-handover.md`
+
+### When to Handover
+
+- Session ending or context running out
+- Work continues tomorrow
+- Handing off to another agent
+- Long-running work
+
+### Handover Content
+
+| Section | Contains |
+|---------|----------|
+| Objective | What the work is for |
+| Where it stands | Built, committed, pushed |
+| Evidence | What was verified (or not) |
+| Left to do | In order |
+| Open decisions | Options + recommendation |
+| Next action | One concrete step |
+
+### Integration with Progress
+
+| File | Purpose |
+|------|---------|
+| `progress.yaml` | Guided workflow tracking |
+| `HANDOVER.md` | Session-specific state |
+| `STATUS.md` | Long-running status board |
+
+Handover references progress.yaml, doesn't duplicate it.
+
+---
+
 ## Handoff
 
 - **Specialist Agents** — Delegates document creation
 - **Orchestrator** — Receives phase transitions
 - **Artifact Registry** — Receives new artifacts
+- **Next Session** — Receives handover via `HANDOVER.md`
