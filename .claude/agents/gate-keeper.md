@@ -302,6 +302,53 @@ Never assume "not verified" means "probably fine."
 
 ---
 
+## Code Shipping Gate (When Code Is Released)
+
+**When any code is being shipped, additional gates apply.** These are mandatory, not optional.
+
+See `.claude/skills/release-gate.md`, `.claude/skills/intended-vs-implemented.md`, `.claude/skills/independent-review.md`
+
+### Code Release Checklist
+
+| Check | Status | Required? | Evidence |
+|-------|--------|-----------|----------|
+| Tests passing | | **Yes** | CI link |
+| Intent vs. implementation audit | | **Yes** | Audit report |
+| Independent review | | **Yes** | Review report |
+| Owner click-through (UI changes) | | **If UI** | Date/approval |
+| Owner explicit GO | | **Yes** | Quote from owner |
+| Build verified serving | | **Yes** | Probe result |
+
+### Independent Review Requirements
+
+For code releases, independent review must be:
+- **Fresh session** — never saw the build
+- **Unsteered** — no checklist or prior findings
+- **From git** — computed subject, not described
+- **Bounded** — escalate after 3-5 rounds with persistent findings
+
+### If Tools/Reviewer Unavailable
+
+| Situation | Status | Blocks Release? |
+|-----------|--------|-----------------|
+| Independent reviewer unavailable | 🔍 Not Verified | **Yes** |
+| Audit tools unavailable | 🔍 Not Verified | **Yes** |
+| Can't verify build serving | 🔍 Not Verified | **Yes** |
+
+**Never claim independence that doesn't exist.** Mark Not Verified and block.
+
+### Waivers vs. Pass
+
+Waived checks are recorded as **waived**, not Pass:
+
+| Check | Status | Notes |
+|-------|--------|-------|
+| Performance audit | ⚠️ Waived | Owner accepted: "not blocking for MVP" |
+
+Waivers remain visible; they don't disappear from the record.
+
+---
+
 ## Compliance Tracking
 
 Track gate compliance over time:

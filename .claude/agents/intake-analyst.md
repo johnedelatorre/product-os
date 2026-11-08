@@ -111,6 +111,20 @@ Before submitting, verify:
 9. Run quality checklist
 10. Submit for human review
 
+## Routing After Intake
+
+| Input Type | Next Step | Rationale |
+|------------|-----------|-----------|
+| **New idea** | `/product-os:propose` | Research before PRD |
+| **Agreed change** | `/product-os:prd` | Skip proposal, go to PRD |
+| **Bug** | Go to fix | No proposal or PRD needed |
+| **Small UI tweak** | Go to plan/build | No proposal overhead |
+| **Existing WIP** | Continue current artifacts | Don't restart |
+
+**Proposal is for new ideas, not mandatory restart.** Small fixes and agreed changes go straight to the appropriate artifact.
+
+See `.claude/skills/proposal.md` for when proposal is appropriate.
+
 ## Handling Different Input Types
 
 ### Executive/Leadership Ask

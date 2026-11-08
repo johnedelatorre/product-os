@@ -287,20 +287,45 @@ Enhanced with:
 
 ## 📥 Installation
 
+### Platform Support
+
+Product OS works in both **Claude Code** and **Cursor**.
+
+| Platform | Support Level | Slash Commands | Native Subagents |
+|----------|---------------|----------------|------------------|
+| Claude Code | Full | Yes | Yes (Task tool) |
+| Cursor | Full | Role-based | Partial |
+
 ### Fresh Install
 
 ```bash
+# Clone Product OS
 git clone https://github.com/johnedelatorre/product-os.git
 cd product-os
+
+# Install for both platforms (default)
 ./scripts/install.sh /path/to/your/project
+
+# Or install for specific platform
+./scripts/install.sh /path/to/your/project --platform claude
+./scripts/install.sh /path/to/your/project --platform cursor
 ```
 
-### Preserving Existing CLAUDE.md
+### What Gets Installed
 
-If you have an existing `CLAUDE.md`, the installer:
-1. Keeps your original file intact
-2. Saves Product OS instructions as `CLAUDE.product-os.md`
-3. You merge the parts you want
+| Platform | Files Installed |
+|----------|-----------------|
+| Claude Code | `.claude/agents/`, `.claude/commands/`, `.claude/skills/`, `CLAUDE.md`, `AGENTS.md` |
+| Cursor | `.cursor/rules/product-os.mdc` |
+| Both (shared) | `templates/`, `initiatives/`, `product-os.config.yaml` |
+
+### Preserving Existing Files
+
+The installer is non-destructive:
+- **Existing CLAUDE.md** → Preserved; Product OS saved as `CLAUDE.product-os.md`
+- **Existing .cursor/rules/** → Preserved; Product OS rules added alongside
+- **Existing agents/skills/templates** → Preserved; Product OS content merged
+- **Modified files** → Backed up before updating
 
 ### Update Existing Installation
 
@@ -309,6 +334,110 @@ If you have an existing `CLAUDE.md`, the installer:
 ```
 
 Modified files are backed up before overwriting. Config files are not overwritten.
+
+---
+
+## 🖥️ Claude Code Setup
+
+### Start Guided Mode
+
+```bash
+/product-os:guide --initiative my-initiative --project my-project
+```
+
+### Check Status
+
+```bash
+/product-os:status
+```
+
+### Do Next Step
+
+```bash
+/product-os:next
+```
+
+### Use Specialist Commands
+
+```bash
+/product-os:prd              # Create PRD
+/product-os:propose          # Research idea, propose solution
+/product-os:intake           # Structure raw requirements
+/product-os:handover         # Write session handover
+/product-os:release-gate     # Run release gate process
+/product-os:audit-intent     # Audit code vs documented intent
+```
+
+---
+
+## 🖱️ Cursor Setup
+
+### After Installation
+
+1. **Restart Cursor** to load `.cursor/rules/product-os.mdc`
+2. The rules file references shared content in `.claude/`
+
+### Start Guided Mode
+
+```
+Read .claude/agents/guide.md and help me start a project called [name]
+in initiative [initiative-name]
+```
+
+### Resume Work
+
+```
+Read HANDOVER.md and continue from the next action
+```
+
+### Use Specialist Agents
+
+In Cursor, invoke specialists by reading their agent file:
+
+```
+Read .claude/agents/prd-author.md and create a PRD for [feature]
+Read .claude/agents/intake-analyst.md and structure this requirement: [text]
+Read .claude/skills/proposal.md and help me research this idea: [idea]
+```
+
+### Available Cursor Subagent Types
+
+Some Product OS roles are available as native Cursor subagent_types for parallel work:
+- `accessibility-auditor`, `competitive-analyst`, `delivery-agent`
+- `design-critic`, `gate-keeper`, `guide`
+- `market-analyst`, `product-designer`, `ux-reviewer`
+
+Use via Task tool when appropriate.
+
+### Session Handover
+
+Before ending a session:
+
+```
+Read .claude/skills/session-handover.md and create a handover
+```
+
+This creates `HANDOVER.md` with state, evidence, and next action.
+
+---
+
+## 🔄 Cross-Platform Workflow
+
+### Shared Artifacts
+
+These files are portable across platforms:
+- `progress.yaml` — Guided workflow state
+- `HANDOVER.md` — Session handover
+- `STATUS.md` — Long-running status board
+- All artifacts in `initiatives/`
+
+### Switching Platforms
+
+1. Commit in-progress `progress.yaml`
+2. Create `HANDOVER.md` before switching
+3. In new platform, read handover to resume
+
+See `docs/guides/platform-compatibility.md` for full details.
 
 ---
 

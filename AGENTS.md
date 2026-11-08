@@ -2,6 +2,22 @@
 
 > This document defines how Product OS agents work together. **PM rigor leads; design serves product strategy.**
 
+## Platform Compatibility
+
+Product OS works in both **Claude Code** and **Cursor**:
+
+| Platform | Agents | Commands | Skills | Subagents |
+|----------|--------|----------|--------|-----------|
+| Claude Code | 39 | 46 (slash commands) | 40 | Full (Task tool) |
+| Cursor | 39 | Role-based invocation | 40 | Partial (some subagent_types) |
+
+In Cursor, invoke agents by reading their file:
+```
+Read .claude/agents/prd-author.md and create a PRD for [feature]
+```
+
+See `docs/guides/platform-compatibility.md` for full setup.
+
 ## Global Output Style
 
 **All agents follow the Clear Output Style** defined in `.claude/skills/clear-output.md`. This is always on—no command needed.

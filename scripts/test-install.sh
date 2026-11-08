@@ -412,6 +412,118 @@ else
 fi
 
 # ============================================================
+# Test 16: Platform: Claude only
+# ============================================================
+log_test "Platform: Claude only installation"
+
+TEST_DIR="$TEST_ROOT/platform-claude"
+mkdir -p "$TEST_DIR"
+
+"$INSTALLER" "$TEST_DIR" --copy --platform claude > /dev/null 2>&1
+
+if [[ -d "$TEST_DIR/.claude/agents" ]] && [[ -f "$TEST_DIR/CLAUDE.md" ]]; then
+    log_pass "Claude Code files installed"
+else
+    log_fail "Claude Code files missing"
+fi
+
+if [[ ! -d "$TEST_DIR/.cursor" ]]; then
+    log_pass "Cursor files correctly excluded"
+else
+    log_fail "Cursor files should not exist in claude-only mode"
+fi
+
+# ============================================================
+# Test 17: Platform: Cursor only
+# ============================================================
+log_test "Platform: Cursor only installation"
+
+TEST_DIR="$TEST_ROOT/platform-cursor"
+mkdir -p "$TEST_DIR"
+
+"$INSTALLER" "$TEST_DIR" --copy --platform cursor > /dev/null 2>&1
+
+if [[ -f "$TEST_DIR/.cursor/rules/product-os.mdc" ]]; then
+    log_pass "Cursor rules installed"
+else
+    log_fail "Cursor rules missing"
+fi
+
+if [[ ! -d "$TEST_DIR/.claude" ]]; then
+    log_pass "Claude files correctly excluded"
+else
+    log_fail "Claude files should not exist in cursor-only mode"
+fi
+
+# Templates should still be present (shared)
+if [[ -d "$TEST_DIR/templates" ]]; then
+    log_pass "Shared templates installed"
+else
+    log_fail "Shared templates missing"
+fi
+
+# ============================================================
+# Test 18: Platform: Both (default)
+# ============================================================
+log_test "Platform: Both installation (default)"
+
+TEST_DIR="$TEST_ROOT/platform-both"
+mkdir -p "$TEST_DIR"
+
+"$INSTALLER" "$TEST_DIR" --copy > /dev/null 2>&1
+
+if [[ -d "$TEST_DIR/.claude/agents" ]] && [[ -f "$TEST_DIR/.cursor/rules/product-os.mdc" ]]; then
+    log_pass "Both platform files installed"
+else
+    log_fail "Missing files for one or both platforms"
+fi
+
+# ============================================================
+# Test 19: Cursor rules file references .claude paths
+# ============================================================
+log_test "Cursor rules reference valid paths"
+
+TEST_DIR="$TEST_ROOT/cursor-refs"
+mkdir -p "$TEST_DIR"
+
+"$INSTALLER" "$TEST_DIR" --copy > /dev/null 2>&1
+
+# Check that Cursor rules reference .claude paths that exist
+if grep -q ".claude/agents" "$TEST_DIR/.cursor/rules/product-os.mdc" 2>/dev/null && \
+   grep -q ".claude/skills" "$TEST_DIR/.cursor/rules/product-os.mdc" 2>/dev/null; then
+    log_pass "Cursor rules reference .claude paths"
+else
+    log_fail "Cursor rules missing .claude references"
+fi
+
+# ============================================================
+# Test 20: Existing .cursor directory preserved
+# ============================================================
+log_test "Existing .cursor directory preserved"
+
+TEST_DIR="$TEST_ROOT/existing-cursor"
+mkdir -p "$TEST_DIR/.cursor/rules"
+
+# Create existing cursor config
+echo "# My Custom Cursor Rules" > "$TEST_DIR/.cursor/rules/my-rules.mdc"
+
+"$INSTALLER" "$TEST_DIR" --copy > /dev/null 2>&1
+
+# Check custom rules preserved
+if grep -q "My Custom Cursor Rules" "$TEST_DIR/.cursor/rules/my-rules.mdc"; then
+    log_pass "Existing Cursor rules preserved"
+else
+    log_fail "Existing Cursor rules overwritten"
+fi
+
+# Check product-os rules added
+if [[ -f "$TEST_DIR/.cursor/rules/product-os.mdc" ]]; then
+    log_pass "Product OS Cursor rules added"
+else
+    log_fail "Product OS Cursor rules not added"
+fi
+
+# ============================================================
 # Summary
 # ============================================================
 echo ""

@@ -32,20 +32,28 @@ usage() {
     echo "Options:"
     echo "  --copy         Copy files directly (default, you own the files)"
     echo "  --submodule    Install as git submodule (auto-updates)"
+    echo "  --platform X   Platform to install for: both, claude, cursor (default: both)"
     echo "  --force        Overwrite existing files without backup (use with caution)"
     echo "  --help         Show this help"
     echo ""
     echo "Examples:"
-    echo "  $0 /path/to/my-project"
+    echo "  $0 /path/to/my-project                    # Install for both platforms"
+    echo "  $0 /path/to/my-project --platform claude  # Claude Code only"
+    echo "  $0 /path/to/my-project --platform cursor  # Cursor only"
     echo "  $0 /path/to/my-project --submodule"
     echo "  $0 /path/to/my-project --force"
     echo ""
     echo "The installer will:"
     echo "  - Back up existing CLAUDE.md/AGENTS.md (if present)"
     echo "  - Copy/link .claude/agents, .claude/commands, .claude/skills"
+    echo "  - Copy .cursor/rules/ for Cursor support"
     echo "  - Copy templates/ directory"
     echo "  - Copy config templates (product-os.config.yaml, .env.example)"
     echo "  - Create initiatives/ directory"
+    echo ""
+    echo "Platform Support:"
+    echo "  - Claude Code: Full slash commands, native subagent delegation"
+    echo "  - Cursor: Project rules, role-based invocation, some native subagents"
     echo ""
     echo "To update an existing installation, run the installer again."
 }
@@ -142,21 +150,55 @@ merge_agents_md() {
     fi
 }
 
-install_copy() {
+install_cursor() {
     local target_dir="$1"
     local force="$2"
     
-    log_info "Installing Product OS (copy mode)..."
+    log_info "Installing Cursor support..."
     
-    # Create .claude directory structure
-    mkdir -p "$target_dir/.claude"
+    # Create .cursor/rules directory
+    mkdir -p "$target_dir/.cursor/rules"
     
-    # Copy agents, commands, AND skills
-    safe_copy_dir "$PRODUCT_OS_DIR/.claude/agents" "$target_dir/.claude/agents" "$force"
-    safe_copy_dir "$PRODUCT_OS_DIR/.claude/commands" "$target_dir/.claude/commands" "$force"
-    safe_copy_dir "$PRODUCT_OS_DIR/.claude/skills" "$target_dir/.claude/skills" "$force"
+    # Copy Product OS rules file
+    if [[ -f "$PRODUCT_OS_DIR/.cursor/rules/product-os.mdc" ]]; then
+        safe_copy "$PRODUCT_OS_DIR/.cursor/rules/product-os.mdc" "$target_dir/.cursor/rules/product-os.mdc" "$force"
+    else
+        log_warn "Cursor rules file not found in Product OS source"
+    fi
     
-    # Copy templates
+    log_info "Cursor support installed"
+}
+
+install_copy() {
+    local target_dir="$1"
+    local force="$2"
+    local platform="$3"
+    
+    log_info "Installing Product OS (copy mode, platform: $platform)..."
+    
+    # Install Claude Code support
+    if [[ "$platform" == "both" ]] || [[ "$platform" == "claude" ]]; then
+        # Create .claude directory structure
+        mkdir -p "$target_dir/.claude"
+        
+        # Copy agents, commands, AND skills
+        safe_copy_dir "$PRODUCT_OS_DIR/.claude/agents" "$target_dir/.claude/agents" "$force"
+        safe_copy_dir "$PRODUCT_OS_DIR/.claude/commands" "$target_dir/.claude/commands" "$force"
+        safe_copy_dir "$PRODUCT_OS_DIR/.claude/skills" "$target_dir/.claude/skills" "$force"
+        
+        # Handle CLAUDE.md and AGENTS.md carefully
+        merge_claude_md "$target_dir"
+        merge_agents_md "$target_dir"
+        
+        log_info "Claude Code support installed"
+    fi
+    
+    # Install Cursor support
+    if [[ "$platform" == "both" ]] || [[ "$platform" == "cursor" ]]; then
+        install_cursor "$target_dir" "$force"
+    fi
+    
+    # Copy templates (shared by both platforms)
     safe_copy_dir "$PRODUCT_OS_DIR/templates" "$target_dir/templates" "$force"
     
     # Copy config templates (don't overwrite if exist)
@@ -174,10 +216,6 @@ install_copy() {
         log_info "Skipping .env.example (exists)"
     fi
     
-    # Handle CLAUDE.md and AGENTS.md carefully
-    merge_claude_md "$target_dir"
-    merge_agents_md "$target_dir"
-    
     # Copy scripts
     mkdir -p "$target_dir/scripts"
     if [[ -f "$PRODUCT_OS_DIR/scripts/atlassian-fallback.py" ]]; then
@@ -194,8 +232,9 @@ install_copy() {
 install_submodule() {
     local target_dir="$1"
     local force="$2"
+    local platform="$3"
     
-    log_info "Installing Product OS (submodule mode)..."
+    log_info "Installing Product OS (submodule mode, platform: $platform)..."
     
     cd "$target_dir"
     
@@ -214,18 +253,36 @@ install_submodule() {
         log_info "Updated product-os submodule"
     fi
     
-    # Create symlinks to .claude directory (including skills)
-    mkdir -p .claude
+    # Install Claude Code support
+    if [[ "$platform" == "both" ]] || [[ "$platform" == "claude" ]]; then
+        # Create symlinks to .claude directory (including skills)
+        mkdir -p .claude
+        
+        # Remove old symlinks if they exist
+        rm -f .claude/agents .claude/commands .claude/skills 2>/dev/null || true
+        
+        ln -sf ../product-os/.claude/agents .claude/agents
+        ln -sf ../product-os/.claude/commands .claude/commands
+        ln -sf ../product-os/.claude/skills .claude/skills
+        log_info "Created symlinks for agents, commands, and skills"
+        
+        # Handle CLAUDE.md and AGENTS.md carefully
+        merge_claude_md "$target_dir"
+        merge_agents_md "$target_dir"
+        
+        log_info "Claude Code support installed"
+    fi
     
-    # Remove old symlinks if they exist
-    rm -f .claude/agents .claude/commands .claude/skills 2>/dev/null || true
+    # Install Cursor support
+    if [[ "$platform" == "both" ]] || [[ "$platform" == "cursor" ]]; then
+        mkdir -p .cursor/rules
+        if [[ -f "product-os/.cursor/rules/product-os.mdc" ]]; then
+            ln -sf ../../product-os/.cursor/rules/product-os.mdc .cursor/rules/product-os.mdc
+            log_info "Created symlink for Cursor rules"
+        fi
+    fi
     
-    ln -sf ../product-os/.claude/agents .claude/agents
-    ln -sf ../product-os/.claude/commands .claude/commands
-    ln -sf ../product-os/.claude/skills .claude/skills
-    log_info "Created symlinks for agents, commands, and skills"
-    
-    # Symlink templates
+    # Symlink templates (shared by both platforms)
     if [[ ! -L "templates" ]] && [[ ! -d "templates" ]]; then
         ln -sf product-os/templates templates
         log_info "Created symlink for templates"
@@ -241,10 +298,6 @@ install_submodule() {
         cp product-os/.env.example .
         log_info "Copied .env.example"
     fi
-    
-    # Handle CLAUDE.md and AGENTS.md carefully
-    merge_claude_md "$target_dir"
-    merge_agents_md "$target_dir"
     
     # Create initiatives directory
     mkdir -p initiatives
@@ -264,6 +317,7 @@ shift
 
 METHOD="copy"
 FORCE="false"
+PLATFORM="both"
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -272,6 +326,22 @@ while [[ $# -gt 0 ]]; do
             ;;
         --submodule)
             METHOD="submodule"
+            ;;
+        --platform)
+            shift
+            if [[ -z "$1" ]] || [[ "$1" == --* ]]; then
+                log_error "--platform requires a value: both, claude, or cursor"
+                exit 1
+            fi
+            case "$1" in
+                both|claude|cursor)
+                    PLATFORM="$1"
+                    ;;
+                *)
+                    log_error "Invalid platform: $1 (must be: both, claude, or cursor)"
+                    exit 1
+                    ;;
+            esac
             ;;
         --force)
             FORCE="true"
@@ -300,16 +370,17 @@ echo "Product OS Installer v${VERSION}"
 echo "================================"
 echo "Target: $TARGET_DIR"
 echo "Method: $METHOD"
+echo "Platform: $PLATFORM"
 echo "Force: $FORCE"
 echo ""
 
 # Run installation
 case "$METHOD" in
     copy)
-        install_copy "$TARGET_DIR" "$FORCE"
+        install_copy "$TARGET_DIR" "$FORCE" "$PLATFORM"
         ;;
     submodule)
-        install_submodule "$TARGET_DIR" "$FORCE"
+        install_submodule "$TARGET_DIR" "$FORCE" "$PLATFORM"
         ;;
 esac
 
@@ -317,10 +388,28 @@ echo ""
 echo "================================"
 log_info "Installation complete!"
 echo ""
-echo "Next steps:"
-echo "1. If you have an existing CLAUDE.md, merge Product OS instructions from CLAUDE.product-os.md"
-echo "2. Copy .env.example to .env and add your Atlassian credentials"
-echo "3. Edit product-os.config.yaml with your Confluence/Jira settings"
-echo "4. Run /product-os:guide to start your first project"
+echo "Platform support installed:"
+if [[ "$PLATFORM" == "both" ]] || [[ "$PLATFORM" == "claude" ]]; then
+    echo "  ✓ Claude Code (.claude/agents, .claude/commands, .claude/skills)"
+fi
+if [[ "$PLATFORM" == "both" ]] || [[ "$PLATFORM" == "cursor" ]]; then
+    echo "  ✓ Cursor (.cursor/rules/product-os.mdc)"
+fi
 echo ""
-echo "Documentation: See README.md and docs/ for detailed guides"
+echo "Next steps:"
+if [[ "$PLATFORM" == "both" ]] || [[ "$PLATFORM" == "claude" ]]; then
+    echo "  Claude Code:"
+    echo "    1. If you have existing CLAUDE.md, merge from CLAUDE.product-os.md"
+    echo "    2. Run /product-os:guide to start your first project"
+fi
+if [[ "$PLATFORM" == "both" ]] || [[ "$PLATFORM" == "cursor" ]]; then
+    echo "  Cursor:"
+    echo "    1. Restart Cursor to load .cursor/rules/product-os.mdc"
+    echo "    2. Say 'Read .claude/agents/guide.md and help me start a project'"
+fi
+echo ""
+echo "  Both:"
+echo "    1. Copy .env.example to .env and add your Atlassian credentials"
+echo "    2. Edit product-os.config.yaml with your Confluence/Jira settings"
+echo ""
+echo "Documentation: See README.md and docs/guides/platform-compatibility.md"

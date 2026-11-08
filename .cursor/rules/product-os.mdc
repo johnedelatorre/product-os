@@ -1,0 +1,122 @@
+# Product OS Project Rules for Cursor
+
+> Product OS is a portable product management and design operating system for AI-assisted product development.
+
+## Overview
+
+This file configures Cursor to use Product OS. The canonical content lives in `.claude/` and `templates/` — this file references it.
+
+## Core Files to Read
+
+When working on Product OS projects, read these files for context:
+
+1. **CLAUDE.md** — Philosophy, commands, quality standards
+2. **AGENTS.md** — Agent roster and orchestration
+3. **.claude/skills/clear-output.md** — Output style (always on)
+4. **.claude/skills/guided-workflow.md** — Phase-by-phase workflow
+
+## Guided Workflow
+
+Product OS follows a 9-phase guided workflow:
+
+1. **Intake** — Structure raw requirements
+2. **Discovery** — Explore problem space (optional)
+3. **Prioritize** — Score and sequence
+4. **Define** — PRD, brief, plan, metrics
+5. **Design** — Brief, flows, wireframes
+6. **Review** — Gates and critique
+7. **Deliver** — Epics, stories, traceability
+8. **Launch** — Release notes, enablement
+9. **Measure** — Post-launch review
+
+## Using Specialist Agents
+
+Product OS has 39 specialist agents in `.claude/agents/`. In Cursor:
+
+### Sequential Execution (Role-Based)
+
+Read the relevant agent file and follow its instructions:
+
+```
+Read .claude/agents/prd-author.md and create a PRD for [project]
+```
+
+### With Subagents (If Available)
+
+Some Product OS agents are available as Cursor subagent types:
+- `accessibility-auditor`
+- `competitive-analyst`
+- `delivery-agent`
+- `design-critic`
+- `gate-keeper`
+- `guide`
+- `market-analyst`
+- `product-designer`
+- `ux-reviewer`
+- (see full list in conversation context)
+
+Use via Task tool when appropriate for parallel or specialized work.
+
+## Key Commands
+
+These are Product OS conceptual commands. Invoke by asking Cursor to:
+
+| Command | What to Do |
+|---------|------------|
+| `guide` | Read `.claude/agents/guide.md`, track progress in `progress.yaml` |
+| `intake` | Read `.claude/agents/intake-analyst.md`, create `intake.md` |
+| `prd` | Read `.claude/agents/prd-author.md`, create `prd.md` |
+| `propose` | Read `.claude/skills/proposal.md`, create `proposal.md` |
+| `handover` | Read `.claude/skills/session-handover.md`, create `HANDOVER.md` |
+
+## Progress Tracking
+
+Track progress in `initiatives/<initiative>/<project>/progress.yaml`:
+
+```yaml
+initiative: my-initiative
+project: my-project
+current_phase: define
+current_document: prd
+```
+
+## Session Handover
+
+For work spanning sessions, create `HANDOVER.md`:
+
+```markdown
+# Session Handover
+
+## Objective
+[What the work is for]
+
+## Where It Stands
+[Built, committed, pushed status]
+
+## Next Action
+[One concrete step - never "continue"]
+```
+
+## Code Shipping Requirements
+
+When shipping code (not PM-only artifacts):
+
+1. **Tests passing** — Verify CI
+2. **Intent vs. implementation** — Run audit (`.claude/skills/intended-vs-implemented.md`)
+3. **Independent review** — Fresh reviewer required (or mark Not Verified and block)
+4. **Owner explicit GO** — Silence is never go
+
+## Output Style
+
+Follow `.claude/skills/clear-output.md`:
+- Lead with next action
+- Number multi-step tasks
+- End with one concrete next step
+- No preamble, no recap
+
+## Quality Standards
+
+Every artifact must meet checklists in:
+- Agent files (`.claude/agents/*.md`)
+- Skill files (`.claude/skills/*.md`)
+- Template files (`templates/*.md`)
