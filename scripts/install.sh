@@ -79,7 +79,15 @@ safe_copy() {
             log_info "Skipping $dest (identical)"
             return 0
         fi
+        # Non-destructive: backup and copy
         backup_file "$dest"
+        cp "$src" "$dest"
+        log_info "Updated $dest (backup saved)"
+        return 0
+    elif [[ -f "$dest" ]] && [[ "$force" == "true" ]]; then
+        cp "$src" "$dest"
+        log_info "Forced update $dest"
+        return 0
     fi
     cp "$src" "$dest"
     log_info "Copied $dest"
@@ -281,21 +289,46 @@ install_submodule() {
     
     log_info "Canonical content (.claude/) installed"
     
-    # Install Cursor-specific support
+    # Install Cursor-specific support (non-destructive)
     if [[ "$platform" == "both" ]] || [[ "$platform" == "cursor" ]]; then
         mkdir -p .cursor/rules
         if [[ -f "product-os/.cursor/rules/product-os.mdc" ]]; then
-            ln -sf ../../product-os/.cursor/rules/product-os.mdc .cursor/rules/product-os.mdc
-            log_info "Created symlink for Cursor rules"
+            local target_rule=".cursor/rules/product-os.mdc"
+            if [[ -e "$target_rule" ]] && [[ ! -L "$target_rule" ]]; then
+                # User has existing file - don't replace
+                log_info "Skipping $target_rule (exists, not a symlink)"
+            elif [[ -L "$target_rule" ]]; then
+                # Replace existing symlink
+                rm -f "$target_rule"
+                ln -s ../../product-os/.cursor/rules/product-os.mdc "$target_rule"
+                log_info "Updated symlink for Cursor rules"
+            else
+                # Create new symlink
+                ln -s ../../product-os/.cursor/rules/product-os.mdc "$target_rule"
+                log_info "Created symlink for Cursor rules"
+            fi
         fi
         if [[ -d "product-os/.cursor/agents" ]]; then
             mkdir -p .cursor/agents
             for agent in product-os/.cursor/agents/*.md; do
                 if [[ -f "$agent" ]]; then
-                    ln -sf "../../$agent" ".cursor/agents/$(basename "$agent")"
+                    local agent_name
+                    agent_name="$(basename "$agent")"
+                    local target_agent=".cursor/agents/$agent_name"
+                    if [[ -e "$target_agent" ]] && [[ ! -L "$target_agent" ]]; then
+                        # User has existing file - don't replace
+                        log_info "Skipping $target_agent (exists, not a symlink)"
+                    elif [[ -L "$target_agent" ]]; then
+                        # Replace existing symlink
+                        rm -f "$target_agent"
+                        ln -s "../../$agent" "$target_agent"
+                    else
+                        # Create new symlink
+                        ln -s "../../$agent" "$target_agent"
+                    fi
                 fi
             done
-            log_info "Created symlinks for Cursor native agents"
+            log_info "Installed Cursor native agent symlinks"
         fi
     fi
     

@@ -6,14 +6,23 @@
 
 Product OS works in both **Claude Code** and **Cursor**:
 
-| Platform | Agents | Commands | Skills | Subagents |
-|----------|--------|----------|--------|-----------|
+| Platform | Agents | Commands | Skills | Native Adapters |
+|----------|--------|----------|--------|-----------------|
 | Claude Code | 39 | 46 (slash commands) | 40 | Full (Task tool) |
-| Cursor | 39 | Role-based invocation | 40 | Partial (some subagent_types) |
+| Cursor | 39 | Role-based invocation | 40 | 3 (`.cursor/agents/`) |
 
-In Cursor, invoke agents by reading their file:
+### Cursor Native Adapters
+
+Product OS provides 3 native Cursor agent adapters:
+- `product-os-guide.md` — Start/resume workflow
+- `prd-author.md` — Write PRDs
+- `intake-analyst.md` — Structure requirements
+
+### Role-Based Invocation (All 39 Roles)
+
+For any role not in `.cursor/agents/`, use:
 ```
-Read .claude/agents/prd-author.md and create a PRD for [feature]
+Read .claude/agents/[agent-name].md and [task]
 ```
 
 See `docs/guides/platform-compatibility.md` for full setup.

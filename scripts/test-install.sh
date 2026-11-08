@@ -600,9 +600,9 @@ else
 fi
 
 # ============================================================
-# Test 24: No false subagent_type claims in rules
+# Test 24: No false subagent_type claims in installed docs
 # ============================================================
-log_test "No false subagent_type claims in rules"
+log_test "No false subagent_type claims in installed docs"
 
 TEST_DIR="$TEST_ROOT/no-false-subagents"
 mkdir -p "$TEST_DIR"
@@ -610,10 +610,37 @@ mkdir -p "$TEST_DIR"
 "$INSTALLER" "$TEST_DIR" --copy > /dev/null 2>&1
 
 # Check rules don't claim specific subagent_types that aren't portable
+CLAIMS_FOUND=0
+
+# Check rules
 if grep -qiE "subagent_type|available.*subagent" "$TEST_DIR/.cursor/rules/product-os.mdc" 2>/dev/null; then
-    log_fail "Rules claim specific subagent_types (not portable)"
+    log_warn "Rules claim subagent_types"
+    CLAIMS_FOUND=$((CLAIMS_FOUND + 1))
+fi
+
+# Check README
+if grep -qiE "Available Cursor Subagent Types" "$TEST_DIR/README.md" 2>/dev/null; then
+    log_warn "README has stale 'Available Cursor Subagent Types' section"
+    CLAIMS_FOUND=$((CLAIMS_FOUND + 1))
+fi
+
+# Check AGENTS.md for false claims
+if grep -qiE "some subagent_types" "$TEST_DIR/AGENTS.md" 2>/dev/null || \
+   grep -qiE "some subagent_types" "$TEST_DIR/AGENTS.product-os.md" 2>/dev/null; then
+    log_warn "AGENTS.md has stale 'some subagent_types' claim"
+    CLAIMS_FOUND=$((CLAIMS_FOUND + 1))
+fi
+
+# Check platform-compatibility.md
+if grep -qiE "subagent_type" "$TEST_DIR/docs/guides/platform-compatibility.md" 2>/dev/null; then
+    log_warn "platform-compatibility.md claims subagent_types"
+    CLAIMS_FOUND=$((CLAIMS_FOUND + 1))
+fi
+
+if [[ $CLAIMS_FOUND -eq 0 ]]; then
+    log_pass "No false subagent_type claims in docs"
 else
-    log_pass "Rules don't make false subagent_type claims"
+    log_fail "$CLAIMS_FOUND files with false subagent_type claims"
 fi
 
 # ============================================================
@@ -658,6 +685,40 @@ if [[ -n "$README_CMD" ]] && [[ "$README_CMD" -eq "$CMD_COUNT" ]] 2>/dev/null; t
     log_pass "README command count matches actual ($CMD_COUNT)"
 else
     log_warn "README says $README_CMD commands, found $CMD_COUNT"
+fi
+
+# ============================================================
+# Test 27: Skill inventory consistency
+# ============================================================
+log_test "Skill inventory consistency"
+
+# Count skills in .claude/skills
+SKILL_COUNT=$(ls "$PRODUCT_OS_DIR/.claude/skills/"*.md 2>/dev/null | wc -l)
+
+# Check README tree mentions correct count (format: "# 40 reusable skills")
+README_SKILL=$(grep "reusable skills" "$PRODUCT_OS_DIR/README.md" | grep -oE '[0-9]+' | head -1)
+
+if [[ -n "$README_SKILL" ]] && [[ "$README_SKILL" -eq "$SKILL_COUNT" ]] 2>/dev/null; then
+    log_pass "README skill count matches actual ($SKILL_COUNT)"
+else
+    log_fail "README says $README_SKILL skills, found $SKILL_COUNT"
+fi
+
+# ============================================================
+# Test 28: Native adapter count matches docs
+# ============================================================
+log_test "Native adapter count matches docs"
+
+# Count native adapters
+ADAPTER_COUNT=$(ls "$PRODUCT_OS_DIR/.cursor/agents/"*.md 2>/dev/null | wc -l)
+
+# Check README and docs say same count (format: "3 native Cursor agent adapters")
+README_ADAPTER=$(grep -E "native Cursor agent|Native Adapters" "$PRODUCT_OS_DIR/README.md" | grep -oE '[0-9]+' | head -1)
+
+if [[ -n "$README_ADAPTER" ]] && [[ "$README_ADAPTER" -eq "$ADAPTER_COUNT" ]] 2>/dev/null; then
+    log_pass "README adapter count matches actual ($ADAPTER_COUNT)"
+else
+    log_warn "README says $README_ADAPTER adapters, found $ADAPTER_COUNT"
 fi
 
 # ============================================================

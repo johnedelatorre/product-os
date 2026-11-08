@@ -400,14 +400,19 @@ Read .claude/agents/intake-analyst.md and structure this requirement: [text]
 Read .claude/skills/proposal.md and help me research this idea: [idea]
 ```
 
-### Available Cursor Subagent Types
+### Native Cursor Agents
 
-Some Product OS roles are available as native Cursor subagent_types for parallel work:
-- `accessibility-auditor`, `competitive-analyst`, `delivery-agent`
-- `design-critic`, `gate-keeper`, `guide`
-- `market-analyst`, `product-designer`, `ux-reviewer`
+Product OS provides 3 native Cursor agent adapters in `.cursor/agents/`:
 
-Use via Task tool when appropriate.
+| Adapter | File | Purpose |
+|---------|------|---------|
+| `product-os-guide` | `product-os-guide.md` | Start/resume workflow |
+| `prd-author` | `prd-author.md` | Write PRDs |
+| `intake-analyst` | `intake-analyst.md` | Structure requirements |
+
+These work with Cursor's native agent picker. All 39 roles remain available via role-based invocation (read the agent file, follow instructions).
+
+**Note:** Cursor's built-in `subagent_type` options (e.g., `explore`) are platform-controlled and version-dependent. Product OS does not claim or rely on specific subagent_types beyond the 3 native adapters above.
 
 ### Session Handover
 
@@ -929,7 +934,7 @@ product-os/
 ├── .claude/
 │   ├── agents/               # 39 specialist agents
 │   ├── commands/             # 46 slash commands
-│   └── skills/               # 29 reusable skills
+│   └── skills/               # 40 reusable skills
 │
 ├── templates/                # Document templates
 │   ├── intake/
