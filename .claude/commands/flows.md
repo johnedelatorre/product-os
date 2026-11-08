@@ -1,3 +1,7 @@
+---
+description: "Generate comprehensive user flows from PRD."
+argument-hint: "--from <prd.md> [--targets <list>]"
+---
 # /product-os:flows
 
 Generate comprehensive user flows from PRD.

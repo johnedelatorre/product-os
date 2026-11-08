@@ -1,3 +1,7 @@
+---
+name: metrics-designer
+description: "Defines north-star metrics, guardrails, and success criteria for product initiatives."
+---
 # Metrics Designer Agent
 
 > Defines north-star metrics, guardrails, and success criteria for product initiatives.

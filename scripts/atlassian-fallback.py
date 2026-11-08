@@ -33,9 +33,10 @@ load_dotenv()
 class AtlassianClient:
     """Base client for Atlassian REST APIs."""
 
-    def __init__(self, base_url: str, email: str, token: str):
+    def __init__(self, base_url: str, email: str, token: str, dry_run: bool = False):
         self.base_url = base_url.rstrip("/")
         self.auth = (email, token)
+        self.dry_run = dry_run
         self.headers = {
             "Accept": "application/json",
             "Content-Type": "application/json",
@@ -48,12 +49,18 @@ class AtlassianClient:
         return response.json()
 
     def post(self, endpoint: str, data: dict) -> dict:
+        if self.dry_run:
+            print(f"    [dry run] POST {endpoint}")
+            return {"id": "DRY-RUN", "key": "DRY-RUN", "version": {"number": 0}}
         url = f"{self.base_url}{endpoint}"
         response = requests.post(url, auth=self.auth, headers=self.headers, json=data)
         response.raise_for_status()
         return response.json()
 
     def put(self, endpoint: str, data: dict) -> dict:
+        if self.dry_run:
+            print(f"    [dry run] PUT {endpoint}")
+            return {"id": endpoint.rsplit("/", 1)[-1], "key": endpoint.rsplit("/", 1)[-1]}
         url = f"{self.base_url}{endpoint}"
         response = requests.put(url, auth=self.auth, headers=self.headers, json=data)
         response.raise_for_status()
@@ -125,14 +132,16 @@ class ConfluencePublisher:
 
     def find_page(self, title: str, parent_id: str = None) -> dict | None:
         """Find a page by title."""
-        cql = f'title="{title}" and space="{self.space_key}"'
+        escaped = title.replace("\\", "\\\\").replace('"', '\\"')
+        cql = f'title="{escaped}" and space="{self.space_key}" and type=page'
         if parent_id:
             cql += f" and parent={parent_id}"
-        
+
         try:
+            # Confluence Cloud: CQL goes to /content/search (base_url keeps /wiki)
             result = self.client.get(
-                "/rest/api/content",
-                params={"cql": cql, "limit": 1}
+                "/rest/api/content/search",
+                params={"cql": cql, "limit": 5, "expand": "version"}
             )
             if result.get("results"):
                 return result["results"][0]
@@ -171,8 +180,19 @@ class ConfluencePublisher:
         }
         return self.client.put(f"/rest/api/content/{page_id}", data)
 
+    def get_page(self, page_id: str) -> dict | None:
+        """Fetch a page by id (used to update pages recorded in a manifest)."""
+        try:
+            return self.client.get(f"/rest/api/content/{page_id}", params={"expand": "version"})
+        except requests.HTTPError:
+            return None
+
     def publish_project(self, project_path: Path) -> dict:
         """Publish all artifacts from a project folder."""
+        previous = {}
+        manifest_path = project_path / "publish-manifest.json"
+        if manifest_path.exists():
+            previous = json.loads(manifest_path.read_text()).get("pages", {})
         manifest = {
             "project": str(project_path),
             "published_at": datetime.now().isoformat(),
@@ -239,7 +259,11 @@ class ConfluencePublisher:
                 title = title_match.group(1) if title_match else filename.replace(".md", "").replace("-", " ").title()
                 page_title = f"{project_title} - {title}"
 
-                existing = self.find_page(page_title, project_id)
+                existing = None
+                if previous.get(filename, {}).get("page_id"):
+                    existing = self.get_page(previous[filename]["page_id"])
+                if not existing:
+                    existing = self.find_page(page_title, project_id)
                 if existing:
                     page = self.update_page(
                         existing["id"],
@@ -274,20 +298,39 @@ class JiraSyncer:
         self.custom_fields = config["jira"]["custom_fields"]
         self.discipline_mapping = config["jira"].get("discipline_mapping", "labels")
         self.default_labels = config["jira"].get("default_labels", ["product-os"])
+        # "parent" works for team-managed and current company-managed projects;
+        # "custom_field" uses custom_fields.epic_link (legacy Epic Link field)
+        self.epic_link_mode = config["jira"].get("epic_link_mode", "parent")
 
     def find_issue(self, summary: str, issue_type: str) -> dict | None:
         """Find an issue by summary and type."""
-        jql = f'project="{self.project_key}" AND summary~"{summary}" AND issuetype="{issue_type}"'
+        # summary ~ is a fuzzy text search, so filter the hits for an exact match
+        escaped = summary.replace("\\", "\\\\").replace('"', '\\"')
+        jql = f'project="{self.project_key}" AND summary~"{escaped}" AND issuetype="{issue_type}"'
         try:
             result = self.client.get(
-                "/rest/api/3/search",
-                params={"jql": jql, "maxResults": 1}
+                "/rest/api/3/search/jql",
+                params={"jql": jql, "maxResults": 50, "fields": "summary"}
             )
-            if result.get("issues"):
-                return result["issues"][0]
+            for issue in result.get("issues", []):
+                if issue.get("fields", {}).get("summary") == summary:
+                    return issue
         except requests.HTTPError:
             pass
         return None
+
+    def issue_exists(self, key: str) -> bool:
+        try:
+            self.client.get(f"/rest/api/3/issue/{key}", params={"fields": "summary"})
+            return True
+        except requests.HTTPError:
+            return False
+
+    def resolve_existing(self, recorded_key: str | None, summary: str, issue_type: str) -> dict | None:
+        """Prefer the key recorded in an earlier sync manifest, then an exact-summary match."""
+        if recorded_key and recorded_key != "DRY-RUN" and self.issue_exists(recorded_key):
+            return {"key": recorded_key}
+        return self.find_issue(summary, issue_type)
 
     def create_issue(self, issue_data: dict) -> dict:
         """Create a new Jira issue."""
@@ -349,8 +392,10 @@ class JiraSyncer:
                         "points": 0,
                         "discipline": "fullstack",
                         "description": "",
+                        "body": [],
                     }
             elif current_story:
+                current_story["body"].append(line)
                 if "EPIC-" in line and current_story["epic_id"] == "":
                     match = re.search(r"(EPIC-\d+)", line)
                     if match:
@@ -369,11 +414,18 @@ class JiraSyncer:
         
         if current_story:
             stories.append(current_story)
-        
+
+        for story in stories:
+            story["description"] = "\n".join(story.pop("body")).strip()
+
         return stories
 
     def sync_project(self, project_path: Path, confluence_manifest: dict = None) -> dict:
         """Sync epics and stories from a project folder."""
+        previous = {"epics": {}, "stories": {}}
+        manifest_path = project_path / "jira-sync-manifest.json"
+        if manifest_path.exists():
+            previous.update(json.loads(manifest_path.read_text()))
         manifest = {
             "project": str(project_path),
             "synced_at": datetime.now().isoformat(),
@@ -413,7 +465,9 @@ class JiraSyncer:
                 "labels": labels,
             }
 
-            existing = self.find_issue(summary, self.issue_types["epic"])
+            existing = self.resolve_existing(
+                previous["epics"].get(epic["id"], {}).get("jira_key"), summary, self.issue_types["epic"]
+            )
             if existing:
                 self.update_issue(existing["key"], issue_data)
                 key = existing["key"]
@@ -444,7 +498,11 @@ class JiraSyncer:
                 "description": {
                     "type": "doc",
                     "version": 1,
-                    "content": [{"type": "paragraph", "content": [{"type": "text", "text": f"Story {story['id']}"}]}]
+                    "content": [
+                        {"type": "paragraph", "content": [{"type": "text", "text": para}]}
+                        for para in (story["description"] or f"Story {story['id']}").split("\n\n")
+                        if para.strip()
+                    ]
                 },
                 "issuetype": {"name": self.issue_types["story"]},
                 "labels": labels,
@@ -454,11 +512,17 @@ class JiraSyncer:
             if self.custom_fields.get("story_points"):
                 issue_data[self.custom_fields["story_points"]] = story["points"]
 
-            # Add epic link if custom field is configured
-            if self.custom_fields.get("epic_link") and story["epic_id"] in epic_key_map:
-                issue_data[self.custom_fields["epic_link"]] = epic_key_map[story["epic_id"]]
+            # Link the story to its epic
+            if story["epic_id"] in epic_key_map:
+                epic_key = epic_key_map[story["epic_id"]]
+                if self.epic_link_mode == "custom_field" and self.custom_fields.get("epic_link"):
+                    issue_data[self.custom_fields["epic_link"]] = epic_key
+                else:
+                    issue_data["parent"] = {"key": epic_key}
 
-            existing = self.find_issue(summary, self.issue_types["story"])
+            existing = self.resolve_existing(
+                previous["stories"].get(story["id"], {}).get("jira_key"), summary, self.issue_types["story"]
+            )
             if existing:
                 self.update_issue(existing["key"], issue_data)
                 key = existing["key"]
@@ -514,17 +578,14 @@ def main():
 
     if args.action == "publish":
         print(f"Publishing to Confluence: {project_path}")
-        client = AtlassianClient(
-            config["confluence"]["base_url"].replace("/wiki", ""),
-            email,
-            token,
-        )
+        # Confluence Cloud REST lives under /wiki, so keep it in the base URL
+        client = AtlassianClient(config["confluence"]["base_url"], email, token, dry_run=args.dry_run)
         publisher = ConfluencePublisher(config, client)
-        
+        manifest = publisher.publish_project(project_path)
+
         if args.dry_run:
-            print("Dry run - no changes made")
+            print("\nDry run - no changes made, manifest not written")
         else:
-            manifest = publisher.publish_project(project_path)
             manifest_path = project_path / "publish-manifest.json"
             with open(manifest_path, "w") as f:
                 json.dump(manifest, f, indent=2)
@@ -532,13 +593,13 @@ def main():
 
     elif args.action == "jira-sync":
         print(f"Syncing to Jira: {project_path}")
-        client = AtlassianClient(config["jira"]["base_url"], email, token)
+        client = AtlassianClient(config["jira"]["base_url"], email, token, dry_run=args.dry_run)
         syncer = JiraSyncer(config, client)
-        
+        manifest = syncer.sync_project(project_path)
+
         if args.dry_run:
-            print("Dry run - no changes made")
+            print("\nDry run - no changes made, manifest not written")
         else:
-            manifest = syncer.sync_project(project_path)
             manifest_path = project_path / "jira-sync-manifest.json"
             with open(manifest_path, "w") as f:
                 json.dump(manifest, f, indent=2)

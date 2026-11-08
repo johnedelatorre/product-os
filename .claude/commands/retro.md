@@ -1,3 +1,7 @@
+---
+description: "Facilitate retrospective and capture learnings."
+argument-hint: "--context \"<what we're reflecting on>\""
+---
 # /product-os:retro
 
 Facilitate retrospective and capture learnings.

@@ -9,6 +9,14 @@ Publish project artifacts to Confluence with proper hierarchy.
 - Sharing documentation with stakeholders
 - Archiving project documentation
 
+## Ground Rules
+
+1. **Approval first** — Show the publish plan (each page: create or update, location, change summary). Write nothing until the human explicitly approves.
+2. **Atlassian MCP preferred** — Use the connected MCP tools (no credentials needed). The REST fallback script (with `.env`) is only for when no MCP server is connected.
+3. **Search before create** — Find pages by `publish-manifest.json` IDs, then by title/CQL search; update in place.
+4. **Check the instance** — Confirm space, parent page, and available macros before publishing.
+5. **Record IDs** in `publish-manifest.json`.
+
 ## Quick Start
 
 ```
@@ -78,7 +86,7 @@ confluence:
   initiatives_parent_page_id: "123456789"
 ```
 
-In `.env`:
+In `.env` (REST fallback only; not needed with the Atlassian MCP server):
 
 ```
 ATLASSIAN_EMAIL=your@email.com
@@ -95,7 +103,7 @@ ATLASSIAN_API_TOKEN=your-token
 
 Re-running publish updates existing pages:
 
-1. Checks for existing page by title
+1. Checks for existing page by manifest page ID, then by title
 2. If exists: Updates content, preserves ID
 3. If new: Creates page
 4. Records in `publish-manifest.json`
@@ -145,7 +153,8 @@ python scripts/atlassian-fallback.py publish \
 
 - [ ] All artifacts in project folder
 - [ ] Config has correct space key
-- [ ] Credentials in .env
+- [ ] Atlassian MCP connected (or credentials in .env for the REST fallback)
+- [ ] Human approved the publish plan
 - [ ] Hierarchy will be correct
 - [ ] Backlog page has discipline columns
 

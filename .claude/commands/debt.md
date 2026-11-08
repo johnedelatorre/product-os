@@ -1,3 +1,7 @@
+---
+description: "Manage technical and design debt tracker."
+argument-hint: "[--project <path>] [--action <action>] [--type <type>]"
+---
 # /product-os:debt
 
 Manage technical and design debt tracker.

@@ -1,3 +1,7 @@
+---
+description: "Generate clickable HTML/React prototypes from wireframes."
+argument-hint: "--from <wireframes.md> --flows <flows.yaml>"
+---
 # /product-os:prototype
 
 Generate clickable HTML/React prototypes from wireframes.

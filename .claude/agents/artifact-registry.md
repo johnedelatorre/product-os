@@ -1,3 +1,7 @@
+---
+name: artifact-registry
+description: "Maintains a centralized manifest of all design and product artifacts with status tracking and link validation."
+---
 # Artifact Registry Agent
 
 > Maintains a centralized manifest of all design and product artifacts with status tracking and link validation.

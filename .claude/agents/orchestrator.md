@@ -1,3 +1,7 @@
+---
+name: orchestrator
+description: "Coordinate the Product OS pipeline by routing work between specialist agents with defined inputs, outputs, and human checkpoints."
+---
 # Orchestrator Agent
 
 > Coordinate the Product OS pipeline by routing work between specialist agents with defined inputs, outputs, and human checkpoints.
@@ -253,21 +257,26 @@ Arguments:
 ```
 
 ### Resume Pipeline
-```
-/product-os:resume
+There is no separate resume command. Re-run `/product-os:new-project` with the same
+`--initiative` and `--project`. If `initiatives/<initiative>/<project>/pipeline-state.json`
+exists, read it, report which stages are completed, and continue from the first stage
+that is not `completed` (completed stages are not regenerated). Use `--skip-stages` to
+skip additional stages explicitly.
 
-Arguments:
-  --initiative <slug>     Initiative
-  --project <slug>        Project to resume
-  --from-stage <stage>    Stage to resume from
 ```
+/product-os:new-project --initiative <slug> --project <slug>
+```
+
+For the guided (one-phase-at-a-time) flow, `/product-os:guide` resumes from `progress.yaml` instead.
 
 ### Stage-Specific
 You can invoke any stage independently:
 ```
 /product-os:intake --input "..."
 /product-os:prd --from intake.md
-/product-os:design --from prd.md
+/product-os:design-brief --from prd.md
+/product-os:flows --from prd.md
+/product-os:wireframes --from flows.yaml
 /product-os:deliver --from prd.md,design-brief.md,wireframes.md
 /product-os:publish --from .
 ```
@@ -371,7 +380,7 @@ Some agents can run in parallel when dependencies allow:
 Tool agents are invoked on-demand, not as part of the standard pipeline:
 
 ```
-/product-os:rice --items prd.md
+/product-os:prioritize --items prd.md --framework rice
 /product-os:okrs --initiative customer-onboarding
 /product-os:roadmap --portfolio all
 /product-os:experiment --hypothesis "..."

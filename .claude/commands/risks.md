@@ -1,3 +1,7 @@
+---
+description: "Create and maintain risk register."
+argument-hint: "--from <prd.md|project-plan.md>"
+---
 # /product-os:risks
 
 Create and maintain risk register.

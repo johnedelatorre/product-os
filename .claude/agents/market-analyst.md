@@ -1,3 +1,7 @@
+---
+name: market-analyst
+description: "Creates market analysis briefs covering market size, trends, segments, and strategic positioning."
+---
 # Market Analyst Agent
 
 > Creates market analysis briefs covering market size, trends, segments, and strategic positioning.

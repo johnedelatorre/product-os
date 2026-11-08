@@ -1,3 +1,7 @@
+---
+description: "Create a market analysis brief."
+argument-hint: "--market <market> [--depth <level>]"
+---
 # /product-os:market
 
 Create a market analysis brief.

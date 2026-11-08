@@ -1,3 +1,7 @@
+---
+description: "Create low-fidelity wireframes from flows."
+argument-hint: "--from <flows.yaml> --brief <design-brief.md>"
+---
 # /product-os:wireframes
 
 Create low-fidelity wireframes from flows.

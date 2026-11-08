@@ -1,3 +1,7 @@
+---
+name: project-brief
+description: "Create one-page executive project briefs for stakeholder alignment."
+---
 # Project Brief Author Agent
 
 > Create one-page executive project briefs for stakeholder alignment.

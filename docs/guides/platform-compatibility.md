@@ -5,6 +5,7 @@
 ## TL;DR
 
 - **Shared canonical content:** `.claude/` contains all agents, skills, commands
+- **Claude Code commands:** served by the `product-os` plugin (`.claude-plugin/`) as `/product-os:<command>`
 - **Both platforms read CLAUDE.md/AGENTS.md** automatically
 - **Cursor native support:** `.cursor/rules/` (MDC format) + `.cursor/agents/`
 - **Progress/handover:** Portable across platforms
@@ -15,7 +16,8 @@
 |------------|-------------|--------|-------|
 | Read `.claude/` content | ✅ | ✅ | Canonical location |
 | Read CLAUDE.md/AGENTS.md | ✅ | ✅ Auto-applied | Both platforms |
-| Slash commands | ✅ Native | ❌ | Role-based invocation instead |
+| Slash commands | ✅ Via the `product-os` plugin (`/product-os:*`) | ❌ | Role-based invocation instead |
+| Native subagents | ✅ `.claude/agents/*.md` (YAML frontmatter) | Partial | Cursor: 3 adapters in `.cursor/agents/` |
 | Project rules | N/A | ✅ `.cursor/rules/*.mdc` | MDC format with frontmatter |
 | Native agents | N/A | ✅ `.cursor/agents/*.md` | YAML frontmatter |
 | Progress tracking | ✅ | ✅ | Shared `progress.yaml` |
@@ -28,8 +30,10 @@
 ```bash
 git clone https://github.com/johnedelatorre/product-os.git
 cd product-os
-./scripts/install.sh /path/to/your/project
+./scripts/install.sh /path/to/your/project --register-plugin
 ```
+
+`--register-plugin` enables the Claude Code plugin in the target project (needs the `claude` CLI). Skip it for Cursor-only installs.
 
 ### Installer Modes
 
@@ -37,9 +41,10 @@ cd product-os
 |------|---------------------|
 | `--platform both` (default) | `.claude/` + `.cursor/` + CLAUDE.md + AGENTS.md |
 | `--platform claude` | `.claude/` + CLAUDE.md + AGENTS.md |
+| `--register-plugin` (with `claude`/`both`) | Also enables the `product-os` plugin for the project |
 | `--platform cursor` | `.claude/` + `.cursor/` + CLAUDE.md + AGENTS.md |
 
-**Note:** All modes install `.claude/` because it contains the canonical content that both platforms read.
+**Note:** All modes install `.claude/` because it contains the canonical content that both platforms read: `.claude/agents/`, `.claude/skills/`, and a reference copy of the commands in `.claude/product-os/commands/`. Commands are not copied into `.claude/commands/`, because un-namespaced `/status`, `/plan`, `/next` would collide with Claude Code built-ins.
 
 ### Non-Destructive Behavior
 
@@ -50,21 +55,44 @@ The installer:
 
 ## Claude Code Usage
 
+### Enabling the Plugin
+
+Claude Code gets Product OS commands from the `product-os` plugin. Plugin commands are always namespaced as `/product-os:<file-stem>`, where the file stem matches `.claude/commands/<file-stem>.md` in the Product OS repo. Enable it one of three ways:
+
+```bash
+# A. Installer
+./scripts/install.sh /path/to/your/project --platform claude --register-plugin
+
+# B. Manually, from your project directory
+claude plugin marketplace add /path/to/product-os --scope project   # or: johnedelatorre/product-os
+claude plugin install product-os@product-os --scope project
+```
+
+```
+# C. Inside Claude Code (≥ 2.1.275)
+/plugin install product-os --marketplace johnedelatorre/product-os
+```
+
+Upgrading from ≤1.4: delete the old Product OS files from `.claude/commands/` (the installer lists them).
+
 ### Slash Commands
 
-Product OS registers slash commands in `.claude/commands/`:
+| Invocation | What it does |
+|------------|--------------|
+| `/product-os:guide --initiative my-init --project my-proj` | Start or resume guided mode |
+| `/product-os:prd --from intake.md` | Create a PRD |
+| `/product-os:propose --idea "..." --initiative my-init --project my-proj` | Research an idea, propose a solution |
+| `/product-os:handover` | Write a session handover |
+| `/product-os:release-gate --initiative my-init --project my-proj` | Run the release gate |
 
-```
-/product-os:guide --initiative my-init --project my-proj
-/product-os:prd
-/product-os:propose
-/product-os:handover
-/product-os:release-gate
-```
+### Agents and Skills
+
+- Agents in `.claude/agents/` have YAML frontmatter and register as Claude Code subagents.
+- Skills in `.claude/skills/` are reference documents that agents read by path; they are not registered Claude Code skills.
 
 ### Full Command List
 
-See `CLAUDE.md` or list files in `.claude/commands/`.
+See [`docs/reference/commands.md`](../reference/commands.md) (all 46 commands).
 
 ## Cursor Usage
 
@@ -126,7 +154,7 @@ Read .claude/skills/session-handover.md and create a handover
 
 ### Claude Code
 
-Uses the Task tool for native subagent delegation when available.
+Uses the Task tool for native subagent delegation; Product OS agents register as subagents via their frontmatter.
 
 ### Cursor
 

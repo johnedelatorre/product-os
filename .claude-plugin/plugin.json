@@ -1,0 +1,13 @@
+{
+  "name": "product-os",
+  "version": "1.5.0",
+  "description": "Product management and design operating system: guided 9-phase workflow, 46 namespaced commands (/product-os:*), templates, and release safeguards.",
+  "author": {
+    "name": "John De La Torre-Ugarte",
+    "url": "https://github.com/johnedelatorre"
+  },
+  "homepage": "https://github.com/johnedelatorre/product-os",
+  "repository": "https://github.com/johnedelatorre/product-os",
+  "license": "MIT",
+  "commands": "./.claude/commands/"
+}

@@ -1,3 +1,7 @@
+---
+description: "Manage the design artifact registry for a project."
+argument-hint: "--project <path> [--action <action>]"
+---
 # /product-os:artifacts
 
 Manage the design artifact registry for a project.

@@ -1,3 +1,7 @@
+---
+name: launch-manager
+description: "Coordinates go-to-market activities including release notes, enablement materials, and changelog updates."
+---
 # Launch Manager Agent
 
 > Coordinates go-to-market activities including release notes, enablement materials, and changelog updates.

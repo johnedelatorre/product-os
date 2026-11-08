@@ -1,3 +1,7 @@
+---
+description: "Conduct post-launch review comparing results to PRD goals."
+argument-hint: "--project <path> --prd <prd> [--days <days>]"
+---
 # /product-os:review-launch
 
 Conduct post-launch review comparing results to PRD goals.

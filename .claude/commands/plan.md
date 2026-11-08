@@ -1,3 +1,7 @@
+---
+description: "Create project plan, RACI, and Gantt chart."
+argument-hint: "--from <prd.md> [--stories <stories.md>]"
+---
 # /product-os:plan
 
 Create project plan, RACI, and Gantt chart.

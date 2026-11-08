@@ -1,3 +1,7 @@
+---
+name: delivery-agent
+description: "Transform PRD and designs into implementation-ready epics, stories, and acceptance criteria."
+---
 # Delivery Agent
 
 > Transform PRD and designs into implementation-ready epics, stories, and acceptance criteria.

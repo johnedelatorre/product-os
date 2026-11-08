@@ -14,6 +14,15 @@ Create and sync epics/stories to Jira with dates and dependencies.
 /product-os:jira-sync --project initiatives/onboarding/signup/
 ```
 
+## Ground Rules
+
+1. **Approval first** — Show the proposed creates, updates, and links; write nothing until the human explicitly approves.
+2. **Atlassian MCP preferred** — Use the connected MCP tools (no credentials needed). The REST fallback script (with `.env`) is only for when no MCP server is connected.
+3. **Search before create** — Match existing issues (manifest keys, then labels/summary) and update in place.
+4. **Read field IDs from the instance** — Don't assume default custom field IDs.
+5. **Team-managed (next-gen) projects** link stories to epics via the `parent` field (no Epic Link field), and story points are often "Story point estimate". Company-managed projects may use an Epic Link custom field and "Story Points".
+6. **Record IDs** in `jira-sync-manifest.json`.
+
 ## What Gets Created
 
 ### Epics
@@ -25,8 +34,8 @@ Create and sync epics/stories to Jira with dates and dependencies.
 ### Stories
 - Summary: Story title
 - Description: User story + acceptance criteria
-- Epic link to parent
-- Story points (custom field)
+- Parent epic (`parent` field in team-managed projects; Epic Link where the instance uses it)
+- Story points ("Story point estimate" or "Story Points", per project type)
 - Discipline labels (`frontend`, `backend`, or both)
 - Start/Due dates from Gantt
 - Dependencies as issue links
@@ -73,18 +82,19 @@ jira:
   base_url: "https://company.atlassian.net"
   project_key: "PROJ"
   
+  # EXAMPLE IDs only: read the real ones from your instance
   custom_fields:
     story_points: "customfield_10016"
-    epic_link: "customfield_10014"
+    epic_link: "customfield_10014"   # not used in team-managed projects (use parent)
     start_date: "customfield_10015"
 ```
 
-**Finding custom field IDs:**
+**Finding custom field IDs:** with MCP, use the issue-type field-metadata tool for your project. With the REST fallback:
 
 ```bash
 curl -u email:token \
   "https://company.atlassian.net/rest/api/3/field" \
-  | jq '.[] | select(.name | contains("Story Points"))'
+  | jq '.[] | select(.name | test("Story point"; "i"))'
 ```
 
 ## Idempotent Sync
@@ -134,7 +144,7 @@ In Jira Plans, these show as connecting arrows.
 
 After successful sync:
 
-1. Update Confluence backlog with Jira links
+1. Update Confluence backlog with Jira links (after separate approval)
 2. Verify Jira Plans timeline
 3. Issues ready for sprint planning
 
@@ -156,13 +166,15 @@ python scripts/atlassian-fallback.py jira-sync \
 - [ ] Gantt dates available
 - [ ] Dependencies mapped
 - [ ] Confluence manifest available
+- [ ] Field IDs confirmed against the instance
+- [ ] Human approved the proposed change set
 
 ## Troubleshooting
 
 | Issue | Cause | Fix |
 |-------|-------|-----|
-| Epic link fails | Wrong field ID | Check `custom_fields.epic_link` |
-| Points empty | Wrong field ID | Check `custom_fields.story_points` |
+| Epic link fails | Team-managed project or wrong field ID | Use `parent`; otherwise read the Epic Link field ID from the instance |
+| Points empty | Wrong field ("Story Points" vs "Story point estimate") | Read the field ID from field metadata |
 | Dates not in Timeline | Field not enabled | Enable in project settings |
 
 ## Related

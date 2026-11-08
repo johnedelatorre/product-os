@@ -1,6 +1,6 @@
 # Agent Guide Index
 
-Complete documentation for all 38 Product OS agents.
+Complete documentation for all 39 Product OS agents.
 
 ## Pipeline Agents (7)
 
@@ -84,6 +84,12 @@ Complete documentation for all 38 Product OS agents.
 | [OKR Agent](okr-agent.md) | OKRs | Objectives and key results |
 | [Retro Facilitator](retro-facilitator.md) | Retrospectives | Post-project reflection |
 | [PR/FAQ Author](prfaq-author.md) | PR/FAQ | Amazon-style documents |
+
+## Guided Mode Agent (1)
+
+| Agent | Guide | What It Does |
+|-------|-------|--------------|
+| [Guide](guide.md) | Guided workflow | Step-by-step phase guidance with progress tracking |
 
 ---
 

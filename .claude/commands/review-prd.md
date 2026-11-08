@@ -1,3 +1,7 @@
+---
+description: "Conduct a multi-perspective PRD review synthesizing feasibility, UX, strategy, research, privacy, and customer perspectives."
+argument-hint: "--from prd.md"
+---
 # /product-os:review-prd
 
 Conduct a multi-perspective PRD review synthesizing feasibility, UX, strategy, research, privacy, and customer perspectives.

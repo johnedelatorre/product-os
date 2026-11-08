@@ -1,3 +1,7 @@
+---
+name: debt-tracker
+description: "Maintains a unified tracker for technical debt and design debt with prioritization."
+---
 # Debt Tracker Agent
 
 > Maintains a unified tracker for technical debt and design debt with prioritization.

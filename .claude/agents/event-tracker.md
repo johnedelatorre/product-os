@@ -1,3 +1,7 @@
+---
+name: event-tracker
+description: "Creates event tracking plans for analytics platforms (Pendo, Amplitude, Mixpanel, Segment, etc.)."
+---
 # Event Tracker Agent
 
 > Creates event tracking plans for analytics platforms (Pendo, Amplitude, Mixpanel, Segment, etc.).

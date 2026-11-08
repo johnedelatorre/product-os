@@ -1,3 +1,7 @@
+---
+name: design-critic
+description: "Structured critique of visual designs with severity-rated findings and concrete fixes."
+---
 # Design Critique Agent
 
 > Structured critique of visual designs with severity-rated findings and concrete fixes.

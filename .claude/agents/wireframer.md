@@ -1,3 +1,7 @@
+---
+name: wireframer
+description: "Create low-fidelity wireframes that structure screens defined by user flows."
+---
 # Wireframer Agent
 
 > Create low-fidelity wireframes that structure screens defined by user flows.

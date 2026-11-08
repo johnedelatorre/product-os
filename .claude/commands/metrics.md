@@ -1,3 +1,7 @@
+---
+description: "Design success metrics framework with north star and guardrails."
+argument-hint: "--from <prd> [--goals <goals>]"
+---
 # /product-os:metrics
 
 Design success metrics framework with north star and guardrails.

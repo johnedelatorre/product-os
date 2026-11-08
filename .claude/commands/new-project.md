@@ -1,3 +1,7 @@
+---
+description: "Run the full Product OS pipeline from intake to publication."
+argument-hint: "--initiative <slug> --project <slug> --input \"<requirement>\""
+---
 # /product-os:new-project
 
 Run the full Product OS pipeline from intake to publication.
@@ -67,5 +71,6 @@ Coordinates: All pipeline agents
 
 ## See Also
 
-- `/product-os:resume` — Resume an interrupted pipeline
+- Resume an interrupted pipeline: re-run `/product-os:new-project` with the same `--initiative`/`--project`; the orchestrator reads `pipeline-state.json` and continues from the first incomplete stage
+- `/product-os:guide` — Guided, one-phase-at-a-time mode (resumes from `progress.yaml`)
 - Individual stage commands for standalone use

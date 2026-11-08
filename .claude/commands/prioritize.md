@@ -1,3 +1,7 @@
+---
+description: "Score and prioritize features using frameworks."
+argument-hint: "--items <prd.md|features.md> --framework <rice|wsjf|moscow|kano>"
+---
 # /product-os:prioritize
 
 Score and prioritize features using frameworks.

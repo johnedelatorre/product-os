@@ -51,7 +51,7 @@ Reviews designs against established principles and produces severity-rated findi
 
 ## Tips
 
-1. **Be specific** — "Button too small" → "Primary CTA at 10px doesn't meet 44px touch target"
+1. **Be specific** — "Button too small" → "Primary CTA at 10px is below the 24×24px touch-target minimum (44px recommended)"
 2. **Reference standards** — cite guidelines
 3. **Include rationale** — why it matters
 

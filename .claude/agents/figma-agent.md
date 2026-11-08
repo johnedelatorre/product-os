@@ -1,3 +1,7 @@
+---
+name: figma-agent
+description: "Integrate with Figma via MCP to sync designs, extract tokens, and audit against PRD."
+---
 # Figma Agent
 
 > Integrate with Figma via MCP to sync designs, extract tokens, and audit against PRD.
@@ -260,7 +264,7 @@ Figma MCP is not connected. To extract tokens manually:
 2. Go to Local Variables
 3. Export variables as JSON
 4. Place in `design-tokens.json`
-5. Run: `/product-os:convert-tokens`
+5. Run: `/product-os:figma tokens` again once MCP is connected, or ask the Figma agent to convert `design-tokens.json` into `design-tokens.yaml`
 ```
 
 ### For PRD Audit

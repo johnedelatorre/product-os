@@ -1,3 +1,7 @@
+---
+description: "Generate epics and user stories with acceptance criteria."
+argument-hint: "--from <prd.md> --designs <design-brief.md,wireframes.md>"
+---
 # /product-os:deliver
 
 Generate epics and user stories with acceptance criteria.

@@ -125,7 +125,7 @@ Every document starts with:
 
 ### Keep Full Depth
 
-Documents remain complete. PRDs keep all 18 sections. The style governs structure and wording, not content removal. A styled PRD is easier to read, not shorter.
+Documents remain complete. PRDs keep all 19 sections. The style governs structure and wording, not content removal. A styled PRD is easier to read, not shorter.
 
 ---
 

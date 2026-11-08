@@ -1,3 +1,7 @@
+---
+description: "Write Amazon-style PR/FAQ."
+argument-hint: "--product \"<name>\" --customer \"<who>\" --benefit \"<why>\""
+---
 # /product-os:prfaq
 
 Write Amazon-style PR/FAQ.

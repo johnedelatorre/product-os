@@ -1,3 +1,7 @@
+---
+description: "Log a product decision (ADR style)."
+argument-hint: "--title \"<title>\" --options \"<options>\" --decision \"<outcome>\""
+---
 # /product-os:decision
 
 Log a product decision (ADR style).

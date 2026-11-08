@@ -1,3 +1,7 @@
+---
+description: "Create a one-page executive project brief."
+argument-hint: "--from <prd.md>"
+---
 # /product-os:brief
 
 Create a one-page executive project brief.

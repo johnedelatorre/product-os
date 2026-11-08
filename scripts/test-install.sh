@@ -47,12 +47,20 @@ mkdir -p "$TEST_DIR"
 
 # Check required directories exist
 if [[ -d "$TEST_DIR/.claude/agents" ]] && \
-   [[ -d "$TEST_DIR/.claude/commands" ]] && \
+   [[ -d "$TEST_DIR/.claude/product-os/commands" ]] && \
    [[ -d "$TEST_DIR/.claude/skills" ]] && \
    [[ -d "$TEST_DIR/templates" ]]; then
     log_pass "Directories created"
 else
     log_fail "Missing directories"
+fi
+
+# Commands must not land in .claude/commands (un-namespaced names collide
+# with Claude Code built-ins such as /status); the plugin provides them
+if [[ ! -e "$TEST_DIR/.claude/commands" ]]; then
+    log_pass "No un-namespaced commands in .claude/commands"
+else
+    log_fail ".claude/commands created; commands must come from the plugin"
 fi
 
 # Check skills directory specifically (was missing in prior bug)

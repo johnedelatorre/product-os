@@ -4,7 +4,7 @@ Writes comprehensive Product Requirements Documents.
 
 ## What It Does
 
-Transforms an approved intake into a complete 18-section PRD with strategic context, requirements, metrics, and delivery planning.
+Transforms an approved intake into a complete 19-section PRD with strategic context, requirements, metrics, and delivery planning.
 
 ## When to Use
 
@@ -21,7 +21,7 @@ Transforms an approved intake into a complete 18-section PRD with strategic cont
 
 ## Outputs
 
-- `prd.md` — Complete PRD with 18 sections
+- `prd.md` — Complete PRD with 19 sections
 
 ## Example
 

@@ -1,3 +1,7 @@
+---
+description: "Perform structured visual design critique."
+argument-hint: "--designs <path> --prd <prd.md> [--figma-url <url>]"
+---
 # /product-os:critique
 
 Perform structured visual design critique.

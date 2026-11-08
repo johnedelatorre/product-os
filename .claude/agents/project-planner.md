@@ -1,3 +1,7 @@
+---
+name: project-planner
+description: "Create RACI matrices, Gantt charts, and project timelines."
+---
 # Project Planner Agent
 
 > Create RACI matrices, Gantt charts, and project timelines.

@@ -1,3 +1,7 @@
+---
+description: "Research an idea and propose what to build, interface first. For new ideas \u2014 not agreed changes or bugs."
+argument-hint: "--idea \"I have an idea for...\" --initiative <slug> --project <slug>"
+---
 # /product-os:propose
 
 > Research an idea and propose what to build, interface first. For new ideas — not agreed changes or bugs.
@@ -54,7 +58,7 @@ Creates `initiatives/<initiative>/<project>/proposal.md`
 
 - `/product-os:prd` — After proposal accepted, create full PRD
 - `/product-os:intake` — For raw requirements (not ideas)
-- `/product-os:beachhead` — For segment selection
+- `/product-os:market` — Market analysis, including beachhead segment selection (see `.claude/skills/beachhead-segment.md`)
 
 ## Skill Reference
 

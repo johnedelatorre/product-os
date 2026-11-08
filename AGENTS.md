@@ -8,7 +8,7 @@ Product OS works in both **Claude Code** and **Cursor**:
 
 | Platform | Agents | Commands | Skills | Native Adapters |
 |----------|--------|----------|--------|-----------------|
-| Claude Code | 39 | 46 (slash commands) | 40 | Full (Task tool) |
+| Claude Code | 39 (subagents) | 46 (plugin slash commands, `/product-os:*`) | 40 (reference docs) | Full (Task tool) |
 | Cursor | 39 | Role-based invocation | 40 | 3 (`.cursor/agents/`) |
 
 ### Cursor Native Adapters
@@ -132,6 +132,8 @@ Documents include TL;DR blocks, scannable headings, and numbered steps while mai
 
 ## Agent Hierarchy
 
+The orchestrator runs 7 stages (plus an optional PRD review), matching `.claude/agents/orchestrator.md`:
+
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
 │                        ORCHESTRATOR                                  │
@@ -139,25 +141,12 @@ Documents include TL;DR blocks, scannable headings, and numbered steps while mai
 │         Coordinates pipeline, enforces checkpoints                  │
 └─────────────────────────────────────────────────────────────────────┘
                                 │
-        ┌───────────────────────┼───────────────────────┐
-        ▼                       ▼                       ▼
-┌───────────────┐      ┌───────────────┐      ┌───────────────┐
-│    INTAKE     │ ───▶ │      PM       │ ───▶ │   DESIGNER    │
-│   Agent       │      │    Agent      │      │    Agent      │
-└───────────────┘      └───────────────┘      └───────────────┘
-                                                      │
-                                               ┌──────┴──────┐
-                                               ▼             ▼
-                                        ┌───────────┐ ┌───────────┐
-                                        │  DESIGN   │ │ DELIVERY  │
-                                        │  CRITIQUE │ │   Agent   │
-                                        └───────────┘ └───────────┘
-                                                            │
-                                                            ▼
-                                                    ┌───────────────┐
-                                                    │   PUBLISHER   │
-                                                    │     Agent     │
-                                                    └───────────────┘
+                                ▼
+ 1. INTAKE ──▶ 2. PRODUCT MANAGEMENT ──▶ (2B. PRD REVIEW) ──▶ 3. DESIGN
+                                                                   │
+                                                                   ▼
+ 7. PUBLISHING ◀── 6. DELIVERY ◀── 5. DESIGN REVIEW ◀── 4. PROTOTYPE & FIGMA
+ (human approval required before any Confluence/Jira write)
 ```
 
 ## Pipeline Flow
@@ -166,49 +155,65 @@ Documents include TL;DR blocks, scannable headings, and numbered steps while mai
 **Agent:** `.claude/agents/intake-analyst.md`  
 **Command:** `/product-os:intake`  
 **Input:** Raw requirement from any source  
-**Output:** Structured problem/opportunity statement  
+**Output:** `intake.md` — structured problem/opportunity statement  
 **Checkpoint:** Human approves problem framing before PM work begins
 
 ### Stage 2: Product Management
-**Agent:** `.claude/agents/pm.md`  
-**Commands:** `/product-os:prd`, `/product-os:project-brief`, `/product-os:project-plan`, `/product-os:raci`, `/product-os:gantt`  
+**Agents:** `.claude/agents/prd-author.md`, `.claude/agents/strategist.md`, `.claude/agents/project-brief.md`, `.claude/agents/project-planner.md`  
+**Commands:** `/product-os:prd`, `/product-os:prioritize`, `/product-os:brief`, `/product-os:plan`  
 **Input:** Approved intake document  
-**Output:** Complete PM artifact set (PRD, brief, plan, RACI, Gantt)  
-**Checkpoint:** Human approves PRD and plan before design begins
+**Output:** `prd.md`, priority scores, `project-brief.md`, `project-plan.md`, `raci.md`, `gantt.md`  
+**Checkpoint:** Human approves PRD stage and plan before design begins
 
-### Stage 3: Product Design
-**Agent:** `.claude/agents/designer.md`  
-**Commands:** `/product-os:design-brief`, `/product-os:user-flows`, `/product-os:wireframes`, `/product-os:prototype-spec`, `/product-os:figma-handoff`  
+### Stage 2B: PRD Review (if PRD stage is Defined or Delivery-ready)
+**Command:** `/product-os:review-prd`  
+**Output:** `prd-review.md` — blockers, gaps, suggestions, conflicts  
+**Checkpoint:** Blockers resolved before proceeding (skipped for Early PRDs)
+
+### Stage 3: Design
+**Agents:** `.claude/agents/product-designer.md`, `.claude/agents/flow-designer.md`, `.claude/agents/wireframer.md`  
+**Commands:** `/product-os:design-brief`, `/product-os:flows`, `/product-os:wireframes`  
 **Input:** Approved PRD  
-**Output:** Design brief, flows, wireframes, prototype spec, Figma hand-off  
-**Checkpoint:** Human approves design direction before critique
+**Output:** `design-brief.md`, `flows.yaml`, `flows.md`, `wireframes.md`  
+**Checkpoint:** Human approves design direction
 
-### Stage 4: Design Critique
-**Agent:** `.claude/agents/design-critique.md`  
-**Command:** `/product-os:design-critique`  
+### Stage 4: Prototype & Figma
+**Agents:** `.claude/agents/prototyper.md`, `.claude/agents/figma-agent.md` (parallel when Figma MCP is available)  
+**Commands:** `/product-os:prototype`, `/product-os:figma`  
+**Input:** Approved wireframes and flows  
+**Output:** `prototype.html`, `prototype-react.tsx`, Figma sync  
+**Checkpoint:** Human approves prototype
+
+### Stage 5: Design Review
+**Agents:** `.claude/agents/design-critic.md`, `.claude/agents/ux-reviewer.md`, `.claude/agents/accessibility-auditor.md`  
+**Commands:** `/product-os:critique`, `/product-os:ux-review`, `/product-os:a11y`  
 **Input:** Design artifacts + PRD  
-**Output:** Severity-rated findings for heuristics, accessibility, consistency, PRD alignment  
+**Output:** `design-critique.md`, `ux-review.md`, `accessibility-audit.md`  
 **Checkpoint:** Human addresses critical findings before delivery
 
-### Stage 5: Delivery
-**Agent:** `.claude/agents/delivery.md`  
-**Commands:** `/product-os:epics`, `/product-os:stories`  
+### Stage 6: Delivery
+**Agents:** `.claude/agents/delivery-agent.md`, `.claude/agents/gate-keeper.md`  
+**Commands:** `/product-os:deliver`, `/product-os:gate`  
 **Input:** Approved design + PRD  
-**Output:** Epics, user stories with acceptance criteria, story points  
-**Checkpoint:** Human approves stories before publishing
+**Output:** `epics.md`, `stories.md`, `backlog.csv`, `gate-report.md`, `traceability.md`  
+**Checkpoint:** Human approves stories and gate status (DoR failures block sprint entry)
 
-### Stage 6: Publishing
-**Agent:** `.claude/agents/publisher.md`  
-**Command:** `/product-os:publish`  
+### Stage 7: Publishing
+**Agents:** `.claude/agents/confluence-publisher.md`, `.claude/agents/jira-sync.md`  
+**Commands:** `/product-os:publish`, `/product-os:jira-sync`  
 **Input:** All approved artifacts  
-**Output:** Confluence pages, Jira epics/stories with links  
-**Checkpoint:** Human confirms successful publication
+**Output:** Confluence pages, Jira epics/stories with links, `publish-manifest.json`, `jira-sync-manifest.json`  
+**Checkpoint:** Proposed changes are shown first; nothing is written to Confluence or Jira without explicit human approval
 
 ---
 
 ## Agent Definitions
 
+The definitions below summarize each pipeline role. The full instructions live in the agent files listed under each heading.
+
 ### Intake Agent
+
+**File:** `.claude/agents/intake-analyst.md`
 
 **Role:** Transform raw, unstructured requirements into clear problem/opportunity statements.
 
@@ -229,7 +234,9 @@ Documents include TL;DR blocks, scannable headings, and numbered steps while mai
 
 ---
 
-### PM Agent
+### PM Agents
+
+**Files:** `.claude/agents/prd-author.md`, `.claude/agents/strategist.md`, `.claude/agents/project-brief.md`, `.claude/agents/project-planner.md`
 
 **Role:** Produce comprehensive product management artifacts with full strategic context, business rationale, and delivery planning.
 
@@ -263,7 +270,9 @@ Documents include TL;DR blocks, scannable headings, and numbered steps while mai
 
 ---
 
-### Designer Agent
+### Design Agents
+
+**Files:** `.claude/agents/product-designer.md`, `.claude/agents/flow-designer.md`, `.claude/agents/wireframer.md`, `.claude/agents/prototyper.md`, `.claude/agents/figma-agent.md`
 
 **Role:** Translate PRD requirements into design artifacts that solve user problems within product constraints.
 
@@ -274,10 +283,10 @@ Documents include TL;DR blocks, scannable headings, and numbered steps while mai
 
 **Outputs:**
 - `design-brief.md` — Design goals, constraints, principles for this project
-- `user-flows.md` — Mermaid diagrams for all flows
+- `flows.yaml` + `flows.md` — Canonical flow spec and Mermaid diagrams for all flows
 - `wireframes.md` — ASCII or HTML/SVG low-fidelity wireframes
-- `prototype-spec.md` — Prompt/spec to generate clickable prototype
-- `figma-handoff.md` — Specifications for Figma file John builds
+- `prototype.html` / `prototype-react.tsx` — Clickable prototype
+- Figma sync (tokens, audit, FigJam flows) when Figma MCP is connected
 
 **Quality Checklist:**
 - [ ] Design brief ties every decision to PRD requirements
@@ -285,12 +294,14 @@ Documents include TL;DR blocks, scannable headings, and numbered steps while mai
 - [ ] Wireframes annotated with interaction notes
 - [ ] Accessibility considerations embedded (not an afterthought)
 - [ ] Responsive behavior specified
-- [ ] Prototype spec includes all states and transitions
-- [ ] Figma hand-off has component specs, spacing, typography
+- [ ] Prototype includes all states and transitions
+- [ ] Figma sync (if used) reflects component specs, spacing, typography
 
 ---
 
-### Design Critique Agent
+### Design Review Agents
+
+**Files:** `.claude/agents/design-critic.md`, `.claude/agents/ux-reviewer.md`, `.claude/agents/accessibility-auditor.md`
 
 **Role:** Evaluate design artifacts against established heuristics, accessibility standards, consistency rules, and PRD alignment.
 
@@ -300,11 +311,11 @@ Documents include TL;DR blocks, scannable headings, and numbered steps while mai
 - Design system (if available)
 
 **Outputs:**
-- `design-critique.md` — Severity-rated findings
+- `design-critique.md`, `ux-review.md`, `accessibility-audit.md` — Severity-rated findings
 
 **Evaluation Dimensions:**
 1. **Nielsen's Heuristics** — Visibility, match to real world, user control, consistency, error prevention, recognition over recall, flexibility, aesthetic minimalism, error recovery, help/docs
-2. **Accessibility (WCAG 2.1 AA)** — Perceivable, operable, understandable, robust
+2. **Accessibility (WCAG 2.2 AA)** — Perceivable, operable, understandable, robust
 3. **Consistency** — Internal consistency, design system adherence, platform conventions
 4. **PRD Alignment** — Every requirement addressed, no scope creep, success metrics achievable
 
@@ -323,6 +334,8 @@ Documents include TL;DR blocks, scannable headings, and numbered steps while mai
 ---
 
 ### Delivery Agent
+
+**Files:** `.claude/agents/delivery-agent.md`, `.claude/agents/gate-keeper.md`
 
 **Role:** Transform approved designs and PRD into implementation-ready epics and user stories.
 
@@ -376,14 +389,16 @@ So that [benefit].
 
 ---
 
-### Publisher Agent
+### Publishing Agents
 
-**Role:** Publish all artifacts to Confluence and create corresponding Jira issues.
+**Files:** `.claude/agents/confluence-publisher.md`, `.claude/agents/jira-sync.md`
+
+**Role:** After explicit human approval of the proposed changes, publish artifacts to Confluence and create or update the corresponding Jira issues.
 
 **Inputs:**
 - All approved artifacts
 - `product-os.config.yaml` — Confluence/Jira configuration
-- Environment variables for authentication
+- Connected Atlassian MCP tools (preferred; no credentials needed), or `.env` credentials for the REST fallback
 
 **Outputs:**
 - Confluence pages created in hierarchy
@@ -405,7 +420,7 @@ Product Space
             ├── 7. Design Brief
             ├── 8. User Flows
             ├── 9. Wireframes
-            ├── 10. Prototype Spec
+            ├── 10. Prototype
             ├── 11. Design Critique
             ├── 12. Epics & Stories
             └── 13. Decision Log
@@ -413,7 +428,7 @@ Product Space
 
 **Jira Structure:**
 - Epic per PRD goal
-- Stories linked to parent epic
+- Stories linked to parent epic (team-managed projects use the `parent` field)
 - Story points populated
 - Labels: `product-os`, initiative slug, project slug
 - Links to Confluence pages in description
@@ -433,55 +448,63 @@ Beyond the pipeline, Product OS includes specialized tools. Each is available vi
 
 | Tool | Command | Purpose |
 |------|---------|---------|
-| RICE Scoring | `/product-os:rice` | Prioritize features by Reach × Impact × Confidence ÷ Effort |
-| WSJF Scoring | `/product-os:wsjf` | Weighted Shortest Job First prioritization |
-| MoSCoW | `/product-os:moscow` | Must/Should/Could/Won't categorization |
-| Kano Analysis | `/product-os:kano` | Basic/Performance/Delighter classification |
+| RICE Scoring | `/product-os:prioritize --framework rice` | Prioritize features by Reach × Impact × Confidence ÷ Effort |
+| WSJF Scoring | `/product-os:prioritize --framework wsjf` | Weighted Shortest Job First prioritization |
+| MoSCoW | `/product-os:prioritize --framework moscow` | Must/Should/Could/Won't categorization |
+| Kano Analysis | `/product-os:prioritize --framework kano` | Basic/Performance/Delighter classification |
 | OKRs | `/product-os:okrs` | Objectives and Key Results definition |
-| Metric Tree | `/product-os:metric-tree` | Hierarchical metric decomposition |
+| Metric Tree | `/product-os:okrs` (includes metric tree) | Hierarchical metric decomposition |
 | Roadmap | `/product-os:roadmap` | Now/Next/Later roadmap |
-| Opportunity Solution Tree | `/product-os:ost` | Map opportunities to solutions |
+| Opportunity Solution Tree | `/product-os:opportunity-tree` | Map opportunities to solutions |
 | Competitive Analysis | `/product-os:competitive` | Feature/positioning matrix |
-| User Research Plan | `/product-os:research-plan` | Study design and recruitment |
-| Interview Synthesis | `/product-os:interview-synthesis` | Qualitative data analysis |
+| User Research Plan | `/product-os:research plan` | Study design and recruitment |
+| Interview Synthesis | `/product-os:research synthesize` | Qualitative data analysis |
 | Experiment Design | `/product-os:experiment` | A/B test with sample size formula |
-| Stakeholder Update | `/product-os:stakeholder-update` | Exec summary and status |
+| Stakeholder Update | `/product-os:comms --type update` | Exec summary and status |
 | Launch Checklist | `/product-os:launch` | GTM and launch readiness |
-| Release Notes | `/product-os:release-notes` | User-facing changelog |
+| Release Notes | `/product-os:comms --type release-notes` (or `/product-os:launch`) | User-facing changelog |
 | Retrospective | `/product-os:retro` | Post-launch reflection |
-| Decision Log | `/product-os:decision-log` | ADR-style product decisions |
-| Risk Register | `/product-os:risk-register` | Track and mitigate risks |
+| Decision Log | `/product-os:decision` | ADR-style product decisions |
+| Risk Register | `/product-os:risks` | Track and mitigate risks |
 | PR/FAQ | `/product-os:prfaq` | Amazon-style press release + FAQ |
 
 ---
 
 ## Orchestration Protocol
 
-The `/product-os:new-project` command runs the full pipeline:
+The `/product-os:new-project` command runs the full pipeline (see `.claude/agents/orchestrator.md`):
 
 ```
 1. INTAKE
    └── Generate intake.md
    └── **CHECKPOINT:** Human approves problem framing
-   
-2. PM
-   └── Generate prd.md, project-brief.md, project-plan.md, raci.md, gantt.md
-   └── **CHECKPOINT:** Human approves PRD and plan
-   
+
+2. PRODUCT MANAGEMENT
+   └── Generate prd.md, priority scores, project-brief.md, project-plan.md, raci.md, gantt.md
+   └── **CHECKPOINT:** Human approves PRD stage and plan
+
+2B. PRD REVIEW (Defined / Delivery-ready PRDs only)
+   └── Generate prd-review.md
+   └── **CHECKPOINT:** Blockers resolved
+
 3. DESIGN
-   └── Generate design-brief.md, user-flows.md, wireframes.md, prototype-spec.md, figma-handoff.md
+   └── Generate design-brief.md, flows.yaml, flows.md, wireframes.md
    └── **CHECKPOINT:** Human approves design direction
-   
-4. CRITIQUE
-   └── Generate design-critique.md
+
+4. PROTOTYPE & FIGMA
+   └── Generate prototype.html, prototype-react.tsx; Figma sync if MCP connected
+   └── **CHECKPOINT:** Human approves prototype
+
+5. DESIGN REVIEW
+   └── Generate design-critique.md, ux-review.md, accessibility-audit.md
    └── **CHECKPOINT:** Human addresses critical findings
-   
-5. DELIVERY
-   └── Generate epics.md, stories.md
-   └── **CHECKPOINT:** Human approves stories
-   
-6. PUBLISH
-   └── Create Confluence pages and Jira issues
+
+6. DELIVERY
+   └── Generate epics.md, stories.md, gate-report.md, traceability.md
+   └── **CHECKPOINT:** Human approves stories and gate status
+
+7. PUBLISHING
+   └── Show proposed Confluence pages and Jira issues, then write only after approval
    └── **CHECKPOINT:** Human confirms publication
 ```
 

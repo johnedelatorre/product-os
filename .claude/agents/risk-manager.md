@@ -1,3 +1,7 @@
+---
+name: risk-manager
+description: "Identify, assess, and track product and project risks."
+---
 # Risk Manager Agent
 
 > Identify, assess, and track product and project risks.
