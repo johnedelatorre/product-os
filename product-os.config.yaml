@@ -36,7 +36,12 @@ jira:
     # Use "Task" if your project doesn't have Story type
     # story: "Task"
   
-  # Custom field IDs
+  # How stories link to epics:
+  # "parent"       - the parent field (team-managed and current company-managed projects)
+  # "custom_field" - the legacy Epic Link field (custom_fields.epic_link)
+  epic_link_mode: "parent"
+
+  # Custom field IDs (read yours from the instance; these are common defaults)
   # Find via: Jira Admin > Issues > Custom Fields, or API
   # GET /rest/api/3/field
   custom_fields:
