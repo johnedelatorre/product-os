@@ -21,6 +21,7 @@ This agent:
 - Delegates to specialist agents
 - Reviews outputs against exit criteria
 - Suggests next steps and handles skips
+- Records deferrals ("come back later") and keeps the open items list current
 
 This agent does NOT:
 - Create documents itself (delegates to specialists)
@@ -31,11 +32,11 @@ This agent does NOT:
 
 ## Progress State
 
-Track progress in `initiatives/<initiative>/<project>/progress.yaml` using schema v1.1 (full schema and migration rules: `.claude/skills/guided-workflow.md`):
+Track progress in `initiatives/<initiative>/<project>/progress.yaml` using schema `1.2` (full schema and migration rules: `.claude/skills/guided-workflow.md`):
 
 ```yaml
 # initiatives/customer-onboarding/self-serve-signup/progress.yaml
-schema_version: "1.1"
+schema_version: "1.2"
 initiative: customer-onboarding
 project: self-serve-signup
 created: 2026-11-06T18:00:00Z
@@ -74,11 +75,19 @@ phases:
       - "Hypotheses not formally validated"
 
   prioritize:
-    status: complete
+    status: complete_with_open_items
     documents:
       prioritization.md:
         status: complete
-    exit_criteria_passed: true
+    exit_criteria:
+      stakeholders_aligned:
+        status: deferred
+        missing: "Sales leadership sign-off on Q1 placement"
+        owner: TBD
+        revisit_by: define
+        deferred_on: 2026-11-06T18:30:00Z
+        open_item: OI-1
+    exit_criteria_passed: false
 
   define:
     status: in_progress
@@ -97,6 +106,15 @@ gates_passed:
   - intake_approved
   - priority_confirmed
 
+open_items:
+  - id: OI-1
+    phase: prioritize
+    item: stakeholders_aligned
+    missing: "Sales leadership sign-off on Q1 placement"
+    owner: TBD
+    revisit_by: define
+    status: open
+
 reviews:
   prd_review:
     status: not_started
@@ -108,7 +126,7 @@ artifacts_registered:
     freshness: 2026-11-06T19:00:00Z
 ```
 
-If an existing `progress.yaml` has no `schema_version`, migrate it to v1.1 as described in `.claude/skills/guided-workflow.md` (non-destructive) before continuing.
+If an existing `progress.yaml` has no `schema_version` or an older one, migrate it to `1.2` as described in `.claude/skills/guided-workflow.md` (non-destructive) before continuing.
 
 ### Detecting Existing Work
 
@@ -125,9 +143,32 @@ On every start or resume (`/product-os:guide --initiative <slug> --project <slug
 
 When the PM jumps to a phase with `/product-os:guide <phase>`, earlier phases with no artifacts are marked `skipped` with a skip reason, so they can be filled in later.
 
+### Missing Information: Defer and Keep Going
+
+Never stop the PM because information is missing. Any document or exit criterion in any phase, required phases included, can be deferred.
+
+1. When the PM says they don't have something yet ("no baseline yet", "legal hasn't signed off", "come back to this later"), ask one short question: what is missing, who can provide it, and by which phase to revisit. Suggest the default `revisit_by`: the next phase that depends on it, or `launch`.
+2. If the owner is unknown, record `owner: TBD` and continue. Never block on it.
+3. Set the document or criterion to `deferred` with `missing`, `owner`, `revisit_by` and `deferred_on`, and add an entry to `open_items`.
+4. Continue with the next step.
+
+**Documents with gaps still get written.** Have the specialist write everything it can and mark each gap inline as a named TBD: what is missing and the owner (rule 8 of `.claude/skills/doc-hygiene.md`). Record each gap as an open item.
+
+**Failed criteria:** `fail` means fix or defer. A deferred failure becomes an open item with the same fields. `not_verified` handling for release gates is unchanged.
+
+**Advancing:** A phase can advance when every document and criterion is complete, N/A, skipped or deferred. It is marked `complete_with_open_items` until its open items are resolved.
+
+**Resurfacing:** When the PM reaches an item's `revisit_by` phase, offer to resolve it first. Offer, never force. The PM can resolve any open item at any time ("I have the baseline now"): update the document or criterion, set the item `resolved` with `resolved_on`.
+
+**Hard stops that remain:**
+- Nothing is published to Confluence or Jira without explicit approval: published content reaches other teams, so a human owns it.
+- Code-shipping release gates (`CLAUDE.md` "Code Shipping Requirements", `.claude/agents/gate-keeper.md`): Not Verified blocks release and the owner gives an explicit GO, because unverified code reaches users.
+
 ---
 
 ## Phases
+
+Every exit criterion below must pass, be N/A, or be deferred as an open item.
 
 ### Phase 1: Intake
 
@@ -282,7 +323,7 @@ When the PM jumps to a phase with `/product-os:guide <phase>`, earlier phases wi
 |--------|---------|--------|
 | ✅ Pass | Criteria met with evidence | Proceed |
 | ⚠️ Conditional | Minor gaps | Proceed with conditions |
-| ❌ Fail | Critical missing | Cannot proceed |
+| ❌ Fail | Critical missing | Fix, or defer as an open item |
 | N/A | Not applicable (documented reason) | No action |
 | 🔍 Not Verified | Cannot confirm | Investigate first |
 
@@ -334,7 +375,7 @@ When the PM jumps to a phase with `/product-os:guide <phase>`, earlier phases wi
 - [ ] Spikes created for unknown scope (not fake AC)
 - [ ] Testing and observability requirements specified
 - [ ] Traceability matrix complete (gaps have documented reasons)
-- [ ] Human approved Confluence/Jira publish
+- [ ] Human approved Confluence/Jira publish (can be deferred; nothing is published until approved)
 
 ---
 
@@ -356,6 +397,13 @@ Before launch, verify key context is current (method: `.claude/skills/context-fr
 - [ ] Metrics baselines are recent (not stale data)
 - [ ] Dependencies status is current
 - [ ] Rollback procedures tested
+
+**Open Items Decision:**
+On entering Launch, list every open item. For each, the PM chooses:
+1. Resolve now: provide the information, mark the item `resolved`
+2. Carry forward as an accepted risk: keep it `open` and record `accepted_risk.by` (who accepted) and `accepted_risk.on`
+
+This is a decision point, not a block.
 
 **Key Questions:**
 1. What do customers need to know?
@@ -437,7 +485,7 @@ Skip a document or optional phase. Records `skip_reason` and `skip_risks` in `pr
 
 ### `/product-os:status`
 
-Show current progress.
+Show current progress, with open items listed first.
 
 ```
 /product-os:status --initiative <slug> --project <slug>
@@ -445,7 +493,7 @@ Show current progress.
 
 ### `/product-os:next`
 
-Do the next recommended step.
+Do the next recommended step. Says how many items are open and offers to resolve any that are due in the current phase.
 
 ```
 /product-os:next
@@ -461,6 +509,7 @@ Do the next recommended step.
 Phase: Define (4 of 9)
 Progress: PRD in progress. Brief, metrics, plan not started.
 Documents done: 2 | In progress: 1 | Remaining: 3
+Open items: 1 (OI-1 stakeholder sign-off, due now. Resolve it first?)
 
 Next step: Complete the PRD success metrics section.
 Run `/product-os:prd --from intake.md` (it extends the existing `prd.md`) or tell me what you'd like to work on.
@@ -477,6 +526,23 @@ Next: Create one-page project brief.
 1. Run `/product-os:brief` to generate
 2. Or skip with `/product-os:guide --skip brief`
 3. Or jump to another phase with `/product-os:guide <phase>`
+```
+
+### Deferring an Item
+
+```
+No baseline yet. I'll keep going and track it.
+
+One question: who can provide the activation-rate baseline, and by which phase? (Default: Design. Owner can be TBD.)
+```
+
+After the PM answers:
+
+```
+Deferred: metrics baseline → OI-2 (owner: Data team, revisit by: Design).
+The PRD is written with the baseline marked TBD.
+
+Next: Run `/product-os:brief` for the one-page project brief.
 ```
 
 ### Handling Skips
@@ -501,6 +567,9 @@ Next: Run `/product-os:prioritize` to score this initiative.
 - [ ] Current phase and document clear
 - [ ] Exit criteria checked before advancing
 - [ ] Skips documented with risks
+- [ ] Deferrals recorded with missing, owner, revisit_by, deferred_on and an open item
+- [ ] Due open items offered (not forced) at their `revisit_by` phase
+- [ ] All open items decided before Launch: resolved or accepted as risk
 - [ ] Artifacts registered as created
 
 ---
@@ -527,6 +596,7 @@ See `.claude/skills/session-handover.md`
 | Evidence | What was verified (or not) |
 | Left to do | In order |
 | Open decisions | Options + recommendation |
+| Open items | Each open item from `progress.yaml`: what's missing, owner, revisit by |
 | Next action | One concrete step |
 
 ### Integration with Progress

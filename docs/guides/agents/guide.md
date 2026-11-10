@@ -4,7 +4,7 @@ Walks you through the product lifecycle one phase at a time, tracking progress i
 
 ## What It Does
 
-Coaches a PM through all 9 phases (Intake → Discovery → Prioritize → Define → Design → Review → Deliver → Launch → Measure). For each phase it explains the purpose, asks focused questions, delegates document creation to specialist agents, checks exit criteria, and records state. It does not write documents itself or make product decisions.
+Coaches a PM through all 9 phases (Intake → Discovery → Prioritize → Define → Design → Review → Deliver → Launch → Measure). For each phase it explains the purpose, asks focused questions, delegates document creation to specialist agents, checks exit criteria, and records state. When you don't have the information for a step, it records the gap as an open item and keeps going. It does not write documents itself or make product decisions.
 
 ## When to Use
 
@@ -21,9 +21,11 @@ Coaches a PM through all 9 phases (Intake → Discovery → Prioritize → Defin
 | `<phase>` | No | Jump to a phase (`intake`, `discovery`, `prioritize`, `define`, `design`, `review`, `deliver`, `launch`, `measure`) |
 | `--skip` | No | Skip the current (or named) document or optional phase, recording the risks |
 
+To defer an item you don't have yet, just say so ("no baseline yet, come back later"). No flag needed.
+
 ## Outputs
 
-- `initiatives/<initiative>/<project>/progress.yaml` — Guided-mode state (schema v1.1)
+- `initiatives/<initiative>/<project>/progress.yaml` — Guided-mode state (schema `1.2`), including `open_items`
 - Documents for each phase, created by the specialist agents it delegates to
 
 ## Example
@@ -43,13 +45,26 @@ Coaches a PM through all 9 phases (Intake → Discovery → Prioritize → Defin
 
 ## Existing Work
 
-On start, the guide scans the project directory for known artifacts and marks them `complete` or `in_progress` in `progress.yaml` instead of recreating them. Older `progress.yaml` files without `schema_version` are migrated to v1.1 non-destructively.
+On start, the guide scans the project directory for known artifacts and marks them `complete` or `in_progress` in `progress.yaml` instead of recreating them. Older `progress.yaml` files are migrated to `1.2` non-destructively.
+
+## Missing Information
+
+Any document or exit criterion in any phase can be deferred:
+
+1. The guide asks one short question: what's missing, who can provide it (TBD is fine), and by which phase to revisit.
+2. The item is recorded as an open item. Documents still get written, with the gap marked as a named TBD.
+3. The phase advances as `complete_with_open_items`.
+4. `/product-os:status` lists open items first. `/product-os:next` offers to resolve them when their revisit phase arrives. Resolve one any time.
+5. Before Launch, you decide per item: resolve now, or carry forward as an accepted risk.
+
+Still hard stops: publishing to Confluence/Jira needs explicit approval, and code-shipping release gates are unchanged.
 
 ## Tips
 
 1. **Confirm detected files** — review what the guide marked complete before moving on
 2. **Skip with reasons** — skipped phases carry recorded risks downstream
-3. **Hand over between sessions** — run `/product-os:handover` before stopping
+3. **Defer instead of stalling** — missing info becomes an open item, not a blocker
+4. **Hand over between sessions** — run `/product-os:handover` before stopping
 
 ## Related
 

@@ -36,13 +36,15 @@ Start or resume guided mode, or jump to a specific phase.
 /product-os:guide --skip [<document|phase>]
 ```
 
+Missing information for a step? Say so and keep going: the guide records an open item (what's missing, owner, revisit by) and moves on. Only Discovery can be skipped as a phase; any document or exit criterion can be deferred. Publishing and code-shipping release gates stay hard stops.
+
 **Agent:** `guide.md`
 
 ---
 
 ### /product-os:status
 
-Show current progress through guided mode.
+Show current progress through guided mode. Open items are listed first, with what's missing, owner and revisit phase.
 
 ```
 /product-os:status
@@ -56,7 +58,7 @@ Show current progress through guided mode.
 
 ### /product-os:next
 
-Execute the next recommended step in guided mode.
+Execute the next recommended step in guided mode. Says how many items are open and offers (never forces) to resolve those due in the current phase.
 
 ```
 /product-os:next

@@ -7,7 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **Deferred items in guided mode ("Come back later")** — any document or exit criterion in any phase, required phases included, can be deferred when the PM doesn't have the information yet. The guide asks one short question (what's missing, owner, revisit phase; owner may be TBD), records an open item and keeps going. Documents still get written with each gap as a named TBD. Failed criteria can be fixed or deferred.
+- **Open items** — top-level `open_items` in `progress.yaml`. `/product-os:status` lists them first; `/product-os:next` reports the count and offers to resolve items due in the current phase; the PM can resolve any item any time. Before Launch, the PM resolves each item or carries it forward as an accepted risk (recorded with who accepted it). Handovers list open items.
+- **Tests** — `tests/test-schema-migration.sh` covers schema `1.1` → `1.2` migration and a `1.2` fixture with a deferred document, a deferred criterion and open items.
+
 ### Changed
+- **Guided mode no longer stops on missing information** — phases with deferred items advance as `complete_with_open_items`. Exit-criteria tables read "Yes (or defer)". `/product-os:new-project` checkpoints accept deferrals the same way. Hard stops kept: publishing to Confluence/Jira needs explicit approval; code-shipping release gates (Not Verified blocks release, owner explicit GO) are unchanged.
+- **`progress.yaml` schema 1.2** — adds `open_items`, the `deferred` status for documents and exit criteria, and the `complete_with_open_items` phase status. Migration from 1.1 (and 1.0 via 1.1) adds an empty `open_items` list and converts documents with status `tbd` to `deferred` with an open item. Non-destructive.
+- **README guided-mode table** — "Can skip?" column replaced: Discovery can be skipped, every phase lets you defer items and come back later, with a "Missing information? Keep going" paragraph.
 - **README rewritten for PMs and Heads of Product** — informational and instructional: what Product OS does, who it's for, where it runs (claude.ai, Claude Code, Cursor) with a quick start for each, the workflow and guided-mode diagrams, every command grouped by phase, every agent, every skill grouped by area, PM practices built in, and every document. Per-release "What's New" sections removed (this file is the release history).
 - **claude.ai setup documented** — `docs/setup/installation.md` and `docs/guides/platform-compatibility.md` cover running Product OS in a Claude Project (instructions + knowledge files, plain-language commands, Atlassian connector, progress and handover by upload).
 - **New `docs/setup/installation.md`** — install options, Claude Code plugin, Cursor setup, cross-platform workflow, upgrades from command-copy installs, and repository layout (moved out of the README).

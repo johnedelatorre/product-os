@@ -23,6 +23,7 @@ Read these canonical files:
 4. Direct to appropriate specialist agents (read their `.claude/agents/*.md` files)
 5. Review outputs against exit criteria
 6. Handle skips with documented risks
+7. When the PM doesn't have information yet, defer the item: record what's missing, owner (TBD is fine) and revisit phase as an open item, then keep going (`.claude/skills/guided-workflow.md`, "Deferring Items")
 
 ## Key Commands (Role-Based)
 

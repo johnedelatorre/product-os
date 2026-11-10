@@ -1,0 +1,97 @@
+# Test fixture: v1.2 progress file with a deferred document, a deferred criterion and open items
+schema_version: "1.2"
+initiative: deferred-initiative
+project: deferred-project
+created: 2026-11-01T10:00:00Z
+last_updated: 2026-11-08T12:00:00Z
+
+current_phase: design
+current_document: flows.yaml
+
+artifact_stages:
+  prd: defined
+  estimation: ranges
+
+phases:
+  intake:
+    status: complete
+    documents:
+      intake.md:
+        status: complete
+    exit_criteria_passed: true
+
+  prioritize:
+    status: complete
+    documents:
+      prioritization.md:
+        status: complete
+    exit_criteria:
+      stakeholders_aligned:
+        status: pass
+        evidence: "Sales sign-off 2026-11-07"
+    exit_criteria_passed: true
+
+  define:
+    status: complete_with_open_items
+    documents:
+      prd.md:
+        status: complete
+      metrics-framework.md:
+        status: deferred
+        missing: "Activation-rate baseline"
+        owner: "Data team"
+        revisit_by: design
+        deferred_on: 2026-11-05T15:00:00Z
+        open_item: OI-2
+    exit_criteria:
+      success_metrics_have_baselines:
+        status: deferred
+        missing: "Baseline for activation rate"
+        owner: TBD
+        revisit_by: launch
+        deferred_on: 2026-11-05T15:00:00Z
+        open_item: OI-3
+      raci_one_r_per_row:
+        status: pass
+        evidence: "project-plan.md §RACI"
+    exit_criteria_passed: false
+
+  design:
+    status: in_progress
+    documents:
+      flows.yaml:
+        status: in_progress
+
+gates_passed:
+  - intake_approved
+  - priority_confirmed
+
+open_items:
+  - id: OI-1
+    phase: prioritize
+    item: stakeholders_aligned
+    missing: "Sales leadership sign-off on Q1 placement"
+    owner: "VP Sales"
+    revisit_by: define
+    status: resolved
+    resolved_on: 2026-11-07T10:00:00Z
+  - id: OI-2
+    phase: define
+    item: metrics-framework.md
+    missing: "Activation-rate baseline"
+    owner: "Data team"
+    revisit_by: design
+    status: open
+  - id: OI-3
+    phase: define
+    item: success_metrics_have_baselines
+    missing: "Baseline for activation rate"
+    owner: TBD
+    revisit_by: launch
+    status: open
+
+reviews:
+  prd_review:
+    status: complete
+    blockers_resolved: true
+    recommendation: approve

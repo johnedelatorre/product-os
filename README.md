@@ -269,17 +269,19 @@ Guided mode is the easiest way in, and the recommended path for new PMs. It walk
 | Claude Code | `/product-os:guide --initiative X --project Y` | `/product-os:status` | `/product-os:next` |
 | Cursor | "Read `.claude/agents/guide.md` and start project Y in initiative X" | "Show guided-mode status" | "Do the next step" |
 
-| # | Phase | What happens | Can skip? |
-|---|-------|--------------|-----------|
-| 1 | **Intake** | Raw input becomes a problem statement | No |
-| 2 | **Discovery** | Explore the problem space | Yes |
-| 3 | **Prioritize** | Decide if and when to build | No |
-| 4 | **Define** | PRD, brief, metrics, plan | No |
-| 5 | **Design** | Flows, wireframes, prototype | No |
-| 6 | **Review** | Critique, UX review, accessibility | No |
-| 7 | **Deliver** | Epics, stories, Confluence, Jira | No |
-| 8 | **Launch** | Release notes, enablement | No |
-| 9 | **Measure** | Post-launch review, follow-ups | No |
+| # | Phase | What happens | Skip or come back later |
+|---|-------|--------------|-------------------------|
+| 1 | **Intake** | Raw input becomes a problem statement | Defer what you don't have yet |
+| 2 | **Discovery** | Explore the problem space | Skip the phase, or defer items |
+| 3 | **Prioritize** | Decide if and when to build | Defer what you don't have yet |
+| 4 | **Define** | PRD, brief, metrics, plan | Defer what you don't have yet |
+| 5 | **Design** | Flows, wireframes, prototype | Defer what you don't have yet |
+| 6 | **Review** | Critique, UX review, accessibility | Defer what you don't have yet |
+| 7 | **Deliver** | Epics, stories, Confluence, Jira | Defer what you don't have yet |
+| 8 | **Launch** | Release notes, enablement | Defer what you don't have yet |
+| 9 | **Measure** | Post-launch review, follow-ups | Defer what you don't have yet |
+
+**Missing information? Keep going.** Only Discovery can be skipped, but no phase stops you for missing information. Say "I don't have the baseline yet, come back to it later" and the guide asks who can provide it and when to revisit, records it as an open item and moves on. Documents still get written, with the gap marked TBD. Open items show first in status and come back when you reach their revisit phase; resolve one any time. Before Launch you decide per item: resolve it now, or carry it forward as an accepted risk. Publishing to Confluence or Jira still needs your explicit approval.
 
 ```mermaid
 sequenceDiagram
@@ -302,11 +304,11 @@ sequenceDiagram
     end
 
     Guide->>Progress: Check exit criteria
-    alt Exit criteria passed
-        Guide->>Progress: Mark phase complete
+    alt Exit criteria passed, N/A or deferred
+        Guide->>Progress: Mark phase complete (or complete with open items)
         Guide->>PM: Advance to next phase
     else Exit criteria not met
-        Guide->>PM: Show gaps, suggest fixes
+        Guide->>PM: Show gaps: fix now or defer as open item
     end
 ```
 

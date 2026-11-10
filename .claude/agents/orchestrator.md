@@ -151,7 +151,7 @@ You coordinate these specialist agents:
 │         ▼                                                                   │
 │   prd-review.md (blockers, gaps, suggestions, conflicts)                   │
 │                                                                             │
-│                     ◆ CHECKPOINT: Blockers resolved before proceeding       │
+│                     ◆ CHECKPOINT: Blockers resolved or deferred             │
 │                       (Skip if PRD stage = Early)                           │
 └─────────────────────────────────────────────────────────────────────────────┘
                                     │
@@ -236,11 +236,29 @@ At each checkpoint:
 4. **Handle Feedback** — If changes requested, route back to appropriate agent
 5. **Proceed on Approval** — Only continue when approved
 
+Missing information never blocks a checkpoint. If the human doesn't have something yet, they can defer it and approve the rest.
+
 ### Approval Responses
 - `approved` / `yes` / `continue` / `lgtm` → Proceed to next stage
+- `defer:` followed by what's missing → Record an open item and proceed (see Deferred Items)
 - `feedback:` followed by notes → Revise and re-present
 - `skip` → Skip current stage (with warning about downstream impact)
 - `stop` → Halt pipeline, preserve state
+
+## Deferred Items
+
+Same behaviour as guided mode (`.claude/skills/guided-workflow.md`, "Deferring Items"):
+
+1. Any stage output or checklist item can be deferred ("I don't have this yet, come back later").
+2. Ask in one short question: what is missing, who can provide it, and by which stage to revisit (default: the next stage that depends on it). Owner may be `TBD`; never block on it.
+3. Record the item in `pipeline-state.json` under `open_items`, with the same fields as `progress.yaml` (`id`, `stage`, `item`, `missing`, `owner`, `revisit_by`, `deferred_on`, `status`, `resolved_on`).
+4. Agents still write the document. Each gap is a named TBD stating what is missing and the owner (rule 8 of `.claude/skills/doc-hygiene.md`).
+5. At each checkpoint, show open items and offer (not force) to resolve those due at this stage. The human can resolve any item at any time.
+6. A failed checklist item means fix or defer. `not_verified` handling for release gates is unchanged.
+
+**Hard stops that remain:**
+- Publishing: nothing goes to Confluence or Jira without explicit approval, because published content reaches other teams.
+- Code-shipping release gates: Not Verified blocks release and the owner gives an explicit GO (`CLAUDE.md` "Code Shipping Requirements", `.claude/agents/gate-keeper.md`), because unverified code reaches users.
 
 ## Invocation
 
@@ -287,7 +305,7 @@ Before invoking an agent, validate:
 
 1. **Required inputs exist** — Files present and non-empty
 2. **Input format correct** — Matches expected structure
-3. **Dependencies met** — Prior stages completed
+3. **Dependencies met** — Prior stages completed (deferred items count as settled)
 4. **Quality gates passed** — Prior outputs passed their checklists
 
 If validation fails:
@@ -459,7 +477,7 @@ At end of pipeline or on request, generate:
 1. **Pipeline Summary** — Stages completed, time taken, key outputs
 2. **Artifact Index** — Links to all generated documents
 3. **Decision Log** — Choices made during pipeline
-4. **Outstanding Items** — Open questions, deferred decisions
+4. **Outstanding Items** — Open items (what's missing, owner, revisit by), open questions, deferred decisions
 
 ## Escalation
 

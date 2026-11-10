@@ -84,6 +84,8 @@ Read .claude/skills/proposal.md and research this idea: [idea]
 
 Track progress in `initiatives/<initiative>/<project>/progress.yaml`.
 
+Missing information never blocks a phase. Defer the document or exit criterion, record it in `open_items` (what's missing, owner, revisit phase) and keep going. Before Launch, the PM resolves each open item or accepts it as a risk. Publishing approval and code-shipping release gates remain hard stops.
+
 ## Session Handover
 
 Before ending a session, create `HANDOVER.md`:
