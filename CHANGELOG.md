@@ -5,6 +5,12 @@ All notable changes to Product OS will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+- **README rewritten for PMs and Heads of Product** — leads with what Product OS does, who it's for and a 4-step quick start; keeps the workflow and guided-mode diagrams; adds a "PM Rigor, Built In" section; per-release "What's New" sections removed (this file is the release history). Full agent, document and skill tables are collapsible.
+- **New `docs/setup/installation.md`** — install options, Claude Code plugin, Cursor setup, cross-platform workflow, upgrades from command-copy installs, and repository layout (moved out of the README).
+
 ## [1.6.0] - 2026-11-10
 
 ### Added
