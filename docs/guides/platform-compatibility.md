@@ -1,6 +1,6 @@
 # Platform Compatibility Guide
 
-> Product OS works in both Claude Code and Cursor. This guide explains setup, capabilities, and differences.
+> Product OS works in claude.ai, Claude Code and Cursor. This guide explains setup, capabilities, and differences.
 
 ## TL;DR
 
@@ -12,16 +12,19 @@
 
 ## Platform Capabilities
 
-| Capability | Claude Code | Cursor | Notes |
-|------------|-------------|--------|-------|
-| Read `.claude/` content | ✅ | ✅ | Canonical location |
-| Read CLAUDE.md/AGENTS.md | ✅ | ✅ Auto-applied | Both platforms |
-| Slash commands | ✅ Via the `product-os` plugin (`/product-os:*`) | ❌ | Role-based invocation instead |
-| Native subagents | ✅ `.claude/agents/*.md` (YAML frontmatter) | Partial | Cursor: 3 adapters in `.cursor/agents/` |
-| Project rules | N/A | ✅ `.cursor/rules/*.mdc` | MDC format with frontmatter |
-| Native agents | N/A | ✅ `.cursor/agents/*.md` | YAML frontmatter |
-| Progress tracking | ✅ | ✅ | Shared `progress.yaml` |
-| Session handover | ✅ | ✅ | Shared `HANDOVER.md` |
+| Capability | claude.ai | Claude Code | Cursor | Notes |
+|------------|-----------|-------------|--------|-------|
+| Read `.claude/` content | ✅ Uploaded as project knowledge | ✅ | ✅ | Canonical location |
+| Read CLAUDE.md/AGENTS.md | ✅ CLAUDE.md as project instructions | ✅ | ✅ Auto-applied | |
+| Slash commands | ❌ Ask in plain language | ✅ Via the `product-os` plugin (`/product-os:*`) | ❌ | Role-based invocation instead |
+| Native subagents | ❌ One role at a time | ✅ `.claude/agents/*.md` (YAML frontmatter) | Partial | Cursor: 3 adapters in `.cursor/agents/` |
+| Project rules | Project instructions | N/A | ✅ `.cursor/rules/*.mdc` | MDC format with frontmatter |
+| Native agents | N/A | N/A | ✅ `.cursor/agents/*.md` | YAML frontmatter |
+| Confluence / Jira | Atlassian connector (if enabled) | Atlassian MCP or REST fallback | Atlassian MCP or REST fallback | Approval before every write |
+| Progress tracking | Ask for `progress.yaml`; re-upload to resume | ✅ | ✅ | Shared `progress.yaml` |
+| Session handover | Ask for `HANDOVER.md`; re-upload to resume | ✅ | ✅ | Shared `HANDOVER.md` |
+
+claude.ai setup steps: [Installation and Platform Setup → claude.ai](../setup/installation.md#claudeai-setup).
 
 ## Installation
 

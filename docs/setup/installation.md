@@ -1,15 +1,38 @@
 # Installation and Platform Setup
 
-> **TL;DR:** Run `./scripts/install.sh /path/to/your/project --register-plugin`, then start with `/product-os:guide`. This page covers install options, Claude Code and Cursor setup, switching platforms, and upgrades.
+> **TL;DR:** In claude.ai, create a Project with Product OS's instructions and files. In Claude Code or Cursor, run `./scripts/install.sh /path/to/your/project --register-plugin`, then start with `/product-os:guide` (Claude Code) or the Guide agent (Cursor). This page covers all three platforms, install options, switching platforms and upgrades.
 
 ## Platform Support
 
-Product OS works in both **Claude Code** and **Cursor**.
+Product OS works in **claude.ai**, **Claude Code** and **Cursor**.
 
-| Platform | Support Level | Slash Commands | Native Subagents |
-|----------|---------------|----------------|------------------|
-| Claude Code | Full | Yes (plugin, `/product-os:*`) | Yes (agents with frontmatter) |
-| Cursor | Full | Role-based | Partial |
+| Platform | Setup | Slash Commands | Agents | Files on disk |
+|----------|-------|----------------|--------|---------------|
+| claude.ai | A Claude Project (instructions + knowledge files) | No, ask in plain language | One role at a time, from project knowledge | No; documents live in the chat, download them to keep |
+| Claude Code | Installer + plugin | Yes (plugin, `/product-os:*`) | Native subagents (agents with frontmatter) | Yes, `initiatives/` |
+| Cursor | Installer + Cursor rules | Role-based | 3 native adapters + role-based | Yes, `initiatives/` |
+
+## claude.ai Setup
+
+claude.ai has no installer. A Claude Project gives Claude the Product OS instructions, agents, skills and templates, and every chat in that project can use them.
+
+1. **Get the files:** on GitHub choose Code → Download ZIP, then unzip.
+2. **Create a project** in claude.ai (for example "Product OS – Growth team").
+3. **Instructions:** paste the contents of `CLAUDE.md` into the project instructions. Add one line with your context, for example: "Our Confluence space is PROD; our Jira project is GROW."
+4. **Knowledge:** upload
+   - `AGENTS.md`
+   - every file in `.claude/agents/` (the agent roles)
+   - every file in `.claude/skills/` (the playbooks)
+   - the templates in `templates/` you plan to use (PRD, stories, design brief and so on)
+5. **Confluence and Jira (optional):** enable the Atlassian connector in claude.ai if your workspace offers it. Claude shows the pages and issues it will write and waits for your approval, the same rule as on every platform.
+6. **Start:** open a chat in the project and say *"Start Product OS guided mode for initiative customer-onboarding, project self-serve-signup."*
+
+**Working in claude.ai:**
+- Ask for any command by its name or purpose: "Run Product OS intake on this Slack thread", "Write the PRD", "Do a UX review of these wireframes".
+- Ask for any agent by name: "Act as the Product OS Strategist and score these features with RICE."
+- Progress and handovers: ask Claude for the current `progress.yaml` or a `HANDOVER.md` at the end of a session, and upload it to the next chat (or the project knowledge) to pick up where you left off.
+- Keep finished documents by downloading them, publishing them to Confluence, or adding them to the project knowledge so later chats can build on them.
+- What claude.ai does not do: slash commands, subagents running in parallel, or writing files into a repo. For those, use Claude Code.
 
 ## Fresh Install
 

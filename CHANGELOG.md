@@ -8,7 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
-- **README rewritten for PMs and Heads of Product** — leads with what Product OS does, who it's for and a 4-step quick start; keeps the workflow and guided-mode diagrams; adds a "PM Rigor, Built In" section; per-release "What's New" sections removed (this file is the release history). Full agent, document and skill tables are collapsible.
+- **README rewritten for PMs and Heads of Product** — informational and instructional: what Product OS does, who it's for, where it runs (claude.ai, Claude Code, Cursor) with a quick start for each, the workflow and guided-mode diagrams, every command grouped by phase, every agent, every skill grouped by area, PM practices built in, and every document. Per-release "What's New" sections removed (this file is the release history).
+- **claude.ai setup documented** — `docs/setup/installation.md` and `docs/guides/platform-compatibility.md` cover running Product OS in a Claude Project (instructions + knowledge files, plain-language commands, Atlassian connector, progress and handover by upload).
 - **New `docs/setup/installation.md`** — install options, Claude Code plugin, Cursor setup, cross-platform workflow, upgrades from command-copy installs, and repository layout (moved out of the README).
 
 ## [1.6.0] - 2026-11-10
