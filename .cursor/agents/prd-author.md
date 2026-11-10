@@ -15,6 +15,7 @@ Read these canonical files:
 2. `.claude/skills/prd-writing.md` — PRD writing guidelines
 3. `templates/pm/prd.md` — PRD template
 4. `.claude/skills/clear-output.md` — Output style
+5. `.claude/skills/doc-hygiene.md` — Current state only (no version history in the PRD)
 
 ## PRD Stages
 

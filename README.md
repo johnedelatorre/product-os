@@ -25,7 +25,7 @@ Meanwhile, the strategic work—prioritization, trade-offs, stakeholder alignmen
 
 ### The Solution
 
-Product OS gives you **39 specialist AI agents** that handle artifact creation while you make the decisions. Tell an agent what you need, review its output, approve or revise, and move on.
+Product OS gives you **40 specialist AI agents** that handle artifact creation while you make the decisions. Tell an agent what you need, review its output, approve or revise, and move on.
 
 Every agent follows PM best practices. Every document follows a proven template. Every output can be published to Confluence and Jira once you approve the proposed changes.
 
@@ -224,11 +224,17 @@ When you're ready to publish, Product OS shows the proposed Confluence pages and
 
 ---
 
+## 🆕 What's New in v1.6
+
+- **Doc hygiene:** Docs, Confluence pages, epics and tickets show the current state only. Every agent that writes or publishes artifacts follows the "Current state only" rule (no version banners, history blocks, change narratives or retired items).
+- **Cleanup command:** `/product-os:cleanup --project <path> [--confluence] [--jira] [--dry-run]` strips existing version history through the new Doc Cleaner agent, with your approval before any Confluence or Jira write.
+- **Checks:** `scripts/doc-hygiene-check.py` lints for history patterns and runs an invention guard that lists any words a cleanup added.
+
 ## 🆕 What's New in v1.5
 
 - **Claude Code plugin:** Product OS ships as a plugin (`.claude-plugin/`). Commands are namespaced as `/product-os:<command>` so they never collide with Claude Code built-ins like `/status` or `/plan`.
 - **Renamed commands:** `product-os-guide.md` → `guide.md` (and 18 others), so `/product-os:guide`, `/product-os:status`, `/product-os:next` resolve directly.
-- **Frontmatter everywhere:** All 46 commands and 39 agents have YAML frontmatter; agents register as Claude Code subagents.
+- **Frontmatter everywhere:** All commands and agents have YAML frontmatter; agents register as Claude Code subagents.
 - **Installer:** No longer copies commands into `.claude/commands/`; new `--register-plugin` flag.
 - **Doc accuracy:** Every `/product-os:` reference resolves to a real command (enforced by `scripts/validate.sh`).
 
@@ -335,7 +341,7 @@ cd product-os
 
 ### Enabling the Claude Code Plugin
 
-Claude Code gets the 46 commands from the `product-os` plugin, namespaced as `/product-os:<command>`. Pick one:
+Claude Code gets the 47 commands from the `product-os` plugin, namespaced as `/product-os:<command>`. Pick one:
 
 ```bash
 # A. Let the installer do it
@@ -422,9 +428,10 @@ Commands come from the `product-os` plugin (see [Enabling the Claude Code Plugin
 /product-os:handover                                 # Write session handover
 /product-os:release-gate                             # Run release gate process
 /product-os:audit-intent                             # Audit code vs documented intent
+/product-os:cleanup --project <path>                 # Strip version history from docs
 ```
 
-See the [Command Reference](docs/reference/commands.md) for all 46 commands.
+See the [Command Reference](docs/reference/commands.md) for all 47 commands.
 
 ---
 
@@ -468,7 +475,7 @@ Product OS provides 3 native Cursor agent adapters in `.cursor/agents/`:
 | `prd-author` | `prd-author.md` | Write PRDs |
 | `intake-analyst` | `intake-analyst.md` | Structure requirements |
 
-These work with Cursor's native agent picker. All 39 roles remain available via role-based invocation (read the agent file, follow instructions).
+These work with Cursor's native agent picker. All 40 roles remain available via role-based invocation (read the agent file, follow instructions).
 
 **Note:** Cursor's built-in `subagent_type` options (e.g., `explore`) are platform-controlled and version-dependent. Product OS does not claim or rely on specific subagent_types beyond the 3 native adapters above.
 
@@ -782,11 +789,12 @@ Skills are reusable knowledge that agents draw on. Each skill documents best pra
 | **Independent Review** | Fresh, unsteered code review with bounded iterations | Gate Keeper |
 | **Intended vs. Implemented** | Audit code against documented intent | Gate Keeper, `/product-os:audit-intent` |
 | **Shipping Artifacts** | Docs that make AI-built code reviewable | `/product-os:audit-intent`, `/product-os:release-gate` |
+| **Doc Hygiene** | Current-state-only docs, cleanup of version history, lint and invention guard | Doc Cleaner, all artifact-writing agents |
 
 <details>
 <summary><strong>Full skill files</strong></summary>
 
-All 40 skills are in `.claude/skills/`. They are reference documents that agents read by path (not registered Claude Code skills):
+All 41 skills are in `.claude/skills/`. They are reference documents that agents read by path (not registered Claude Code skills):
 
 ```
 .claude/skills/
@@ -800,6 +808,7 @@ All 40 skills are in `.claude/skills/`. They are reference documents that agents
 ├── dependency-tracking.md
 ├── design-critique.md
 ├── discipline-labeling.md
+├── doc-hygiene.md           # Current-state-only docs + cleanup
 ├── dor-dod-gates.md
 ├── estimation.md
 ├── event-tracking.md
@@ -838,7 +847,7 @@ All 40 skills are in `.claude/skills/`. They are reference documents that agents
 
 ## 🤖 Agents at a Glance
 
-Product OS includes **39 specialist agents**, each with a single responsibility.
+Product OS includes **40 specialist agents**, each with a single responsibility.
 
 ### Pipeline Agents
 
@@ -930,6 +939,7 @@ Ongoing tracking and compliance.
 | **Risk Manager** | `/product-os:risks` | Risk register |
 | **Debt Tracker** | `/product-os:debt` | Tech and design debt |
 | **Decision Logger** | `/product-os:decision` | ADR-style decisions |
+| **Doc Cleaner** | `/product-os:cleanup` | Strips version history from docs, pages and tickets |
 
 ### Tool Agents
 
@@ -1024,9 +1034,9 @@ product-os/
 │   └── marketplace.json      # Marketplace "product-os" (plugin source ./)
 │
 ├── .claude/
-│   ├── agents/               # 39 specialist agents (subagents, with frontmatter)
-│   ├── commands/             # 46 commands, served by the plugin as /product-os:<name>
-│   └── skills/               # 40 reusable skills (reference docs)
+│   ├── agents/               # 40 specialist agents (subagents, with frontmatter)
+│   ├── commands/             # 47 commands, served by the plugin as /product-os:<name>
+│   └── skills/               # 41 reusable skills (reference docs)
 │
 ├── .cursor/
 │   ├── rules/product-os.mdc  # Cursor rules
@@ -1058,6 +1068,7 @@ product-os/
     ├── install.sh
     ├── validate.sh
     ├── test-install.sh
+    ├── doc-hygiene-check.py  # Doc hygiene lint + invention guard
     └── atlassian-fallback.py
 ```
 

@@ -26,6 +26,8 @@ The 10 rules:
 
 Documents include a TL;DR block at top, use scannable headings, numbered steps, and short lists. Full depth is maintained—the style governs structure and wording, not content removal.
 
+**Current state only:** docs, Confluence pages, epics and tickets show the final state, with no version banners, history blocks, change narratives or retired items. See `.claude/skills/doc-hygiene.md`; `/product-os:cleanup` cleans docs that already carry history.
+
 Attribution: Adapted from [ayghri/i-have-adhd](https://github.com/ayghri/i-have-adhd) (MIT License). See NOTICE.md.
 
 ## Owner

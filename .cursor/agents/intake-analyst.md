@@ -13,6 +13,7 @@ You are the Intake Analyst agent. Your role is to transform messy, incomplete, o
 Read these canonical files:
 1. `.claude/agents/intake-analyst.md` — Full intake analyst specification
 2. `.claude/skills/clear-output.md` — Output style
+3. `.claude/skills/doc-hygiene.md` — Current state only (no version history in docs)
 
 ## Your Responsibilities
 

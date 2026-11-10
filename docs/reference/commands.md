@@ -1,6 +1,6 @@
 # Command Reference
 
-Complete reference for all 46 Product OS slash commands.
+Complete reference for all 47 Product OS slash commands.
 
 In Claude Code, commands come from the `product-os` plugin and are always namespaced as `/product-os:<command>` (see the README for enabling the plugin). In Cursor, read the agent file listed for each command instead (role-based invocation).
 
@@ -20,7 +20,7 @@ Each entry shows the usage from the command file in `.claude/commands/<command>.
 - **Deliver & Publish:** `deliver`, `publish`, `jira-sync`
 - **Launch:** `launch`, `comms`, `release-gate`
 - **Measure & Learn:** `review-launch`, `retro`
-- **Governance & Code Shipping:** `decision`, `debt`, `audit-intent`
+- **Governance & Code Shipping:** `decision`, `debt`, `cleanup`, `audit-intent`
 
 ---
 
@@ -593,6 +593,18 @@ Manage technical and design debt tracker.
 ```
 
 **Agent:** `debt-tracker.md`
+
+---
+
+### /product-os:cleanup
+
+Clean version history out of project docs, Confluence pages and Jira tickets so they show the current state only.
+
+```
+/product-os:cleanup --project <path> [--confluence] [--jira] [--dry-run]
+```
+
+**Agent:** `doc-cleaner.md` · **Skill:** `doc-hygiene.md`
 
 ---
 
