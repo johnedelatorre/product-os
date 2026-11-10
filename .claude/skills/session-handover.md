@@ -43,6 +43,7 @@ Before writing a word, check what this session believes against what is there:
 | **Evidence** | What was actually run and observed: command, exit code, verdict. Not intended. Unverified says so |
 | **Left to do** | In order, each small enough to start on |
 | **Open decisions** | Each with options, recommendation, and whose decision |
+| **Open items** | Each open item from `progress.yaml` (`open_items`): what's missing, owner, revisit by |
 | **Where things are** | Branches, files, logs, URLs, processes still running |
 | **Next action** | One concrete first step. Never "continue" |
 
@@ -181,7 +182,7 @@ Product OS tracks progress in `progress.yaml`. Handover complements but doesn't 
 | `HANDOVER.md` | Session-specific state for next session |
 | `STATUS.md` | Long-running work status board |
 
-**Handover references progress.yaml state, doesn't redefine it.**
+**Handover references progress.yaml state, doesn't redefine it.** It lists open items so the next session sees what is still missing.
 
 ## What NOT to Include
 

@@ -1,0 +1,44 @@
+# Test fixture: v1.1 progress file with a document marked tbd (input for 1.1 -> 1.2 migration)
+schema_version: "1.1"
+initiative: tbd-initiative
+project: tbd-project
+created: 2026-11-01T10:00:00Z
+last_updated: 2026-11-07T09:00:00Z
+
+current_phase: define
+current_document: prd.md
+
+artifact_stages:
+  prd: early
+  estimation: tshirt
+
+phases:
+  intake:
+    status: complete
+    documents:
+      intake.md:
+        status: complete
+    exit_criteria:
+      problem_stated:
+        status: pass
+        evidence: "intake.md §Problem"
+    exit_criteria_passed: true
+
+  define:
+    status: in_progress
+    documents:
+      prd.md:
+        status: in_progress
+      metrics-framework.md:
+        status: tbd
+        tbd_reason: "Activation-rate baseline not available yet"
+        reviewer: "Jane Doe"
+      project-plan.md:
+        status: not_started
+
+gates_passed:
+  - intake_approved
+
+reviews:
+  prd_review:
+    status: not_started

@@ -70,6 +70,8 @@ Walks you step-by-step through all 9 phases:
 
 Progress is tracked in `initiatives/<initiative>/<project>/progress.yaml`. Check status with `/product-os:status`. Do the next step with `/product-os:next`.
 
+Missing information never blocks a phase: the PM can defer any document or exit criterion, it is tracked in `open_items` and resurfaced later, and open items are decided (resolve or accept risk) before Launch. Publishing approval and code-shipping release gates remain hard stops.
+
 See `docs/guides/guided-workflow.md` for the full playbook.
 
 ### Full Pipeline (Automated)

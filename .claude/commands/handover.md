@@ -48,6 +48,7 @@ Before writing, verify:
 | Evidence | What was run and observed (verified or not) |
 | Left to do | In order, each actionable |
 | Open decisions | Options, recommendation, owner |
+| Open items | Each open item from `progress.yaml`: what's missing, owner, revisit by |
 | Where things are | Branches, files, logs, processes |
 | Next action | One concrete step (never "continue") |
 
@@ -76,7 +77,7 @@ For long-running work, also maintains `STATUS.md` with:
 | `HANDOVER.md` | Session handover |
 | `STATUS.md` | Long-running status board |
 
-Handover references progress.yaml, doesn't duplicate.
+Handover references progress.yaml, doesn't duplicate. It does list the open items so the next session sees what is still missing.
 
 ## Quality Checklist
 

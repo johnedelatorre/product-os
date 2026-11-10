@@ -30,10 +30,14 @@ Initiative: customer-onboarding
 Project: self-serve-signup
 Phase: Define (4 of 9)
 
+Open items: 2
+  OI-1 prioritize · Sales sign-off on Q1 placement · owner TBD · revisit by Define (due now)
+  OI-2 define · Activation-rate baseline · owner Data team · revisit by Design
+
 Progress:
   ✓ Intake — complete
   ○ Discovery — skipped (time-sensitive)
-  ✓ Prioritize — complete
+  ◐ Prioritize — complete with open items (1)
   ▶ Define — in progress (PRD: in progress)
   · Design — not started
   · Review — not started
@@ -64,9 +68,10 @@ Phase: Define
 ## What It Does
 
 1. Reads `initiatives/<initiative>/<project>/progress.yaml`
-2. Calculates phase and document completion
-3. Lists gates passed
-4. Recommends next action
+2. Lists open items first: id, phase, what's missing, owner, revisit by, and which are due now
+3. Calculates phase and document completion
+4. Lists gates passed
+5. Recommends next action
 
 ## Agent
 

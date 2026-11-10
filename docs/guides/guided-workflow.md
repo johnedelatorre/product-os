@@ -1,6 +1,6 @@
 # Guided Workflow Playbook
 
-> **TL;DR:** Run `/product-os:guide` to walk through all 9 phases step-by-step. Progress tracked in `progress.yaml`. Skip phases with documented risks. Check status with `/product-os:status`.
+> **TL;DR:** Run `/product-os:guide` to walk through all 9 phases step-by-step. Progress tracked in `progress.yaml`. Missing information? Defer it and keep going; it is tracked as an open item and resurfaced later. Skip Discovery with documented risks. Check status with `/product-os:status`.
 
 ---
 
@@ -24,17 +24,39 @@
 
 ## The 9 Phases
 
-| # | Phase | Purpose | Can Skip? |
-|---|-------|---------|-----------|
-| 1 | **Intake** | Transform raw requirements into clear problem statement | No |
-| 2 | **Discovery** | Explore problem space before committing | Yes |
-| 3 | **Prioritize** | Decide if and when to build | No |
-| 4 | **Define** | PRD, brief, metrics, plan | No |
-| 5 | **Design** | Flows, wireframes, prototype | No |
-| 6 | **Review** | Critique, UX review, accessibility, gates | No |
-| 7 | **Deliver** | Epics, stories, Confluence, Jira | No |
-| 8 | **Launch** | Release notes, enablement | No |
-| 9 | **Measure** | Post-launch review, follow-ups | No |
+| # | Phase | Purpose | Skip or defer |
+|---|-------|---------|---------------|
+| 1 | **Intake** | Transform raw requirements into clear problem statement | Defer items |
+| 2 | **Discovery** | Explore problem space before committing | Skip phase, or defer items |
+| 3 | **Prioritize** | Decide if and when to build | Defer items |
+| 4 | **Define** | PRD, brief, metrics, plan | Defer items |
+| 5 | **Design** | Flows, wireframes, prototype | Defer items |
+| 6 | **Review** | Critique, UX review, accessibility, gates | Defer items |
+| 7 | **Deliver** | Epics, stories, Confluence, Jira | Defer items |
+| 8 | **Launch** | Release notes, enablement | Defer items |
+| 9 | **Measure** | Post-launch review, follow-ups | Defer items |
+
+Only Discovery can be skipped as a whole phase. In every phase you can defer a document or exit criterion you don't have the information for yet, and come back to it later.
+
+---
+
+## Missing Information? Keep Going
+
+1. **Say you don't have it yet.** For example: "No baseline yet, come back to it later."
+2. **Answer one short question.** What's missing, who can provide it (TBD is fine), and by which phase to revisit. The default is the next phase that depends on it, or Launch.
+3. **Keep going.** The item is marked `deferred` and added to `open_items` in `progress.yaml`. Documents still get written, with each gap marked as a named TBD (what's missing and the owner).
+4. **Phases still advance.** A phase whose remaining items are complete, N/A or deferred moves on as `complete_with_open_items`.
+5. **Items come back.** `/product-os:status` lists open items first. `/product-os:next` says how many are open and, when you reach an item's revisit phase, offers to resolve it first. You can decline. Resolve any item any time: "I have the baseline now."
+6. **Decide before Launch.** The guide lists every open item. For each, you choose: resolve now, or carry forward as an accepted risk (recorded with who accepted it).
+
+A failed exit criterion works the same way: fix it, or defer it as an open item.
+
+**Still hard stops:**
+
+| Rule | Why |
+|------|-----|
+| Nothing is published to Confluence or Jira without your explicit approval | Published pages and tickets reach other teams |
+| Code-shipping release gates: Not Verified blocks release, owner gives explicit GO | Unverified code reaches users |
 
 ---
 
@@ -61,11 +83,11 @@ sequenceDiagram
     end
     
     Guide->>Progress: Check exit criteria
-    alt Exit criteria passed
-        Guide->>Progress: Mark phase complete
+    alt Exit criteria passed, N/A or deferred
+        Guide->>Progress: Mark phase complete (or complete with open items)
         Guide->>PM: Advance to next phase
     else Exit criteria not met
-        Guide->>PM: Show gaps, suggest fixes
+        Guide->>PM: Show gaps: fix now or defer as open item
     end
 ```
 
@@ -215,7 +237,7 @@ See `.claude/skills/proposal.md` for the full proposal process.
 |--------|---------|
 | ✅ Pass | Criteria met with evidence |
 | ⚠️ Conditional | Minor gaps, can proceed with conditions |
-| ❌ Fail | Critical missing, cannot proceed |
+| ❌ Fail | Critical missing: fix, or defer as an open item |
 | N/A | Not applicable (documented reason) |
 | 🔍 Not Verified | Cannot confirm, investigate first |
 
@@ -251,7 +273,7 @@ See `.claude/skills/proposal.md` for the full proposal process.
 - [ ] Spikes created for unknown scope (no fabricated AC)
 - [ ] Testing and observability requirements specified
 - [ ] Traceability matrix complete (gaps have reasons)
-- [ ] **Human approved** Confluence/Jira publish
+- [ ] **Human approved** Confluence/Jira publish (can be deferred; nothing is published until approved)
 
 ---
 
@@ -263,6 +285,13 @@ See `.claude/skills/proposal.md` for the full proposal process.
 | `enablement.md` | launch-manager | — |
 | `launch-checklist.md` | launch-manager | — |
 | `decision-log.md` | decision-logger | — |
+
+**Open Items Decision:**
+On entering Launch, the guide lists every open item. For each, you choose:
+- Resolve now
+- Carry forward as an accepted risk (recorded with who accepted it)
+
+This is a decision point, not a block.
 
 **Context Freshness Check:**
 Before launch, verify:
@@ -312,9 +341,9 @@ Before launch, verify:
 | `/product-os:guide` | Start or resume guided mode |
 | `/product-os:guide <phase>` | Jump to a specific phase |
 | `/product-os:guide --skip` | Skip current phase with documented risks |
-| `/product-os:status` | Show current progress |
+| `/product-os:status` | Show current progress, open items first |
 | `/product-os:status --verbose` | Show detailed document status |
-| `/product-os:next` | Execute next recommended step |
+| `/product-os:next` | Execute next recommended step; offers to resolve open items that are due |
 
 ---
 
@@ -323,6 +352,7 @@ Before launch, verify:
 Progress is tracked in `initiatives/<slug>/<project>/progress.yaml`:
 
 ```yaml
+schema_version: "1.2"
 initiative: customer-onboarding
 project: self-serve-signup
 current_phase: define
@@ -342,10 +372,26 @@ phases:
     documents:
       prd.md:
         status: in_progress
+      metrics-framework.md:
+        status: deferred
+        missing: "Activation-rate baseline"
+        owner: "Data team"
+        revisit_by: design
+        deferred_on: 2026-11-06T19:00:00Z
+        open_item: OI-1
 
 gates_passed:
   - intake_approved
   - priority_confirmed
+
+open_items:
+  - id: OI-1
+    phase: define
+    item: metrics-framework.md
+    missing: "Activation-rate baseline"
+    owner: "Data team"
+    revisit_by: design
+    status: open
 ```
 
 ---
@@ -358,7 +404,7 @@ Discovery is optional, but skipping it has risks. Document why you're skipping a
 
 ### 2. Review Exit Criteria
 
-Each phase has exit criteria. Don't advance until they're met — or explicitly document why you're proceeding anyway.
+Each phase has exit criteria. Meet them, or defer the ones you can't meet yet so they're tracked as open items.
 
 ### 3. Use Verbose Status
 
@@ -385,8 +431,8 @@ If you already have a PRD and want to use guided mode:
 
 If you have a `progress.yaml` from an earlier version:
 
-1. Guide auto-migrates v1.0 schemas to v1.1
-2. New fields get sensible defaults
+1. Guide auto-migrates older schemas to `1.2`
+2. New fields get sensible defaults; documents marked `tbd` become `deferred` with an open item
 3. All existing progress preserved
 4. Review the migrated file to add new optional fields
 
@@ -415,7 +461,10 @@ A: Of course. Run individual commands like `/product-os:prd` directly. Guided mo
 A: Delete the `progress.yaml` file and run `/product-os:guide` again.
 
 **Q: What if PRD review finds blockers?**
-A: Blockers must be resolved before design phase. Guide tracks blocker status in `progress.yaml` and won't advance until cleared.
+A: Resolve them, or defer the ones you can't resolve yet. Deferred blockers are tracked as open items and resurface at their revisit phase.
+
+**Q: What if I don't have the information for a step?**
+A: Say so and keep going. The guide records what's missing, who can provide it and when to revisit, and tracks it as an open item. See [Missing Information? Keep Going](#missing-information-keep-going).
 
 **Q: Can I have an Early-stage PRD and still proceed?**
 A: Yes. Early PRDs can skip PRD Review and proceed to design for exploration. Mark the PRD as Defined once requirements are solid.
