@@ -92,7 +92,7 @@ Upgrading from ≤1.4: delete the old Product OS files from `.claude/commands/` 
 
 ### Full Command List
 
-See [`docs/reference/commands.md`](../reference/commands.md) (all 46 commands).
+See [`docs/reference/commands.md`](../reference/commands.md) (all 47 commands).
 
 ## Cursor Usage
 

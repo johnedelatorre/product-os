@@ -8,8 +8,8 @@ Product OS works in both **Claude Code** and **Cursor**:
 
 | Platform | Agents | Commands | Skills | Native Adapters |
 |----------|--------|----------|--------|-----------------|
-| Claude Code | 39 (subagents) | 46 (plugin slash commands, `/product-os:*`) | 40 (reference docs) | Full (Task tool) |
-| Cursor | 39 | Role-based invocation | 40 | 3 (`.cursor/agents/`) |
+| Claude Code | 40 (subagents) | 47 (plugin slash commands, `/product-os:*`) | 41 (reference docs) | Full (Task tool) |
+| Cursor | 40 | Role-based invocation | 41 | 3 (`.cursor/agents/`) |
 
 ### Cursor Native Adapters
 
@@ -18,7 +18,7 @@ Product OS provides 3 native Cursor agent adapters:
 - `prd-author.md` — Write PRDs
 - `intake-analyst.md` — Structure requirements
 
-### Role-Based Invocation (All 39 Roles)
+### Role-Based Invocation (All 40 Roles)
 
 For any role not in `.cursor/agents/`, use:
 ```
@@ -35,9 +35,11 @@ Key rules: Lead with the next action. Number multi-step tasks. End with one conc
 
 Documents include TL;DR blocks, scannable headings, and numbered steps while maintaining full depth.
 
+**Current state only.** Docs, Confluence pages, epics and tickets show the final state: no version banners, history blocks, change narratives or retired items. See `.claude/skills/doc-hygiene.md`; `/product-os:cleanup` cleans docs that already carry history.
+
 ---
 
-## Agent Roster (39 Agents)
+## Agent Roster (40 Agents)
 
 ### Pipeline Agents (7)
 
@@ -104,7 +106,7 @@ Documents include TL;DR blocks, scannable headings, and numbered steps while mai
 | Launch Manager | `launch-manager.md` | Release notes, enablement, changelog | `/product-os:launch` |
 | Stakeholder Comms | `stakeholder-comms.md` | Updates, summaries | `/product-os:comms` |
 
-### Governance Agents (5)
+### Governance Agents (6)
 
 | Agent | File | Role | Command |
 |-------|------|------|---------|
@@ -113,6 +115,7 @@ Documents include TL;DR blocks, scannable headings, and numbered steps while mai
 | Risk Manager | `risk-manager.md` | Risk register | `/product-os:risks` |
 | Debt Tracker | `debt-tracker.md` | Tech and design debt | `/product-os:debt` |
 | Decision Logger | `decision-logger.md` | ADR-style decisions | `/product-os:decision` |
+| Doc Cleaner | `doc-cleaner.md` | Strip version history from docs, pages and tickets | `/product-os:cleanup` |
 
 ### Tool Agents (3)
 

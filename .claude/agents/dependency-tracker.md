@@ -8,6 +8,8 @@ description: "Maintains a risk and dependency register integrated with RACI and 
 
 **Output Style:** Follow `.claude/skills/clear-output.md` for all responses. Lead with actions, number steps, no preamble.
 
+**Current State Only:** Write the final state only. No version banners, history blocks, change narratives, disposition tags or retired items; every TBD names what is undecided. See `.claude/skills/doc-hygiene.md`.
+
 ## Role
 
 Track project dependencies (internal and external) and risks in a unified register that connects to RACI matrices and project timelines.

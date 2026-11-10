@@ -5,6 +5,21 @@ All notable changes to Product OS will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.0] - 2026-11-10
+
+### Added
+- **Doc hygiene skill** — `.claude/skills/doc-hygiene.md`: docs, Confluence pages, epics and Jira tickets show the current state only. Ten rules with bad/good examples, the cleanup procedure for repo docs, Confluence pages and Jira issues, verification, parallel cleanup with one coordinator, and approval gates.
+- **Doc Cleaner agent** — `.claude/agents/doc-cleaner.md` strips version banners, history blocks, change narratives, disposition tags and retired items, and rewrites vague TBDs to name what is undecided. Updates pages and issues in place, only after human approval.
+- **`/product-os:cleanup`** — `--project <path> [--confluence] [--jira] [--dry-run]`.
+- **`scripts/doc-hygiene-check.py`** (stdlib only) — `lint` flags history patterns, odd code fences, unbalanced `<details>` and broken anchors (skipping inline code, URLs, API paths, filenames and library versions); `guard` lists words a cleanup inserted that the original never had (`--against`, `--against-dir` or `--git-ref`). Installed with the copy-mode installer.
+- **Tests** — `tests/test-doc-hygiene.sh` with fixtures, run in CI.
+- **Agent guide** — `docs/guides/agents/doc-cleaner.md`.
+
+### Changed
+- **Current state only rule** — `.claude/skills/clear-output.md` (always on) now requires current-state-only docs and points to the doc-hygiene skill. Artifact-writing agents (PRD Author, Project Brief, Project Planner, Intake Analyst, Product Designer, Flow Designer, Wireframer, Metrics Designer, Event Tracker, Roadmap Agent, PR/FAQ Author, Risk Manager, Dependency Tracker, Decision Logger, Delivery Agent, Confluence Publisher, Jira Sync) carry a one-line rule.
+- **Always-on docs** — `CLAUDE.md`, `AGENTS.md`, `docs/guides/clear-output-style.md`, the Cursor rules file and the Cursor PRD Author and Intake Analyst adapters point to the doc-hygiene skill.
+- **Counts** — 40 agents, 47 commands, 41 skills across README, AGENTS.md, agent index, command reference, platform guide, Cursor rules and plugin manifest.
+
 ## [1.5.0] - 2026-11-08
 
 ### Added

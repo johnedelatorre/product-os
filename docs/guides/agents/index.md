@@ -1,6 +1,6 @@
 # Agent Guide Index
 
-Complete documentation for all 39 Product OS agents.
+Complete documentation for all 40 Product OS agents.
 
 ## Pipeline Agents (7)
 
@@ -67,7 +67,7 @@ Complete documentation for all 39 Product OS agents.
 | [Launch Manager](launch-manager.md) | Go-to-market | Release notes, enablement |
 | [Stakeholder Comms](stakeholder-comms.md) | Communications | Updates, release notes |
 
-## Governance Agents (5)
+## Governance Agents (6)
 
 | Agent | Guide | What It Does |
 |-------|-------|--------------|
@@ -76,6 +76,7 @@ Complete documentation for all 39 Product OS agents.
 | [Risk Manager](risk-manager.md) | Risks | Risk register |
 | [Debt Tracker](debt-tracker.md) | Tech debt | Tech and design debt |
 | [Decision Logger](decision-logger.md) | Decisions | ADR-style records |
+| [Doc Cleaner](doc-cleaner.md) | Doc hygiene | Strips version history from docs, pages and tickets |
 
 ## Tool Agents (3)
 

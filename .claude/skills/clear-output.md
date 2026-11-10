@@ -123,6 +123,17 @@ Every document starts with:
 - **Tables over prose** — Use tables for structured data
 - **Bold key terms** — First mention of important concepts in bold
 
+### Current State Only
+
+Docs, Confluence pages, epics and tickets show the current, final state. History lives in Confluence page history, git and Jira issue history.
+
+- No version banners, `kept as history` text, superseded TL;DRs or history blocks
+- No change narratives (`was X, now Y`, `renamed from`) or Re-scoped / New / Amended tags
+- Retired items are removed entirely; Deferred and Parked stay, labelled plainly
+- Every TBD names what is undecided
+
+Rules, examples and the cleanup procedure: `.claude/skills/doc-hygiene.md`. Changelogs, release notes and status updates describe change by design and are exempt.
+
 ### Keep Full Depth
 
 Documents remain complete. PRDs keep all 19 sections. The style governs structure and wording, not content removal. A styled PRD is easier to read, not shorter.

@@ -16,8 +16,8 @@ Every initiative starts with a clear problem statement backed by evidence. Every
 ## Canonical Content Location
 
 Product OS canonical content lives in `.claude/`:
-- **Agents:** `.claude/agents/*.md` — 39 specialist agents
-- **Skills:** `.claude/skills/*.md` — 40 reusable skills
+- **Agents:** `.claude/agents/*.md` — 40 specialist agents
+- **Skills:** `.claude/skills/*.md` — 41 reusable skills
 - **Commands:** `.claude/commands/*.md` in the Product OS repo (installed targets keep a reference copy in `.claude/product-os/commands/`; Claude Code runs them as `/product-os:<command>` via the plugin)
 
 Also read:
@@ -32,6 +32,7 @@ Follow `.claude/skills/clear-output.md`:
 3. End with one concrete next step
 4. No preamble, no recap, no closers
 5. Cap lists to 5 items
+6. Current state only: no version history, change narratives or retired items in docs and tickets (`.claude/skills/doc-hygiene.md`)
 
 ## Guided Workflow
 
@@ -77,6 +78,7 @@ Read .claude/skills/proposal.md and research this idea: [idea]
 | Release Gate | Code shipping process | `.claude/skills/release-gate.md` |
 | Session Handover | Cross-session state | `.claude/skills/session-handover.md` |
 | Estimation | T-shirt → Fibonacci staging | `.claude/skills/estimation.md` |
+| Doc Hygiene | Current-state-only docs, cleanup procedure | `.claude/skills/doc-hygiene.md` |
 
 ## Progress Tracking
 

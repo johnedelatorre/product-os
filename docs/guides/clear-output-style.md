@@ -109,6 +109,7 @@ Additional structure rules:
 - **Short lists** — Cap at 5 items; expandable sections for more
 - **Tables over prose** — Structured data in tables
 - **Bold key terms** — First mention of important concepts
+- **Current state only** — No version banners, history blocks, change narratives or retired items; history lives in page, git and issue history. See `.claude/skills/doc-hygiene.md` and `/product-os:cleanup`.
 
 ---
 

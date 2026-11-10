@@ -288,6 +288,9 @@ install_copy() {
     if [[ -f "$PRODUCT_OS_DIR/scripts/atlassian-fallback.py" ]]; then
         safe_copy "$PRODUCT_OS_DIR/scripts/atlassian-fallback.py" "$target_dir/scripts/atlassian-fallback.py" "$force"
     fi
+    if [[ -f "$PRODUCT_OS_DIR/scripts/doc-hygiene-check.py" ]]; then
+        safe_copy "$PRODUCT_OS_DIR/scripts/doc-hygiene-check.py" "$target_dir/scripts/doc-hygiene-check.py" "$force"
+    fi
     
     # Create initiatives directory
     mkdir -p "$target_dir/initiatives"

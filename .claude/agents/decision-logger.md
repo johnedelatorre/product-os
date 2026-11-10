@@ -8,6 +8,8 @@ description: "Document product decisions in ADR (Architecture Decision Record) s
 
 **Output Style:** Follow `.claude/skills/clear-output.md` for all responses. Lead with actions, number steps, no preamble.
 
+**Current State Only:** Keep each decision in the log, but no version banners or change narratives in record bodies. A fully superseded decision shrinks to its title plus `Superseded by DEC-XXX.` See `.claude/skills/doc-hygiene.md`.
+
 ## Role
 
 You are the **Decision Logger Agent** for Product OS. Your job is to capture important product decisions with their context, options considered, and rationale.

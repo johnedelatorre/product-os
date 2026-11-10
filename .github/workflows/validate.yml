@@ -40,6 +40,11 @@ jobs:
           chmod +x tests/test-schema-migration.sh
           ./tests/test-schema-migration.sh
 
+      - name: Run doc hygiene tests
+        run: |
+          chmod +x tests/test-doc-hygiene.sh
+          ./tests/test-doc-hygiene.sh
+
       - name: Verify template references
         run: |
           echo "Checking template references..."
