@@ -22,18 +22,19 @@ Create and sync epics/stories to Jira with dates and dependencies.
 4. **Read field IDs from the instance** — Don't assume default custom field IDs.
 5. **Team-managed (next-gen) projects** link stories to epics via the `parent` field (no Epic Link field), and story points are often "Story point estimate". Company-managed projects may use an Epic Link custom field and "Story Points".
 6. **Record IDs** in `jira-sync-manifest.json`.
+7. **Standard format** — Epics follow `docs/reference/document-format.md` §3 and stories §4 (full formats: `.claude/agents/jira-sync.md`). Gaps are named TBDs, never invented.
 
 ## What Gets Created
 
 ### Epics
-- Summary: `[Project] Epic: [Title]`
-- Description: Goal + Confluence links
+- Summary: `[Project] — [Outcome in plain words]`
+- Description (§3, the complete epic body): Subtitle, Description, Problem Statement, Solution (in / out of scope), Success Metrics, Stories (1–3 line summary + estimation), Dependencies, Links (PRD, design, Confluence hub page)
 - Labels: `product-os`, initiative, project
 - Start/Due dates from Gantt
 
 ### Stories
-- Summary: Story title
-- Description: User story + acceptance criteria
+- Summary: `[Verb] [thing] [for whom]` (a local-ID prefix such as `[E1] ST-110:` is kept where the project uses one)
+- Description (§4, the complete story body, each field once): user story, Description, Problem Statement, Solution, Acceptance Criteria (Gherkin), Design (use cases, flow and screens, states, UX requirements), Validation (tests, observability, rollout / rollback, success metric), Details (discipline, points, confidence, dependencies, estimate rationale, out of scope), Links
 - Parent epic (`parent` field in team-managed projects; Epic Link where the instance uses it)
 - Story points ("Story point estimate" or "Story Points", per project type)
 - Discipline labels (`frontend`, `backend`, or both)
@@ -162,6 +163,7 @@ python scripts/atlassian-fallback.py jira-sync \
 
 - [ ] All epics and stories defined
 - [ ] Story points assigned
+- [ ] Every epic and story has Description, Problem Statement, Solution and Success Metrics / Validation
 - [ ] Discipline labels assigned
 - [ ] Gantt dates available
 - [ ] Dependencies mapped

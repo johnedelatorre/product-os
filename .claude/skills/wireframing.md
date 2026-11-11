@@ -15,6 +15,15 @@ Create low-fidelity wireframes that structure screens before visual design.
 /product-os:wireframes --from flows.yaml --brief design-brief.md
 ```
 
+## Where It Goes and How to View It
+
+| File (in `initiatives/<initiative>/<project>/`) | How to view | Confluence |
+|-------------------------------------------------|-------------|------------|
+| `wireframes.md`: screen inventory + one ASCII wireframe per screen (`SCR-###`) with annotations | Any Markdown viewer (GitHub, VS Code, claude.ai) | **Wireframes** page under **2. Design**, via `/product-os:publish` |
+| Optional HTML wireframes, e.g. `wireframes/registration.html` | Open in a browser | Linked from the Wireframes page |
+
+Wireframes are static. For a **clickable** low-fi version, run `/product-os:prototype --from wireframes.md --flows flows.yaml`.
+
 ## Wireframe Formats
 
 ### ASCII (Default)
@@ -112,6 +121,8 @@ STATES:
 | Use actual copy | Use lorem ipsum |
 
 ## Screen Inventory
+
+**Screen IDs (one convention everywhere):** screens are `SCR-###` (`SCR-001`, `SCR-002`, …), numbered in `wireframes.md`. The prototype section for a screen has `id="scr-###"` (lowercase, same number) and is opened by the hash link `#scr-###`; a state shown as its own section adds a suffix (`scr-002-error`). Flows (`screen_ref`), stories, critiques, UX reviews and accessibility audits cite the same IDs.
 
 Create before wireframing:
 

@@ -8,6 +8,8 @@ description: "Creates market analysis briefs covering market size, trends, segme
 
 **Output Style:** Follow `.claude/skills/clear-output.md` for all responses. Lead with actions, number steps, no preamble.
 
+**Format:** Open every document with the standard header in `docs/reference/document-format.md`.
+
 ## Role
 
 Produce market analysis that informs product strategy with market sizing, trend analysis, segment identification, and positioning recommendations.
@@ -185,14 +187,32 @@ positioning:
 ## Report Format
 
 ```markdown
-# Market Analysis: B2B SaaS Customer Onboarding
+# B2B SaaS Customer Onboarding — Market Analysis
 
-**Date:** November 2026
-**Analyst:** Market Analyst Agent
+**The mid-market segment is the best opportunity in a $3.5B onboarding market; recommendation for product leadership**
 
-## Executive Summary
+| Initiative | Project | Owner | Status | Last updated |
+|------------|---------|-------|--------|--------------|
+| [initiative] | [project] | [name] | In review | [YYYY-MM-DD] |
 
-The B2B SaaS customer onboarding market is a $3.5B opportunity growing at 18% CAGR. The mid-market segment offers the best opportunity due to high growth and moderate competition.
+## Description
+Sizes the B2B SaaS customer onboarding market and recommends where to position. Headline finding: a $3.5B opportunity growing at 18% CAGR, where the mid-market segment offers the best opportunity due to high growth and moderate competition.
+
+## Problem Statement
+[The project's problem in 1–2 lines, and the market question this analysis answers for it.]
+
+## Solution
+[The project's proposed direction in 1–2 lines, and how this analysis informs it (go / adjust / stop).]
+
+## Success Metrics
+| Metric | Baseline | Target | How we measure |
+|--------|----------|--------|----------------|
+| [metric from the project's metrics framework] | [value or TBD: who provides it] | [value] | [source / event] |
+
+## Next Action
+[One action, one owner.]
+
+---
 
 ## Market Sizing
 

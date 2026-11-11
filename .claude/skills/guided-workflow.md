@@ -226,12 +226,12 @@ Each criterion has a status: `pass` | `fail` | `conditional` | `na` | `not_verif
 | Wireframes address all PRD requirements | Yes (or defer) |
 | Prototype is testable | Yes (or defer) |
 
-### Review
+### Review (review exit check)
 | Criterion | Required |
 |-----------|----------|
-| No critical design issues (or accepted risk) | Yes (or defer) |
+| Every critique, UX and accessibility finding resolved (or accepted with documented risk) | Yes (or defer) |
+| No critical design issues left open | Yes (or defer) |
 | WCAG 2.2 AA compliance verified | Yes (or defer) |
-| Gate report complete with evidence | Yes (or defer) |
 | Not-verified items have investigation plan | Conditional (or defer) |
 
 ### Deliver
@@ -243,6 +243,7 @@ Each criterion has a status: `pass` | `fail` | `conditional` | `na` | `not_verif
 | Testing requirements specified | Yes (or defer) |
 | Observability requirements specified | Yes (or defer) |
 | Traceability matrix complete | Yes (or defer) |
+| Definition of Ready gate report complete with evidence | Yes (or defer) |
 | Human approved publish | Yes (or defer; nothing publishes until approved) |
 
 ### Launch

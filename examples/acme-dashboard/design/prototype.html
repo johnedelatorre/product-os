@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prototype: Dashboard Performance (fictional Acme example)</title>
+<!--
+  Dashboard Performance — clickable low-fi prototype.
+  Fictional example: Acme Corp and every figure here are invented.
+  Built from wireframes.md (SCR-001 to SCR-005) and flows.yaml (FLOW-001 to FLOW-003).
+  Self-contained: no external assets. Grayscale on purpose (low fidelity).
+  Keys: right/left arrow = next/previous screen, a = annotations, e = error state, r = reset.
+-->
+<style>
+  :root { --ink:#1f1f1f; --mid:#6b6b6b; --line:#bdbdbd; --fill:#f2f2f2; --block:#dcdcdc; --bg:#ffffff; }
+  * { box-sizing: border-box; }
+  body { margin:0; font: 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; color:var(--ink); background:#e9e9e9; }
+  a { color: inherit; }
+
+  /* Prototype chrome (not part of the design) */
+  .proto-bar { position: sticky; top: 0; z-index: 10; background:#2b2b2b; color:#fff; padding:8px 16px; display:flex; flex-wrap:wrap; gap:8px 16px; align-items:center; font-size:13px; }
+  .proto-bar strong { margin-right: 8px; }
+  .proto-bar a { color:#fff; text-decoration:none; padding:4px 8px; border:1px solid #555; border-radius:4px; }
+  .proto-bar a[aria-current="page"] { background:#fff; color:#2b2b2b; }
+  .proto-bar button { font:inherit; background:none; color:#fff; border:1px solid #888; border-radius:4px; padding:4px 8px; cursor:pointer; }
+  .proto-bar .keys { color:#bbb; }
+
+  .screen { display:none; max-width:1280px; margin:16px auto; background:var(--bg); border:1px solid var(--line); }
+  .screen.active { display:block; }
+
+  /* App shell */
+  .topbar { display:flex; justify-content:space-between; align-items:center; padding:10px 16px; border-bottom:1px solid var(--line); }
+  .logo { display:inline-block; width:28px; height:28px; background:var(--block); vertical-align:middle; margin-right:12px; }
+  .shell { display:grid; grid-template-columns: 180px 1fr; min-height: 560px; }
+  .sidenav { border-right:1px solid var(--line); padding:16px; }
+  .sidenav a { display:block; padding:10px 0; text-decoration:none; color:var(--mid); }
+  .sidenav a.current { color:var(--ink); font-weight:600; }
+  main { padding:16px 20px 24px; }
+  .page-head { display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin-bottom:16px; }
+  .page-head h1 { font-size:22px; margin:0 16px 0 0; }
+  .page-head .spacer { flex:1; }
+  select { font:inherit; min-height:44px; padding:0 8px; border:1px solid var(--line); background:#fff; }
+
+  .btn, .btn-primary { display:inline-flex; align-items:center; justify-content:center; min-height:44px; padding:0 16px; border-radius:4px; font:inherit; cursor:pointer; text-decoration:none; }
+  .btn { background:#fff; border:1px solid var(--ink); color:var(--ink); }
+  .btn-primary { background:var(--ink); border:1px solid var(--ink); color:#fff; }
+
+  /* Widgets */
+  .kpi-row { display:grid; gap:12px; margin-bottom:12px; }
+  .kpi-row.four { grid-template-columns: repeat(4, 1fr); }
+  .kpi-row.three { grid-template-columns: repeat(3, 1fr); }
+  .grid-2 { display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin-bottom:12px; }
+  .widget { border:1px solid var(--line); padding:12px 14px; min-height:96px; position:relative; }
+  .widget h2 { font-size:15px; margin:0 0 8px; }
+  .kpi .value { font-size:24px; font-weight:600; }
+  .kpi .delta { color:var(--mid); font-size:13px; }
+  .bar { display:flex; align-items:center; gap:8px; margin:4px 0; font-size:13px; }
+  .bar span.fill { display:inline-block; height:12px; background:#8c8c8c; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  td { padding:4px 0; border-top:1px solid var(--fill); }
+  td.num { text-align:right; }
+  .updated { position:absolute; right:12px; bottom:6px; font-size:11px; color:var(--mid); }
+  .chart-line { height:72px; background: repeating-linear-gradient(90deg, var(--fill) 0 1px, transparent 1px 14%), linear-gradient(transparent 60%, var(--block) 60% 62%, transparent 62%); }
+
+  /* Skeleton (SCR-001 and lazy widgets) */
+  .sk { background:var(--block); height:12px; margin:8px 0; border-radius:2px; }
+  .sk.short { width:40%; } .sk.mid { width:65%; } .sk.long { width:90%; }
+  .skeleton { animation: pulse 1.4s ease-in-out infinite; }
+  @keyframes pulse { 50% { opacity:.55; } }
+  @media (prefers-reduced-motion: reduce) { .skeleton { animation:none; } }
+
+  /* Problem widgets (SCR-003): one shared treatment for all three states */
+  .widget.problem { border:2px dashed var(--mid); background:var(--fill); }
+  .widget.problem p { margin:4px 0 10px; }
+
+  /* Notice (SCR-004) */
+  .notice { border:1px solid var(--line); background:var(--fill); padding:10px 12px; display:flex; flex-wrap:wrap; gap:8px; align-items:center; justify-content:space-between; margin-bottom:10px; }
+
+  /* Empty state (SCR-005) */
+  .empty { text-align:center; padding:72px 16px; }
+  .empty .icon { width:56px; height:56px; background:var(--block); margin:0 auto 16px; }
+  .empty .actions { display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:20px; }
+
+  .below-fold { margin-top:24px; }
+  .below-fold h3 { font-size:13px; color:var(--mid); font-weight:600; margin:0 0 8px; }
+
+  /* Annotations and prototype controls */
+  .note { display:none; border:1px dashed #555; background:#fffbe6; color:#3a3a3a; padding:8px 10px; margin:10px 0; font-size:13px; }
+  body.annotate .note { display:block; }
+  .sim { border-top:1px solid var(--line); background:#fafafa; padding:10px 16px; font-size:13px; display:flex; flex-wrap:wrap; gap:8px 12px; align-items:center; }
+  .sim a { padding:6px 10px; border:1px solid var(--mid); border-radius:4px; text-decoration:none; }
+  .caption { border-top:1px solid var(--line); padding:8px 16px; font-size:12px; color:var(--mid); }
+
+  @media (max-width: 767px) {
+    .shell { grid-template-columns: 1fr; }
+    .sidenav { display:flex; gap:16px; overflow-x:auto; border-right:0; border-bottom:1px solid var(--line); padding:0 16px; }
+    .kpi-row.four, .kpi-row.three { grid-template-columns: 1fr 1fr; }
+    .grid-2 { grid-template-columns: 1fr; }
+    .notice .btn-primary, .problem .btn { width:100%; }
+  }
+</style>
+</head>
+<body class="annotate">
+
+<nav class="proto-bar" aria-label="Prototype screens">
+  <strong>Dashboard Performance · prototype</strong>
+  <a href="#scr-001">SCR-001 Loading</a>
+  <a href="#scr-002">SCR-002 Loaded</a>
+  <a href="#scr-003">SCR-003 Widget problems</a>
+  <a href="#scr-004">SCR-004 Large dataset</a>
+  <a href="#scr-005">SCR-005 Empty workspace</a>
+  <button type="button" id="toggle-notes" aria-pressed="true">Annotations (a)</button>
+  <span class="keys">← → screens · e error · r reset</span>
+</nav>
+
+<!-- ============ SCR-001 · Dashboard — loading (FLOW-001 steps 2–3; REQ-001, REQ-002) ============ -->
+<section id="scr-001" class="screen" data-flow="FLOW-001" aria-labelledby="scr-001-title">
+  <div class="topbar"><span><span class="logo" aria-hidden="true"></span>Acme Corp ▾</span><span>Help · ◯</span></div>
+  <div class="shell">
+    <nav class="sidenav" aria-label="Main"><a class="current" href="#scr-001">Dashboard</a><a href="#scr-001">Reports</a><a href="#scr-001">Data sources</a><a href="#scr-001">Settings</a></nav>
+    <main>
+      <div class="page-head">
+        <h1 id="scr-001-title">Dashboard</h1>
+        <select aria-label="Date range"><option>Last 7 days</option></select>
+        <span class="spacer"></span>
+        <a class="btn" href="#scr-001">Refresh</a>
+        <a class="btn-primary" href="#scr-001">Export</a>
+      </div>
+      <div class="note">SCR-001 · FLOW-001 step 2 · REQ-001: skeleton in the final layout within 1 s. Each block is replaced by its widget as data arrives.</div>
+      <div class="kpi-row four">
+        <div class="widget skeleton" aria-hidden="true"><div class="sk short"></div><div class="sk mid"></div></div>
+        <div class="widget skeleton" aria-hidden="true"><div class="sk short"></div><div class="sk mid"></div></div>
+        <div class="widget skeleton" aria-hidden="true"><div class="sk short"></div><div class="sk mid"></div></div>
+        <div class="widget skeleton" aria-hidden="true"><div class="sk short"></div><div class="sk mid"></div></div>
+      </div>
+      <div class="grid-2">
+        <div class="widget skeleton" aria-hidden="true"><div class="sk short"></div><div class="sk long"></div><div class="sk long"></div></div>
+        <div class="widget skeleton" aria-hidden="true"><div class="sk short"></div><div class="sk long"></div><div class="sk long"></div></div>
+      </div>
+      <div class="grid-2">
+        <div class="widget skeleton" aria-hidden="true"><div class="sk short"></div><div class="sk long"></div></div>
+        <div class="widget skeleton" aria-hidden="true"><div class="sk short"></div><div class="sk long"></div></div>
+      </div>
+    </main>
+  </div>
+  <div class="sim">Prototype: <a href="#scr-002">Load completes → SCR-002</a> <a href="#scr-003">A widget fails → SCR-003</a> <a href="#scr-005">Workspace has no data → SCR-005</a></div>
+  <div class="caption">SCR-001 · Skeleton in under 1 s; widgets replace their block as data arrives</div>
+</section>
+
+<!-- ============ SCR-002 · Dashboard — loaded (FLOW-001 steps 4–5; REQ-002, REQ-003, REQ-007) ============ -->
+<section id="scr-002" class="screen" data-flow="FLOW-001" aria-labelledby="scr-002-title">
+  <div class="topbar"><span><span class="logo" aria-hidden="true"></span>Acme Corp ▾</span><span>Help · ◯</span></div>
+  <div class="shell">
+    <nav class="sidenav" aria-label="Main"><a class="current" href="#scr-002">Dashboard</a><a href="#scr-002">Reports</a><a href="#scr-002">Data sources</a><a href="#scr-002">Settings</a></nav>
+    <main>
+      <div class="page-head">
+        <h1 id="scr-002-title">Dashboard</h1>
+        <select aria-label="Date range" id="range-02"><option value="7">Last 7 days</option><option value="365">Last 12 months</option></select>
+        <span class="spacer"></span>
+        <a class="btn" href="#scr-001">Refresh</a>
+        <a class="btn-primary" href="#scr-002">Export</a>
+      </div>
+      <div class="note">SCR-002 · FLOW-001 step 4 · Interactive once the 7 above-the-fold widgets render (fires <code>dashboard_interactive</code>). Choose "Last 12 months" to see SCR-004.</div>
+      <div class="kpi-row three">
+        <section class="widget kpi" aria-label="Active users"><h2>Active users</h2><div class="value">1,284</div><div class="delta">▲ up 6% vs previous 7 days</div></section>
+        <section class="widget kpi" aria-label="Revenue"><h2>Revenue</h2><div class="value">$412,900</div><div class="delta">▲ up 3%</div></section>
+        <section class="widget kpi" aria-label="Open tickets"><h2>Open tickets</h2><div class="value">37</div><div class="delta">▼ down 12%</div></section>
+      </div>
+      <div class="grid-2">
+        <section class="widget" aria-label="Revenue by region"><h2>Revenue by region</h2>
+          <div class="bar">NA <span class="fill" style="width:60%"></span> $198k</div>
+          <div class="bar">EMEA <span class="fill" style="width:40%"></span> $131k</div>
+          <div class="bar">APAC <span class="fill" style="width:25%"></span> $84k</div>
+          <span class="updated">Last updated 2 min ago</span></section>
+        <section class="widget" aria-label="Active users (daily)"><h2>Active users (daily)</h2><div class="chart-line" role="img" aria-label="Daily active users, Monday to Sunday, between 1,120 and 1,310"></div><span class="updated">Last updated 2 min ago</span></section>
+      </div>
+      <div class="grid-2">
+        <section class="widget" aria-label="Orders"><h2>Orders (last 7 days) · 3,912</h2>
+          <table><tr><td>#10482</td><td>Northgate Ltd</td><td class="num">$1,240</td></tr><tr><td>#10481</td><td>Brightwater Co</td><td class="num">$860</td></tr></table>
+          <span class="updated">Last updated 2 min ago</span></section>
+        <section class="widget" aria-label="Billing"><h2>Billing</h2>
+          <table><tr><td>Next invoice</td><td>Dec 1</td><td class="num">$18,400</td></tr><tr><td>Plan</td><td>Enterprise</td><td></td></tr></table>
+          <span class="updated">Last updated 2 min ago</span></section>
+      </div>
+      <div class="below-fold">
+        <h3>Below the fold · loads as you scroll (REQ-003)</h3>
+        <div class="grid-2" id="lazy-grid">
+          <section class="widget lazy skeleton" data-title="Top accounts" data-body="Northgate Ltd · Brightwater Co · Halcyon Foods"><div class="sk short"></div><div class="sk long"></div></section>
+          <section class="widget lazy skeleton" data-title="Usage by feature" data-body="Reports 41% · Exports 27% · Alerts 18%"><div class="sk short"></div><div class="sk long"></div></section>
+          <section class="widget lazy skeleton" data-title="Churn risk" data-body="3 accounts flagged this week"><div class="sk short"></div><div class="sk long"></div></section>
+          <section class="widget lazy skeleton" data-title="Support volume" data-body="214 tickets · median first reply 2 h"><div class="sk short"></div><div class="sk long"></div></section>
+          <section class="widget lazy skeleton" data-title="Data source health" data-body="4 of 4 sources synced"><div class="sk short"></div><div class="sk long"></div></section>
+        </div>
+      </div>
+    </main>
+  </div>
+  <div class="sim">Prototype: <a href="#scr-003">Simulate a widget failure → SCR-003</a> <a href="#scr-004">Switch to Last 12 months → SCR-004</a> <a href="#scr-001">Refresh → SCR-001</a></div>
+  <div class="caption">SCR-002 · Interactive once the 7 above-the-fold widgets render</div>
+</section>
+
+<!-- ============ SCR-003 · Dashboard — widget problems (FLOW-002; REQ-004, REQ-005, REQ-010) ============ -->
+<section id="scr-003" class="screen" data-flow="FLOW-002" aria-labelledby="scr-003-title">
+  <div class="topbar"><span><span class="logo" aria-hidden="true"></span>Acme Corp ▾</span><span>Help · ◯</span></div>
+  <div class="shell">
+    <nav class="sidenav" aria-label="Main"><a class="current" href="#scr-003">Dashboard</a><a href="#scr-003">Reports</a><a href="#scr-003">Data sources</a><a href="#scr-003">Settings</a></nav>
+    <main>
+      <div class="page-head">
+        <h1 id="scr-003-title">Dashboard</h1>
+        <select aria-label="Date range"><option>Last 7 days</option></select>
+        <span class="spacer"></span>
+        <a class="btn" href="#scr-001">Refresh</a>
+        <a class="btn-primary" href="#scr-003">Export</a>
+      </div>
+      <div class="note">SCR-003 · FLOW-002 · Error (Revenue by region), timeout (Active users), no access (Billing). Other widgets stay usable.</div>
+      <div class="kpi-row three">
+        <section class="widget kpi" aria-label="Active users"><h2>Active users</h2><div class="value">1,284</div></section>
+        <section class="widget kpi" aria-label="Revenue"><h2>Revenue</h2><div class="value">$412,900</div></section>
+        <section class="widget kpi" aria-label="Open tickets"><h2>Open tickets</h2><div class="value">37</div></section>
+      </div>
+      <div class="grid-2">
+        <section class="widget problem" id="w03-revenue" aria-label="Revenue by region"><h2>Revenue by region</h2>
+          <div aria-live="polite"><p>⚠ Couldn't load this widget.</p></div>
+          <button type="button" class="btn" id="retry-revenue" aria-label="Retry Revenue by region">Retry</button></section>
+        <section class="widget problem" id="w03-active" aria-label="Active users (daily)"><h2>Active users (daily)</h2>
+          <div aria-live="polite"><p>⚠ Still loading after 10 seconds.</p></div>
+          <a class="btn" id="retry-active" href="#scr-001" aria-label="Retry Active users">Retry</a></section>
+      </div>
+      <div class="grid-2">
+        <section class="widget" aria-label="Orders"><h2>Orders (last 7 days) · 3,912</h2>
+          <table><tr><td>#10482</td><td>Northgate Ltd</td><td class="num">$1,240</td></tr><tr><td>#10481</td><td>Brightwater Co</td><td class="num">$860</td></tr></table></section>
+        <section class="widget problem" id="w03-billing" aria-label="Billing"><h2>Billing</h2>
+          <div aria-live="polite"><p>⚠ You don't have access to Billing.</p></div>
+          <button type="button" class="btn" id="request-access">Request access</button></section>
+      </div>
+    </main>
+  </div>
+  <div class="sim">Prototype: first Retry on Revenue by region fails (FLOW-002 step 4b), the second succeeds in place (step 4a) · <a href="#scr-002">Back to SCR-002</a></div>
+  <div class="caption">SCR-003 · One widget's problem never blocks the others</div>
+</section>
+
+<!-- ============ SCR-004 · Dashboard — large dataset (FLOW-003 steps 1b–3a; REQ-006) ============ -->
+<section id="scr-004" class="screen" data-flow="FLOW-003" aria-labelledby="scr-004-title">
+  <div class="topbar"><span><span class="logo" aria-hidden="true"></span>Acme Corp ▾</span><span>Help · ◯</span></div>
+  <div class="shell">
+    <nav class="sidenav" aria-label="Main"><a class="current" href="#scr-004">Dashboard</a><a href="#scr-004">Reports</a><a href="#scr-004">Data sources</a><a href="#scr-004">Settings</a></nav>
+    <main>
+      <div class="page-head">
+        <h1 id="scr-004-title">Dashboard</h1>
+        <select aria-label="Date range"><option>Last 12 months</option></select>
+        <span class="spacer"></span>
+        <a class="btn" href="#scr-001">Refresh</a>
+        <a class="btn-primary" href="#scr-004">Export</a>
+      </div>
+      <div class="note">SCR-004 · FLOW-003 · Widgets over 50,000 rows open on the last 30 days (REQ-006). Threshold open: PRD Q-3.</div>
+      <section class="widget" id="w04-orders" aria-label="Orders"><h2>Orders · 58,204</h2>
+        <div class="notice" id="large-notice"><span>Showing the last 30 days (2.3M rows in total).</span>
+          <button type="button" class="btn-primary" id="load-full">Load full range</button></div>
+        <div id="full-status"></div>
+        <table id="orders-table">
+          <tr><td>#10482</td><td>Northgate Ltd</td><td>Nov 10</td><td class="num">$1,240</td></tr>
+          <tr><td>#10481</td><td>Brightwater Co</td><td>Nov 10</td><td class="num">$860</td></tr>
+          <tr><td>#10480</td><td>Halcyon Foods</td><td>Nov 9</td><td class="num">$2,115</td></tr>
+        </table>
+        <span class="updated">Last updated 2 min ago</span></section>
+    </main>
+  </div>
+  <div class="sim">Prototype: Load full range completes after 3 s · <a href="#scr-002">Back to Last 7 days → SCR-002</a></div>
+  <div class="caption">SCR-004 · Very large widgets open on the last 30 days; full range on request</div>
+</section>
+
+<!-- ============ SCR-005 · Dashboard — empty workspace (FLOW-003 step 1a; REQ-009) ============ -->
+<section id="scr-005" class="screen" data-flow="FLOW-003" aria-labelledby="scr-005-title">
+  <div class="topbar"><span><span class="logo" aria-hidden="true"></span>Acme Corp ▾</span><span>Help · ◯</span></div>
+  <div class="shell">
+    <nav class="sidenav" aria-label="Main"><a class="current" href="#scr-005">Dashboard</a><a href="#scr-005">Reports</a><a href="#scr-005">Data sources</a><a href="#scr-005">Settings</a></nav>
+    <main>
+      <div class="page-head"><h1 id="scr-005-title">Dashboard</h1></div>
+      <div class="note">SCR-005 · FLOW-003 step 1a · No data source yet (REQ-009). Export and date range are hidden.</div>
+      <div class="empty">
+        <div class="icon" aria-hidden="true"></div>
+        <h2>Connect a data source to see your dashboard</h2>
+        <p>Your widgets fill in automatically once data arrives.</p>
+        <div class="actions">
+          <a class="btn-primary" id="connect-source" href="#scr-001">Connect a data source</a>
+          <button type="button" class="btn-primary" id="invite-teammate">Invite a teammate</button>
+        </div>
+        <p id="invite-status" aria-live="polite"></p>
+      </div>
+    </main>
+  </div>
+  <div class="sim">Prototype: Connect a data source returns to SCR-001 as if data is now arriving.</div>
+  <div class="caption">SCR-005 · No data source yet: one next step</div>
+</section>
+
+<script>
+  var ORDER = ['scr-001', 'scr-002', 'scr-003', 'scr-004', 'scr-005'];
+
+  function current() {
+    var id = location.hash.replace('#', '');
+    return ORDER.indexOf(id) >= 0 ? id : 'scr-001';
+  }
+
+  function show() {
+    var id = current();
+    ORDER.forEach(function (s) { document.getElementById(s).classList.toggle('active', s === id); });
+    document.querySelectorAll('.proto-bar a').forEach(function (a) {
+      if (a.getAttribute('href') === '#' + id) { a.setAttribute('aria-current', 'page'); } else { a.removeAttribute('aria-current'); }
+    });
+    if (id === 'scr-002') { watchLazy(); }
+    window.scrollTo(0, 0);
+  }
+
+  function go(id) { location.hash = id; }
+
+  // REQ-003: below-the-fold widgets fill in when within 200 px of the viewport.
+  var lazyObserver = null;
+  function watchLazy() {
+    var pending = document.querySelectorAll('#lazy-grid .lazy.skeleton');
+    if (!('IntersectionObserver' in window)) { pending.forEach(fill); return; }
+    if (!lazyObserver) {
+      lazyObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { setTimeout(function () { fill(e.target); }, 600); lazyObserver.unobserve(e.target); }
+        });
+      }, { rootMargin: '200px' });
+    }
+    pending.forEach(function (w) { lazyObserver.observe(w); });
+  }
+  function fill(w) {
+    w.classList.remove('skeleton');
+    w.setAttribute('aria-label', w.dataset.title);
+    w.innerHTML = '<h2>' + w.dataset.title + '</h2><p>' + w.dataset.body + '</p><span class="updated">Last updated 2 min ago</span>';
+  }
+
+  // SCR-003: Retry on Revenue by region reloads that widget only (first retry fails: FLOW-002 step 4b; second succeeds: step 4a).
+  var revenueRetries = 0;
+  document.getElementById('retry-revenue').addEventListener('click', function () {
+    var w = document.getElementById('w03-revenue');
+    var live = w.querySelector('[aria-live]');
+    revenueRetries += 1;
+    live.innerHTML = '<p>Loading…</p>';
+    setTimeout(function () {
+      if (revenueRetries >= 2) {
+        w.classList.remove('problem');
+        live.innerHTML = '<div class="bar">NA <span class="fill" style="width:60%"></span> $198k</div>' +
+          '<div class="bar">EMEA <span class="fill" style="width:40%"></span> $131k</div>' +
+          '<div class="bar">APAC <span class="fill" style="width:25%"></span> $84k</div>';
+        document.getElementById('retry-revenue').hidden = true;
+      } else {
+        live.innerHTML = '<p>⚠ Still unavailable. Other widgets are fine. <a href="#scr-003">Status page</a></p>';
+      }
+    }, 900);
+  });
+
+  document.getElementById('request-access').addEventListener('click', function (e) {
+    e.target.textContent = 'Requested';
+    e.target.disabled = true;
+    document.querySelector('#w03-billing [aria-live]').innerHTML = '<p>Request sent to the workspace owner.</p>';
+  });
+
+  // SCR-004: Load full range.
+  document.getElementById('load-full').addEventListener('click', function () {
+    var status = document.getElementById('full-status');
+    var table = document.getElementById('orders-table');
+    document.getElementById('large-notice').hidden = true;
+    table.hidden = true;
+    status.textContent = 'Loading full range…';
+    setTimeout(function () {
+      status.textContent = 'Showing all 2.3M rows (Nov 2025 to Nov 2026).';
+      table.hidden = false;
+    }, 3000);
+  });
+
+  // SCR-002: date range switch to Last 12 months opens SCR-004.
+  document.getElementById('range-02').addEventListener('change', function (e) {
+    if (e.target.value === '365') { e.target.value = '7'; go('scr-004'); }
+  });
+
+  document.getElementById('invite-teammate').addEventListener('click', function () {
+    document.getElementById('invite-status').textContent = 'Invite dialog opens here (outside this project’s scope).';
+  });
+
+  function toggleNotes() {
+    var on = document.body.classList.toggle('annotate');
+    document.getElementById('toggle-notes').setAttribute('aria-pressed', on ? 'true' : 'false');
+  }
+  document.getElementById('toggle-notes').addEventListener('click', toggleNotes);
+
+  function resetAll() { location.hash = 'scr-001'; location.reload(); }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.target.matches && e.target.matches('input, select, textarea')) { return; }
+    var i = ORDER.indexOf(current());
+    if (e.key === 'ArrowRight' && i < ORDER.length - 1) { go(ORDER[i + 1]); }
+    else if (e.key === 'ArrowLeft' && i > 0) { go(ORDER[i - 1]); }
+    else if (e.key === 'a') { toggleNotes(); }
+    else if (e.key === 'e') { go('scr-003'); }
+    else if (e.key === 'r') { resetAll(); }
+  });
+
+  window.addEventListener('hashchange', show);
+  show();
+</script>
+</body>
+</html>

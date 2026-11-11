@@ -56,4 +56,4 @@ At each stage, the orchestrator:
 ## Related
 
 - [Pipeline Overview](../pipeline-overview.md)
-- [AGENTS.md](/AGENTS.md) — Full orchestration spec
+- [AGENTS.md](../../../AGENTS.md) — Full orchestration spec

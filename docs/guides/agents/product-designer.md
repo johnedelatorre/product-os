@@ -1,10 +1,10 @@
 # Product Designer Agent
 
-Creates design briefs and establishes design direction.
+Creates the design brief and sets design direction.
 
 ## What It Does
 
-Translates PRD requirements into design briefs that guide visual design, interaction patterns, and brand alignment.
+Translates PRD requirements into a design brief that guides flows, wireframes, the prototype, visual design and brand alignment.
 
 ## When to Use
 
@@ -17,16 +17,21 @@ Translates PRD requirements into design briefs that guide visual design, interac
 | Input | Required | Description |
 |-------|----------|-------------|
 | `--from` | Yes | Path to `prd.md` |
-| `--brand` | No | Brand guidelines reference |
 
-## Outputs
+Design system, brand guidelines and competitive research are used when you provide them.
 
-- `design-brief.md` — Design direction document
+## Outputs and How to View Them
+
+| File | How to view | Confluence |
+|------|-------------|------------|
+| `initiatives/<initiative>/<project>/design-brief.md` | Any Markdown viewer (GitHub, VS Code, claude.ai) | **Design Brief** page under **2. Design** via `/product-os:publish` |
+
+The brief opens with the standard header (`docs/reference/document-format.md`). Template: `templates/design/design-brief.md`.
 
 ## Example
 
 ```bash
-/product-os:design-brief --from prd.md
+/product-os:design-brief --from initiatives/onboarding/signup/prd.md
 ```
 
 ## Brief Contents
@@ -39,6 +44,12 @@ Translates PRD requirements into design briefs that guide visual design, interac
 - Constraints
 - References
 
+## What Comes Next
+
+1. `/product-os:flows` — user flow diagrams (`flows.md`)
+2. `/product-os:wireframes` — `wireframes.md`
+3. `/product-os:prototype` — clickable `prototype.html`
+
 ## Tips
 
 1. **Reference the PRD** — design serves requirements
@@ -47,5 +58,6 @@ Translates PRD requirements into design briefs that guide visual design, interac
 
 ## Related
 
+- [Design Workflow](../design-workflow.md) — from PRD to reviewed designs
 - [Flow Designer](flow-designer.md) — creates user flows
 - [Wireframer](wireframer.md) — creates wireframes

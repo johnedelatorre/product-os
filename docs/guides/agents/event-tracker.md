@@ -41,5 +41,5 @@ Designs comprehensive tracking specifications with event names, properties, and 
 
 ## Related
 
-- [Event Tracking Skill](../../.claude/skills/event-tracking.md)
+- [Event Tracking Skill](../../../.claude/skills/event-tracking.md)
 - [Metrics Designer](metrics-designer.md)

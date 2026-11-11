@@ -306,9 +306,9 @@ Every exit criterion below must pass, be N/A, or be deferred as an open item.
 
 ---
 
-### Phase 6: Review & Gates
+### Phase 6: Review
 
-**Purpose:** Quality check before engineering.
+**Purpose:** Review the real designs before stories are written.
 
 **Documents:**
 | Document | Why It Matters |
@@ -316,28 +316,20 @@ Every exit criterion below must pass, be N/A, or be deferred as an open item.
 | `design-critique.md` | Visual design feedback with severity, evidence, and REQ links |
 | `ux-review.md` | Heuristics evaluation |
 | `accessibility-audit.md` | WCAG 2.2 compliance |
-| `gate-report.md` | DoR validation with pass/fail/NA/not-verified states |
-
-**Gate Status Key:**
-| Status | Meaning | Action |
-|--------|---------|--------|
-| ✅ Pass | Criteria met with evidence | Proceed |
-| ⚠️ Conditional | Minor gaps | Proceed with conditions |
-| ❌ Fail | Critical missing | Fix, or defer as an open item |
-| N/A | Not applicable (documented reason) | No action |
-| 🔍 Not Verified | Cannot confirm | Investigate first |
 
 **Key Questions:**
 1. Does the design meet requirements?
 2. Are there usability issues?
 3. Is it accessible?
-4. Can we verify each gate criterion, or are some blocked?
+4. What could the reviewers not inspect (Not Verified), and who follows up?
 
-**Exit Criteria:**
-- [ ] No critical design issues (or accepted with documented risk)
+**Exit Criteria (review exit check):**
+- [ ] Every critique, UX and accessibility finding resolved, or accepted with documented risk
+- [ ] No critical design issues left open
 - [ ] WCAG 2.2 AA compliance verified
-- [ ] Gate report complete with evidence for each criterion
 - [ ] Not-verified items have investigation plan
+
+The Definition of Ready gate (`gate-report.md`) runs in Phase 7, on the stories, once they exist.
 
 ---
 
@@ -350,6 +342,7 @@ Every exit criterion below must pass, be N/A, or be deferred as an open item.
 |----------|----------------|
 | `epics.md` | High-level work containers with T-shirt estimates |
 | `stories.md` | Sprint-ready user stories with Fibonacci points |
+| `gate-report.md` | Definition of Ready gate on the stories, with pass/fail/NA/not-verified states |
 | `traceability.md` | Links REQs → epics → stories → tests |
 | `tracking-plan.yaml` | Analytics events (instrumentation ≠ outcomes) |
 | Confluence pages | Published documentation (requires human approval) |
@@ -361,6 +354,15 @@ Every exit criterion below must pass, be N/A, or be deferred as an open item.
 | Epic | T-shirt (S/M/L/XL) or weeks range | ±50% | Tech Lead |
 | Story | Fibonacci (1-13) | ±30% | Delivery team |
 | Unknown scope | Spike first | TBD | Team |
+
+**Definition of Ready Gate Status Key:**
+| Status | Meaning | Action |
+|--------|---------|--------|
+| ✅ Pass | Criteria met with evidence | Proceed |
+| ⚠️ Conditional | Minor gaps | Proceed with conditions |
+| ❌ Fail | Critical missing | Fix, or defer as an open item |
+| N/A | Not applicable (documented reason) | No action |
+| 🔍 Not Verified | Cannot confirm | Investigate first |
 
 **Key Questions:**
 1. How should work be grouped into epics?
@@ -375,6 +377,7 @@ Every exit criterion below must pass, be N/A, or be deferred as an open item.
 - [ ] Spikes created for unknown scope (not fake AC)
 - [ ] Testing and observability requirements specified
 - [ ] Traceability matrix complete (gaps have documented reasons)
+- [ ] Definition of Ready gate report complete with evidence for each criterion
 - [ ] Human approved Confluence/Jira publish (can be deferred; nothing is published until approved)
 
 ---

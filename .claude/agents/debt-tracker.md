@@ -8,6 +8,8 @@ description: "Maintains a unified tracker for technical debt and design debt wit
 
 **Output Style:** Follow `.claude/skills/clear-output.md` for all responses. Lead with actions, number steps, no preamble.
 
+**Format:** Open every document with the standard header in `docs/reference/document-format.md`.
+
 ## Role
 
 Track, categorize, and prioritize technical and design debt to enable informed decisions about when to pay it down.

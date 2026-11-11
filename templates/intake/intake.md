@@ -1,33 +1,37 @@
-# Intake: [Brief Title]
+# [Brief Title] — Intake
 
-## TL;DR
+**[Subtitle: one line on the problem raised and who raised it, for the PM deciding whether to proceed]**
 
-**Problem:** [One sentence describing the core problem]
+| Initiative | Project | Owner | Status | Last updated |
+|------------|---------|-------|--------|--------------|
+| [initiative] | [project] | [analyst name] | Draft / Ready for Review / Approved | [YYYY-MM-DD] |
+
+## Description
+[2–4 sentences: where this request came from, what it asks for, and the decision this intake supports (proceed to proposal / PRD, or not).]
+
+## Problem Statement
+[Neutral statement of the problem, not a solution. 2-3 sentences maximum. Who has it, the evidence (see Evidence below), and what it costs if we do nothing.]
+
 **Impact:** [One sentence on business/user impact]
-**Next Action:** Review this intake and approve to proceed to PRD
 
----
+## Solution
+[Direction to explore, not a committed solution. If none is known yet: TBD: decided in the Proposal or PRD.]
 
-## Metadata
+## Success Metrics
+| Metric | Baseline | Target | How we measure |
+|--------|----------|--------|----------------|
+| [metric that shows the problem is solved] | [value or TBD: who provides it] | [value or TBD: set in the PRD] | [source / event] |
 
-| Field | Value |
-|-------|-------|
-| **Source** | [Who requested / where it came from] |
-| **Date Received** | [Date] |
-| **Analyst** | [Your name] |
-| **Status** | Draft / Ready for Review / Approved |
+## Next Action
+Review this intake and approve to proceed to PRD ([owner]).
 
 ---
 
 ## Raw Input
 
+**Source:** [Who requested / where it came from] · **Received:** [Date]
+
 > [Verbatim original request - preserve exactly as received]
-
----
-
-## Problem Statement
-
-[Neutral statement of the problem, not a solution. 2-3 sentences maximum.]
 
 ---
 

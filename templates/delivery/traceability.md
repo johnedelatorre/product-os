@@ -1,6 +1,27 @@
-# Traceability Matrix: [Project Name]
+# [Project Name] — Traceability Matrix
 
-> **TL;DR:** Links requirements to epics, stories, tests, and review findings. Use to verify coverage and identify gaps.
+**[Subtitle: one line: links requirements to epics, stories, tests and review findings]**
+
+| Initiative | Project | Owner | Status | Last updated |
+|------------|---------|-------|--------|--------------|
+| [initiative] | [project] | [name] | Draft / In review / Approved | [YYYY-MM-DD] |
+
+## Description
+[Links requirements to epics, stories, tests and review findings. Use it to verify coverage and find gaps before sprint planning and launch.]
+
+## Problem Statement
+[The project's problem in 1–2 lines (who, evidence, cost of doing nothing), and how this document serves it.]
+
+## Solution
+[The project's solution in 1–2 lines, and what this document adds to it.]
+
+## Success Metrics
+| Metric | Baseline | Target | How we measure |
+|--------|----------|--------|----------------|
+| [metric from the metrics framework] | [value or TBD: who provides it] | [value] | [event; see Metrics to Instrumentation below] |
+
+## Next Action
+[One action, one owner.]
 
 ---
 

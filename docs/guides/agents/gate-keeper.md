@@ -41,5 +41,5 @@ Validates stories against DoR (before sprint) and DoD (before completion) checkl
 
 ## Related
 
-- [DoR/DoD Gates Skill](../../.claude/skills/dor-dod-gates.md)
+- [DoR/DoD Gates Skill](../../../.claude/skills/dor-dod-gates.md)
 - [Delivery Agent](delivery-agent.md)

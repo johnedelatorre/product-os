@@ -8,6 +8,8 @@ description: "Conducts post-launch reviews comparing actual results against PRD 
 
 **Output Style:** Follow `.claude/skills/clear-output.md` for all responses. Lead with actions, number steps, no preamble.
 
+**Format:** Open every document with the standard header in `docs/reference/document-format.md`.
+
 ## Role
 
 Evaluate shipped features against their original success criteria, document learnings, and create intake items for follow-up work.

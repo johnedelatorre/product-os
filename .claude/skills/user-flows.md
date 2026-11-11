@@ -15,6 +15,16 @@ Create comprehensive user flows with canonical spec and multi-target rendering.
 /product-os:flows --from prd.md --targets mermaid,claude-artifact
 ```
 
+## Where It Goes and How to View It
+
+| File (in `initiatives/<initiative>/<project>/`) | How to view | Confluence |
+|-------------------------------------------------|-------------|------------|
+| `flows.md` (Mermaid diagrams, always) | Renders as diagrams on GitHub, in claude.ai and in editors with a Mermaid preview | **User Flows** page under **2. Design**, via `/product-os:publish` (Mermaid macro, or PNG when the macro is missing) |
+| `flows.yaml` (source of truth) | Any text editor | Not published; it feeds the other outputs |
+| `journey-map.md`, `sitemap.md`, `flow-traceability.md` | Any Markdown viewer | Published with the design pages |
+| `claude-artifact` target: interactive HTML | Open in a browser; renders as an artifact in claude.ai | Linked from the User Flows page |
+| `figjam` target: FigJam board (Figma MCP) | Open the board link in Figma | Linked from the User Flows page |
+
 ## Flow Types
 
 | Type | Purpose | When to Use |
@@ -49,7 +59,7 @@ flows:
       - id: "form"
         type: "process"
         label: "Display registration form"
-        screen_ref: "wireframe-registration"
+        screen_ref: "SCR-002"   # SCR-### from wireframes.md; prototype section #scr-002
         
       - id: "validate"
         type: "decision"

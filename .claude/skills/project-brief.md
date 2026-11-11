@@ -21,11 +21,13 @@ The brief must fit on **one printed page** (~500-600 words). This forces clarity
 
 ## Required Sections
 
+The brief opens with the standard header from `docs/reference/document-format.md` §1; the sections below follow it.
+
 | Section | Max Length | Content |
 |---------|------------|---------|
-| Problem | 2-3 sentences | What's broken, who's affected, evidence |
+| Standard header | ~150 words | Title, Subtitle, header table, Description, Problem Statement, Solution, Success Metrics, Next Action |
 | Why Now | 2-3 sentences | Urgency, cost of delay, opportunity |
-| Goals & Metrics | 2-3 rows | Primary outcomes with targets |
+| Goals | 2-3 rows | Primary outcomes with targets and timeline (metrics are in the header) |
 | Scope | 3-5 bullets each | In scope / Out of scope |
 | Users | 2-3 rows | Who we're building for |
 | Stakeholders | Key roles | Approval responsibilities |
@@ -36,15 +38,37 @@ The brief must fit on **one printed page** (~500-600 words). This forces clarity
 ## Template
 
 ```markdown
-# Project Brief: [Name]
+# [Name] — Project Brief
 
-## Problem
+**[Subtitle: one-page summary for sponsors and the delivery team]**
+
+| Initiative | Project | Owner | Status | Last updated |
+|------------|---------|-------|--------|--------------|
+| [initiative] | [project] | [name] | Draft / In review / Approved | [YYYY-MM-DD] |
+
+## Description
+[2–4 sentences: what this brief summarizes and what approval unlocks.]
+
+## Problem Statement
 [2-3 sentences: What's broken? Who's affected? Evidence?]
+
+## Solution
+[1-2 sentences: what we will build. Scope details below.]
+
+## Success Metrics
+| Metric | Baseline | Target | How we measure |
+|--------|----------|--------|----------------|
+| [Metric] | [value or TBD: who provides it] | [Number] | [source / event] |
+
+## Next Action
+[One action, one owner.]
+
+---
 
 ## Why Now
 [2-3 sentences: Urgency, cost of delay, opportunity window]
 
-## Goals & Success Metrics
+## Goals
 | Goal | Metric | Target | Timeline |
 |------|--------|--------|----------|
 | [Goal] | [Measure] | [Number] | [When] |

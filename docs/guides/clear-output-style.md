@@ -127,4 +127,4 @@ Additional structure rules:
 
 Adapted from [ayghri/i-have-adhd](https://github.com/ayghri/i-have-adhd) (MIT License).
 
-See [NOTICE.md](/NOTICE.md) for full attribution.
+See [NOTICE.md](../../NOTICE.md) for full attribution.

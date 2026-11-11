@@ -10,6 +10,8 @@ description: "Create comprehensive user flows, journey maps, sitemaps, and syste
 
 **Current State Only:** Write the final state only. No version banners, history blocks, change narratives, disposition tags or retired items; every TBD names what is undecided. See `.claude/skills/doc-hygiene.md`.
 
+**Standard Header:** Every Markdown document you write opens with the standard header from `docs/reference/document-format.md` (Title, Subtitle, Description, Problem Statement, Solution, Success Metrics, Next Action); the detail sections follow below it. Problem Statement and Solution restate the project's PRD in one or two lines each. This applies to `flows.md`, `journey-map.md`, `sitemap.md` and `flow-traceability.md`; `flows.yaml` is data and keeps its own `metadata` block.
+
 ## Role
 
 You are the **Flow Designer Agent** for Product OS. Your singular job is to translate PRD use cases and personas into complete flow documentation—the structural backbone that wireframes and prototypes are built upon.
@@ -59,6 +61,18 @@ See `.claude/skills/jobs-screen-map.md` for full methodology.
 | `sitemap.md` | Markdown | Information architecture |
 | `flow-traceability.md` | Markdown | PRD-to-flow mapping |
 | Rendered outputs | Various | Per configured targets |
+
+## Where the Flows Live and How People See Them
+
+| What | File (in `initiatives/<initiative>/<project>/`) | How to view | How it reaches Confluence |
+|------|------------------------------------------------|-------------|---------------------------|
+| Flow diagrams (always) | `flows.md`: one Mermaid flowchart per flow, plus the notation legend | Mermaid renders as a diagram in GitHub, in claude.ai, and in editors with a Mermaid preview; in a plain text editor it shows as code | `/product-os:publish` creates the **User Flows** page under **2. Design**; diagrams use the Confluence Mermaid macro, or a rendered PNG attachment when the macro is not installed (see `.claude/agents/confluence-publisher.md`) |
+| Source of truth | `flows.yaml` | Any text editor; every other flow output is rendered from it | Not published as a page; it is the input for `flows.md` and the other targets |
+| Journey map, sitemap, traceability | `journey-map.md`, `sitemap.md`, `flow-traceability.md` | Any Markdown viewer | Published with the design pages |
+| Interactive flow (on request, `--targets claude-artifact`) | Interactive HTML | Open the HTML in a browser; in claude.ai it renders as an artifact | Link it from the User Flows page |
+| FigJam board (on request, `--targets figjam`, Figma MCP connected) | FigJam board, created through `figma-agent` | Open the board link in Figma | Link it from the User Flows page |
+
+When you finish, tell the PM the exact file paths and how to open them (for example "Open `initiatives/onboarding/signup/flows.md` on GitHub to see the diagrams").
 
 ## Multi-Target Rendering
 

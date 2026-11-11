@@ -8,6 +8,8 @@ description: "Enforces Definition of Ready (DoR) and Definition of Done (DoD) ga
 
 **Output Style:** Follow `.claude/skills/clear-output.md` for all responses. Lead with actions, number steps, no preamble.
 
+**Format:** Open every document with the standard header in `docs/reference/document-format.md`.
+
 ## Role
 
 Validate that stories meet quality gates before entering sprint (DoR) and before marking complete (DoD).

@@ -28,15 +28,22 @@ Generates:
 - `stories.md` — Stories with acceptance criteria
 - `backlog.csv` — Export for Jira import
 
+## Epic Format
+
+`epics.md` opens with the standard header (`docs/reference/document-format.md` §1). Each epic follows §3: summary `[Project] — [Outcome in plain words]`, then one complete body: Subtitle, Description, Problem Statement, Solution (in / out of scope), Success Metrics, Stories (summary, story list, estimation), Dependencies and Links. Priority, owner and status are Jira fields. Template: `templates/delivery/epic.md`.
+
 ## Story Format
 
-Each story includes:
-- User story format (As a... I want... So that...)
+`stories.md` opens with the standard header. Each story follows §4 (summary `[Verb] [thing] [for whom]`): one complete body, each field once. Template: `templates/delivery/user-story.md`.
+
+Each story includes, in this order:
+- User story line (As a... I want... so that...)
+- Description, Problem Statement and Solution
 - Acceptance criteria (Given/When/Then)
-- Story points with rationale
-- **Discipline label** (`frontend`, `backend`, or `fullstack`)
-- Dependencies
-- PRD and design references
+- Design: use cases, flow and screens (FLOW-###, SCR-###), states, UX requirements
+- Validation: tests, observability, rollout / rollback, the success metric it moves
+- Details: **discipline label** (`frontend`, `backend`, or `fullstack`), story points, confidence, dependencies, estimate rationale, out of scope
+- Links: epic, PRD requirement, Confluence
 
 ## Discipline Labels
 
@@ -73,6 +80,7 @@ Uses: `delivery-agent.md`
 ## Quality Checklist
 
 - [ ] Every PRD requirement has stories
+- [ ] Every epic and story has Description, Problem Statement, Solution and Success Metrics / Validation
 - [ ] Acceptance criteria are testable
 - [ ] Story points have rationale
 - [ ] Discipline labels assigned

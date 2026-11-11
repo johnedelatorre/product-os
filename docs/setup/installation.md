@@ -1,6 +1,6 @@
 # Installation and Platform Setup
 
-> **TL;DR:** In claude.ai, create a Project with Product OS's instructions and files. In Claude Code or Cursor, run `./scripts/install.sh /path/to/your/project --register-plugin`, then start with `/product-os:guide` (Claude Code) or the Guide agent (Cursor). This page covers all three platforms, install options, switching platforms and upgrades.
+> **TL;DR:** In claude.ai, create a Project with the instructions and starter files in `claude-ai/`. In Claude Code or Cursor, run `./scripts/install.sh /path/to/your/project --register-plugin`, then start with `/product-os:guide` (Claude Code) or the Guide agent (Cursor). This page covers all three platforms, install options, switching platforms and upgrades.
 
 ## Platform Support
 
@@ -8,22 +8,18 @@ Product OS works in **claude.ai**, **Claude Code** and **Cursor**.
 
 | Platform | Setup | Slash Commands | Agents | Files on disk |
 |----------|-------|----------------|--------|---------------|
-| claude.ai | A Claude Project (instructions + knowledge files) | No, ask in plain language | One role at a time, from project knowledge | No; documents live in the chat, download them to keep |
+| claude.ai | A Claude Project (`claude-ai/project-instructions.md` + starter knowledge files) | No, ask in plain language | One role at a time, from project knowledge | No; documents live in the chat, download them to keep |
 | Claude Code | Installer + plugin | Yes (plugin, `/product-os:*`) | Native subagents (agents with frontmatter) | Yes, `initiatives/` |
 | Cursor | Installer + Cursor rules | Role-based | 3 native adapters + role-based | Yes, `initiatives/` |
 
 ## claude.ai Setup
 
-claude.ai has no installer. A Claude Project gives Claude the Product OS instructions, agents, skills and templates, and every chat in that project can use them.
+claude.ai has no installer. A Claude Project gives Claude the Product OS instructions plus the agent roles, playbooks and templates you upload, and every chat in that project can use them. Full guide: [Product OS in claude.ai](../../claude-ai/README.md).
 
-1. **Get the files:** on GitHub choose Code → Download ZIP, then unzip.
+1. **Get the files:** on GitHub choose Code → Download ZIP, then unzip. On a Mac, press **Cmd+Shift+.** in Finder to show the hidden `.claude` folder.
 2. **Create a project** in claude.ai (for example "Product OS – Growth team").
-3. **Instructions:** paste the contents of `CLAUDE.md` into the project instructions. Add one line with your context, for example: "Our Confluence space is PROD; our Jira project is GROW."
-4. **Knowledge:** upload
-   - `AGENTS.md`
-   - every file in `.claude/agents/` (the agent roles)
-   - every file in `.claude/skills/` (the playbooks)
-   - the templates in `templates/` you plan to use (PRD, stories, design brief and so on)
+3. **Instructions:** paste [`claude-ai/project-instructions.md`](../../claude-ai/project-instructions.md) (everything below its line) into the project instructions. Fill in your Confluence space and Jira project under "Our team", or delete those lines. Do not paste `CLAUDE.md`: it is written for Claude Code and refers to slash commands and repo files.
+4. **Knowledge:** upload the starter knowledge set listed in [`claude-ai/README.md`](../../claude-ai/README.md#starter-knowledge-set): 12 agent files, 3 skills, the format standard and 6 templates. Add more agent files later as you need them. Tip: copy the starter files into one folder first, then upload that folder's contents.
 5. **Confluence and Jira (optional):** enable the Atlassian connector in claude.ai if your workspace offers it. Claude shows the pages and issues it will write and waits for your approval, the same rule as on every platform.
 6. **Start:** open a chat in the project and say *"Start Product OS guided mode for initiative customer-onboarding, project self-serve-signup."*
 
@@ -32,6 +28,8 @@ claude.ai has no installer. A Claude Project gives Claude the Product OS instruc
 - Ask for any agent by name: "Act as the Product OS Strategist and score these features with RICE."
 - Progress and handovers: ask Claude for the current `progress.yaml` or a `HANDOVER.md` at the end of a session, and upload it to the next chat (or the project knowledge) to pick up where you left off.
 - Keep finished documents by downloading them, publishing them to Confluence, or adding them to the project knowledge so later chats can build on them.
+- Flow diagrams: if a Mermaid diagram doesn't render in the chat, ask Claude to show the flow as an artifact or diagram. Flags such as `--targets claude-artifact,figjam` are Claude Code only.
+- If you ask for an agent whose file isn't uploaded, Claude names the file to add from `.claude/agents/`.
 - What claude.ai does not do: slash commands, subagents running in parallel, or writing files into a repo. For those, use Claude Code.
 
 ## Fresh Install
@@ -68,8 +66,9 @@ claude plugin install product-os@product-os --scope project
 ```
 
 ```
-# C. One step, inside Claude Code (≥ 2.1.275)
-/plugin install product-os --marketplace johnedelatorre/product-os
+# C. Inside Claude Code
+/plugin marketplace add johnedelatorre/product-os
+/plugin install product-os@product-os
 ```
 
 **Why a plugin?** Copying commands into `.claude/commands/` registers them un-namespaced (`/status`, `/plan`, `/next`), which collide with Claude Code built-ins. Plugin commands are always prefixed with `/product-os:`.
@@ -78,9 +77,13 @@ claude plugin install product-os@product-os --scope project
 
 | Platform | Files Installed |
 |----------|-----------------|
-| Claude Code | `.claude/agents/` (registered subagents), `.claude/skills/` (reference docs), `.claude/product-os/commands/` (reference copy of commands), `CLAUDE.md`, `AGENTS.md`. Commands themselves come from the plugin. |
-| Cursor | `.cursor/rules/product-os.mdc` |
-| Both (shared) | `templates/`, `initiatives/`, `product-os.config.yaml` |
+| Every platform (`--platform both`, `claude` or `cursor`) | `.claude/agents/` (registered subagents in Claude Code), `.claude/skills/` (reference docs), `.claude/product-os/commands/` (reference copy of commands), `CLAUDE.md`, `AGENTS.md`, `templates/`, `initiatives/`, `product-os.config.yaml`, `.env.example`, `scripts/atlassian-fallback.py`, `scripts/doc-hygiene-check.py` |
+| Claude Code | Nothing extra on disk. Commands come from the plugin (`--register-plugin`, or see [Enabling the Claude Code Plugin](#enabling-the-claude-code-plugin)). |
+| Cursor (`both` or `cursor`) | `.cursor/rules/product-os.mdc` and `.cursor/agents/` (the 3 native adapters: `product-os-guide.md`, `prd-author.md`, `intake-analyst.md`) |
+
+This is copy mode, the default. In submodule mode (`--submodule`) the shared content stays in the submodule and is linked rather than copied.
+
+Existing `CLAUDE.md`, `AGENTS.md`, `product-os.config.yaml` and `.env.example` are never overwritten (see below).
 
 ## Preserving Existing Files
 
@@ -209,6 +212,10 @@ product-os/
 │   ├── agents/               # Specialist agents (subagents, with frontmatter)
 │   ├── commands/             # Commands, served by the plugin as /product-os:<name>
 │   └── skills/               # Skills (reference docs)
+│
+├── claude-ai/
+│   ├── README.md             # claude.ai setup and starter knowledge set
+│   └── project-instructions.md  # Paste into the Claude Project instructions
 │
 ├── .cursor/
 │   ├── rules/product-os.mdc  # Cursor rules

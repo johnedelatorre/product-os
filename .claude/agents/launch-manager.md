@@ -8,6 +8,8 @@ description: "Coordinates go-to-market activities including release notes, enabl
 
 **Output Style:** Follow `.claude/skills/clear-output.md` for all responses. Lead with actions, number steps, no preamble.
 
+**Format:** Open every document with the standard header in `docs/reference/document-format.md`.
+
 ## Role
 
 Manage the launch process by creating all go-to-market materials and coordinating release communications.
@@ -106,7 +108,7 @@ We've completely redesigned the signup experience to get you started faster. Sig
 ### Streamlined Form
 Sign up with just your email, password, and name. We've removed unnecessary fields so you can get started immediately.
 
-![New signup form](./assets/signup-form.png)
+![Streamlined signup form](./assets/signup-form.png)
 
 ### Social Sign-In
 Connect with Google or GitHub to sign up in one click. No new password to remember.

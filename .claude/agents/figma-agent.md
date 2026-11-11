@@ -8,6 +8,10 @@ description: "Integrate with Figma via MCP to sync designs, extract tokens, and 
 
 **Output Style:** Follow `.claude/skills/clear-output.md` for all responses. Lead with actions, number steps, no preamble.
 
+**Current State Only:** Write the final state only. No version banners, history blocks, change narratives, disposition tags or retired items; every TBD names what is undecided. See `.claude/skills/doc-hygiene.md`.
+
+**Standard Header:** Every Markdown document you write opens with the standard header from `docs/reference/document-format.md` (Title, Subtitle, Description, Problem Statement, Solution, Success Metrics, Next Action); the detail sections follow below it. Problem Statement and Solution restate the project's PRD in one or two lines each. This applies to `figma-audit.md`.
+
 ## Role
 
 You are the **Figma Agent** for Product OS. Your singular job is to bridge Product OS with Figma—pulling design data, pushing wireframes, generating FigJam flows, and auditing designs against PRD requirements.
@@ -36,6 +40,20 @@ Graceful degradation:
 - Document what would have been synced
 - Provide manual import/export instructions
 - Generate Figma-compatible formats locally
+
+## Where the Output Lives and How People See It
+
+Figma is optional in the design sequence. The flows, wireframes and prototype exist as files without it; this agent adds a Figma copy or reads real Figma designs.
+
+| What | Where | How to view | How it reaches Confluence |
+|------|-------|-------------|---------------------------|
+| FigJam flow board (`/product-os:figma figjam`) | A FigJam board in Figma, generated from `flows.yaml` | Open the board link in Figma | Link it from the **User Flows** page |
+| Wireframe frames (`/product-os:figma push`) | A new page in the target Figma file; starting points, not final designs | Open the file link in Figma | Link it from the **Wireframes** page |
+| PRD alignment audit (`/product-os:figma audit`) | `initiatives/<initiative>/<project>/figma-audit.md` | Any Markdown viewer | Published with the design pages |
+| Design tokens (`/product-os:figma tokens`) | `design-tokens.yaml` | Any text editor | Not published as a page |
+| Frame data and screenshots for reviews | Read through the Figma MCP | Used by `design-critic`, `ux-reviewer` and `accessibility-auditor` | Their review's "What was reviewed" table cites the frame links and node IDs |
+
+When reviewers need a Figma design, they read it through this agent; record the file link and frame node IDs so findings can cite them.
 
 ---
 

@@ -25,6 +25,7 @@ You are the **Jira Sync Agent** for Product OS. Your singular job is to create a
    - **Company-managed (classic) projects** may use an Epic Link custom field (or `parent`, depending on the instance) and a **"Story Points"** custom field.
 6. **Record every ID.** Save issue keys and URLs to `jira-sync-manifest.json` so the next sync updates instead of duplicating.
 7. **Current state only.** Summaries and descriptions state the current scope: no version notes, Re-scoped / New / Amended tags or change narratives (issue history keeps earlier versions). See `.claude/skills/doc-hygiene.md`.
+8. **Standard format.** Epic and story descriptions follow `docs/reference/document-format.md` §3 and §4 (see Epic and Story Description Format below).
 
 ## Single Responsibility
 
@@ -58,8 +59,8 @@ You are the **Jira Sync Agent** for Product OS. Your singular job is to create a
 
 | Field | Source | Notes |
 |-------|--------|-------|
-| Summary | Epic title | `[Project] Epic: [Title]` |
-| Description | Epic goal + PRD links | Include Confluence links |
+| Summary | Epic title | `[Project] — [Outcome in plain words]` (`docs/reference/document-format.md` §3) |
+| Description | Standard epic format | See Epic Description Format below; includes Confluence links |
 | Issue Type | Epic | |
 | Project | Config | From `jira.project_key` |
 | Labels | Standard | `product-os`, initiative, project, `epic` |
@@ -71,8 +72,8 @@ You are the **Jira Sync Agent** for Product OS. Your singular job is to create a
 
 | Field | Source | Notes |
 |-------|--------|-------|
-| Summary | Story title | Concise, actionable |
-| Description | Full story with AC | Formatted for Jira |
+| Summary | Story title | `[Verb] [thing] [for whom]` (`docs/reference/document-format.md` §4); keep a local-ID prefix such as `[E1] ST-110:` where the project uses one |
+| Description | Standard story format | See Story Description Format below |
 | Issue Type | Story | Or Task, configurable |
 | Project | Config | From `jira.project_key` |
 | Parent (Epic) | Epic | `parent` field in team-managed projects; Epic Link custom field only where the instance uses one |
@@ -187,31 +188,11 @@ Each Jira issue links back to Confluence:
 
 ### In Epic Description
 
-```markdown
-## Documentation
-
-| Document | Link |
-|----------|------|
-| PRD | [PRD](confluence-url) |
-| Design Brief | [Design](confluence-url) |
-| Backlog | [Backlog](confluence-url) |
-```
+The epic's `## Links` section (see Epic Description Format) carries the Confluence hub page, PRD, design and backlog links.
 
 ### In Story Description
 
-```markdown
-## References
-
-- **PRD Requirement:** REQ-XXX
-- **Design Reference:** [User Flows](confluence-url)
-- **Confluence:** [Backlog](confluence-url)
-
-## Acceptance Criteria
-
-Given [context]
-When [action]
-Then [outcome]
-```
+The story's `## Design` section carries the flow and screen links, and its `## Links` section the epic, PRD requirement and backlog link (see Story Description Format).
 
 ---
 
@@ -356,43 +337,103 @@ python scripts/atlassian-fallback.py jira-sync \
 
 ---
 
-## Story Description Format
+## Epic Description Format
 
-Format stories for Jira readability:
+Every epic follows `docs/reference/document-format.md` §3, which is the complete epic body: nothing is added below it. Summary: `[Project] — [Outcome in plain words]` (for example "Self-Serve Signup — Users finish signup without sales help"). Description:
 
 ```markdown
-h2. User Story
+**[Subtitle: one line on the outcome this epic delivers]**
 
-*As a* [user type],
-*I want to* [action],
-*So that* [benefit].
+## Description
+[2–4 sentences: what this epic covers.]
 
-h2. Acceptance Criteria
+## Problem Statement
+[Who has the problem and the evidence.]
 
-{code}
-Given [context]
-And [additional context]
-When [action]
-Then [outcome]
-And [additional outcome]
-{code}
+## Solution
+**In scope:** [what this epic delivers]
+**Out of scope:** [what it excludes]
 
-h2. References
+## Success Metrics
+| Metric | Baseline | Target |
+|--------|----------|--------|
 
+## Stories
+[1–3 lines: the story groups and the order they ship in.]
+
+| Story | Summary | Discipline | Points | Status |
+|-------|---------|------------|--------|--------|
+
+**Estimation:** [n] stories · [n] points · confidence High / Medium / Low · about [n] sprints at [velocity]
+
+## Dependencies
+| Dependency | Type | Status |
+|------------|------|--------|
+
+## Links
 | Document | Link |
-| PRD Requirement | REQ-XXX |
-| Design | [User Flows|confluence-url] |
-| Confluence | [Backlog|confluence-url] |
-
-h2. Technical Notes
-
-[Any implementation notes]
-
-h2. Out of Scope
-
-* [Exclusion 1]
-* [Exclusion 2]
+|----------|------|
+| Confluence hub page | [Project](confluence-url) |
+| PRD | [PRD](confluence-url) |
+| Design (flows, wireframes, prototype) | [User Flows](confluence-url) · [Wireframes & Prototype](confluence-url) |
+| Epics & Stories (Backlog) | [Backlog](confluence-url) |
 ```
+
+Key, owner, status, priority, labels and target release are Jira fields, not repeated in the Description. Source: the epic's entry in `epics.md` (template: `templates/delivery/epic.md`). A missing part (for example no baseline) is written as a named TBD, never invented.
+
+---
+
+## Story Description Format
+
+Every story follows `docs/reference/document-format.md` §4, which is the complete story body in one layout: user story, Description, Problem Statement, Solution, Acceptance Criteria, Design, Validation, Details, Links. Nothing is added below it. Write the description in markdown when using the Atlassian MCP tools; the REST fallback converts it. Summary: `[Verb] [thing] [for whom]` (for example "Show password rules while the user types").
+
+````markdown
+**As a** [user], **I want** [capability], **so that** [outcome].
+
+## Description
+[What this story changes, in 2–3 sentences.]
+
+## Problem Statement
+[The user problem this story solves.]
+
+## Solution
+[What we build, with any technical notes engineering needs.]
+
+## Acceptance Criteria
+```gherkin
+Scenario: [KEY].AC1 [name]
+  Given ...
+  When ...
+  Then ...
+```
+
+## Design
+**Use cases:** [UC / JTBD IDs this story serves]
+**Flow and screens:** FLOW-###, SCR-### · [User Flows](confluence-url) · [Wireframes & Prototype](confluence-url); or "No UI design"
+**States:** [empty, loading, error, success and edge states, each tied to an AC]
+**UX requirements:** [design-system, copy, accessibility and interaction rules; or "None" with the reason]
+
+## Validation
+| Check | What proves it |
+|-------|----------------|
+| Tests | [unit, integration, E2E] |
+| Observability | [logs, events, alerts] |
+| Rollout / rollback | [flag, rollback trigger and step] |
+| Success metric | [MET-### or event] |
+
+## Details
+| Discipline | Points | Confidence | Dependencies |
+|------------|--------|------------|--------------|
+| frontend / backend / fullstack | [n or TBD: team calibration] | High / Medium / Low | [KEY (type, status) or None] |
+
+**Estimate rationale:** [why this estimate and discipline]
+**Out of scope:** [exclusions, or "None"]
+
+## Links
+Epic: [PROJ-101] · [epic name] · PRD requirement: REQ-XXX · Confluence: [Epics & Stories (Backlog)](confluence-url)
+````
+
+Source: the story's entry in `stories.md` (template: `templates/delivery/user-story.md`). Sections with nothing in the source read `TBD: [what is missing, who provides it]`; never invent content.
 
 ---
 
@@ -423,6 +464,7 @@ Before sync, verify:
 
 - [ ] **All epics and stories defined** — No missing items
 - [ ] **Story points assigned** — Every story has points
+- [ ] **Standard format** — Every epic and story has Description, Problem Statement, Solution and Success Metrics / Validation (gaps as named TBDs)
 - [ ] **Discipline labels assigned** — Frontend/backend/fullstack
 - [ ] **Gantt dates available** — Start/due dates for timeline
 - [ ] **Dependencies mapped** — From Gantt and stories

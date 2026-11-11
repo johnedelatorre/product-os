@@ -4,7 +4,7 @@ Creates and updates Jira epics and stories.
 
 ## What It Does
 
-Syncs project backlog to Jira with story points, discipline labels, dates, and dependencies for Jira Plans.
+Syncs project backlog to Jira with story points, discipline labels, dates, and dependencies for Jira Plans. Every epic and story uses the standard format in [`docs/reference/document-format.md`](../../reference/document-format.md) (§3 epics, §4 stories). Nothing is written until you approve the proposed change set.
 
 ## When to Use
 
@@ -33,8 +33,8 @@ Syncs project backlog to Jira with story points, discipline labels, dates, and d
 
 | Artifact | Jira Issue |
 |----------|------------|
-| Epic | Epic with dates, labels |
-| Story | Story with points, discipline, dates |
+| Epic | Epic with dates, labels. Summary `[Project] — [Outcome in plain words]`; description: Subtitle, Description, Problem Statement, Solution, Success Metrics, Stories, Dependencies, Links |
+| Story | Story with points, discipline, dates. Summary `[Verb] [thing] [for whom]`; description: User story line, Description, Problem Statement, Solution, Acceptance Criteria, Design, Validation, Details, Links |
 | Dependencies | Issue links (blocks/blocked by) |
 
 ## Jira Plans Integration
@@ -52,5 +52,5 @@ Stories include start/end dates from the Gantt chart, enabling:
 
 ## Related
 
-- [Jira Sync Skill](../../.claude/skills/jira-sync.md)
+- [Jira Sync Skill](../../../.claude/skills/jira-sync.md)
 - [Confluence Publisher](confluence-publisher.md) — run first

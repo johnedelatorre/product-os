@@ -2,6 +2,8 @@
 
 > **TL;DR:** Run `/product-os:guide` to walk through all 9 phases step-by-step. Progress tracked in `progress.yaml`. Missing information? Defer it and keep going; it is tracked as an open item and resurfaced later. Skip Discovery with documented risks. Check status with `/product-os:status`.
 
+**See also:** [Document Format Standard](../reference/document-format.md) (the header every document and page uses) · [Example gallery](../../examples/acme-dashboard/README.md) (a full project, filled in) · [From PRD to Reviewed Designs](design-workflow.md) (phases 5 and 6 in detail)
+
 ---
 
 ## Quick Start
@@ -31,7 +33,7 @@
 | 3 | **Prioritize** | Decide if and when to build | Defer items |
 | 4 | **Define** | PRD, brief, metrics, plan | Defer items |
 | 5 | **Design** | Flows, wireframes, prototype | Defer items |
-| 6 | **Review** | Critique, UX review, accessibility, gates | Defer items |
+| 6 | **Review** | Critique, UX review, accessibility, review exit check | Defer items |
 | 7 | **Deliver** | Epics, stories, Confluence, Jira | Defer items |
 | 8 | **Launch** | Release notes, enablement | Defer items |
 | 9 | **Measure** | Post-launch review, follow-ups | Defer items |
@@ -221,31 +223,27 @@ See `.claude/skills/proposal.md` for the full proposal process.
 - [ ] Wireframes address all PRD requirements
 - [ ] Prototype is testable
 
+Step-by-step guide to this phase (where flows, wireframes and the clickable prototype are made and how to open them): [From PRD to Reviewed Designs](design-workflow.md). Filled-in examples: [flows](../../examples/acme-dashboard/design/flows.md), [wireframes](../../examples/acme-dashboard/design/wireframes.md), [prototype](../../examples/acme-dashboard/design/prototype.html).
+
 ---
 
-### Phase 6: Review & Gates
+### Phase 6: Review
 
 | Document | Agent | Template |
 |----------|-------|----------|
 | `design-critique.md` | design-critic | `templates/design/design-critique.md` |
 | `ux-review.md` | ux-reviewer | `templates/design/ux-review.md` |
 | `accessibility-audit.md` | accessibility-auditor | `templates/design/accessibility-audit.md` |
-| `gate-report.md` | gate-keeper | — |
 
-**Gate Status Key:**
-| Status | Meaning |
-|--------|---------|
-| ✅ Pass | Criteria met with evidence |
-| ⚠️ Conditional | Minor gaps, can proceed with conditions |
-| ❌ Fail | Critical missing: fix, or defer as an open item |
-| N/A | Not applicable (documented reason) |
-| 🔍 Not Verified | Cannot confirm, investigate first |
-
-**Exit Criteria:**
-- [ ] No critical design issues (or accepted with documented risk)
+**Exit Criteria (review exit check):**
+- [ ] Every critique, UX and accessibility finding resolved, or accepted with documented risk
+- [ ] No critical design issues left open
 - [ ] WCAG 2.2 AA compliance verified
-- [ ] Gate report complete with evidence for each criterion
 - [ ] Not-verified items have investigation plan
+
+The Definition of Ready gate (`gate-report.md`) runs in Phase 7, on the stories, once they exist.
+
+Reviews run on the real designs and cite the screen for every finding: see [From PRD to Reviewed Designs, Step 6](design-workflow.md#step-6-reviews-on-the-real-designs) and the [example design critique](../../examples/acme-dashboard/design/design-critique.md).
 
 ---
 
@@ -255,10 +253,20 @@ See `.claude/skills/proposal.md` for the full proposal process.
 |----------|-------|----------|
 | `epics.md` | delivery-agent | `templates/delivery/epic.md` |
 | `stories.md` | delivery-agent | `templates/delivery/user-story.md` |
+| `gate-report.md` (Definition of Ready gate on the stories) | gate-keeper | — |
 | `traceability.md` | — | `templates/delivery/traceability.md` |
 | `tracking-plan.yaml` | event-tracker | — |
 | Confluence pages | confluence-publisher | — |
 | Jira issues | jira-sync | — |
+
+**Definition of Ready Gate Status Key:**
+| Status | Meaning |
+|--------|---------|
+| ✅ Pass | Criteria met with evidence |
+| ⚠️ Conditional | Minor gaps, can proceed with conditions |
+| ❌ Fail | Critical missing: fix, or defer as an open item |
+| N/A | Not applicable (documented reason) |
+| 🔍 Not Verified | Cannot confirm, investigate first |
 
 **Estimation Guidance:**
 | Level | Method | Who |
@@ -269,6 +277,7 @@ See `.claude/skills/proposal.md` for the full proposal process.
 
 **Exit Criteria:**
 - [ ] Stories have testable acceptance criteria (Gherkin)
+- [ ] Definition of Ready gate report complete with evidence for each criterion
 - [ ] Stories have points with rationale
 - [ ] Spikes created for unknown scope (no fabricated AC)
 - [ ] Testing and observability requirements specified

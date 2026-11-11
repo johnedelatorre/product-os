@@ -108,4 +108,4 @@ Each agent guide includes:
 
 - [Pipeline Overview](../pipeline-overview.md) — How agents work together
 - [Command Reference](../../reference/commands.md) — All slash commands
-- [AGENTS.md](/AGENTS.md) — Agent orchestration specification
+- [AGENTS.md](../../../AGENTS.md) — Agent orchestration specification

@@ -1,8 +1,29 @@
-# PRD Review: [Project Name]
+# [Project Name] — PRD Review
 
-> **TL;DR:** [One sentence: overall readiness, critical blockers, recommendation]
->
-> **Recommendation:** Approve / Approve with conditions / Revise and re-review / Not ready
+**[Subtitle: one line on overall readiness, critical blockers and the recommendation, for the PRD owner and approvers]**
+
+| Initiative | Project | Owner | Status | Last updated |
+|------------|---------|-------|--------|--------------|
+| [initiative] | [project] | [name] | Draft / In review / Approved | [YYYY-MM-DD] |
+
+**Recommendation:** Approve / Approve with conditions / Revise and re-review / Not ready
+
+## Description
+[2–4 sentences: which PRD was reviewed (link), the perspectives used, and how to act on the findings (blockers first).]
+
+## Problem Statement
+[The PRD's problem in 1–2 lines, and whether the review found it evidenced.]
+
+## Solution
+[The PRD's solution in 1–2 lines, and the review's verdict on it.]
+
+## Success Metrics
+| Metric | Baseline | Target | How we measure |
+|--------|----------|--------|----------------|
+| [metric from the PRD] | [value or TBD: who provides it] | [value] | [source / event; review note: measurable yes/no] |
+
+## Next Action
+[One action, one owner.]
 
 ---
 

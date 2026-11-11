@@ -50,5 +50,5 @@ Scores and ranks features using RICE, WSJF, MoSCoW, and Kano to guide roadmap de
 
 ## Related
 
-- [Prioritization Skill](../../.claude/skills/prioritization.md)
+- [Prioritization Skill](../../../.claude/skills/prioritization.md)
 - [Roadmap Agent](roadmap-agent.md) — uses prioritization outputs

@@ -1,6 +1,29 @@
-# Release Notes: [Feature/Version]
+# [Feature/Version] — Release Notes
 
-> **TL;DR:** [One sentence: what shipped, who benefits, key value]
+**[Subtitle: one line on what shipped, who benefits and the key value]**
+
+| Initiative | Project | Owner | Status | Last updated |
+|------------|---------|-------|--------|--------------|
+| [initiative] | [project] | [name] | Draft / In review / Approved | [YYYY-MM-DD] |
+
+## Description
+[2–4 sentences: what this release contains, who it is for, and where to get help.]
+
+## Problem Statement
+[The user problem this release solves, in 1–2 lines, with the evidence from the PRD.]
+
+## Solution
+[What shipped, in user terms. What is not included yet.]
+
+## Success Metrics
+| Metric | Baseline | Target | How we measure |
+|--------|----------|--------|----------------|
+| [metric this release should move] | [value or TBD: who provides it] | [value] | [dashboard / event] |
+
+## Next Action
+[One action, one owner.]
+
+---
 
 ## Release Summary
 

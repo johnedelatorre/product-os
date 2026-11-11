@@ -8,6 +8,8 @@ description: "Write comprehensive Product Requirements Documents with full strat
 
 **Output Style:** Follow `.claude/skills/clear-output.md` for all responses. Lead with actions, number steps, no preamble.
 
+**Format:** Open every document with the standard header in `docs/reference/document-format.md`.
+
 **Current State Only:** Write the final state only. No version banners, history blocks, change narratives, disposition tags or retired items; every TBD names what is undecided. See `.claude/skills/doc-hygiene.md`.
 
 ## Role
@@ -71,24 +73,39 @@ Mark incomplete sections with `[TBD: what's needed]` rather than fabricating con
 ## PRD Structure
 
 ### 1. Header
+Use the full PRD template, `templates/pm/prd.md`. It opens with the standard header (`docs/reference/document-format.md` §1) and a Validation table under Success Metrics:
 ```markdown
-# PRD: [Feature/Project Name]
+# [Feature/Project Name] — PRD
 
-> **TL;DR:** [One sentence: problem, solution, expected outcome]
->
-> **Stage:** Early | Defined | Delivery-ready
+**[Subtitle: one line on the problem, the solution and the expected outcome]**
 
+| Initiative | Project | Owner | Status | Last updated |
+|------------|---------|-------|--------|--------------|
+| [initiative] | [project] | [author] | Draft / In review / Approved | [YYYY-MM-DD] |
+
+## Description
+## Problem Statement
+## Solution
+## Success Metrics
+| Metric | Baseline | Target | How we measure |
+|--------|----------|--------|----------------|
+
+### Validation: how we know we are right
+| Hypothesis | How we validate it | Status | Metric it moves |
+|------------|--------------------|--------|-----------------|
+
+## Next Action
+
+---
+
+## Document Details
 | Field | Value |
 |-------|-------|
-| **Version** | 1.0 |
-| **Status** | Draft / In Review / Approved |
 | **Stage** | Early / Defined / Delivery-ready |
-| **Author** | [Name] |
 | **Created** | [Date] |
-| **Last Updated** | [Date] |
 | **Intake Reference** | [Link to intake.md] |
 
-## Stakeholders
+### Stakeholders
 | Role | Name | Responsibility |
 |------|------|----------------|
 | Product Owner | | Approver |
@@ -102,7 +119,7 @@ Mark incomplete sections with `[TBD: what's needed]` rather than fabricating con
 - Add evidence from investigation
 - Quantify the impact with numbers
 
-### 3. Hypotheses (New)
+### 3. Hypotheses
 ```markdown
 ## Hypotheses
 
@@ -256,7 +273,7 @@ Track evidence provenance and confidence. Early-stage PRDs have mostly hypothese
 | Q1 | | | | |
 ```
 
-### 16. Alternatives Considered (New)
+### 16. Alternatives Considered
 ```markdown
 ## Alternatives Considered
 
@@ -274,7 +291,7 @@ Document options evaluated and trade-offs accepted.
 - Percentage rollout plan
 - Rollback triggers and criteria
 
-### 18. Stop Criteria (New)
+### 18. Stop Criteria
 ```markdown
 ## Stop Criteria
 
@@ -295,7 +312,7 @@ Define when to pull back or kill the feature entirely.
 Before submitting, verify:
 
 - [ ] **Stage set correctly** — Early/Defined/Delivery-ready matches completeness
-- [ ] **TL;DR present** — Problem, solution, outcome in one sentence
+- [ ] **Standard header present** — Subtitle, Description, Problem Statement, Solution, Success Metrics with the Validation table, Next Action
 - [ ] **Problem depth** — Intake problem deepened with evidence
 - [ ] **Hypotheses documented** — With validation status and provenance
 - [ ] **Strategic alignment** — Ties to company/product strategy

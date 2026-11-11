@@ -43,5 +43,5 @@ Creates release notes, sales/support enablement, changelog entries, and launch c
 
 ## Related
 
-- [Launch GTM Skill](../../.claude/skills/launch-gtm.md)
+- [Launch GTM Skill](../../../.claude/skills/launch-gtm.md)
 - [Post-Launch Reviewer](post-launch-reviewer.md)
