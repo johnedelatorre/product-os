@@ -1,6 +1,6 @@
 # Document Format Standard
 
-> **TL;DR:** Every Product OS document and Confluence page opens with the same header: Title, Subtitle, Description, Problem Statement, Solution, Success Metrics, Next Action. Jira epics and stories use the same opening sections in one complete body each (§3, §4). A reader gets the point in 30 seconds; the detail follows below.
+> **TL;DR:** The project hub and the PRD open with the full header: Title, Subtitle, Description, Problem Statement, Solution, Success Metrics, Next Action. Every other document opens with Title, Subtitle, header table and Description (plus a one-line link to the PRD), then its own content. Jira epics and stories use the same opening sections in one complete body each (§3, §4). A reader gets the point in 30 seconds; the detail follows below.
 
 This is the format PMs and Heads of Product expect. Agents apply it to every artifact they write or publish. Templates in `templates/` already follow it.
 
@@ -40,7 +40,7 @@ This is the format PMs and Heads of Product expect. Agents apply it to every art
 Rules:
 1. **Title** names the thing, not the process ("Self-Serve Signup — PRD", not "PRD v2 draft"). <!-- hygiene-ok -->
 2. **Subtitle** is one sentence, under 20 words.
-3. **Problem Statement and Solution are never empty.** Documents that support a project (RACI, Gantt, risk register) restate the project's problem and solution in one or two lines each, and say how this document serves them.
+3. **Problem Statement, Solution and Success Metrics appear only on the project hub and the PRD**, and are never empty there. They are specific: who has the problem, what Virtus already has, what breaks today, the evidence, and what it costs; what we build and how it solves each part. Every other document (brief, metrics, design brief, flows, wireframes, plan, epics, handoff, tracking plan, decision log, group pages, RACI, Gantt, risk register) leaves them out and ends its Description with one line linking to the PRD for the problem, solution and success metrics. It keeps Next Action only when it has its own. This keeps pages from repeating the same paragraphs.
 4. **Success Metrics** links to the project's metrics framework. A missing baseline or target is written as a named TBD (what is missing, who provides it) and tracked as an open item; it never blocks the document.
 5. **Current state only:** no version banners or change history in the body (see `.claude/skills/doc-hygiene.md`).
 6. **The header is the problem, solution and success section.** The body never repeats it: no second Problem, Goals or Success Metrics section, no TL;DR or Executive Summary, and no Metadata table repeating Owner, Status or Last updated. Body sections add detail the header does not hold.
@@ -71,7 +71,7 @@ Rules:
 4. A document too long for one page splits at its own sections. The parent page keeps the standard header, the first sections and, at the end, a numbered list of its child pages; each child page is named for its content ("PRD — Functional Requirements"), never "Part 1", ends with a link to the next one, and sits in section order.
 5. Confluence holds final documents only. Working notes (the PRD review, reviewer findings, drafts) stay in the project folder and are never published; their outcome is already in the final document.
 6. Supporting documents nest under the document they support, as named child pages, so each group shows a few documents: market analysis, hypothesis log, concept and catalog under the PRD; RACI, Gantt, risks and dependencies under the Project Plan; traceability under Epics & Stories. Nothing is dropped.
-7. Every page carries the standard header.
+7. The hub and the PRD carry the full standard header; every other page carries Title, Subtitle, header table, Description and the PRD link line (rule 1.3).
 
 ## 3. Jira Epic
 
