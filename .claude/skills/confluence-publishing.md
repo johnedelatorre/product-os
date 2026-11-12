@@ -33,7 +33,7 @@ Product Space (PROD)
 └── Initiatives
     └── [Initiative Name]
         └── [Project Name]                   ← Hub page: standard header + "Documents in this project" table
-            ├── 1. Strategy & Definition     ← Intake, Proposal / Project Brief, PRD, PRD Review, Metrics Framework
+            ├── 1. Strategy & Definition     ← Intake, Proposal, PRD (+ review as child), Project Brief, Metrics Framework
             ├── 2. Design                    ← Design Brief, User Flows, Wireframes & Prototype, Design Critique, UX Review, Accessibility Audit
             ├── 3. Delivery                  ← Epics & Stories (Backlog, special page with tables), Project Plan, RACI, Gantt Chart, Risks, Dependencies, Traceability
             └── 4. Decisions & Launch        ← Decision Log, Event Tracking Plan, Release Notes, Post-Launch Review
@@ -45,7 +45,7 @@ Product Space (PROD)
 2. **Hub page** carries a "Documents in this project" table: Document (link) | What it is | Status | Owner.
 3. **Group pages** list every page under them with a one-line description.
 4. **Titles name the thing:** `[Project] — [Document]`. No numbers, file names or version tags.
-4a. **Reading order:** pages and documents-table rows follow `docs/reference/document-format.md` §2 (Project Brief first).
+4a. **Creation order:** pages and documents-table rows follow the order the PM creates them (`docs/reference/document-format.md` §2).
 5. **Split long documents at their own sections**, named for their content ("PRD — Functional Requirements"), never "Part 1".
 
 ## Backlog Page Structure
@@ -161,7 +161,7 @@ python scripts/atlassian-fallback.py publish \
 - [ ] Hierarchy will be correct (hub → 4 groups → documents)
 - [ ] Every page opens with the standard header; hub lists every document
 - [ ] Long docs split at named sections, no "Part N"
-- [ ] No numbered titles; pages and table rows in reading order
+- [ ] No numbered titles; pages and table rows in creation order
 - [ ] Backlog page has discipline columns
 
 ## Tips

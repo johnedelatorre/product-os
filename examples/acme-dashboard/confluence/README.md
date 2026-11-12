@@ -35,9 +35,9 @@ Priya Shah approves the publish preview, then runs `/product-os:publish`.
     └── Platform Performance                           ← Initiative page
         └── Dashboard Performance                      ← Project hub page: 00-hub-page.md
             ├── 1. Strategy & Definition
-            │   ├── Dashboard Performance — Project Brief          ← pm/project-brief.md
             │   ├── Dashboard Performance — Intake                 ← intake/intake.md
             │   ├── Dashboard Performance — PRD                    ← pm/prd.md
+            │   ├── Dashboard Performance — Project Brief          ← pm/project-brief.md
             │   └── Dashboard Performance — Metrics Framework      ← pm/metrics-framework.md
             ├── 2. Design
             │   ├── Dashboard Performance — User Flows             ← design/flows.md (Mermaid renders as diagrams)
