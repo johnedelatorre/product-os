@@ -49,8 +49,8 @@ Kenji Mori fixes design critique C-001 and M-001 by 2026-11-12, before the H-2 u
 | [Stories](../jira/stories.md) | Child stories with acceptance criteria | Ready for DoR check | Priya Shah |
 
 ## 1. Strategy & Definition
-- **Intake:** the Customer Success request and its evidence, with the solution bias ("add a loading skeleton") separated from the real problem.
 - **Project Brief:** problem, why now, goals, scope and timeline on one page.
+- **Intake:** the Customer Success request and its evidence, with the solution bias ("add a loading skeleton") separated from the real problem.
 - **PRD:** requirements REQ-001 to REQ-010, hypotheses H-1 to H-4, rollout and risks.
 - **Metrics Framework:** how we measure success, what we must not break, when we stop, and how each hypothesis is validated.
 
