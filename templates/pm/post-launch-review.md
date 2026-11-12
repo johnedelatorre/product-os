@@ -1,6 +1,29 @@
-# Post-Launch Review: [Project Name]
+# [Project Name] — Post-Launch Review
 
-> **TL;DR:** [One sentence: did we hit goals, key learning, next action]
+**[Subtitle: one line on whether we hit our goals, the key learning and what happens next]**
+
+| Initiative | Project | Owner | Status | Last updated |
+|------------|---------|-------|--------|--------------|
+| [initiative] | [project] | [name] | Draft / In review / Approved | [YYYY-MM-DD] |
+
+## Description
+[2–4 sentences: the review window, what was measured, and the overall result.]
+
+## Problem Statement
+[The problem the project set out to solve, in 1–2 lines.]
+
+## Solution
+[What shipped, in 1–2 lines, and what this review concludes about it.]
+
+## Success Metrics
+| Metric | Baseline | Target | How we measure |
+|--------|----------|--------|----------------|
+| [metric from the metrics framework] | [baseline before launch] | [target] | [actual, from dashboard link] |
+
+## Next Action
+[One action, one owner.]
+
+---
 
 ## Review Summary
 

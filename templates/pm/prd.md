@@ -1,22 +1,47 @@
-# PRD: [Feature/Project Name]
+# [Feature/Project Name] — PRD
 
-> **TL;DR:** [One sentence: problem, solution, expected outcome]
->
-> **Stage:** Draft | In Review | Approved | Implementing | Shipped
-> **Completeness:** Early (hypotheses) | Defined (requirements) | Delivery-ready (evidence-backed)
+**[Subtitle: one line on the problem, the solution and the expected outcome, for product, design and engineering]**
+
+| Initiative | Project | Owner | Status | Last updated |
+|------------|---------|-------|--------|--------------|
+| [initiative] | [project] | [author] | Draft / In review / Approved / Implementing / Shipped | [YYYY-MM-DD] |
+
+## Description
+[2–4 sentences: what this PRD covers, what it is based on (intake / proposal), and how to read it: summary here, detail in the numbered sections below.]
+
+## Problem Statement
+[Who has the problem, what it is, the evidence, and what it costs if we do nothing. Full evidence: §1 Problem Statement.]
+
+## Solution
+[What we will build. Key scope in and out (full list: §4 Goals & Non-Goals, §8 Functional Requirements).]
+
+## Success Metrics
+| Metric | Baseline | Target | How we measure |
+|--------|----------|--------|----------------|
+| [Primary metric] | [value or TBD: who provides it] | [value] | [source / event] |
+| [Guardrail metric] | [value or TBD: who provides it] | [Do not exceed X] | [source / event] |
+
+Full metric definitions (formulas, guardrails, instrumentation): §10 Success Metrics and the project's metrics framework.
+
+### Validation: how we know we are right
+
+| Hypothesis | How we validate it | Status | Metric it moves |
+|------------|--------------------|--------|-----------------|
+| [H-1: We believe X because Y] | [Experiment / usability test / analytics / interview] | Unvalidated / Partial / Validated | [metric above] |
+
+Full hypotheses and assumptions: §2 Hypotheses & Validation. Stop criteria: §16 Rollout Plan.
+
+## Next Action
+[One action, one owner.]
 
 ---
 
-## Header
+## Document Details
 
 | Field | Value |
 |-------|-------|
-| **Version** | 1.0 |
-| **Status** | Draft |
-| **Stage** | Early |
-| **Author** | [Name] |
+| **Stage** | Early (hypotheses) / Defined (requirements) / Delivery-ready (evidence-backed) |
 | **Created** | [Date] |
-| **Last Updated** | [Date] |
 | **Intake Reference** | [Link to intake.md] |
 
 ### Stakeholders
@@ -51,7 +76,7 @@
 
 ---
 
-## 2. Hypotheses
+## 2. Hypotheses & Validation
 
 > **Note:** Hypotheses are beliefs requiring validation. Early-stage PRDs may have mostly hypotheses; delivery-ready PRDs need evidence.
 
@@ -213,7 +238,7 @@
 
 ### Data Models
 
-[New or modified data structures]
+[Data structures this feature adds or changes]
 
 ### APIs
 
@@ -337,12 +362,6 @@
 ### Technical Diagrams
 
 [Architecture, sequence diagrams]
-
-### Change Log
-
-| Version | Date | Author | Changes |
-|---------|------|--------|---------|
-| 1.0 | | | Initial draft |
 
 ---
 

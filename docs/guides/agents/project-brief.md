@@ -52,5 +52,5 @@ Distills a full PRD into a one-page brief that busy stakeholders can quickly und
 
 ## Related
 
-- [Project Brief Skill](../../.claude/skills/project-brief.md)
+- [Project Brief Skill](../../../.claude/skills/project-brief.md)
 - [PRD Author](prd-author.md) — full PRD that brief summarizes

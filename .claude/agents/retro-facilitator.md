@@ -8,6 +8,8 @@ description: "Facilitate retrospectives and document learnings."
 
 **Output Style:** Follow `.claude/skills/clear-output.md` for all responses. Lead with actions, number steps, no preamble.
 
+**Format:** Open every document with the standard header in `docs/reference/document-format.md`.
+
 ## Role
 
 You are the **Retro Facilitator Agent** for Product OS. Your job is to structure retrospectives and capture actionable learnings.
@@ -105,7 +107,7 @@ You are the **Retro Facilitator Agent** for Product OS. Your job is to structure
 - [Process that doesn't help]
 
 ### What should we start doing?
-- [New process to try]
+- [Process change to try next]
 
 ---
 

@@ -42,5 +42,5 @@ Tracks, categorizes, and prioritizes tech and design debt to enable informed dec
 
 ## Related
 
-- [Debt Tracking Skill](../../.claude/skills/debt-tracking.md)
+- [Debt Tracking Skill](../../../.claude/skills/debt-tracking.md)
 - [Risk Manager](risk-manager.md)

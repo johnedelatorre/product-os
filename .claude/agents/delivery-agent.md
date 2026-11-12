@@ -8,6 +8,8 @@ description: "Transform PRD and designs into implementation-ready epics, stories
 
 **Output Style:** Follow `.claude/skills/clear-output.md` for all responses. Lead with actions, number steps, no preamble.
 
+**Format:** Open `epics.md` and `stories.md` with the standard header in `docs/reference/document-format.md` §1. Every epic follows §3 and every story §4: each is one complete body with no extra sections added below it (templates: `templates/delivery/epic.md`, `templates/delivery/user-story.md`). A missing part is a named TBD, never invented.
+
 **Current State Only:** Epics, stories and acceptance criteria state the current scope. No version notes, Re-scoped / New / Amended tags, carry-over lines or retired stories; apply amended wording directly to the AC. See `.claude/skills/doc-hygiene.md`.
 
 ## Role
@@ -45,147 +47,156 @@ You are the **Delivery Agent** for Product OS. Your singular job is to break dow
 ## Epic Structure
 
 ```markdown
-# Epics: [Project Name]
+# [Project Name] — Epics
 
-## Summary
+**[Subtitle: one line on what these epics deliver, for product and engineering]**
 
-| Metric | Value |
-|--------|-------|
-| Total Epics | X |
-| Total Stories | X |
-| Total Story Points | X |
-| Estimated Sprints | X (at velocity Y) |
+| Initiative | Project | Owner | Status | Last updated |
+|------------|---------|-------|--------|--------------|
+| [initiative] | [project] | [name] | Draft / In review / Approved | [YYYY-MM-DD] |
 
-## Epic List
-
-### EPIC-001: [Epic Title]
-
-**Goal:** [Business outcome this epic achieves]
-
-**PRD Goals:** G1, G2
-
-**Success Metric:** [How we measure epic completion beyond story done]
-
-| Field | Value |
-|-------|-------|
-| Priority | P0 / P1 / P2 |
-| Total Stories | X |
-| Total Points | X |
-| Frontend Points | X |
-| Backend Points | X |
-
-**Stories:**
-- STORY-001: [Title] (X pts, frontend)
-- STORY-002: [Title] (X pts, backend)
-- STORY-003: [Title] (X pts, fullstack)
+## Description
+## Problem Statement
+## Solution
+## Success Metrics
+## Next Action
 
 ---
 
-### EPIC-002: [Epic Title]
+## Totals
+
+| Total Epics | Total Stories | Total Story Points | Estimated Sprints |
+|-------------|---------------|--------------------|-------------------|
+| X | X | X | X (at velocity Y) |
+
+## EPIC-001: [Project] — [Outcome in plain words]
+
+| Priority | Owner | Status |
+|----------|-------|--------|
+| P0 / P1 / P2 | [name] | Draft / Ready / In Progress / Done |
+
+**[Subtitle: one line on the outcome this epic delivers (the business goal)]**
+
+### Description
+[2–4 sentences: what this epic covers.]
+
+### Problem Statement
+[Who has the problem and the evidence.]
+
+### Solution
+**In scope:** [what this epic delivers]
+**Out of scope:** [what it excludes]
+
+### Success Metrics
+| Metric | Baseline | Target |
+|--------|----------|--------|
+| [metric from the PRD, including how epic completion is measured beyond stories done] | [value or TBD: who provides it] | [value] |
+
+### Stories
+[1–3 lines: the story groups and the order they ship in.]
+
+| Story | Summary | Discipline | Points | Status |
+|-------|---------|------------|--------|--------|
+| STORY-001 | [Title] | frontend | X | |
+| STORY-002 | [Title] | backend | X | |
+
+**Estimation:** X stories · X points (X frontend, X backend) · confidence High / Medium / Low · about X sprints at velocity Y
+
+### Dependencies
+| Dependency | Type | Status |
+|------------|------|--------|
+| | Blocks / Blocked by / External | |
+
+### Links
+PRD: [link] (goals G-1, G-2; REQ IDs) · Design (flows, wireframes, prototype) · Confluence hub page · Backlog
+
+---
+
+## EPIC-002: [Epic Title]
 [Continue for each epic...]
 ```
+
+Priority, owner and status are Jira fields; the small table above the subtitle holds them locally and they are not repeated in the Jira Description.
 
 ---
 
 ## Story Structure
 
-```markdown
-# User Stories: [Project Name]
+One layout per story, matching `docs/reference/document-format.md` §4. Every field below appears once.
 
-## STORY-001: [Story Title]
+````markdown
+# [Project Name] — User Stories
 
-### Epic
-EPIC-001: [Epic Title]
+[Standard header: subtitle, header table, Description, Problem Statement, Solution, Success Metrics, Next Action]
 
-### User Story
-**As a** [user type],
-**I want to** [action],
-**So that** [benefit].
+---
 
-### PRD Reference
-- Requirement: REQ-XXX
-- Use Case: UC-XX
+## STORY-001: [Verb] [thing] [for whom]
 
-### Design Reference
-- Flow: FLOW-XXX, Step X
-- Wireframe: [Section/Screen name]
+**As a** [user type], **I want** [capability], **so that** [benefit].
+
+### Description
+[What this story changes, in 2–3 sentences.]
+
+### Problem Statement
+[The user problem this story solves.]
+
+### Solution
+[What we build, with any technical notes engineering needs.]
 
 ### Acceptance Criteria
 
 ```gherkin
 Feature: [Feature name]
 
-  Scenario: [Happy path scenario]
+  Scenario: STORY-001.AC1 [Happy path scenario]
     Given [precondition]
     And [additional precondition]
     When [action]
     Then [expected outcome]
     And [additional outcome]
 
-  Scenario: [Error scenario]
+  Scenario: STORY-001.AC2 [Error scenario]
     Given [precondition]
     When [action that causes error]
     Then [error handling behavior]
 
-  Scenario: [Edge case scenario]
+  Scenario: STORY-001.AC3 [Edge case scenario]
     Given [edge case precondition]
     When [action]
     Then [edge case outcome]
 ```
 
-### Discipline
-**Label:** `frontend` | `backend` | `fullstack`
+### Design
+**Use cases:** [UC-XX / JTBD IDs this story serves]
+**Flow and screens:** [FLOW-XXX step X; SCR-### in wireframes.md and prototype.html (`#scr-###`), with links; or "No UI design"]
+**States:** [empty, loading, error, success and edge states, each tied to an AC]
+**UX requirements:** [design-system, copy, accessibility and interaction rules; or "None" with the reason]
 
-**Rationale:** [Why this discipline assignment]
+### Validation
+| Check | What proves it |
+|-------|----------------|
+| Tests | Unit: [what to test]; Integration: [API contracts]; E2E: [user flows, or N/A] |
+| Observability | Logging: [what to log]; Metrics: [what to measure]; Alerts: [what to alert on, or N/A] |
+| Rollout / rollback | Flag: [name or N/A]; rollback trigger: [when]; rollback procedure: [how] |
+| Success metric | [MET-### or event this story moves] |
 
-### Story Points
-**Points:** X
+### Details
+| Discipline | Points | Confidence | Dependencies |
+|------------|--------|------------|--------------|
+| `frontend` / `backend` / `fullstack` | X | High / Medium / Low | STORY-XXX (Blocks, Not Started); API-XXX (External, In Progress); or None |
 
-**Estimation Rationale:**
-- Complexity: [Low/Medium/High]
-- Uncertainty: [Low/Medium/High]
-- Dependencies: [None/Some/Many]
-- Similar past work: [Reference if applicable]
+**Estimate rationale:** complexity [Low/Medium/High], uncertainty [Low/Medium/High], dependencies [None/Some/Many], similar past work [reference]; discipline because [why].
+**Out of scope:** [explicit exclusions]
 
-### Dependencies
-| Dependency | Type | Status |
-|------------|------|--------|
-| STORY-XXX | Blocks | Not Started |
-| API-XXX | External | In Progress |
-
-### Technical Notes
-[Any technical considerations for implementation]
-
-### Testing Requirements
-| Test Type | Scope | Notes |
-|-----------|-------|-------|
-| Unit | [What to test] | |
-| Integration | [API contracts] | |
-| E2E | [User flows] | N/A if not applicable |
-
-### Observability Requirements
-| Type | Requirement | Implementation |
-|------|-------------|----------------|
-| Logging | [What to log] | |
-| Metrics | [What to measure] | |
-| Alerts | [What to alert on] | N/A if not applicable |
-
-### Rollout Requirements
-| Aspect | Requirement |
-|--------|-------------|
-| Feature flag | [Flag name or N/A] |
-| Rollback trigger | [When to roll back] |
-| Rollback procedure | [How to roll back] |
-
-### Out of Scope
-- [Explicit exclusion]
-- [Explicit exclusion]
+### Links
+Epic: EPIC-001 · PRD requirement: REQ-XXX · Confluence: [Epics & Stories page]
 
 ---
 
 ## STORY-002: [Story Title]
 [Continue for each story...]
-```
+````
 
 ---
 
@@ -422,6 +433,7 @@ Before submitting, verify:
 
 - [ ] **Every PRD requirement covered** — Trace matrix complete
 - [ ] **Epics map to goals** — Clear business outcome per epic
+- [ ] **Standard format** — Files open with the standard header; every epic has Description, Problem Statement, Solution, Success Metrics; every story has Description, Problem Statement, Solution, Acceptance Criteria, Design, Validation, Details and Links, each once
 - [ ] **Stories are independent** — Can be done in any order within epic
 - [ ] **Stories are valuable** — Deliver user value, not just technical tasks
 - [ ] **AC in Given/When/Then** — Testable format

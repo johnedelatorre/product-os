@@ -9,6 +9,14 @@ Perform structured visual design critique with severity-rated findings.
 - Auditing Figma designs against PRD
 - Quality gate before development
 
+## Ground Rule: Review the Real Design Only
+
+1. **Input is the actual design:** a Figma file/frame link (via the Figma MCP), screenshots, `prototype.html` or a prototype URL, or `wireframes.md`. A PRD, design brief or description of a screen is not a design.
+2. **No design, stop and ask.** "I need the design to critique: a Figma link, screenshots, `prototype.html` or `wireframes.md`. Which can you share?" Never critique an imagined or assumed screen.
+3. **Record what was reviewed** in §1 "What was reviewed", right after the standard header: sources, screen IDs (`SCR-###`, prototype `#scr-###`, Figma node IDs), version, review date.
+4. **Cite every finding:** exact screen, frame and element, with a screenshot or frame link where possible. No citation, no finding.
+5. **Not Verified, never guessed:** anything you could not inspect is marked Not Verified with what is missing. Grayscale wireframes leave Color, Typography and Brand Not Verified.
+
 ## Quick Start
 
 ```
@@ -74,7 +82,7 @@ Perform structured visual design critique with severity-rated findings.
 ```markdown
 ### [CRITICAL] Missing primary CTA
 
-**Location:** Registration screen, below form
+**Location:** `wireframes.md` SCR-002 Registration Form → "Create Account" button, below form
 **Dimension:** Visual Hierarchy
 
 **Issue:**
@@ -85,7 +93,7 @@ the "Already have account?" link. Primary action is not clear.
 Users may not see the submit button, increasing form abandonment.
 
 **Evidence:**
-Button uses secondary style (outline) instead of primary (filled).
+SCR-002 draws the button with the secondary (outline) style instead of primary (filled); see the wireframe block for SCR-002.
 
 **Recommendation:**
 Change "Create Account" to filled primary button style. 
@@ -120,6 +128,9 @@ Keep "Already have account?" as text link.
 
 ## Quality Checklist
 
+- [ ] Real design reviewed; "What was reviewed" table filled
+- [ ] Every finding cites screen/frame/element
+- [ ] Uninspectable items marked Not Verified
 - [ ] All 9 dimensions evaluated
 - [ ] Every finding has evidence
 - [ ] Severity calibrated correctly

@@ -59,5 +59,5 @@ Transforms an approved intake into a complete 19-section PRD with strategic cont
 
 ## Related
 
-- [PRD Writing Skill](../../.claude/skills/prd-writing.md)
+- [PRD Writing Skill](../../../.claude/skills/prd-writing.md)
 - [Project Brief](project-brief.md) — one-page summary

@@ -9,6 +9,16 @@ Comprehensive accessibility evaluation with automated and manual testing.
 - Compliance verification
 - Quality gate for prototypes
 
+## Ground Rule: Review the Real Design Only
+
+1. **Input is the actual design:** `prototype.html` in a browser or a live URL (full audit); a Figma link, screenshots or `wireframes.md` (static checks only). A PRD, design brief or description of a screen is not a design.
+2. **No design, stop and ask.** "I need the design to audit: `prototype.html`, a live URL, a Figma link, screenshots or `wireframes.md`. Which can you share?" Never audit an imagined or assumed screen.
+3. **Record what was reviewed** in §1 "What was reviewed", right after the standard header: sources, screen IDs (`SCR-###`, prototype `#scr-###`, Figma node IDs), version, review date.
+4. **Cite every finding:** exact screen, frame and element, with a screenshot or frame link where possible. No citation, no finding.
+5. **Not Verified, never guessed:** anything you could not inspect is marked Not Verified with what is missing.
+6. **Running build required** for axe-core, pa11y, Lighthouse, keyboard and screen reader checks. Without `prototype.html` in a browser or a live URL, these are Not Verified and no scan counts are reported.
+7. **Real colours required** for contrast. On grayscale wireframes, contrast is Not Verified.
+
 ## Quick Start
 
 ```
@@ -158,16 +168,21 @@ lighthouse http://localhost:3000 --only-categories=accessibility
 ```markdown
 | ID | WCAG | Issue | Location | Severity | Fix |
 |----|------|-------|----------|----------|-----|
-| A11Y-001 | 1.4.3 | Contrast 2.8:1 | Header text | Critical | Darken to #374151 |
-| A11Y-002 | 2.4.7 | No focus indicator | Buttons | Critical | Add outline style |
-| A11Y-003 | 1.1.1 | Missing alt text | Hero image | Major | Add descriptive alt |
+| A11Y-001 | 1.4.3 | Contrast 2.8:1 | Figma frame 12:345 → Header title text | Critical | Darken to #374151 |
+| A11Y-002 | 2.4.7 | No focus indicator | `prototype.html` SCR-002 `#scr-002` → all buttons | Critical | Add outline style |
+| A11Y-003 | 1.1.1 | Missing alt text | `prototype.html` SCR-001 `#scr-001` → hero image | Major | Add descriptive alt |
+
+Location = source → screen/frame ID → element. Every row needs one.
 ```
 
 ---
 
 ## Quality Checklist
 
-- [ ] Automated scan run (axe-core)
+- [ ] Real design audited; "What was reviewed" table filled (incl. methods that ran)
+- [ ] Every issue cites screen/frame/element
+- [ ] Checks needing a running build or real colours marked Not Verified when those were unavailable
+- [ ] Automated scan run (axe-core) on a running build
 - [ ] Contrast ratios verified
 - [ ] Keyboard navigation tested
 - [ ] Screen reader tested (at least one)

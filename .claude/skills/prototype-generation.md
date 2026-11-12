@@ -15,6 +15,16 @@ Create clickable, self-contained HTML/React prototypes.
 /product-os:prototype --from wireframes.md --flows flows.yaml
 ```
 
+## Where It Goes and How to Open It
+
+| File (in `initiatives/<initiative>/<project>/`) | How to view | Confluence |
+|-------------------------------------------------|-------------|------------|
+| `prototype.html`: clickable low-fi prototype, one self-contained file | Double-click to open in any browser; no install or server. Share the file or host it as static HTML | **Prototype** page under **2. Design** links to or attaches it. TBD: the publisher does not yet define attach vs hosted link; the PM decides per project |
+| `prototype-react.tsx` | Paste into claude.ai and ask for an Artifact; it renders there as a clickable prototype | Link the artifact from the Prototype page |
+| `prompt-pack.md` | Copy prompts into claude.ai to generate Artifacts | Not published |
+
+In the prototype: `→`/`←` move through the flow, `a` toggles annotations.
+
 ## Output Formats
 
 ### Self-Contained HTML
@@ -35,16 +45,16 @@ Single file with embedded CSS and JS:
   </style>
 </head>
 <body>
-  <!-- Screen: Landing -->
-  <section id="screen-landing" class="screen active">
+  <!-- SCR-001 · Landing -->
+  <section id="scr-001" class="screen active">
     <h1>Welcome</h1>
-    <button onclick="showScreen('screen-register')">Get Started</button>
+    <button onclick="showScreen('scr-002')">Get Started</button>
   </section>
   
-  <!-- Screen: Register -->
-  <section id="screen-register" class="screen">
+  <!-- SCR-002 · Register -->
+  <section id="scr-002" class="screen">
     <h1>Create Account</h1>
-    <form onsubmit="showScreen('screen-success'); return false;">
+    <form onsubmit="showScreen('scr-003'); return false;">
       <input placeholder="Email" required>
       <button type="submit">Sign Up</button>
     </form>
@@ -130,6 +140,8 @@ Requirements:
 ```
 
 ## Prototype Requirements
+
+**Screen IDs (one convention everywhere):** screens are `SCR-###` (`SCR-001`, `SCR-002`, …), numbered in `wireframes.md`. The prototype section for a screen has `id="scr-###"` (lowercase, same number) and is opened by the hash link `#scr-###`; a state shown as its own section adds a suffix (`scr-002-error`). Flows (`screen_ref`), stories, critiques, UX reviews and accessibility audits cite the same IDs.
 
 ### Navigation
 - All screens from flows

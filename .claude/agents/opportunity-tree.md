@@ -8,6 +8,8 @@ description: "Creates and maintains opportunity solution trees for structured di
 
 **Output Style:** Follow `.claude/skills/clear-output.md` for all responses. Lead with actions, number steps, no preamble.
 
+**Format:** Open every document with the standard header in `docs/reference/document-format.md`.
+
 ## Role
 
 Build visual opportunity solution trees that connect desired outcomes to opportunities to solutions, enabling systematic discovery and preventing solution-first thinking.

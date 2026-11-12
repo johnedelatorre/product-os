@@ -6,7 +6,7 @@
 
 - **Shared canonical content:** `.claude/` contains all agents, skills, commands
 - **Claude Code commands:** served by the `product-os` plugin (`.claude-plugin/`) as `/product-os:<command>`
-- **Both platforms read CLAUDE.md/AGENTS.md** automatically
+- **Claude Code and Cursor read CLAUDE.md/AGENTS.md** automatically; claude.ai uses `claude-ai/project-instructions.md`
 - **Cursor native support:** `.cursor/rules/` (MDC format) + `.cursor/agents/`
 - **Progress/handover:** Portable across platforms
 
@@ -14,8 +14,8 @@
 
 | Capability | claude.ai | Claude Code | Cursor | Notes |
 |------------|-----------|-------------|--------|-------|
-| Read `.claude/` content | ✅ Uploaded as project knowledge | ✅ | ✅ | Canonical location |
-| Read CLAUDE.md/AGENTS.md | ✅ CLAUDE.md as project instructions | ✅ | ✅ Auto-applied | |
+| Read `.claude/` content | ✅ Starter set uploaded as project knowledge (`claude-ai/README.md`) | ✅ | ✅ | Canonical location |
+| Read CLAUDE.md/AGENTS.md | ❌ Uses `claude-ai/project-instructions.md` as project instructions instead | ✅ | ✅ Auto-applied | |
 | Slash commands | ❌ Ask in plain language | ✅ Via the `product-os` plugin (`/product-os:*`) | ❌ | Role-based invocation instead |
 | Native subagents | ❌ One role at a time | ✅ `.claude/agents/*.md` (YAML frontmatter) | Partial | Cursor: 3 adapters in `.cursor/agents/` |
 | Project rules | Project instructions | N/A | ✅ `.cursor/rules/*.mdc` | MDC format with frontmatter |
@@ -24,7 +24,7 @@
 | Progress tracking | Ask for `progress.yaml`; re-upload to resume | ✅ | ✅ | Shared `progress.yaml` |
 | Session handover | Ask for `HANDOVER.md`; re-upload to resume | ✅ | ✅ | Shared `HANDOVER.md` |
 
-claude.ai setup steps: [Installation and Platform Setup → claude.ai](../setup/installation.md#claudeai-setup).
+claude.ai setup steps: [Product OS in claude.ai](../../claude-ai/README.md). Flags such as `--targets claude-artifact,figjam` are Claude Code only; in claude.ai, ask Claude to show a flow as an artifact or diagram if it doesn't render.
 
 ## Installation
 
@@ -72,8 +72,9 @@ claude plugin install product-os@product-os --scope project
 ```
 
 ```
-# C. Inside Claude Code (≥ 2.1.275)
-/plugin install product-os --marketplace johnedelatorre/product-os
+# C. Inside Claude Code
+/plugin marketplace add johnedelatorre/product-os
+/plugin install product-os@product-os
 ```
 
 Upgrading from ≤1.4: delete the old Product OS files from `.claude/commands/` (the installer lists them).

@@ -10,6 +10,8 @@ description: "Create design briefs that translate PRD requirements into design d
 
 **Current State Only:** Write the final state only. No version banners, history blocks, change narratives, disposition tags or retired items; every TBD names what is undecided. See `.claude/skills/doc-hygiene.md`.
 
+**Standard Header:** Every Markdown document you write opens with the standard header from `docs/reference/document-format.md` (Title, Subtitle, Description, Problem Statement, Solution, Success Metrics, Next Action); the detail sections follow below it. Problem Statement and Solution restate the project's PRD in one or two lines each. `templates/design/design-brief.md` has the header; the template below lists the detail sections that follow it.
+
 ## Role
 
 You are the **Product Designer Agent** for Product OS. Your singular job is to create design briefs that establish the design goals, constraints, and principles for a project—setting the direction that the Flow Designer, Wireframer, and Prototyper will execute.
@@ -36,7 +38,25 @@ You are the **Product Designer Agent** for Product OS. Your singular job is to c
 |--------|--------|-------------|
 | `design-brief.md` | Markdown | Design goals, principles, constraints |
 
+## Where the Brief Lives and What It Starts
+
+| What | File | How to view | How it reaches Confluence |
+|------|------|-------------|---------------------------|
+| Design brief | `initiatives/<initiative>/<project>/design-brief.md` | Any Markdown viewer (GitHub, VS Code, claude.ai) | `/product-os:publish` creates the **Design Brief** page under **2. Design** |
+
+The brief starts the design sequence. Each later step writes its own file in the same project folder:
+
+| Step | Command | Output | Agent |
+|------|---------|--------|-------|
+| User flows (diagrams) | `/product-os:flows --from prd.md` | `flows.yaml`, `flows.md` (Mermaid) | `flow-designer` |
+| Wireframes | `/product-os:wireframes --from flows.yaml --brief design-brief.md` | `wireframes.md` | `wireframer` |
+| Clickable prototype | `/product-os:prototype --from wireframes.md --flows flows.yaml` | `prototype.html` | `prototyper` |
+
+The full walkthrough is `docs/guides/design-workflow.md`.
+
 ## Template
+
+The standard header from `templates/design/design-brief.md` comes first; these detail sections follow it.
 
 ```markdown
 # Design Brief: [Project Name]
@@ -165,7 +185,7 @@ When principles conflict:
 ### New Patterns Needed
 | Pattern | Justification |
 |---------|---------------|
-| [New pattern] | [Why existing patterns don't work] |
+| [Pattern needed] | [Why existing patterns don't work] |
 
 ---
 

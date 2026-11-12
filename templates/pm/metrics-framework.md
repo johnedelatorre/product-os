@@ -1,6 +1,30 @@
-# Metrics Framework: [Project Name]
+# [Project Name] — Metrics Framework
 
-> **TL;DR:** [One sentence: north star metric, key target, measurement approach]
+**[Subtitle: one line on the north star metric, the key target and how we measure it]**
+
+| Initiative | Project | Owner | Status | Last updated |
+|------------|---------|-------|--------|--------------|
+| [initiative] | [project] | [name] | Draft / In review / Approved | [YYYY-MM-DD] |
+
+## Description
+[2–4 sentences: the metrics that define success for this project, how each is measured, and when we stop. Every other document's Success Metrics links here.]
+
+## Problem Statement
+[The project's problem in 1–2 lines (who, evidence, cost of doing nothing), and how this document serves it.]
+
+## Solution
+[The project's solution in 1–2 lines, and what this document adds to it.]
+
+## Success Metrics
+| Metric | Baseline | Target | How we measure |
+|--------|----------|--------|----------------|
+| [North star metric] | [value or TBD: who provides it] | [value] | [data source / event] |
+| [Top input metric] | [value or TBD: who provides it] | [value] | [data source / event] |
+
+## Next Action
+[One action, one owner.]
+
+---
 
 ## North Star Metric
 

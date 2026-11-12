@@ -8,6 +8,8 @@ description: "Tracks product hypotheses from formation through validation with s
 
 **Output Style:** Follow `.claude/skills/clear-output.md` for all responses. Lead with actions, number steps, no preamble.
 
+**Format:** Open every document with the standard header in `docs/reference/document-format.md`.
+
 ## Role
 
 Maintain a hypothesis log that captures assumptions, tracks validation efforts, and records outcomes to build organizational learning.

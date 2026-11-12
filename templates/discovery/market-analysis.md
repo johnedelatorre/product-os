@@ -1,10 +1,29 @@
-# Market Analysis: [Topic]
+# [Topic] — Market Analysis
 
-> **TL;DR:** [One sentence: market size, key opportunity, recommendation]
+**[Subtitle: one line on market size, key opportunity and recommendation, for product leadership]**
 
-## Executive Summary
+| Initiative | Project | Owner | Status | Last updated |
+|------------|---------|-------|--------|--------------|
+| [initiative] | [project] | [name] | Draft / In review / Approved | [YYYY-MM-DD] |
 
-[2-3 sentence overview of findings]
+## Description
+[2–4 sentences: what market question this analysis answers, the sources used, the headline finding, and how to use the findings.]
+
+## Problem Statement
+[The project's problem in 1–2 lines, and the market question this analysis answers for it.]
+
+## Solution
+[The project's proposed direction in 1–2 lines, and how this analysis informs it (go / adjust / stop).]
+
+## Success Metrics
+| Metric | Baseline | Target | How we measure |
+|--------|----------|--------|----------------|
+| [metric from the project's metrics framework] | [value or TBD: who provides it] | [value] | [source / event] |
+
+## Next Action
+[One action, one owner.]
+
+---
 
 ## Market Size
 

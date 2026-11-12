@@ -16,7 +16,7 @@ Write comprehensive Product Requirements Documents with PM rigor.
 
 ## Template
 
-Use `templates/pm/prd.md` as the canonical structure.
+Use `templates/pm/prd.md` as the canonical structure. It opens with the standard header from `docs/reference/document-format.md` §1 (Title, Subtitle, header table, Description, Problem Statement, Solution, Success Metrics, Next Action), plus a **Validation** table right under Success Metrics: each hypothesis, how it is validated, its status and the metric it moves. A reader finds success metrics and validation in the first screen; the numbered sections below hold the detail.
 
 ## PRD Stages
 
@@ -30,9 +30,9 @@ Mark incomplete sections `[TBD: what's needed]` rather than fabricating.
 
 ## PRD Structure
 
-A complete PRD includes these 19 sections:
+A complete PRD opens with the standard header (above) and then includes these sections:
 
-1. **Header** — Version, status, stakeholders
+1. **Document Details** — Stage, lifecycle, intake reference, stakeholders
 2. **Problem Statement** — What's broken, with evidence
 3. **Background & Evidence** — Market context, research, business case
 4. **Goals & Non-Goals** — SMART goals with explicit exclusions
@@ -95,6 +95,7 @@ Before submitting a PRD:
 - [ ] Goals are SMART (Specific, Measurable, Achievable, Relevant, Time-bound)
 - [ ] Requirements have unique IDs
 - [ ] Metrics have formulas AND targets
+- [ ] Standard header complete: Success Metrics and the Validation table (hypothesis → how validated) are on the first screen
 - [ ] Risks have mitigations, not just identification
 - [ ] Open questions have owners
 

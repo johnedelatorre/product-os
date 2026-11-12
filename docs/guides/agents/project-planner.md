@@ -39,6 +39,6 @@ Converts project scope into structured plans with clear responsibilities, depend
 
 ## Related
 
-- [RACI Skill](../../.claude/skills/raci-matrix.md)
-- [Gantt Skill](../../.claude/skills/gantt-generation.md)
+- [RACI Skill](../../../.claude/skills/raci-matrix.md)
+- [Gantt Skill](../../../.claude/skills/gantt-generation.md)
 - [Delivery Agent](delivery-agent.md) — creates stories from plan

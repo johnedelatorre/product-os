@@ -1,10 +1,10 @@
 # UX Reviewer Agent
 
-Evaluates designs against UX best practices and heuristics.
+Evaluates the actual designs against UX best practices and heuristics.
 
 ## What It Does
 
-Reviews designs using Nielsen's 10 heuristics and Laws of UX, producing severity-rated findings with recommendations.
+Reviews real designs using Nielsen's 10 heuristics, Laws of UX and pattern best practices, producing severity-rated findings with recommendations. Each finding cites the exact screen, frame and element it is about.
 
 ## When to Use
 
@@ -12,21 +12,27 @@ Reviews designs using Nielsen's 10 heuristics and Laws of UX, producing severity
 - Before user testing
 - Quality gate before handoff
 
+## What It Needs: the Real Design
+
+At least one of `wireframes.md`, `prototype.html` or a prototype URL, a Figma link (read through the Figma MCP), or screenshots. `flows.md` and the PRD give context; they are not the design. No design available: the agent stops and asks you for one.
+
+Interaction heuristics (system feedback, loading, undo) need the clickable prototype. On static wireframes they are marked Not Verified.
+
 ## Inputs
 
 | Input | Required | Description |
 |-------|----------|-------------|
-| `--designs` | Yes | Designs to review |
-| `--flows` | No | User flows for context |
+| `--designs` | Yes | The real design: `wireframes.md`, `prototype.html`, a prototype URL, a Figma link or screenshots |
+| `--flows` | Yes | `flows.md` for context |
 
 ## Outputs
 
-- `ux-review.md` — Heuristic evaluation report
+- `ux-review.md` — standard header, then a **What was reviewed** table (sources, screen/frame IDs, version, review date) and the heuristic evaluation. Template: `templates/design/ux-review.md`.
 
 ## Example
 
 ```bash
-/product-os:ux-review --designs wireframes.md --flows flows.md
+/product-os:ux-review --designs initiatives/onboarding/signup/prototype.html --flows initiatives/onboarding/signup/flows.md
 ```
 
 ## Heuristics Evaluated
@@ -52,10 +58,11 @@ Reviews designs using Nielsen's 10 heuristics and Laws of UX, producing severity
 ## Tips
 
 1. **Review in context** — consider the user journey
-2. **Be specific** — cite which heuristic and why
+2. **Be specific** — cite which heuristic, which screen, and why
 3. **Prioritize findings** — severity matters
 
 ## Related
 
-- [UX Heuristics Skill](../../.claude/skills/ux-heuristics.md)
+- [Design Workflow](../design-workflow.md) — from PRD to reviewed designs
+- [UX Heuristics Skill](../../../.claude/skills/ux-heuristics.md)
 - [Design Critic](design-critic.md) — visual critique

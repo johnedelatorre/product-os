@@ -1,6 +1,29 @@
-# Project Plan: [Project Name]
+# [Project Name] — Project Plan
 
-> **TL;DR:** [One sentence: timeline, key milestones, critical path]
+**[Subtitle: one line on the key milestones, critical path and who it is for]**
+
+| Initiative | Project | Owner | Status | Last updated |
+|------------|---------|-------|--------|--------------|
+| [initiative] | [project] | [name] | Draft / In review / Approved | [YYYY-MM-DD] |
+
+## Description
+[2–4 sentences: phases, milestones, owners, and how the plan is tracked.]
+
+## Problem Statement
+[The project's problem in 1–2 lines (who, evidence, cost of doing nothing), and how this document serves it.]
+
+## Solution
+[The project's solution in 1–2 lines, and what this document adds to it.]
+
+## Success Metrics
+| Metric | Baseline | Target | How we measure |
+|--------|----------|--------|----------------|
+| [metric from the project's metrics framework] | [value or TBD: who provides it] | [value] | [source / event] |
+
+## Next Action
+[One action, one owner.]
+
+---
 
 ## Overview
 
@@ -8,8 +31,7 @@
 |-------|-------|
 | Start Date | |
 | Target End | |
-| Status | Planning / In Progress / Complete |
-| Owner | |
+| Project Status | Planning / In Progress / Complete |
 
 ## Milestones
 

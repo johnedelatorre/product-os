@@ -9,6 +9,14 @@ Evaluate designs against Nielsen's heuristics and Laws of UX.
 - Quick usability assessment
 - Pre-launch review
 
+## Ground Rule: Review the Real Design Only
+
+1. **Input is the actual design:** `wireframes.md`, `prototype.html` or a prototype URL, a Figma link (via the Figma MCP), or screenshots. A PRD, design brief or description of a screen is not a design.
+2. **No design, stop and ask.** "I need the design to review: `wireframes.md`, `prototype.html`, a Figma link or screenshots. Which can you share?" Never evaluate an imagined or assumed screen.
+3. **Record what was reviewed** in §1 "What was reviewed", right after the standard header: sources, screen IDs (`SCR-###`, prototype `#scr-###`, Figma node IDs), version, review date.
+4. **Cite every finding:** exact screen, frame and element, with a screenshot or frame link where possible. No citation, no finding.
+5. **Not Verified, never guessed:** anything you could not inspect is marked Not Verified with what is missing. Interaction heuristics (feedback, loading, undo) need the clickable prototype.
+
 ## Quick Start
 
 ```
@@ -204,6 +212,8 @@ Evaluate designs against Nielsen's heuristics and Laws of UX.
 
 **Status:** ⚠️ Minor Issues
 
+**Location:** `prototype.html` SCR-004 `#scr-004` → "Save" button; SCR-006 `#scr-006` → primary button
+
 **Evidence:**
 - "Save" button on profile, "Submit" on forms, "Done" on modals
 - Primary button is blue on home, green on checkout
@@ -220,6 +230,9 @@ Inconsistent button labels and colors create cognitive load.
 
 ## Quality Checklist
 
+- [ ] Real design reviewed; "What was reviewed" table filled
+- [ ] Every finding cites screen/frame/element
+- [ ] Uninspectable items marked Not Verified
 - [ ] All 10 heuristics evaluated
 - [ ] Key Laws of UX checked
 - [ ] Evidence documented (not opinions)

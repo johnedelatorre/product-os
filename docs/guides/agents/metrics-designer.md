@@ -40,5 +40,5 @@ Creates comprehensive metrics frameworks with input/output metrics, guardrails, 
 
 ## Related
 
-- [Metrics Framework Skill](../../.claude/skills/metrics-framework.md)
+- [Metrics Framework Skill](../../../.claude/skills/metrics-framework.md)
 - [Event Tracker](event-tracker.md)

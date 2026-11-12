@@ -32,12 +32,18 @@ Transforms design and planning artifacts into a backlog with properly pointed st
 
 ## Story Structure
 
-Each story includes:
-- User story format ("As a... I want... So that...")
-- Acceptance criteria
-- Story points (Fibonacci)
-- Discipline label (frontend/backend/fullstack)
-- Dependencies
+Epics and stories use the standard format in [`docs/reference/document-format.md`](../../reference/document-format.md): §3 for epics (summary `[Project] — [Outcome in plain words]`; Subtitle, Description, Problem Statement, Solution, Success Metrics, Stories, Dependencies, Links) and §4 for stories. `epics.md` and `stories.md` open with the standard header. Templates: `templates/delivery/epic.md`, `templates/delivery/user-story.md`.
+
+Each story description has these sections, in order (document-format §4):
+- **User story line:** "**As a** [user], **I want** [capability], **so that** [outcome]."
+- **Description:** what the story changes, in 2–3 sentences
+- **Problem Statement:** the user problem it solves
+- **Solution:** what we build, with technical notes
+- **Acceptance Criteria:** Gherkin scenarios (Given/When/Then), one ID per scenario
+- **Design:** use cases, flow and screens, states, UX requirements
+- **Validation:** tests, observability, rollout / rollback, success metric
+- **Details:** discipline (frontend/backend/fullstack), story points (Fibonacci), confidence, dependencies, estimate rationale, out of scope
+- **Links:** epic, PRD requirement, Confluence page
 
 ## Discipline Labels
 
@@ -55,6 +61,6 @@ Each story includes:
 
 ## Related
 
-- [Story Pointing Skill](../../.claude/skills/story-pointing.md)
-- [Discipline Labeling Skill](../../.claude/skills/discipline-labeling.md)
+- [Story Pointing Skill](../../../.claude/skills/story-pointing.md)
+- [Discipline Labeling Skill](../../../.claude/skills/discipline-labeling.md)
 - [Confluence Publisher](confluence-publisher.md) — next step

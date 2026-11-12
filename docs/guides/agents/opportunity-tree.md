@@ -40,5 +40,5 @@ Builds visual trees connecting outcomes to opportunities to solutions, preventin
 
 ## Related
 
-- [Opportunity Tree Skill](../../.claude/skills/opportunity-tree.md)
+- [Opportunity Tree Skill](../../../.claude/skills/opportunity-tree.md)
 - [Hypothesis Logger](hypothesis-logger.md)

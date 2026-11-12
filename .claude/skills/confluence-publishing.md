@@ -16,6 +16,7 @@ Publish project artifacts to Confluence with proper hierarchy.
 3. **Search before create** — Find pages by `publish-manifest.json` IDs, then by title/CQL search; update in place.
 4. **Check the instance** — Confirm space, parent page, and available macros before publishing.
 5. **Record IDs** in `publish-manifest.json`.
+6. **Standard format** — Hub + 4 groups, standard header on every page (see Page Rules below and `docs/reference/document-format.md`).
 
 ## Quick Start
 
@@ -25,29 +26,32 @@ Publish project artifacts to Confluence with proper hierarchy.
 
 ## Confluence Hierarchy
 
+One hub page per project, then four group pages (`docs/reference/document-format.md` §2):
+
 ```
 Product Space (PROD)
 └── Initiatives
     └── [Initiative Name]
-        └── [Project Name]
-            ├── Project Brief
-            ├── PRD
-            ├── Project Plan
-            ├── RACI
-            ├── Gantt Chart
-            ├── Design Brief
-            ├── User Flows
-            ├── Wireframes
-            ├── Design Critique
-            ├── UX Review
-            ├── Accessibility Audit
-            ├── Backlog  ← Special page with tables
-            └── Decision Log
+        └── [Project Name]                   ← Hub page: standard header + "Documents in this project" table
+            ├── 1. Strategy & Definition     ← Intake, Proposal, PRD, Project Brief, Metrics Framework
+            ├── 2. Design                    ← Design Brief, User Flows, Wireframes & Prototype, Design Critique, UX Review, Accessibility Audit
+            ├── 3. Delivery                  ← Project Plan (RACI, Gantt Chart, Risks, Dependencies as child pages), Epics & Stories (Backlog, special page with tables; Traceability as a child page)
+            └── 4. Decisions & Launch        ← Decision Log, Event Tracking Plan, Release Notes, Post-Launch Review
 ```
+
+## Page Rules
+
+1. **Standard header on every page** (hub, group and document pages): Title, Subtitle, Initiative / Project / Owner / Status / Last updated table, Description, Problem Statement, Solution, Success Metrics, Next Action. Gaps are named TBDs, never invented.
+2. **Hub page** carries a "Documents in this project" table: Document (link) | What it is | Status | Owner.
+3. **Group pages** list every page under them with a one-line description.
+4. **Titles name the thing:** `[Project] — [Document]`. No numbers, file names or version tags.
+4a. **Creation order:** pages and documents-table rows follow the order the PM creates them (`docs/reference/document-format.md` §2).
+4b. **Final documents only:** never publish working notes such as `prd-review.md`. Supporting documents are child pages of the document they support.
+5. **Split long documents at their own sections**, named for their content ("PRD — Functional Requirements"), never "Part 1".
 
 ## Backlog Page Structure
 
-The Backlog page summarizes all epics and stories:
+The Backlog page (Epics & Stories, under 3. Delivery) summarizes all epics and stories, below its standard header:
 
 ```markdown
 ## Summary
@@ -117,12 +121,12 @@ Re-running publish updates existing pages:
   "pages": {
     "project-brief": {
       "page_id": "123456",
-      "title": "Signup - Project Brief",
+      "title": "Signup — Project Brief",
       "url": "https://company.atlassian.net/wiki/spaces/PROD/pages/123456"
     },
     "prd": {
       "page_id": "123457",
-      "title": "Signup - PRD",
+      "title": "Signup — PRD",
       "url": "..."
     }
   }
@@ -155,7 +159,10 @@ python scripts/atlassian-fallback.py publish \
 - [ ] Config has correct space key
 - [ ] Atlassian MCP connected (or credentials in .env for the REST fallback)
 - [ ] Human approved the publish plan
-- [ ] Hierarchy will be correct
+- [ ] Hierarchy will be correct (hub → 4 groups → documents)
+- [ ] Every page opens with the standard header; hub lists every document
+- [ ] Long docs split at named sections, no "Part N"
+- [ ] No numbered titles; pages and table rows in creation order
 - [ ] Backlog page has discipline columns
 
 ## Tips

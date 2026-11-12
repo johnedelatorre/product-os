@@ -33,6 +33,7 @@ Follow `.claude/skills/clear-output.md`:
 4. No preamble, no recap, no closers
 5. Cap lists to 5 items
 6. Current state only: no version history, change narratives or retired items in docs and tickets (`.claude/skills/doc-hygiene.md`)
+7. Format: every document, Confluence page, epic and story opens with the standard header in `docs/reference/document-format.md`
 
 ## Guided Workflow
 

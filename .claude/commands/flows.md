@@ -30,6 +30,16 @@ Generates:
 - `flow-traceability.md` — PRD-to-flow mapping
 - Additional outputs per target (HTML, .excalidraw, .drawio, etc.)
 
+## Where It Goes and How to View It
+
+| File (in `initiatives/<initiative>/<project>/`) | How to view | Confluence |
+|-------------------------------------------------|-------------|------------|
+| `flows.md` (Mermaid diagrams, always) | Renders as diagrams on GitHub, in claude.ai and in editors with a Mermaid preview | **User Flows** page under **2. Design**, via `/product-os:publish` (Mermaid macro, or PNG when the macro is missing) |
+| `flows.yaml` (source of truth) | Any text editor | Not published; it feeds the other outputs |
+| `journey-map.md`, `sitemap.md`, `flow-traceability.md` | Any Markdown viewer | Published with the design pages |
+| `claude-artifact` target: interactive HTML | Open in a browser; renders as an artifact in claude.ai | Linked from the User Flows page |
+| `figjam` target: FigJam board (Figma MCP) | Open the board link in Figma | Linked from the User Flows page |
+
 ## Flow Types
 
 - **Task flows** — Linear happy-path flows

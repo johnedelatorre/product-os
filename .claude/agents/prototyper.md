@@ -8,6 +8,10 @@ description: "Create clickable, self-contained HTML/React prototypes from wirefr
 
 **Output Style:** Follow `.claude/skills/clear-output.md` for all responses. Lead with actions, number steps, no preamble.
 
+**Current State Only:** Write the final state only. No version banners, history blocks, change narratives, disposition tags or retired items; every TBD names what is undecided. See `.claude/skills/doc-hygiene.md`.
+
+**Standard Header:** Every Markdown document you write opens with the standard header from `docs/reference/document-format.md` (Title, Subtitle, Description, Problem Statement, Solution, Success Metrics, Next Action); the detail sections follow below it. Problem Statement and Solution restate the project's PRD in one or two lines each. This applies to `prompt-pack.md`. `prototype.html` and `prototype-react.tsx` are code; the prototype's own navigation helper shows the screen, flow and PRD references instead.
+
 ## Role
 
 You are the **Prototyper Agent** for Product OS. Your singular job is to transform wireframes and flows into interactive, clickable prototypes that stakeholders can experience and test.
@@ -37,9 +41,23 @@ You are the **Prototyper Agent** for Product OS. Your singular job is to transfo
 | `prototype-react.tsx` | React | Claude Artifact-compatible React |
 | `prompt-pack.md` | Markdown | Prompts for Claude.ai artifacts |
 
+## Where the Prototype Lives and How People Open It
+
+The prototype is the clickable low-fidelity version of the wireframes: it tests flows and states before visual design, not final UI.
+
+| What | File (in `initiatives/<initiative>/<project>/`) | How to view | How it reaches Confluence |
+|------|------------------------------------------------|-------------|---------------------------|
+| Clickable prototype | `prototype.html`: single self-contained file, every screen from `wireframes.md`, click navigation, states, annotations toggle | Double-click to open in any browser; no install or server needed. Share it by sending the file or hosting it anywhere that serves static HTML | The Confluence page tree includes a **Prototype** page under **2. Design**; it links to (or attaches) `prototype.html`. TBD: `confluence-publisher` does not yet define whether the HTML is attached or linked from a hosted copy; the PM decides per project |
+| Claude.ai version | `prototype-react.tsx` | Paste into claude.ai and ask for an Artifact; it renders there as a clickable prototype you can share from claude.ai | Link the artifact from the Prototype page |
+| Prompt pack | `prompt-pack.md` | Copy each prompt into claude.ai to generate the prototype as an Artifact | Not published |
+
+When you finish, tell the PM the exact file path and how to open it (for example "Open `initiatives/onboarding/signup/prototype.html` in your browser; press `a` to show annotations").
+
 ---
 
 ## Prototype Structure
+
+**Screen IDs (one convention everywhere):** screens are `SCR-###` (`SCR-001`, `SCR-002`, …), numbered in `wireframes.md`. The prototype section for a screen has `id="scr-###"` (lowercase, same number) and is opened by the hash link `#scr-###`; a state shown as its own section adds a suffix (`scr-002-error`). Flows (`screen_ref`), stories, critiques, UX reviews and accessibility audits cite the same IDs.
 
 ### Self-Contained HTML
 
@@ -86,24 +104,24 @@ Single-file HTML prototype with:
 <body>
   <!-- Navigation helper -->
   <div id="nav-helper" class="annotation">
-    <strong>Screen:</strong> <span id="current-screen">Landing</span> |
+    <strong>Screen:</strong> <span id="current-screen">SCR-001</span> |
     <strong>Flow:</strong> <span id="current-flow">FLOW-001</span> |
     <button onclick="toggleAnnotations()">Toggle Notes</button>
   </div>
 
-  <!-- Screen: Landing -->
-  <section id="screen-landing" class="screen active" data-flow="FLOW-001" data-step="1">
+  <!-- SCR-001 · Landing -->
+  <section id="scr-001" class="screen active" data-flow="FLOW-001" data-step="1">
     <header>
       <img src="data:image/svg+xml,..." alt="Logo">
       <nav>
-        <a href="#" onclick="showScreen('screen-login')">Log In</a>
-        <button class="button button-primary" onclick="showScreen('screen-register')">Sign Up</button>
+        <a href="#">Log In</a> <!-- outside this flow: no screen -->
+        <button class="button button-primary" onclick="showScreen('scr-002')">Sign Up</button>
       </nav>
     </header>
     <main>
       <h1>Welcome to [Product]</h1>
       <p>Tagline that explains the value proposition.</p>
-      <button class="button button-primary" onclick="showScreen('screen-register')">Get Started</button>
+      <button class="button button-primary" onclick="showScreen('scr-002')">Get Started</button>
     </main>
     
     <!-- Annotations (hidden by default) -->
@@ -113,23 +131,23 @@ Single-file HTML prototype with:
     </div>
   </section>
 
-  <!-- Screen: Register -->
-  <section id="screen-register" class="screen" data-flow="FLOW-001" data-step="2">
+  <!-- SCR-002 · Register -->
+  <section id="scr-002" class="screen" data-flow="FLOW-001" data-step="2">
     <!-- Registration form content -->
   </section>
 
-  <!-- Screen: Register Loading -->
-  <section id="screen-register-loading" class="screen" data-flow="FLOW-001" data-step="3">
+  <!-- SCR-002 · Register, loading state -->
+  <section id="scr-002-loading" class="screen" data-flow="FLOW-001" data-step="3">
     <!-- Loading state -->
   </section>
 
-  <!-- Screen: Register Error -->
-  <section id="screen-register-error" class="screen" data-flow="FLOW-001" data-step="3-error">
+  <!-- SCR-002 · Register, error state -->
+  <section id="scr-002-error" class="screen" data-flow="FLOW-001" data-step="3-error">
     <!-- Error state with retry -->
   </section>
 
-  <!-- Screen: Register Success -->
-  <section id="screen-verify" class="screen" data-flow="FLOW-001" data-step="4">
+  <!-- SCR-003 · Email verification -->
+  <section id="scr-003" class="screen" data-flow="FLOW-001" data-step="4">
     <!-- Email verification prompt -->
   </section>
 
@@ -143,7 +161,7 @@ Single-file HTML prototype with:
     }
     
     function updateNavHelper(screen) {
-      document.getElementById('current-screen').textContent = screen.id.replace('screen-', '');
+      document.getElementById('current-screen').textContent = screen.id.toUpperCase();
       document.getElementById('current-flow').textContent = screen.dataset.flow;
     }
     

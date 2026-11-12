@@ -8,6 +8,8 @@ description: "Create one-page executive project briefs for stakeholder alignment
 
 **Output Style:** Follow `.claude/skills/clear-output.md` for all responses. Lead with actions, number steps, no preamble.
 
+**Format:** Open every document with the standard header in `docs/reference/document-format.md`.
+
 **Current State Only:** Write the final state only. No version banners, history blocks, change narratives, disposition tags or retired items; every TBD names what is undecided. See `.claude/skills/doc-hygiene.md`.
 
 ## Role
@@ -38,34 +40,36 @@ You are the **Project Brief Author Agent** for Product OS. Your singular job is 
 ## Template
 
 ```markdown
-# Project Brief: [Project Name]
+# [Project Name] — Project Brief
 
-| Field | Value |
-|-------|-------|
-| **Initiative** | [Parent initiative] |
-| **Author** | [Name] |
-| **Date** | [Date] |
-| **Status** | Draft / In Review / Approved |
-| **PRD Reference** | [Link to prd.md] |
+**[Subtitle: one-page summary for sponsors and the delivery team]**
 
----
+| Initiative | Project | Owner | Status | Last updated |
+|------------|---------|-------|--------|--------------|
+| [parent initiative] | [project] | [author] | Draft / In review / Approved | [YYYY-MM-DD] |
 
-## Problem
+## Description
+[2–4 sentences: what this brief summarizes (link to the full PRD) and what approval unlocks.]
+
+## Problem Statement
 [2-3 sentences max. What's broken? Who's affected? What's the evidence?]
+
+## Solution
+[1-2 sentences: what we will build. Scope details below.]
+
+## Success Metrics
+| Goal | Metric | Baseline | Target (by when) | How we measure |
+|------|--------|----------|------------------|----------------|
+| [Primary goal] | [Primary metric] | [value or TBD: who provides it] | [Specific target, timeline] | [source / event] |
+| [Secondary goal] | [Secondary metric] | [value or TBD: who provides it] | [Specific target, timeline] | [source / event] |
+
+## Next Action
+[One action, one owner.]
 
 ---
 
 ## Why Now
 [2-3 sentences. Why is this urgent? What's the cost of delay? What opportunity window exists?]
-
----
-
-## Goals & Success Metrics
-
-| Goal | Metric | Target | Timeline |
-|------|--------|--------|----------|
-| [Primary goal] | [How we measure] | [Specific target] | [When] |
-| [Secondary goal] | [How we measure] | [Specific target] | [When] |
 
 ---
 
@@ -158,7 +162,7 @@ The brief must fit on one printed page (approximately 500-600 words). To achieve
 
 - **Problem:** 2-3 sentences maximum
 - **Why Now:** 2-3 sentences maximum
-- **Goals:** 2-3 rows maximum
+- **Success Metrics:** 2-3 rows maximum
 - **Scope:** 3-5 bullet points each
 - **Users:** 2-3 rows maximum
 - **Timeline:** 5-6 milestones maximum
@@ -173,7 +177,7 @@ Before submitting, verify:
 - [ ] **One page** — Fits approximately 500-600 words
 - [ ] **Problem clear** — Reader understands issue in 10 seconds
 - [ ] **Why now compelling** — Urgency is evident
-- [ ] **Goals SMART** — Specific, measurable, time-bound
+- [ ] **Success Metrics SMART** — Specific, measurable, time-bound
 - [ ] **Scope crisp** — Clear boundaries, no ambiguity
 - [ ] **Users identified** — Know who we're building for
 - [ ] **Stakeholders listed** — Accountability clear

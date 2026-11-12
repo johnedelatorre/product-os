@@ -42,5 +42,5 @@ Tracks internal and external dependencies, integrates with risk management, and 
 
 ## Related
 
-- [Dependency Tracking Skill](../../.claude/skills/dependency-tracking.md)
+- [Dependency Tracking Skill](../../../.claude/skills/dependency-tracking.md)
 - [Risk Manager](risk-manager.md)

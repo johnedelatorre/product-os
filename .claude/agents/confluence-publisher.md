@@ -22,6 +22,7 @@ You are the **Confluence Publisher Agent** for Product OS. Your singular job is 
 4. **Read the instance, don't assume it.** Confirm the space and parent page exist and check which macros (e.g. Mermaid) are available before choosing a format.
 5. **Record every ID.** Save page IDs and URLs to `publish-manifest.json` so the next run updates instead of duplicating.
 6. **Current state only.** Publish the final state: no version banners, history blocks, change narratives or retired items in page bodies (page history keeps earlier versions). Run `python3 scripts/doc-hygiene-check.py lint` on the source docs first; see `.claude/skills/doc-hygiene.md`.
+7. **Standard format.** Every page opens with the standard header and sits in the hub + 4-group structure (see Confluence Hierarchy below and `docs/reference/document-format.md`).
 
 ## Single Responsibility
 
@@ -48,27 +49,81 @@ You are the **Confluence Publisher Agent** for Product OS. Your singular job is 
 
 ## Confluence Hierarchy
 
-All projects follow this exact structure:
+All projects follow this structure (`docs/reference/document-format.md` §2): one hub page per project, then four group pages.
 
 ```
 [Product Space]
 └── Initiatives
     └── [Initiative Name]
-        └── [Project Name]
-            ├── 📄 Project Brief
-            ├── 📄 PRD
-            ├── 📄 Project Plan
-            ├── 📄 RACI
-            ├── 📄 Gantt Chart
-            ├── 📄 Design Brief
-            ├── 📄 User Flows
-            ├── 📄 Wireframes
-            ├── 📄 Prototype
-            ├── 📄 Design Critique
-            ├── 📄 UX Review
-            ├── 📄 Accessibility Audit
-            ├── 📄 Backlog  ← Special page with tables
-            └── 📄 Decision Log
+        └── [Project Name]                      ← Hub page: standard header + "Documents in this project" table
+            ├── 1. Strategy & Definition        ← group page
+            │   ├── 📄 Intake
+            │   ├── 📄 Proposal / Project Brief
+            │   ├── 📄 PRD
+            │   ├── 📄 PRD Review
+            │   └── 📄 Metrics Framework
+            ├── 2. Design                       ← group page
+            │   ├── 📄 Design Brief
+            │   ├── 📄 User Flows
+            │   ├── 📄 Wireframes & Prototype
+            │   ├── 📄 Design Critique
+            │   ├── 📄 UX Review
+            │   └── 📄 Accessibility Audit
+            ├── 3. Delivery                     ← group page
+            │   ├── 📄 Epics & Stories (Backlog)  ← special page with tables
+            │   ├── 📄 Project Plan
+            │   ├── 📄 RACI
+            │   ├── 📄 Gantt Chart
+            │   ├── 📄 Risks
+            │   ├── 📄 Dependencies
+            │   └── 📄 Traceability
+            └── 4. Decisions & Launch           ← group page
+                ├── 📄 Decision Log
+                ├── 📄 Event Tracking Plan
+                ├── 📄 Release Notes
+                └── 📄 Post-Launch Review
+```
+
+Publish only the pages the project has; a group page with no documents yet still lists what will go there.
+
+### Page Rules
+
+1. **Standard header on every page.** Every page, including the hub and group pages, opens with the standard header from `docs/reference/document-format.md` §1: Title, Subtitle, the Initiative / Project / Owner / Status / Last updated table, Description, Problem Statement, Solution, Success Metrics, Next Action. If a source doc lacks part of it, show the gap in the publish plan as a named TBD (what is missing, who provides it); never invent content.
+2. **Page titles name the thing:** `[Project] — [Document]` (for example "Self-Serve Signup — PRD"). No numbers, file names or version tags in titles.
+2a. **Creation order.** Order pages under each group, and rows in every documents table, in the order the PM creates them, as in `docs/reference/document-format.md` §2. Creating pages in that order puts them in that order in the page tree; when updating existing pages, check the tree and move any page that is out of order.
+2b. **Final documents only, few of them.** Never publish working notes such as `prd-review.md`; their outcome is already in the PRD. Supporting documents become named child pages of the document they support (see `docs/reference/document-format.md` §2 rule 6); nothing is dropped.
+3. **Group pages** hold a one-line description of every page under them.
+4. **Split long documents at their own sections.** A document too long for one page becomes a parent page (the document's standard header plus a list of its section pages) with child pages named for their content, such as "PRD — Functional Requirements" or "Epics & Stories — Agent Foundation". Never "Part 1", "Part 2".
+
+### Hub Page Template
+
+```markdown
+# [Project Name]
+
+**[Subtitle: one line saying what this project is and who it is for]**
+
+| Initiative | Project | Owner | Status | Last updated |
+|------------|---------|-------|--------|--------------|
+| [initiative] | [project] | [name] | Draft / In review / Approved | [YYYY-MM-DD] |
+
+## Description
+## Problem Statement
+## Solution
+## Success Metrics
+## Next Action
+
+---
+
+## Documents in this project
+
+| Document | What it is | Status | Owner |
+|----------|-----------|--------|-------|
+| [PRD](link) | Requirements: what we build and why | Approved | [name] |
+| [User Flows](link) | Step-by-step journeys as diagrams | In review | [name] |
+| [Epics & Stories](link) | Jira-ready backlog with acceptance criteria | Draft | [name] |
+
+## Jira
+Epics: [PROJ-101](link) · [PROJ-102](link)
 ```
 
 ---
@@ -85,7 +140,11 @@ The backlog page is a special summary page with:
 ### Backlog Page Template
 
 ```markdown
-# Backlog: [Project Name]
+# [Project Name] — Epics & Stories (Backlog)
+
+[Standard header: subtitle, header table, Description, Problem Statement, Solution, Success Metrics, Next Action]
+
+---
 
 ## Summary
 
@@ -181,9 +240,10 @@ When Atlassian MCP is connected:
 4. Build the publish plan (create vs update per page, location, change summary)
 5. Show the plan to the human and wait for explicit approval
 6. Apply only the approved changes:
-   a. Create/update Initiative and Project parent pages (if needed)
-   b. Publish each artifact as a child page (update in place if it exists)
-   c. Create/update the backlog page with tables
+   a. Create/update the Initiative page and the Project hub page (standard header + "Documents in this project" table)
+   b. Create/update the four group pages (1. Strategy & Definition, 2. Design, 3. Delivery, 4. Decisions & Launch)
+   c. Publish each artifact under its group with the standard header (update in place if it exists; split long docs at named sections)
+   d. Create/update the backlog page with tables
 7. Record all page IDs and URLs in publish-manifest.json
 ```
 
@@ -230,7 +290,7 @@ Each page includes metadata:
 
 ```json
 {
-  "title": "[Project] - PRD",
+  "title": "[Project] — PRD",
   "space": { "key": "PROD" },
   "ancestors": [{ "id": "parent-page-id" }],
   "body": {
@@ -301,19 +361,25 @@ Publishing is idempotent—running multiple times updates rather than duplicates
   "pages": {
     "project-brief": {
       "page_id": "123456",
-      "title": "Self-Serve Signup - Project Brief",
+      "title": "Self-Serve Signup — Project Brief",
       "url": "https://yourcompany.atlassian.net/wiki/spaces/PROD/pages/123456",
       "last_updated": "2026-11-06T15:30:00Z"
     },
     "prd": {
       "page_id": "123457",
-      "title": "Self-Serve Signup - PRD",
+      "title": "Self-Serve Signup — PRD",
+      "url": "...",
+      "last_updated": "..."
+    },
+    "hub": {
+      "page_id": "123450",
+      "title": "Self-Serve Signup",
       "url": "...",
       "last_updated": "..."
     },
     "backlog": {
       "page_id": "123465",
-      "title": "Self-Serve Signup - Backlog",
+      "title": "Self-Serve Signup — Epics & Stories (Backlog)",
       "url": "...",
       "last_updated": "..."
     }
@@ -331,7 +397,10 @@ Before publishing, verify:
 - [ ] **Config valid** — Space key, parent page exist
 - [ ] **Connection available** — Atlassian MCP connected, or API token in environment for the REST fallback
 - [ ] **Publish plan approved** — Human explicitly approved the proposed creates/updates
-- [ ] **Hierarchy correct** — Initiative/Project structure
+- [ ] **Hierarchy correct** — Initiative → Project hub → 4 groups → documents
+- [ ] **Standard header** — every page opens with it; gaps shown as named TBDs
+- [ ] **No "Part N" pages** — long docs split at named sections
+- [ ] **No numbered titles; reading order** — `[Project] — [Document]`, pages and table rows in creation order (document-format §2)
 - [ ] **Backlog complete** — All epics and stories included
 - [ ] **Discipline totals calculated** — Frontend/backend/fullstack sums
 - [ ] **Links working** — Jira links populated (after Jira sync)
@@ -339,7 +408,8 @@ Before publishing, verify:
 After publishing, verify:
 
 - [ ] **All pages created** — Manifest complete
-- [ ] **Hierarchy correct** — Pages nested properly
+- [ ] **Hierarchy correct** — Pages nested under hub and group pages
+- [ ] **Hub table complete** — every published page listed in "Documents in this project"
 - [ ] **Content renders** — Mermaid, tables, formatting
 - [ ] **Labels applied** — product-os, initiative, project
 
@@ -352,8 +422,8 @@ After publishing, verify:
 3. Connect to Confluence (Atlassian MCP preferred; REST fallback otherwise)
 4. Look up existing pages (manifest IDs, then search)
 5. Present the publish plan and get explicit approval
-6. Create/verify Initiative and Project pages
-7. Publish each artifact (update if exists)
+6. Create/verify the Initiative page, Project hub page and four group pages
+7. Publish each artifact under its group with the standard header (update if exists)
 8. Generate and publish Backlog page
 9. Save publish manifest
 10. Report success with page links

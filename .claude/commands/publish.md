@@ -22,29 +22,24 @@ Publish all project artifacts to Confluence.
 
 ## Confluence Hierarchy
 
+One hub page per project, then four groups (`docs/reference/document-format.md` §2):
+
 ```
 Product Space
 └── Initiatives
     └── [Initiative Name]
-        └── [Project Name]
-            ├── Project Brief
-            ├── PRD
-            ├── Project Plan
-            ├── RACI
-            ├── Gantt Chart
-            ├── Design Brief
-            ├── User Flows
-            ├── Wireframes
-            ├── Design Critique
-            ├── UX Review
-            ├── Accessibility Audit
-            ├── Backlog ← Special page with tables
-            └── Decision Log
+        └── [Project Name]                   ← Hub page: standard header + "Documents in this project" table
+            ├── 1. Strategy & Definition     ← Intake, Proposal / Project Brief, PRD, PRD Review, Metrics Framework
+            ├── 2. Design                    ← Design Brief, User Flows, Wireframes & Prototype, Design Critique, UX Review, Accessibility Audit
+            ├── 3. Delivery                  ← Epics & Stories (Backlog), Project Plan, RACI, Gantt Chart, Risks, Dependencies, Traceability
+            └── 4. Decisions & Launch        ← Decision Log, Event Tracking Plan, Release Notes, Post-Launch Review
 ```
+
+Every page opens with the standard header (Title, Subtitle, Description, Problem Statement, Solution, Success Metrics, Next Action). Long documents split at their own sections, named for their content ("PRD — Functional Requirements"), never "Part 1".
 
 ## Backlog Page
 
-The Backlog page includes:
+The Backlog page (Epics & Stories, under 3. Delivery) includes, below its standard header:
 - Epic table with story point totals
 - Story table with discipline column
 - **Story point subtotals by discipline** (Frontend, Backend, Fullstack)

@@ -23,14 +23,14 @@ Create and sync epics/stories to Jira.
 ## What Gets Created
 
 ### Epics
-- Summary: `[Project] Epic: [Title]`
-- Description with Confluence links
+- Summary: `[Project] — [Outcome in plain words]`
+- Description in the standard epic format (`docs/reference/document-format.md` §3): Subtitle, Description, Problem Statement, Solution, Success Metrics, Stories, Links (PRD, design, Confluence hub page)
 - Labels: `product-os`, initiative slug, project slug
 - Start/Due dates from Gantt
 
 ### Stories
-- Summary: Story title
-- Description with acceptance criteria
+- Summary: `[Verb] [thing] [for whom]`
+- Description in the standard story format (§4), each field once: user story, Description, Problem Statement, Solution, Acceptance Criteria (Gherkin), Design, Validation, Details, Links
 - Epic link to parent
 - **Story points** (custom field)
 - **Discipline labels**: `frontend`, `backend`, or both for fullstack

@@ -8,6 +8,8 @@ description: "Maintains a centralized manifest of all design and product artifac
 
 **Output Style:** Follow `.claude/skills/clear-output.md` for all responses. Lead with actions, number steps, no preamble.
 
+**Format:** Open every document with the standard header in `docs/reference/document-format.md`.
+
 ## Role
 
 Manage `artifacts.yaml` — a single source of truth for all project artifacts including Figma files, FigJam boards, prototypes, Loom recordings, Claude artifacts, research documents, and external resources.

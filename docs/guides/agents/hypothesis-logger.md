@@ -40,5 +40,5 @@ Maintains a structured hypothesis log capturing beliefs, validation methods, and
 
 ## Related
 
-- [Hypothesis Logging Skill](../../.claude/skills/hypothesis-logging.md)
+- [Hypothesis Logging Skill](../../../.claude/skills/hypothesis-logging.md)
 - [Experiment Designer](experiment-designer.md)

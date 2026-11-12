@@ -1,6 +1,29 @@
-# Roadmap: [Scope]
+# [Scope] — Roadmap
 
-> **TL;DR:** [One sentence: planning horizon, top priorities, key theme]
+**[Subtitle: one line on the planning horizon, top priorities and key theme]**
+
+| Initiative | Project | Owner | Status | Last updated |
+|------------|---------|-------|--------|--------------|
+| [initiative] | [project] | [name] | Draft / In review / Approved | [YYYY-MM-DD] |
+
+## Description
+[2–4 sentences: what this roadmap covers (Now / Next / Later), who owns it, and how initiatives move between columns.]
+
+## Problem Statement
+[The strategic problem or goal this roadmap addresses, in 1–2 lines, with evidence.]
+
+## Solution
+[The themes and top initiatives that address it, in 1–2 lines. What we are not doing.]
+
+## Success Metrics
+| Metric | Baseline | Target | How we measure |
+|--------|----------|--------|----------------|
+| [outcome metric or OKR key result] | [value or TBD: who provides it] | [value] | [source / dashboard] |
+
+## Next Action
+[One action, one owner.]
+
+---
 
 ## Roadmap Overview
 
@@ -8,8 +31,6 @@
 |-------|-------|
 | Scope | [Product/Team/Initiative] |
 | Horizon | [Quarters covered] |
-| Last Updated | |
-| Owner | |
 
 ## Now (Current Quarter)
 

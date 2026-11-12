@@ -41,5 +41,5 @@ Evaluates shipped features against success criteria, documents learnings, and cr
 
 ## Related
 
-- [Post-Launch Review Skill](../../.claude/skills/post-launch-review.md)
+- [Post-Launch Review Skill](../../../.claude/skills/post-launch-review.md)
 - [Hypothesis Logger](hypothesis-logger.md)

@@ -41,5 +41,5 @@ Manages `artifacts.yaml` with links to Figma files, FigJam boards, prototypes, L
 
 ## Related
 
-- [Artifact Registry Skill](../../.claude/skills/artifact-registry.md)
+- [Artifact Registry Skill](../../../.claude/skills/artifact-registry.md)
 - [Confluence Publisher](confluence-publisher.md)

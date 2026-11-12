@@ -32,8 +32,8 @@ Start or resume guided mode, or jump to a specific phase.
 | `prioritize` | Decide if and when to build |
 | `define` | PRD, brief, metrics, plan |
 | `design` | Flows, wireframes, prototype |
-| `review` | Critique, UX review, accessibility, gates |
-| `deliver` | Epics, stories, Confluence, Jira |
+| `review` | Critique, UX review, accessibility on the real designs, then the review exit check |
+| `deliver` | Epics, stories, Definition of Ready gate, Confluence, Jira |
 | `launch` | Release notes, enablement |
 | `measure` | Post-launch review, follow-ups |
 

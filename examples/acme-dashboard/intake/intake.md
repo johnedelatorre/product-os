@@ -1,25 +1,39 @@
-# Intake: Improve Dashboard Performance
+# Dashboard Performance — Intake
 
-## Metadata
+**The Customer Success request about slow enterprise dashboards, structured into a problem with evidence.**
 
-| Field | Value |
-|-------|-------|
-| **Source** | Customer Success Team via Slack #feedback |
-| **Date Received** | November 1, 2026 |
-| **Analyst** | Product OS Intake Agent |
-| **Status** | Approved |
+| Initiative | Project | Owner | Status | Last updated |
+|------------|---------|-------|--------|--------------|
+| Platform Performance | Dashboard Performance | Priya Shah (PM) | Approved | 2026-11-01 |
+
+> **Fictional example.** Acme Corp, every person, number and link in this project are invented to show the Product OS format.
+
+## Description
+This intake turns a Slack request from Customer Success into a problem statement, evidence, affected users and open questions for the PM. It separates the requested solution ("add a loading skeleton") from the underlying problem. The [PRD](../pm/prd.md) answers the open questions.
+
+## Problem Statement
+Enterprise customers wait 15+ seconds for the dashboard to load, with no feedback while they wait, which makes the wait feel even longer. This drives poor satisfaction (CSAT 2.1/5 on 47 tickets in 30 days) and churn risk from Acme Corp, our largest account ($2M ARR).
+
+## Solution
+Hand off to the PRD Author to define both real and perceived performance fixes, not only the requested loading skeleton. Priority: High.
+
+## Success Metrics
+| Metric | Baseline | Target | How we measure |
+|--------|----------|--------|----------------|
+| Dashboard load time (p95) | 15+ s (Acme QBR) | Set in the PRD | RUM |
+| Dashboard CSAT | 2.1 / 5 | Set in the PRD | Zendesk |
+| Dashboard tickets / 30 days | 47 | Set in the PRD | Zendesk |
+
+## Next Action
+Tomás Ortega (Eng Lead) investigates root causes so the PRD can answer open questions 1–4.
 
 ---
 
 ## Raw Input
 
+**Source:** Customer Success Team via Slack #feedback · **Received:** November 1, 2026 · **Structured by:** Product OS Intake Agent
+
 > "Multiple enterprise customers are complaining about dashboard load times. Acme Corp (our largest account, $2M ARR) specifically mentioned in their QBR that the dashboard takes 15+ seconds to load on first visit. They're threatening to evaluate competitors. Support has logged 47 tickets in the past month related to 'slow dashboard' with an average CSAT of 2.1/5. Can we add a loading skeleton or something to make it feel faster?"
-
----
-
-## Problem Statement
-
-Enterprise customers are experiencing unacceptable dashboard load times (15+ seconds), leading to poor satisfaction scores (CSAT 2.1/5) and churn risk from key accounts. The current experience provides no feedback during loading, making perceived wait times worse.
 
 ---
 
