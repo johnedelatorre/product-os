@@ -44,7 +44,8 @@ Product Space (PROD)
 1. **Standard header on every page** (hub, group and document pages): Title, Subtitle, Initiative / Project / Owner / Status / Last updated table, Description, Problem Statement, Solution, Success Metrics, Next Action. Gaps are named TBDs, never invented.
 2. **Hub page** carries a "Documents in this project" table: Document (link) | What it is | Status | Owner.
 3. **Group pages** list every page under them with a one-line description.
-4. **Titles name the thing:** `[Project] — [Document]`.
+4. **Titles name the thing:** `[Project] — [Document]`. No numbers, file names or version tags.
+4a. **Reading order:** pages and documents-table rows follow `docs/reference/document-format.md` §2 (Project Brief first).
 5. **Split long documents at their own sections**, named for their content ("PRD — Functional Requirements"), never "Part 1".
 
 ## Backlog Page Structure
@@ -160,6 +161,7 @@ python scripts/atlassian-fallback.py publish \
 - [ ] Hierarchy will be correct (hub → 4 groups → documents)
 - [ ] Every page opens with the standard header; hub lists every document
 - [ ] Long docs split at named sections, no "Part N"
+- [ ] No numbered titles; pages and table rows in reading order
 - [ ] Backlog page has discipline columns
 
 ## Tips

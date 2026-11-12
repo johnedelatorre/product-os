@@ -51,7 +51,7 @@ Fewer, clearer pages. One hub page per project, then four groups.
 
 ```
 [Project Name]                          ← Hub page: standard header + "Documents in this project" table
-├── 1. Strategy & Definition            ← Intake, Proposal / Project Brief, PRD, PRD Review, Metrics Framework
+├── 1. Strategy & Definition            ← Project Brief, Intake, Proposal, PRD, PRD Review, Metrics Framework
 ├── 2. Design                           ← Design Brief, User Flows, Wireframes & Prototype, Design Critique, UX Review, Accessibility Audit
 ├── 3. Delivery                         ← Epics & Stories, Project Plan, RACI, Gantt, Risks, Dependencies, Traceability
 └── 4. Decisions & Launch               ← Decision Log, Event Tracking Plan, Release Notes, Post-Launch Review
@@ -66,8 +66,10 @@ The hub page's documents table:
 
 Rules:
 1. Each group page holds a one-line description of every page under it.
-2. A document too long for one page splits at its own sections, and each split page is named for its content ("PRD — Functional Requirements"), never "Part 1".
-3. Every page carries the standard header.
+2. Page titles are `[Project] — [Document]` ("Self-Serve Signup — PRD"). No numbers, file names or version tags in titles ("05 Signup — Metrics", "prd-v2"). The group pages carry the only numbers (1–4).
+3. Pages appear in reading order, in the page tree and in every documents table: the order in the tree above (the brief first, so a reader gets the overview before the detail). Documents a template does not list (a concept note, a catalog, a handoff) go after the listed ones in their group.
+4. A document too long for one page splits at its own sections. The parent page keeps the standard header, the first sections and, at the end, a numbered list of its child pages; each child page is named for its content ("PRD — Functional Requirements"), never "Part 1", ends with a link to the next one, and sits in section order.
+5. Every page carries the standard header.
 
 ## 3. Jira Epic
 

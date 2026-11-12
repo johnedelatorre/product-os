@@ -89,7 +89,8 @@ Publish only the pages the project has; a group page with no documents yet still
 ### Page Rules
 
 1. **Standard header on every page.** Every page, including the hub and group pages, opens with the standard header from `docs/reference/document-format.md` §1: Title, Subtitle, the Initiative / Project / Owner / Status / Last updated table, Description, Problem Statement, Solution, Success Metrics, Next Action. If a source doc lacks part of it, show the gap in the publish plan as a named TBD (what is missing, who provides it); never invent content.
-2. **Page titles name the thing:** `[Project] — [Document]` (for example "Self-Serve Signup — PRD").
+2. **Page titles name the thing:** `[Project] — [Document]` (for example "Self-Serve Signup — PRD"). No numbers, file names or version tags in titles.
+2a. **Reading order.** Order pages under each group, and rows in every documents table, as in `docs/reference/document-format.md` §2 (Project Brief first in Strategy & Definition). Creating pages in that order puts them in that order in the page tree; when updating existing pages, check the tree and move any page that is out of order.
 3. **Group pages** hold a one-line description of every page under them.
 4. **Split long documents at their own sections.** A document too long for one page becomes a parent page (the document's standard header plus a list of its section pages) with child pages named for their content, such as "PRD — Functional Requirements" or "Epics & Stories — Agent Foundation". Never "Part 1", "Part 2".
 
@@ -398,6 +399,7 @@ Before publishing, verify:
 - [ ] **Hierarchy correct** — Initiative → Project hub → 4 groups → documents
 - [ ] **Standard header** — every page opens with it; gaps shown as named TBDs
 - [ ] **No "Part N" pages** — long docs split at named sections
+- [ ] **No numbered titles; reading order** — `[Project] — [Document]`, pages and table rows in document-format §2 order
 - [ ] **Backlog complete** — All epics and stories included
 - [ ] **Discipline totals calculated** — Frontend/backend/fullstack sums
 - [ ] **Links working** — Jira links populated (after Jira sync)

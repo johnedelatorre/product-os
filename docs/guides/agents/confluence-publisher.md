@@ -36,7 +36,7 @@ Creates the Confluence hierarchy (Initiatives > Initiative > Project hub page > 
 | Artifact | Confluence Page | Group |
 |----------|-----------------|-------|
 | Project overview | [Project] (hub page) | — |
-| Intake, Project Brief, PRD, PRD Review, Metrics | [Project] — PRD, etc. | 1. Strategy & Definition |
+| Project Brief, Intake, Proposal, PRD, PRD Review, Metrics | [Project] — PRD, etc. | 1. Strategy & Definition |
 | Design Brief, Flows, Wireframes & Prototype, Critique, UX Review, Accessibility | [Project] — User Flows, etc. | 2. Design |
 | Epics & Stories, Plan, RACI, Gantt, Risks, Dependencies, Traceability | [Project] — Epics & Stories (Backlog), etc. | 3. Delivery |
 | Decision Log, Event Tracking Plan, Release Notes, Post-Launch Review | [Project] — Decision Log, etc. | 4. Decisions & Launch |
