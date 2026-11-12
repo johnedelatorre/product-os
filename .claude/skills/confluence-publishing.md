@@ -33,9 +33,9 @@ Product Space (PROD)
 └── Initiatives
     └── [Initiative Name]
         └── [Project Name]                   ← Hub page: standard header + "Documents in this project" table
-            ├── 1. Strategy & Definition     ← Intake, Proposal, PRD (+ review as child), Project Brief, Metrics Framework
+            ├── 1. Strategy & Definition     ← Intake, Proposal, PRD, Project Brief, Metrics Framework
             ├── 2. Design                    ← Design Brief, User Flows, Wireframes & Prototype, Design Critique, UX Review, Accessibility Audit
-            ├── 3. Delivery                  ← Epics & Stories (Backlog, special page with tables), Project Plan, RACI, Gantt Chart, Risks, Dependencies, Traceability
+            ├── 3. Delivery                  ← Project Plan (RACI, Gantt Chart, Risks, Dependencies as child pages), Epics & Stories (Backlog, special page with tables; Traceability as a child page)
             └── 4. Decisions & Launch        ← Decision Log, Event Tracking Plan, Release Notes, Post-Launch Review
 ```
 
@@ -46,6 +46,7 @@ Product Space (PROD)
 3. **Group pages** list every page under them with a one-line description.
 4. **Titles name the thing:** `[Project] — [Document]`. No numbers, file names or version tags.
 4a. **Creation order:** pages and documents-table rows follow the order the PM creates them (`docs/reference/document-format.md` §2).
+4b. **Final documents only:** never publish working notes such as `prd-review.md`. Supporting documents are child pages of the document they support.
 5. **Split long documents at their own sections**, named for their content ("PRD — Functional Requirements"), never "Part 1".
 
 ## Backlog Page Structure

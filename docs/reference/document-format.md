@@ -51,9 +51,9 @@ Fewer, clearer pages. One hub page per project, then four groups.
 
 ```
 [Project Name]                          ← Hub page: standard header + "Documents in this project" table
-├── 1. Strategy & Definition            ← Intake, Proposal, Market Analysis, Hypothesis Log, PRD (its review is the PRD's last child page), Project Brief, Metrics Framework
+├── 1. Strategy & Definition            ← Intake, Proposal, PRD, Project Brief, Metrics Framework
 ├── 2. Design                           ← Design Brief, User Flows, Wireframes & Prototype, Design Critique, UX Review, Accessibility Audit
-├── 3. Delivery                         ← Project Plan, RACI, Gantt, Epics & Stories, Traceability, Dependencies, Risks
+├── 3. Delivery                         ← Project Plan, Epics & Stories
 └── 4. Decisions & Launch               ← Event Tracking Plan, Decision Log, Release Notes, Post-Launch Review
 ```
 
@@ -69,8 +69,9 @@ Rules:
 2. Page titles are `[Project] — [Document]` ("Self-Serve Signup — PRD"). No numbers, file names or version tags in titles ("05 Signup — Metrics", "prd-v2"). The group pages carry the only numbers (1–4).
 3. Pages appear in the order the PM creates them (the guided workflow's phase order), in the page tree and in every documents table: the order in the tree above. The Project Brief follows the PRD because it is written from it. Documents the tree does not list (a concept note, a catalog, a handoff) go after the listed ones in their group.
 4. A document too long for one page splits at its own sections. The parent page keeps the standard header, the first sections and, at the end, a numbered list of its child pages; each child page is named for its content ("PRD — Functional Requirements"), never "Part 1", ends with a link to the next one, and sits in section order.
-5. The PRD review is not a separate document in the group: it publishes as the PRD's last child page ("[Project] — PRD — Review"), so readers see one PRD.
-6. Every page carries the standard header.
+5. Confluence holds final documents only. Working notes (the PRD review, reviewer findings, drafts) stay in the project folder and are never published; their outcome is already in the final document.
+6. Supporting documents nest under the document they support, as named child pages, so each group shows a few documents: market analysis, hypothesis log, concept and catalog under the PRD; RACI, Gantt, risks and dependencies under the Project Plan; traceability under Epics & Stories. Nothing is dropped.
+7. Every page carries the standard header.
 
 ## 3. Jira Epic
 
