@@ -42,7 +42,7 @@ Attribution: Adapted from [ayghri/i-have-adhd](https://github.com/ayghri/i-have-
 
 The PM never has to say "ask me guided questions". This covers every document, the design critique and the UX writing guide included.
 
-**It is a conversation with an agent, on every interface.** The question comes from the agent, never as a page title, with quick replies: chips in the Claude artifact, numbered options in Claude Code, Claude chat and ChatGPT. Every turn opens with where the PM is and the task counts, and the whole status board (Start plus the nine phases, each done, in progress or not started, with its numbers) is shown at the start of a session, when a task finishes and on request. See `.claude/skills/guided-workflow.md` → "The Status Board".
+**It is a conversation with an agent, on every interface.** The question comes from the agent, never as a page title, with quick replies: chips in the Claude artifact, numbered options in Claude Code, Claude chat and ChatGPT. Every turn opens with where the PM is and the task counts, and the whole status board (Start plus the nine phases, each done, in progress or not started, with its numbers) is shown at the start of a session, when a task finishes and on request. On a phone the board, each task and every document are one short reply away (`board`, `task <n>`, `docs`), and the artifact slides the board out over the conversation. Every interface also has Connectors and settings (`connectors`, `settings`): what is connected, what happens without it, and the saved team settings. See `.claude/skills/guided-workflow.md` → "The Status Board", "On a Phone", "Connectors and Settings".
 
 ## Owner
 

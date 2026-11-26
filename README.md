@@ -4,9 +4,9 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-![Product OS on a desktop screen and on a phone: a conversation with the guide and its answer chips, beside a board of ten tasks with their status](docs/images/hero.jpg)
+![Product OS on a desktop screen and on a phone. The desktop shows a conversation with the guide beside a board of ten tasks. The phone shows the board slid out over the conversation.](docs/images/hero.jpg)
 
-*The visual start (path B), on a computer and on a phone: the guide asks, you answer with chips, and the board shows every task. Screenshots of `artifact/product-os-start.html`.*
+*The visual start (path B), on a computer and on a phone: the guide asks, you answer with chips, and the board shows every task. On the phone the board slides out over the conversation. Screenshots of `artifact/product-os-start.html`.*
 
 ## What is Product OS?
 
@@ -54,7 +54,7 @@ Where do you work? Pick one row and follow its steps.
 
 Not sure? A PM who does not use a terminal picks A or C. The questions, the documents and the handoff are the same on every path.
 
-**On your phone.** Paths A, B and C also run in the Claude and ChatGPT apps for iOS and Android. Set the project up once on a computer, then open it in the app: the questions and the documents are the same.
+**On your phone.** Paths A, B and C also run in the Claude and ChatGPT apps for iOS and Android. Set the project up once on a computer, then open it in the app: the questions and the documents are the same. The board is one tap or one word away: the artifact slides it out over the conversation, and in chat you reply `board`, `task 4` or `docs`.
 
 ![The same question, "Who will read what I write?", on three paths: in a Claude Code terminal, in a chat in Claude or ChatGPT, and as a page in the Claude artifact](docs/images/paths.png)
 
@@ -120,7 +120,7 @@ For PMs who want the conversation and a board of every task on one screen.
 ![The visual start page: the guide's conversation with answer chips on the left, and the board of tasks on the right](docs/images/visual-start.png)
 
 1. Download [`artifact/product-os-start.html`](artifact/product-os-start.html).
-2. In Claude, attach the file and say: *"Publish this page as an artifact."*
+2. In Claude, attach the file and say: *"Publish this page as an artifact. It asks Claude through the `sample` capability, so declare that capability."* The artifact is yours, and private to you.
 3. Open the artifact. The guide asks seven questions in a conversation, and you answer with chips or by typing. Opened in Claude, the guide is Claude. The board beside it shows every task, what is done and where you are.
 4. Tap **Yes, copy the brief**.
 5. Paste the brief into your Product OS project in Claude chat (path A) or ChatGPT (path C), and attach the files you listed. The chat shows the playback and waits for your yes.
@@ -208,6 +208,8 @@ Product OS does not produce every document it can. It asks guided questions, one
 Questions 2, 3 and 4 are saved for your team. On the next project they become one line to confirm, and you answer four questions.
 
 **It is a conversation with an agent.** On every path the question comes from the agent, with quick replies: chips in the Claude artifact, numbered options in Claude Code, Claude chat and ChatGPT. Every turn opens with where you are and the task counts, and the whole status board (Start plus the nine phases, each done, in progress or not started, with its numbers) is shown when a task finishes or when you ask.
+
+**Connectors and settings, on every path.** One place shows what Product OS is connected to (Confluence, Jira, Figma, Claude Design), what it does without each one, and your saved settings: readers, role, design system, Confluence space, Jira project. It is a section of the board in the artifact, the words `connectors` and `settings` in chat, and `/product-os:status --connectors` in Claude Code.
 
 **In every phase: the questions keep coming.** Before each document, the agent says how many questions it has (at most 5), asks the decisions that document needs, and confirms what was decided before the document is finished. You never have to say "ask me guided questions". Rules: [`.claude/skills/guided-questions.md`](.claude/skills/guided-questions.md).
 

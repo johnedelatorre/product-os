@@ -8,6 +8,8 @@
 
 Claude Projects and artifacts open in the Claude apps for iOS and Android. Set the project up once on a computer, then start a chat in it from your phone.
 
+Five words work at any time: `board` (every task and its status), `task 4` (one task and its documents), `docs` (every document), `connectors` and `settings`. The replies are short lists that fit a phone screen.
+
 ## Setup
 
 1. **Download Product OS.** On GitHub choose Code → Download ZIP, then unzip it.

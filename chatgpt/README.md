@@ -31,6 +31,8 @@ Before each document it asks the decisions that document needs. You never have t
 
 ChatGPT Projects and custom GPTs open in the ChatGPT apps for iOS and Android. Set the project up once on a computer (pasting the instructions and uploading 8 files is easier there), then run it from your phone: the same questions, in the same order.
 
+Five words work at any time: `board` (every task and its status), `task 4` (one task and its documents), `docs` (every document), `connectors` and `settings`. The replies are short lists that fit a phone screen.
+
 ## Setup for a Team: One Custom GPT, One Link
 
 For PMs who should not do any setup at all:
