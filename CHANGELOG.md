@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.9.0] - 2026-11-26
+
+### Added
+- **Agents view on the board** — all 41 roles by phase, what each one does, and what to say in the chat to call it. `scripts/build-plugin-skill.py` writes the list into the board from `.claude/agents/`, and fails when an agent is missing from it.
+- **Light, dark or auto** — a switch at the top of the board. The choice is kept in the reader's browser.
+
+### Changed
+- **A wider board with larger type** — the page uses the width of the screen, and every text size is larger.
+- **Badges and chips for every state** — Done, In progress, Questions for you, Ready for your review, Not started, Skipped, the number of TBDs still missing, the agent on each document, where each document is published, and each connector. Each badge has a sign and a word.
+
 ## [1.8.2] - 2026-11-26
 
 ### Added
