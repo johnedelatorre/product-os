@@ -6,7 +6,7 @@
 
 ![Product OS on a desktop screen and on a phone. The desktop shows a conversation with the guide beside a board of ten tasks. The phone shows the board slid out over the conversation.](docs/images/hero.jpg)
 
-*The visual start (path B), on a computer and on a phone: the guide asks, you answer with chips, and the board shows every task. On the phone the board slides out over the conversation. Screenshots of `artifact/product-os-start.html`.*
+*The Product OS workspace (path B), on a computer and on a phone: the guide asks, you answer with chips, each agent writes its document, and the board shows every task. On the phone the board slides out over the conversation. Screenshots of `artifact/product-os.html`.*
 
 ## What is Product OS?
 
@@ -47,7 +47,7 @@ Where do you work? Pick one row and follow its steps.
 | Where you work | Pick this path | Setup | Go to |
 |----------------|----------------|-------|-------|
 | In the Claude app, not in a code editor | **A · Claude chat** | About 3 minutes | [Path A steps](#path-a--claude-chat) |
-| You want the conversation and a board of every task on one screen | **B · Claude artifact** | About 2 minutes | [Path B steps](#path-b--claude-artifact-the-visual-start) |
+| You want a UI: the conversation, the documents and a board of every task on one screen | **B · Claude artifact** | About 2 minutes | [Path B steps](#path-b--claude-artifact-the-visual-start) |
 | In ChatGPT | **C · ChatGPT** | About 10 minutes | [Path C steps](#path-c--chatgpt) |
 | In a repo, with Claude Code | **D · Claude Code** | About 5 minutes | [Path D steps](#path-d--claude-code) |
 | In Cursor | **E · Cursor** | About 5 minutes | [Path E steps](#path-e--cursor) |
@@ -127,18 +127,20 @@ Full steps and tips: [Product OS in claude.ai](claude-ai/README.md).
 
 ### Path B · Claude artifact, the visual start
 
-For PMs who want the conversation and a board of every task on one screen.
+For PMs who want a UI: the conversation, the documents and a board of every task on one screen. All nine phases run in the page.
 
-![The visual start page: the guide's conversation with answer chips on the left, and the board of tasks on the right](docs/images/visual-start.png)
+![The Product OS workspace: the guide's conversation with answer chips on the left, and the board of tasks on the right](docs/images/visual-start.png)
 
 1. **With the plugin (path A):** say *"Open the Product OS workspace."* Claude publishes the page as your own artifact. Go to step 3.
-   **Without it:** download [`artifact/product-os-start.html`](artifact/product-os-start.html).
-2. In Claude, attach the file and say: *"Publish this page as an artifact. It asks Claude through the `sample` capability, so declare that capability."* The artifact is yours, and private to you.
-3. Open the artifact. The guide asks seven questions in a conversation, and you answer with chips or by typing. Opened in Claude, the guide is Claude. The board beside it shows every task, what is done and where you are.
-4. Tap **Yes, copy the brief**.
-5. Paste the brief into your Product OS project in Claude chat (path A) or ChatGPT (path C), and attach the files you listed. The chat shows the playback and waits for your yes.
+   **Without it:** download [`artifact/product-os.html`](artifact/product-os.html).
+2. In Claude, attach the file and say: *"Publish this page as an artifact. Declare these capabilities for it: `sample` with images, and `downloads`."* The artifact is yours, and private to you.
+3. Open the artifact and answer the seven start questions with chips or by typing.
+4. Tap **Start: Intake**. The agent for each document asks its questions, writes the document in the page, and waits for you to accept it or ask for a change.
+5. Follow the board through the nine phases. Open, copy or download any document. Run any of the 41 agents and 48 commands from "All agents and commands".
 
-The page covers the start. The documents are written in the chat, and the board updates when you paste the project's `progress.yaml`. What it does and does not do: [Product OS as a Claude artifact](artifact/README.md).
+![A PRD open in the workspace: a summary, numbered sections and a metrics table with named TBDs, and buttons to copy, download and close](docs/images/document.png)
+
+The page carries every agent, playbook, command and template, and uses your own Claude to write. Publishing to Confluence and Jira happens in your chat, with the documents you download. What it does and does not do: [Product OS as a Claude artifact](artifact/README.md).
 
 ### Path C · ChatGPT
 
