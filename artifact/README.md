@@ -26,6 +26,8 @@ The page opens with example answers so you can see a finished run. "Clear all an
 
 **Without Claude:** the file is one self-contained HTML page. Opening it in a browser works too.
 
+**On a phone:** the page fits a phone screen, with the brief below the question. Artifacts open in the Claude apps for iOS and Android.
+
 ## What It Does and Does Not Do
 
 | It does | It does not |
