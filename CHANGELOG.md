@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.7.0] - 2026-11-26
+
 ### Added
 - **Name and brand** — `TRADEMARKS.md` says who owns what: the code and documents are under the MIT License, and the name "Product OS™" and its look are not part of it, so a changed version that is shared needs its own name. The README, `NOTICE.md` and the board carry the copyright line.
 - **Engineering handoff** — `.claude/skills/engineering-handoff.md`. Built on direct feedback from four engineers and a head of product: the full document set was too much to read, and tickets had to be reorganized by hand. The team now gets a short set (PRD, project brief, user flows, one final design, an end-to-end prototype, the epic and its tickets) and everything else stays with the PM.
