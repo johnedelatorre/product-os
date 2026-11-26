@@ -4,9 +4,9 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-![Product OS on a desktop screen and on a phone. The desktop shows a conversation with the guide beside a board of ten tasks. The phone shows the board slid out over the conversation.](docs/images/hero.jpg)
+![The Product OS board on a desktop screen and on a phone: where the project is, the next step, four numbers, three insights, and the nine phases with their status](docs/images/hero.jpg)
 
-*The Product OS workspace (path B), on a computer and on a phone: the guide asks, you answer with chips, each agent writes its document, and the board shows every task. On the phone the board slides out over the conversation. Screenshots of `artifact/product-os.html`.*
+*The Product OS board, on a computer and on a phone, with an example project. Claude runs the project in your chat and keeps this board up to date. Screenshots of `artifact/product-os-board.html`.*
 
 ## What is Product OS?
 
@@ -46,19 +46,18 @@ Where do you work? Pick one row and follow its steps.
 
 | Where you work | Pick this path | Setup | Go to |
 |----------------|----------------|-------|-------|
-| In the Claude app, not in a code editor | **A · Claude chat** | About 3 minutes | [Path A steps](#path-a--claude-chat) |
-| You want a UI: the conversation, the documents and a board of every task on one screen | **B · Claude artifact** | About 2 minutes | [Path B steps](#path-b--claude-artifact-the-visual-start) |
+| In the Claude app, not in a code editor | **A · Claude** | About 3 minutes | [Path A steps](#path-a--claude-chat) |
 | In ChatGPT | **C · ChatGPT** | About 10 minutes | [Path C steps](#path-c--chatgpt) |
 | In a repo, with Claude Code | **D · Claude Code** | About 5 minutes | [Path D steps](#path-d--claude-code) |
 | In Cursor | **E · Cursor** | About 5 minutes | [Path E steps](#path-e--cursor) |
 
 Not sure? A PM who does not use a terminal picks A or C. The questions, the documents and the handoff are the same on every path.
 
-**On your phone.** Paths A, B and C also run in the Claude and ChatGPT apps for iOS and Android. Set the project up once on a computer, then open it in the app: the questions and the documents are the same. The board is one tap or one word away: the artifact slides it out over the conversation, and in chat you reply `board`, `task 4` or `docs`.
+**On your phone.** Paths A and C also run in the Claude and ChatGPT apps for iOS and Android. Set it up once on a computer, then open it in the app: the questions and the documents are the same. In Claude, the board opens on the phone too.
 
-![Product OS on three paths: a question in a Claude Code terminal, the same question in a chat in Claude or ChatGPT, and the workspace page in a Claude artifact with a PRD ready for review](docs/images/paths.png)
+![Product OS on three paths: a question in a Claude Code terminal, the same question in a chat in Claude or ChatGPT, and the board that Claude keeps up to date](docs/images/paths.png)
 
-*Product OS on three paths. Claude Code and the chat are illustrations. The Claude artifact is a screenshot of the workspace with an example project.*
+*Product OS on three paths. Claude Code and the chat are illustrations. The board is a screenshot with an example project.*
 
 ### 2. Have these ready
 
@@ -92,7 +91,7 @@ You approve every step, and nothing reaches Confluence or Jira without your OK.
 | **Where documents live** | Files in the chat; download or copy them | Files in the chat or canvas; download them | `initiatives/<initiative>/<project>/` in your repo | `initiatives/<initiative>/<project>/` in your repo |
 | **Confluence and Jira** | Atlassian connector, if your workspace enables it (approval first) | Atlassian Rovo app, if your workspace and region have it (approval first) | Atlassian MCP or REST fallback (approval first) | Atlassian MCP or REST fallback (approval first) |
 
-Path B is the visual start for paths A and C: it asks the start questions on a page and hands a brief to the chat, where the documents are written. Progress (`progress.yaml`) and session handovers (`HANDOVER.md`) are plain files, so you can start on one path and continue on another.
+On path A, Claude also opens a board for the project and keeps it up to date. Progress (`progress.yaml`) and session handovers move a project between paths.
 
 </details>
 
@@ -104,17 +103,51 @@ The steps for the path you picked in [Start Here](#start-here).
 
 ### Path A · Claude chat
 
-**Add the plugin (recommended, about 3 minutes).** It puts all of Product OS in your own Claude account: 41 agents, 48 commands, 44 playbooks, the templates and the visual workspace. Nothing is shared with anyone else's copy.
+For PMs who do not use a terminal. Claude is the Product OS agent. It leads you through all nine phases, asks before it writes, makes each output in its real form, and publishes after your yes.
+
+**Set it up once (about 3 minutes)**
 
 1. In Claude (claude.ai or the desktop app), open **Customize > Plugins**.
 2. Choose **Add > Add marketplace** and enter `johnedelatorre/product-os`. Claude pulls Product OS in from GitHub. Then add the **Product OS** plugin from it.
    Or download this repo (Code → Download ZIP) and choose **Add > Upload plugin** with the ZIP.
-3. Start a chat: *"Start Product OS guided mode for initiative customer-onboarding, project self-serve-signup."*
-4. For the UI, say: *"Open the Product OS workspace."* Claude publishes it as your own artifact.
+3. In **Customize > Connectors**, add what your projects use: Atlassian (Jira and Confluence) and Figma. You can skip this: Claude checks your connections at the start of a project and walks you through the ones that are missing.
 
-The plugin is saved to your account, so it is also in the Claude apps for iOS and Android and in Claude Code. In a chat, Claude takes one agent role at a time. In a Cowork task and in Claude Code, the same 41 agents run as subagents and the commands run as `/product-os:<name>`.
+The plugin is saved to your own account, with all 41 agents, 48 commands, 44 playbooks and the templates. It is also in the Claude apps for iOS and Android and in Claude Code.
 
-**Without plugins: a Claude Project (about 10 minutes).** A starter set of 27 files, uploaded by hand.
+**Run a project**
+
+1. Start a chat and say: *"Start Product OS."*
+2. Answer the seven start questions. Claude checks your connections, asks which Atlassian site the project belongs to, reads the files you attach, and plays the plan back before it writes anything.
+3. For each step an agent takes over. It asks its questions, makes the output, and gives you the link. Then Claude offers the next step as a question you answer with one tap.
+4. Say yes to the publish plan. Claude creates the Confluence pages and the Jira epic and tickets, then reads them back and reports what exists.
+
+**What each output is made as**
+
+| Output | Made as |
+|--------|---------|
+| Intake, PRD, briefs, plans, metrics, critiques, the UX writing guide, the epic and tickets, launch documents | A Claude doc |
+| User flows | Your choice: a Claude whiteboard, a FigJam board, or diagrams in a doc |
+| Low-fidelity wireframes | A Claude Design file |
+| Final designs | Your choice: a Claude Design file, or Figma |
+| End-to-end prototype | A Claude artifact you can click through |
+
+**The board**
+
+![The Product OS board: where the project is, the next step, four numbers, insights, and the Documents table with a link for every document](docs/images/visual-start.png)
+
+When the project has a name, Claude opens a board and keeps it up to date: where you are, the next step, the numbers, how the project is doing, every task, a table of every document with its link, what is published and what is connected. You only open it. More: [The Product OS board](artifact/README.md).
+
+**How this compares with Claude Code**
+
+| | Claude (path A) | Claude Code (path D) |
+|---|---|---|
+| The agents, playbooks and templates | The same files | The same files |
+| Who leads | Claude leads, one question at a time | Claude leads, one question at a time |
+| Agents working at the same time | In a Cowork task. In a chat, one agent role at a time. | Yes |
+| Where the outputs live | Claude docs, Claude Design, whiteboards, Figma | Files in your repo, plus the same connectors |
+| A new Jira project or Confluence space | You create it; Claude gives you the link and waits | The same |
+
+**Without plugins: a Claude Project (about 10 minutes).** A starter set of 27 files, uploaded by hand. Claude then works from those files, without the board.
 
 1. Download this repo (Code → Download ZIP) and unzip it. On a Mac, press **Cmd+Shift+.** in Finder to show the hidden `.claude` folder.
 2. In claude.ai, create a **Project** (for example "Product OS").
@@ -124,24 +157,6 @@ The plugin is saved to your account, so it is also in the Claude apps for iOS an
 6. Start a chat in the project: *"Start Product OS guided mode for initiative customer-onboarding, project self-serve-signup."*
 
 Full steps and tips: [Product OS in claude.ai](claude-ai/README.md).
-
-### Path B · Claude artifact, the visual start
-
-For PMs who want a UI: the conversation, the documents and a board of every task on one screen. All nine phases run in the page.
-
-![The Product OS workspace: the guide's conversation with answer chips on the left, and the board of tasks on the right](docs/images/visual-start.png)
-
-1. **With the plugin (path A):** say *"Open the Product OS workspace."* Claude publishes the page as your own artifact. Go to step 3.
-   **Without it:** download [`artifact/product-os.html`](artifact/product-os.html).
-2. In Claude, attach the file and say: *"Publish this page as an artifact, and declare the capabilities listed in its `capabilities` block."* The artifact is yours, and private to you.
-3. Open the artifact and answer the seven start questions with chips or by typing. Attach your files at question 6: the agents read them.
-4. Tap **Start: Intake**. The agent for each document asks its questions, writes the document in the page, and waits for you to accept it or ask for a change.
-5. Follow the board through the nine phases. Open, copy or download any document. Under **More**: check your Jira, Confluence and Figma connectors, pick your real Jira project and Confluence space, and run any of the 41 agents and 48 commands.
-6. Tap **Publish**. The guide shows the plan and the ticket tree, and creates the Confluence pages and the Jira epic and tickets after your yes.
-
-![A PRD open in the workspace: a summary, numbered sections and a metrics table with named TBDs, and buttons to copy, download and close](docs/images/document.png)
-
-The page carries every agent, playbook, command and template. It uses your own Claude to write and your own connectors to read Figma and publish, and it shows only what each step needs. What it does and does not do: [Product OS as a Claude artifact](artifact/README.md).
 
 ### Path C · ChatGPT
 
@@ -223,9 +238,9 @@ Product OS does not produce every document it can. It asks guided questions, one
 
 Questions 2, 3 and 4 are saved for your team. On the next project they become one line to confirm, and you answer four questions.
 
-**It is a conversation with an agent.** On every path the question comes from the agent, with quick replies: chips in the Claude artifact, numbered options in Claude Code, Claude chat and ChatGPT. Every turn opens with where you are and the task counts, and the whole status board (Start plus the nine phases, each done, in progress or not started, with its numbers) is shown when a task finishes or when you ask.
+**It is a conversation with an agent.** On every path the question comes from the agent, with quick replies: choices to tap in Claude, numbered options in Claude Code and ChatGPT. Every turn opens with where you are and the task counts, and the whole status board (Start plus the nine phases, each done, in progress or not started, with its numbers) is shown when a task finishes or when you ask.
 
-**Connectors and settings, on every path.** One place shows what Product OS is connected to (Confluence, Jira, Figma, Claude Design), what it does without each one, and your saved settings: readers, role, design system, Confluence space, Jira project. It is a section of the board in the artifact, the words `connectors` and `settings` in chat, and `/product-os:status --connectors` in Claude Code.
+**Connectors and settings, on every path.** Claude checks what it is really connected to (Jira, Confluence, Figma), says what it does without each one, and walks you through connecting the ones a step needs. On path A the board lists them. In Claude Code it is `/product-os:status --connectors`.
 
 **In every phase: the questions keep coming.** Before each document, the agent says how many questions it has (at most 5), asks the decisions that document needs, and confirms what was decided before the document is finished. You never have to say "ask me guided questions". Rules: [`.claude/skills/guided-questions.md`](.claude/skills/guided-questions.md).
 

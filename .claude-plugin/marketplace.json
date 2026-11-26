@@ -9,7 +9,7 @@
     {
       "name": "product-os",
       "source": "./",
-      "description": "All of Product OS: 41 agents, 48 commands (/product-os:<command>), 44 playbooks, templates and the visual workspace."
+      "description": "All of Product OS: Claude leads a PM through nine phases with 41 agents, 48 commands (/product-os:<command>), 44 playbooks and templates, publishes to Confluence and Jira, and keeps a live board."
     }
   ]
 }

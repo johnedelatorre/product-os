@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Product OS board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Public+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* The board is the read-only face of a Product OS project. Claude runs the project in the chat and writes its state to this page's database; the page shows it live. Layout: where you are and the next step first, then numbers, then one view at a time (tasks, documents, published). */
+:root {
+  --paper: #EDF0F4; --sheet: #FFFFFF; --ink: #0F1B2D; --muted: #556176; --line: #C8D0DB;
+  --accent: #2443E0; --accent-ink: #FFFFFF; --found: #136B49; --missing: #9A5B00; --wash: #E3E8FF;
+  --display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --body: "Public Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { color-scheme: dark; --paper: #0E141D; --sheet: #17202C; --ink: #EEF2F7; --muted: #A3AFC0; --line: #334154; --accent: #8FA2FF; --accent-ink: #0B1020; --found: #6FD3A6; --missing: #F0B455; --wash: #1F2A4A; }
+}
+:root[data-theme="dark"] { color-scheme: dark; --paper: #0E141D; --sheet: #17202C; --ink: #EEF2F7; --muted: #A3AFC0; --line: #334154; --accent: #8FA2FF; --accent-ink: #0B1020; --found: #6FD3A6; --missing: #F0B455; --wash: #1F2A4A; }
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--paper); color: var(--ink); font: 400 1rem/1.5 var(--body); }
+button { font: inherit; color: inherit; }
+a { color: var(--accent); }
+button:focus-visible, a:focus-visible, summary:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+[hidden] { display: none !important; }
+.wrap { max-width: 1060px; margin: 0 auto; padding: 18px 20px 56px; display: flex; flex-direction: column; gap: 16px; }
+.bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 20px; }
+.brand { margin: 0; font: 700 1.125rem/1.2 var(--display); }
+.brand span { font: 400 0.9375rem/1.2 var(--body); color: var(--muted); margin-left: 10px; }
+.live { margin: 0; font-size: 0.8125rem; color: var(--muted); display: flex; align-items: center; gap: 8px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--line); }
+.dot.on { background: var(--found); }
+.card { background: var(--sheet); border: 1px solid var(--line); border-radius: 8px; }
+
+.where { padding: 14px 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; }
+.where h1 { margin: 0; font: 700 1.375rem/1.2 var(--display); flex: 1 1 16rem; min-width: 0; text-wrap: balance; }
+.where h1 small { display: block; margin-top: 3px; font: 400 0.9375rem/1.35 var(--body); color: var(--muted); }
+.track { flex: 1 1 15rem; display: flex; align-items: center; gap: 10px; min-width: 0; }
+.track ol { list-style: none; margin: 0; padding: 0; display: flex; gap: 4px; flex: 1; }
+.track li { flex: 1; height: 6px; border-radius: 3px; background: var(--line); }
+.track li.done { background: var(--found); } .track li.now { background: var(--accent); }
+.track span { font-size: 0.8125rem; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+.next { padding: 14px 16px; border-left: 4px solid var(--accent); display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; }
+.next div { flex: 1 1 18rem; min-width: 0; }
+.next h2 { margin: 0 0 2px; font: 600 0.8125rem/1.3 var(--body); color: var(--muted); }
+.next p { margin: 0; font-size: 1.0625rem; overflow-wrap: anywhere; }
+.next button { min-height: 40px; padding: 8px 14px; border-radius: 8px; border: 1px solid var(--accent); background: var(--accent); color: var(--accent-ink); font-weight: 600; cursor: pointer; }
+.next small { flex: 1 1 100%; color: var(--muted); font-size: 0.8125rem; }
+.next small:empty { display: none; }
+
+.kpis { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.kpis li { padding: 11px 13px; display: flex; flex-direction: column; gap: 1px; }
+.kpis b { font: 700 1.5rem/1.1 var(--display); font-variant-numeric: tabular-nums; }
+.kpis span { font-size: 0.8125rem; color: var(--muted); }
+
+.insights { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 10px; }
+.insights li { padding: 11px 13px; border-left: 4px solid var(--found); font-size: 0.9375rem; overflow-wrap: anywhere; }
+.insights li.risk, .insights li.gap { border-left-color: var(--missing); }
+.insights li b { display: block; font: 600 0.75rem/1.4 var(--body); color: var(--muted); }
+.sec-h { margin: 6px 0 -6px; font: 600 0.8125rem/1.3 var(--body); color: var(--muted); display: flex; justify-content: space-between; gap: 10px; }
+
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.tabs button { padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--sheet); font-weight: 600; font-size: 0.9375rem; cursor: pointer; }
+.tabs button[aria-selected="true"] { border-color: var(--accent); background: var(--wash); box-shadow: inset 0 0 0 1px var(--accent); }
+.tabs button span { font-weight: 400; color: var(--muted); margin-left: 6px; font-variant-numeric: tabular-nums; }
+
+.tasks details { border-top: 1px solid var(--line); }
+.tasks details:first-child { border-top: 0; }
+.tasks summary { list-style: none; display: grid; grid-template-columns: 1.6rem minmax(0, 1fr) auto auto; align-items: center; gap: 10px; padding: 10px 14px; cursor: pointer; }
+.tasks summary::-webkit-details-marker { display: none; }
+.tasks .n { font: 700 0.9375rem/1 var(--display); color: var(--muted); }
+.tasks .t { font-weight: 600; }
+.tasks .m { font-size: 0.8125rem; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.pill { font-size: 0.75rem; font-weight: 600; border-radius: 999px; padding: 2px 9px; border: 1px solid var(--line); color: var(--muted); white-space: nowrap; }
+.pill.done { border-color: var(--found); color: var(--found); }
+.pill.now { border-color: var(--accent); color: var(--accent-ink); background: var(--accent); }
+.rows { list-style: none; margin: 0; padding: 0 14px 10px 3.1rem; }
+.rows li { display: grid; grid-template-columns: 1.1rem minmax(0, 1.1fr) minmax(0, 1.4fr) auto; gap: 8px; align-items: baseline; padding: 6px 0; border-top: 1px dashed var(--line); font-size: 0.875rem; }
+.rows li:first-child { border-top: 0; }
+.rows .s { font-weight: 700; color: var(--muted); } .rows li.done .s { color: var(--found); } .rows li.now .s { color: var(--accent); }
+.rows .k { font-weight: 600; overflow-wrap: anywhere; } .rows .v { color: var(--muted); overflow-wrap: anywhere; }
+
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 0.875rem; }
+th, td { text-align: left; vertical-align: top; padding: 9px 12px; border-top: 1px solid var(--line); }
+thead th { border-top: 0; font: 600 0.8125rem/1.3 var(--body); color: var(--muted); white-space: nowrap; }
+td b { font-weight: 600; } td small { display: block; color: var(--muted); }
+td.num { font-variant-numeric: tabular-nums; }
+.filters { display: flex; flex-wrap: wrap; gap: 6px; padding: 12px 12px 4px; }
+.filters button { padding: 5px 11px; border: 1px solid var(--line); border-radius: 999px; background: var(--sheet); font-size: 0.8125rem; font-weight: 600; cursor: pointer; }
+.filters button[aria-pressed="true"] { border-color: var(--accent); background: var(--wash); }
+.empty { padding: 22px 18px; color: var(--muted); }
+.empty h2 { margin: 0 0 6px; font: 700 1.125rem/1.3 var(--display); color: var(--ink); }
+.empty ol { margin: 8px 0 0; padding-left: 1.3rem; } .empty code { background: var(--paper); padding: 1px 6px; border-radius: 4px; color: var(--ink); }
+.plain { list-style: none; margin: 0; padding: 4px 14px 10px; }
+.plain li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; padding: 8px 0; border-top: 1px dashed var(--line); font-size: 0.875rem; }
+.plain li:first-child { border-top: 0; }
+.plain b { font-weight: 600; overflow-wrap: anywhere; } .plain small { grid-column: 1; color: var(--muted); overflow-wrap: anywhere; }
+.plain .st { grid-column: 2; grid-row: 1 / span 2; align-self: center; color: var(--muted); font-size: 0.8125rem; }
+.plain .st.ok { color: var(--found); font-weight: 600; }
+.pane > h2 { margin: 0; padding: 12px 14px; border-bottom: 1px solid var(--line); font: 700 0.9375rem/1.3 var(--display); display: flex; justify-content: space-between; gap: 10px; }
+.pane > h2 span { font: 400 0.8125rem/1.5 var(--body); color: var(--muted); }
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); gap: 16px; align-items: start; }
+@media (max-width: 720px) {
+  .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .brand span { display: none; }
+  .tasks summary { grid-template-columns: 1.4rem minmax(0, 1fr) auto; row-gap: 0; }
+  .tasks .m { grid-column: 2; grid-row: 2; white-space: normal; }
+  .tasks .pill { grid-column: 3; grid-row: 1 / span 2; }
+  .rows { padding-left: 14px; }
+  .rows li { grid-template-columns: 1.1rem minmax(0, 1fr) auto; }
+  .rows .v { grid-column: 2; grid-row: 2; }
+  thead { display: none; }
+  table, tbody, tr, td { display: block; }
+  tr { border-top: 1px solid var(--line); padding: 8px 0; } tr:first-child { border-top: 0; }
+  td { border: 0; padding: 2px 14px; } td[data-l]::before { content: attr(data-l) ": "; color: var(--muted); }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="bar">
+    <p class="brand">Product OS<span>Board</span></p>
+    <p class="live"><span class="dot" id="dot"></span><span id="liveTxt">Connecting…</span></p>
+  </header>
+
+  <section class="card empty" id="empty" hidden>
+    <h2 id="emptyH">No project on this board yet</h2>
+    <p id="emptyP">Claude runs the project in your chat and keeps this board up to date.</p>
+    <ol id="emptySteps">
+      <li>Go back to your Claude chat.</li>
+      <li>Say <code>Start Product OS</code>.</li>
+      <li>Answer the questions. This board fills in as Claude works.</li>
+    </ol>
+  </section>
+
+  <div id="main" hidden>
+    <div class="wrap" style="padding:0">
+      <section class="card where" aria-label="Where the project is">
+        <h1><span id="name"></span><small id="where"></small></h1>
+        <div class="track"><ol id="track" aria-hidden="true"></ol><span id="trackTxt"></span></div>
+      </section>
+
+      <section class="card next" id="nextBox" aria-label="The next step" hidden>
+        <div><h2>Next step, in your Claude chat</h2><p id="nextTxt"></p></div>
+        <button type="button" id="copySay" hidden></button>
+        <small id="note" role="status"></small>
+      </section>
+
+      <ul class="kpis" id="kpis" aria-label="The project in numbers"></ul>
+
+      <h2 class="sec-h" id="insH" hidden>How the project is doing<span>written by Claude</span></h2>
+      <ul class="insights" id="insights" hidden></ul>
+
+      <div class="tabs" role="tablist" aria-label="Views">
+        <button type="button" role="tab" id="tab-tasks" aria-selected="true" aria-controls="pane-tasks">Tasks</button>
+        <button type="button" role="tab" id="tab-docs" aria-selected="false" aria-controls="pane-docs">Documents</button>
+        <button type="button" role="tab" id="tab-pub" aria-selected="false" aria-controls="pane-pub">Published and connected</button>
+      </div>
+
+      <section class="card tasks" id="pane-tasks" role="tabpanel" aria-labelledby="tab-tasks"></section>
+
+      <section class="card" id="pane-docs" role="tabpanel" aria-labelledby="tab-docs" hidden>
+        <div class="filters" id="filters" role="group" aria-label="Show"></div>
+        <div class="scroll"><table>
+          <thead><tr><th>Document</th><th>Made as</th><th>Phase</th><th>Status</th><th>Open</th><th>Published</th></tr></thead>
+          <tbody id="docRows"></tbody>
+        </table></div>
+        <p class="empty" id="docsEmpty" hidden>No documents match this filter.</p>
+      </section>
+
+      <div class="two" id="pane-pub" role="tabpanel" aria-labelledby="tab-pub" hidden>
+        <section class="card pane"><h2>Jira<span id="jiraMeta"></span></h2><ul class="plain" id="tickets"></ul></section>
+        <section class="card pane"><h2>Confluence<span id="confMeta"></span></h2><ul class="plain" id="pages"></ul></section>
+        <section class="card pane"><h2>Connections<span id="connMeta"></span></h2><ul class="plain" id="conns"></ul></section>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="application/json" id="capabilities">{"db":{},"user":{}}</script>
+<script>
+(function () {
+  var PHASES = ["Intake", "Discovery", "Prioritize", "Define", "Design", "Review", "Deliver", "Launch", "Measure"];
+  var KINDS = { doc: "Claude doc", design: "Claude Design", whiteboard: "Whiteboard", figma: "Figma", figjam: "FigJam", prototype: "Prototype", file: "File", page: "Page" };
+  var STATUS = { planned: ["Planned", ""], asking: ["Questions for you", "now"], writing: ["Being written", "now"], review: ["Ready for your review", "now"], done: ["Done", "done"], skipped: ["Skipped", ""] };
+  var state = null, docs = [], tickets = [], filter = "all", view = "tasks", opened = {}, gotState = false, gotDocs = false, timer = 0;
+  function $(id) { return document.getElementById(id); }
+  function el(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; }
+  function str(v, n) { return typeof v === "string" ? v.slice(0, n || 400) : ""; }
+  function num(v) { return typeof v === "number" && isFinite(v) ? v : 0; }
+  function link(url, text) { if (typeof url !== "string" || !/^https:\/\//.test(url)) return null; var a = el("a", null, text); a.href = url; a.target = "_blank"; a.rel = "noopener"; return a; }
+  function ago(iso) {
+    var t = Date.parse(iso); if (!t) return "";
+    var m = Math.max(0, Math.round((Date.now() - t) / 60000));
+    return m < 1 ? "just now" : m < 60 ? m + (m === 1 ? " minute ago" : " minutes ago") : m < 1440 ? Math.round(m / 60) + (Math.round(m / 60) === 1 ? " hour ago" : " hours ago") : Math.round(m / 1440) + (Math.round(m / 1440) === 1 ? " day ago" : " days ago");
+  }
+  function st(d) { return STATUS[d.status] ? d.status : "planned"; }
+  function phaseState(n) {
+    var forced = state && state.phases && typeof state.phases === "object" ? str(state.phases[String(n)], 20) : "";
+    if (forced === "skipped" || forced === "done") return forced;
+    var ds = docs.filter(function (d) { return d.phase === n; }), touched = ds.filter(function (d) { return st(d) !== "planned"; });
+    if (!ds.length || !touched.length) return "";
+    if (ds.every(function (d) { return st(d) === "done" || st(d) === "skipped"; })) return ds.some(function (d) { return st(d) === "done"; }) ? "done" : "skipped";
+    return "now";
+  }
+  function mark(s) { return s === "done" ? "✓" : STATUS[s][1] === "now" ? "●" : s === "skipped" ? "–" : "○"; }
+
+  function draw() {
+    var has = !!(state && str(state.name, 120)) || docs.length > 0;
+    $("empty").hidden = has || !(gotState && gotDocs); $("main").hidden = !has;
+    if (!has) return;
+    $("name").textContent = str(state && state.name, 120) || "Product OS project";
+    $("where").textContent = str(state && state.where, 200);
+    var done = docs.filter(function (d) { return st(d) === "done"; }).length, open = docs.filter(function (d) { return STATUS[st(d)][1] === "now"; }).length;
+    var tbd = docs.reduce(function (n, d) { return n + num(d.tbd); }, 0), ph = PHASES.map(function (_, i) { return phaseState(i + 1); }), phDone = ph.filter(function (p) { return p === "done"; }).length;
+    var tr = $("track"); tr.textContent = ""; ph.forEach(function (p) { tr.appendChild(el("li", p === "done" ? "done" : p === "now" ? "now" : "")); });
+    $("trackTxt").textContent = phDone + " of 9 phases";
+
+    var nx = str(state && state.next, 400), say = str(state && state.say, 160);
+    $("nextBox").hidden = !nx; $("nextTxt").textContent = nx;
+    $("copySay").hidden = !say; $("copySay").textContent = say ? "Copy “" + say + "”" : ""; $("copySay").setAttribute("data-say", say);
+
+    var kb = $("kpis"); kb.textContent = "";
+    [[done + " of " + docs.length, "documents done"], [open, "in progress"], [tbd, "named TBDs"], [phDone + " of 9", "phases done"]].forEach(function (k) { var li = el("li", "card"); li.appendChild(el("b", null, String(k[0]))); li.appendChild(el("span", null, k[1])); kb.appendChild(li); });
+
+    var ins = (state && Array.isArray(state.insights) ? state.insights : []).filter(function (x) { return x && str(x.text, 400); }).slice(0, 6), ib = $("insights");
+    ib.textContent = ""; $("insH").hidden = ib.hidden = !ins.length;
+    ins.forEach(function (x) { var k = x.kind === "risk" ? "risk" : x.kind === "gap" ? "gap" : "ok", li = el("li", "card " + k); li.appendChild(el("b", null, k === "risk" ? "Risk" : k === "gap" ? "Gap" : "Going well")); li.appendChild(document.createTextNode(str(x.text, 400))); ib.appendChild(li); });
+
+    drawTasks(ph); drawDocs(); drawPublished();
+    $("tab-docs").textContent = "Documents"; $("tab-docs").appendChild(el("span", null, String(docs.length)));
+  }
+  function drawTasks(ph) {
+    var box = $("pane-tasks"); box.textContent = "";
+    PHASES.forEach(function (name, i) {
+      var mine = docs.filter(function (d) { return d.phase === i + 1; }), p = ph[i], d = el("details"), sm = el("summary");
+      d.open = opened[i] != null ? opened[i] : p === "now"; sm.addEventListener("click", function () { opened[i] = !d.open; });
+      sm.appendChild(el("span", "n", String(i + 1))); sm.appendChild(el("span", "t", name));
+      sm.appendChild(el("span", "m", mine.length ? mine.filter(function (x) { return st(x) === "done"; }).length + " of " + mine.length + (mine.length === 1 ? " document" : " documents") : "no documents yet"));
+      sm.appendChild(el("span", "pill " + (p === "done" ? "done" : p === "now" ? "now" : ""), p === "done" ? "Done" : p === "now" ? "In progress" : p === "skipped" ? "Skipped" : "Not started"));
+      d.appendChild(sm);
+      var ul = el("ul", "rows");
+      mine.forEach(function (x) {
+        var s = st(x), li = el("li", s === "done" ? "done" : STATUS[s][1] === "now" ? "now" : "");
+        li.appendChild(el("span", "s", mark(s))); li.appendChild(el("span", "k", str(x.title, 120)));
+        li.appendChild(el("span", "v", STATUS[s][0] + (str(x.agent, 60) ? " · " + str(x.agent, 60) : "") + (str(x.note, 200) ? " · " + str(x.note, 200) : "")));
+        var a = link(x.url, "Open"); if (a) { a.setAttribute("aria-label", "Open " + str(x.title, 120)); li.appendChild(a); } else li.appendChild(el("span"));
+        ul.appendChild(li);
+      });
+      if (!mine.length) { var li = el("li"); li.appendChild(el("span", "s", "○")); li.appendChild(el("span", "v", "Claude adds the documents when this phase starts.")); ul.appendChild(li); }
+      d.appendChild(ul); box.appendChild(d);
+    });
+  }
+  function drawDocs() {
+    var fb = $("filters"); fb.textContent = "";
+    [["all", "All"], ["now", "In progress"], ["done", "Done"], ["planned", "Not started"]].forEach(function (f) {
+      var b = el("button", null, f[1]); b.type = "button"; b.setAttribute("aria-pressed", String(filter === f[0])); b.addEventListener("click", function () { filter = f[0]; drawDocs(); }); fb.appendChild(b);
+    });
+    var rows = docs.filter(function (d) { var s = st(d); return filter === "all" || (filter === "now" ? STATUS[s][1] === "now" : filter === "done" ? s === "done" : s === "planned" || s === "skipped"); }), tb = $("docRows");
+    tb.textContent = ""; $("docsEmpty").hidden = rows.length > 0;
+    rows.forEach(function (x) {
+      var s = st(x), tr = el("tr");
+      var c1 = el("td"); c1.appendChild(el("b", null, str(x.title, 120))); if (str(x.note, 200)) c1.appendChild(el("small", null, str(x.note, 200))); tr.appendChild(c1);
+      var c2 = el("td", null, KINDS[x.kind] || "Document"); c2.setAttribute("data-l", "Made as"); tr.appendChild(c2);
+      var c3 = el("td", null, x.phase >= 1 && x.phase <= 9 ? x.phase + " · " + PHASES[x.phase - 1] : "Extra"); c3.setAttribute("data-l", "Phase"); tr.appendChild(c3);
+      var c4 = el("td"); c4.setAttribute("data-l", "Status"); c4.appendChild(el("span", "pill " + STATUS[s][1], STATUS[s][0])); if (num(x.tbd)) c4.appendChild(el("small", null, num(x.tbd) + (num(x.tbd) === 1 ? " named TBD" : " named TBDs"))); tr.appendChild(c4);
+      var c5 = el("td"); c5.setAttribute("data-l", "Open"); var a = link(x.url, "Open"); if (a) { a.setAttribute("aria-label", "Open " + str(x.title, 120)); c5.appendChild(a); } else c5.textContent = "Not made yet"; tr.appendChild(c5);
+      var c6 = el("td"); c6.setAttribute("data-l", "Published"); var pubs = (Array.isArray(x.published) ? x.published : []).map(function (p) { return p && link(p.url, str(p.where, 40) || "Link"); }).filter(Boolean);
+      if (pubs.length) pubs.forEach(function (p, i) { if (i) c6.appendChild(document.createTextNode(" · ")); c6.appendChild(p); }); else c6.textContent = "Not published"; tr.appendChild(c6);
+      tb.appendChild(tr);
+    });
+  }
+  function drawPublished() {
+    var tb = $("tickets"); tb.textContent = "";
+    tickets.forEach(function (t) { var li = el("li"), b = el("b"), a = link(t.url, str(t.key, 40)); if (a) b.appendChild(a); else b.textContent = str(t.key, 40); b.appendChild(document.createTextNode(" " + str(t.summary, 200))); li.appendChild(b); li.appendChild(el("small", null, [str(t.type, 30), str(t.parent, 40) ? "under " + str(t.parent, 40) : "", num(t.points) ? num(t.points) + (num(t.points) === 1 ? " point" : " points") : ""].filter(Boolean).join(" · "))); tb.appendChild(li); });
+    if (!tickets.length) { var e = el("li"); e.appendChild(el("small", null, "Nothing in Jira yet. Claude creates the epic and tickets after you approve the ticket tree.")); tb.appendChild(e); }
+    var epics = tickets.filter(function (t) { return /^epic$/i.test(str(t.type, 30)); }).length;
+    $("jiraMeta").textContent = tickets.length ? epics + (epics === 1 ? " epic · " : " epics · ") + (tickets.length - epics) + (tickets.length - epics === 1 ? " ticket" : " tickets") : "";
+    var pb = $("pages"), n = 0; pb.textContent = "";
+    docs.forEach(function (x) { (Array.isArray(x.published) ? x.published : []).forEach(function (p) { if (!p || !/confluence/i.test(str(p.where, 40))) return; var a = link(p.url, str(x.title, 120)); if (!a) return; var li = el("li"), b = el("b"); b.appendChild(a); li.appendChild(b); pb.appendChild(li); n++; }); });
+    if (!n) { var e2 = el("li"); e2.appendChild(el("small", null, "Nothing in Confluence yet. Claude publishes after you approve the plan.")); pb.appendChild(e2); }
+    $("confMeta").textContent = n ? n + (n === 1 ? " page" : " pages") : "";
+    var cb = $("conns"), cs = (state && Array.isArray(state.connectors) ? state.connectors : []).filter(function (c) { return c && str(c.name, 60); }); cb.textContent = "";
+    cs.forEach(function (c) { var li = el("li"), ok = /^connected$/i.test(str(c.status, 30)); li.appendChild(el("b", null, str(c.name, 60))); li.appendChild(el("small", null, str(c.detail, 200))); li.appendChild(el("span", "st" + (ok ? " ok" : ""), str(c.status, 30) || "Not checked")); cb.appendChild(li); });
+    if (!cs.length) { var e3 = el("li"); e3.appendChild(el("small", null, "Claude checks your connectors at the start and lists them here.")); cb.appendChild(e3); }
+    $("connMeta").textContent = cs.length ? "checked by Claude" : "";
+  }
+  function show(v) {
+    view = v;
+    [["tasks", "pane-tasks"], ["docs", "pane-docs"], ["pub", "pane-pub"]].forEach(function (p) { $("tab-" + p[0]).setAttribute("aria-selected", String(p[0] === v)); $(p[1]).hidden = p[0] !== v; });
+  }
+  function live(on, text) { $("dot").className = "dot" + (on ? " on" : ""); $("liveTxt").textContent = text; }
+  function stamp() { if (state && str(state.updated, 40)) live(true, "Live · updated by Claude " + ago(state.updated)); else if (gotState) live(true, "Live"); }
+
+  ["tasks", "docs", "pub"].forEach(function (v) { $("tab-" + v).addEventListener("click", function () { show(v); }); });
+  $("copySay").addEventListener("click", function () {
+    var s = $("copySay").getAttribute("data-say") || "";
+    try { navigator.clipboard.writeText(s).then(function () { $("note").textContent = "Copied. Paste it into your Claude chat."; }, function () { $("note").textContent = "Copy did not work here. Type it in your Claude chat."; }); } catch (e) { $("note").textContent = "Copy did not work here. Type it in your Claude chat."; }
+  });
+  setInterval(stamp, 60000);
+
+  function offline(title, text) {
+    gotState = gotDocs = true; state = null; docs = [];
+    $("emptyH").textContent = title; $("emptyP").textContent = text; $("emptySteps").hidden = true; live(false, "Not connected"); draw();
+  }
+  function start(db) {
+    var dead = function (e) { clearTimeout(timer); if (e && (e.code === "revoked" || e.code === "not_granted" || e.code === "capability_disabled")) offline("This board cannot read its data here", "Open it in Claude, signed in as the person it belongs to."); else live(false, "The data cannot be reached right now"); };
+    timer = setTimeout(function () { if (!gotState || !gotDocs) live(false, "Still connecting. The data cannot be reached yet."); }, 10000);
+    function seen(snap) { if (!snap.metadata || !snap.metadata.fromCache) { clearTimeout(timer); } }
+    db.doc("project/state").onSnapshot(function (snap) { gotState = true; state = snap.exists ? snap.data() : null; seen(snap); stamp(); draw(); }, dead);
+    db.collection("documents").limit(200).onSnapshot(function (snap) {
+      gotDocs = true; seen(snap);
+      docs = snap.docs.map(function (d) { var x = d.data() || {}; return { id: d.id, title: x.title, phase: num(x.phase), kind: x.kind, status: x.status, agent: x.agent, url: x.url, published: x.published, tbd: x.tbd, note: x.note, order: num(x.order) }; })
+        .filter(function (x) { return str(x.title, 120); }).sort(function (a, b) { return ((a.phase || 10) - (b.phase || 10)) || (a.order - b.order) || (a.id < b.id ? -1 : 1); });
+      draw();
+    }, dead);
+    db.collection("tickets").limit(300).onSnapshot(function (snap) {
+      tickets = snap.docs.map(function (d) { var x = d.data() || {}; return { key: x.key || d.id, type: x.type, summary: x.summary, url: x.url, parent: x.parent, points: x.points, order: num(x.order) }; }).sort(function (a, b) { return a.order - b.order; });
+      draw();
+    }, function () { /* the tickets list stays as it was */ });
+  }
+  if (window.claude && typeof window.claude.use === "function") {
+    window.claude.use("db").then(function (db) { if (db) start(db); else offline("This board cannot read its data here", "Open it in Claude, signed in as the person it belongs to."); }, function () { offline("This board cannot read its data here", "Open it in Claude, signed in as the person it belongs to."); });
+  } else offline("Open this board in Claude", "This is the Product OS board. It shows a project that Claude runs in your chat, so it needs to be opened as a Claude artifact.");
+})();
+</script>
+</body>
+</html>

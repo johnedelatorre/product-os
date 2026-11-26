@@ -29,7 +29,7 @@
 Product OS is a conversation with an agent. On every interface the question comes from the agent, in the conversation.
 
 1. **A question is never a page title or a document heading.** The title says where the PM is: the project, the phase, the task.
-2. **Every question comes with quick replies.** In the Claude artifact they are chips to tap. In Claude Code, Claude chat and ChatGPT they are numbered options. The PM can always type their own answer.
+2. **Every question comes with quick replies.** In Claude they are choices to tap. In Claude Code and ChatGPT they are numbered options. The PM can always type their own answer.
 3. **Offer real options for this project**, taken from the sources and earlier answers. Add "I don't know yet" to every question.
 4. **After each answer, say one line on what was understood**, then ask the next question.
 5. **Open each turn with where the PM is** and the task counts, from the status board (`.claude/skills/guided-workflow.md` → "The Status Board").

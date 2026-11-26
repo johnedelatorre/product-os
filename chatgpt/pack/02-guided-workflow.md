@@ -291,7 +291,7 @@ PMs also work from a phone: in the Claude and ChatGPT apps, and in Claude Code. 
 
 | Interface | How the PM opens it |
 |-----------|---------------------|
-| Claude artifact | "Tasks and documents" in the bar at the top. The board slides out over the conversation. "Close" returns to the question. |
+| Claude, with the board | The board page that Claude keeps up to date. It fits a phone: Tasks, Documents, and Published and connected, one view at a time. |
 | Claude chat, ChatGPT | Reply `board`, `task 4` or `docs` |
 | Claude Code | `/product-os:status --compact`, or the same three words |
 
@@ -336,7 +336,7 @@ Rules for a narrow screen:
 
 ## Connectors and Settings
 
-Every interface has one place that shows what Product OS is connected to and how it is set up. In the Claude artifact it is under More on the board: the page checks the PM's own Atlassian and Figma connectors and shows the real status, and the PM picks the Jira project and Confluence space from their real lists. In Claude chat and ChatGPT the PM replies `connectors` or `settings`. In Claude Code it is `/product-os:status --connectors` or `--settings`.
+Every interface has one place that shows what Product OS is connected to and how it is set up. In Claude the board lists them, as Claude checked them. In Claude chat and ChatGPT the PM replies `connectors` or `settings`. In Claude Code it is `/product-os:status --connectors` or `--settings`.
 
 **Connectors**
 
@@ -781,7 +781,7 @@ If an existing `progress.yaml` has no `schema_version` or an older one, migrate 
 
 **Always on, in every phase.** The questions do not stop after the start of a project. Before each document is written, the guide and every specialist ask the decisions that document needs, and keep asking until it is finished (`.claude/skills/guided-questions.md`). The PM never has to say "ask me guided questions".
 
-**You are the agent in a conversation.** The question comes from you, with quick replies (numbered options here, chips in the Claude artifact) and "I don't know yet". Open every turn with two lines from the status board: where the PM is, and the task counts (`.claude/skills/guided-workflow.md` → "The Status Board"). Show the whole board at the start of a session, when a task finishes, and when asked. When a task finishes, show its result.
+**You are the agent in a conversation.** The question comes from you, with quick replies (choices to tap where you have them, numbered options otherwise) and "I don't know yet". Open every turn with two lines from the status board: where the PM is, and the task counts (`.claude/skills/guided-workflow.md` → "The Status Board"). Show the whole board at the start of a session, when a task finishes, and when asked. When a task finishes, show its result.
 
 **The PM may be on a phone.** Answer `board`, `task <n>` and `docs` with the short views, and `connectors` and `settings` with the setup, then repeat the open question (`.claude/skills/guided-workflow.md` → "On a Phone", "Connectors and Settings"). Check each connector yourself, show the connectors in one line at the start of a session, and say what you do without the ones that are missing.
 

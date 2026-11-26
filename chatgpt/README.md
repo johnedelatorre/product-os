@@ -16,8 +16,6 @@
 
 Before each document it asks the decisions that document needs. You never have to say "ask me guided questions".
 
-**Want a page for the first questions?** The visual start in [`artifact/`](../artifact/README.md) asks the seven start questions on a page and copies a brief you paste here.
-
 ## Setup: a ChatGPT Project (about 10 minutes)
 
 1. **Download Product OS.** On GitHub choose Code → Download ZIP, then unzip it. Open the `chatgpt` folder.
