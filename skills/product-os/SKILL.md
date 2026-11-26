@@ -38,12 +38,12 @@ Read these four playbooks. They are always on.
 
 ## The workspace page
 
-Product OS has a visual workspace: the conversation with the guide beside a board of every task.
+Product OS has a workspace page with a UI: the conversation with the guide beside a board of every task. It runs all nine phases itself: it writes each document through Claude, reads the PM's files, and uses the PM's own Jira, Confluence and Figma connectors to read screens and publish.
 
-When the PM asks to open the workspace, the board as a page, or the visual start:
+When the PM asks to open the workspace, the UI, the board as a page, or the visual start:
 
-1. Publish `assets/product-os-start.html` as an artifact in the PM's own account, titled "Product OS". Publish the file as it is. Do not rewrite it.
-2. Declare the `sample` capability for it. The page asks Claude through that capability; without it the page asks fixed questions.
+1. Publish `assets/product-os.html` as an artifact in the PM's own account, titled "Product OS". Publish the file as it is. Do not rewrite it.
+2. Declare the capabilities listed in the page's `<script type="application/json" id="capabilities">` block, exactly as written there: asking Claude with images, saving files, and the Atlassian Rovo and Figma connectors with the tools the page calls. Without them the page only asks the start questions and tracks documents.
 3. Give the PM the link. It is their artifact, private to them until they share it.
 
 If you cannot publish artifacts in this session, say so and send the file.
