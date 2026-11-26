@@ -57,6 +57,24 @@ a.open { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; 
 a.badge:hover { text-decoration: underline; }
 .set { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
 
+.how > summary { list-style: none; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; padding: 14px 24px; cursor: pointer; }
+.how > summary::-webkit-details-marker { display: none; }
+.how-t { font: 700 1.1875rem/1.3 var(--display); }
+.how-s { color: var(--muted); font-size: 1rem; flex: 1; }
+.how-x::after { content: "Show"; font: 600 0.9375rem/1 var(--body); color: var(--accent-text); border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px; display: inline-block; }
+.how[open] .how-x::after { content: "Hide"; }
+.how[open] > summary { border-bottom: 1px solid var(--line); }
+.steps { list-style: none; counter-reset: step; margin: 0; padding: 20px 24px 4px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px 28px; }
+.steps li { counter-increment: step; color: var(--muted); font-size: 1rem; padding-left: 2.7rem; position: relative; }
+.steps li::before { content: counter(step); position: absolute; left: 0; top: 0; width: 2rem; height: 2rem; border-radius: 50%; background: var(--wash); color: var(--accent-text); border: 1px solid var(--accent); font: 700 1rem/2rem var(--display); text-align: center; }
+.steps b { display: block; color: var(--ink); font: 700 1.0625rem/1.35 var(--display); margin-bottom: 2px; }
+.how-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 40px; padding: 16px 24px 20px; }
+.how-cols h3 { margin: 8px 0 10px; font: 600 1rem/1.3 var(--body); color: var(--muted); }
+.legend, .says { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
+.legend li { display: grid; grid-template-columns: 13.5rem minmax(0, 1fr); gap: 12px; align-items: center; font-size: 1rem; color: var(--muted); }
+.legend li > span:first-child { display: flex; }
+.says li { display: grid; grid-template-columns: 13.5rem minmax(0, 1fr); gap: 12px; align-items: baseline; font-size: 1rem; color: var(--muted); }
+.says q { quotes: "“" "”"; font-weight: 600; color: var(--accent-text); }
 .where { padding: 20px 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; }
 .where h1 { margin: 0; font: 700 1.875rem/1.15 var(--display); flex: 1 1 18rem; min-width: 0; text-wrap: balance; }
 .where h1 small { display: block; margin-top: 6px; font: 400 1.125rem/1.35 var(--body); color: var(--muted); }
@@ -131,6 +149,10 @@ td a { font-weight: 600; }
 .pane > h2 { margin: 0; padding: 16px 20px; border-bottom: 1px solid var(--line); font: 700 1.1875rem/1.3 var(--display); display: flex; justify-content: space-between; gap: 10px; }
 .pane > h2 span { font: 400 0.9375rem/1.6 var(--body); color: var(--muted); }
 .two { display: grid; grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr)); gap: 20px; align-items: start; }
+@media (max-width: 1100px) {
+  .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .how-cols { grid-template-columns: minmax(0, 1fr); }
+}
 @media (max-width: 980px) {
   .rows li { grid-template-columns: minmax(0, 1fr) auto; }
   .rows .set { grid-column: 1; grid-row: 2; }
@@ -152,6 +174,8 @@ td a { font-weight: 600; }
   tr { border-top: 1px solid var(--line); padding: 10px 0; } tr:first-child { border-top: 0; }
   td { border: 0; padding: 3px 14px; } td[data-l]::before { content: attr(data-l) ": "; color: var(--muted); }
   .plain { padding: 4px 14px 10px; } .pane > h2 { padding: 14px; }
+  .how > summary { padding: 12px 14px; } .steps { grid-template-columns: minmax(0, 1fr); padding: 16px 14px 4px; gap: 14px; } .how-cols { padding: 12px 14px 16px; }
+  .legend li, .says li { grid-template-columns: minmax(0, 1fr); gap: 3px; }
   .guide { padding: 16px 14px 4px; } .group { padding: 14px 14px 6px; } .agents { padding: 0 14px 10px; }
   .agents li { grid-template-columns: minmax(0, 1fr); }
 }
@@ -171,6 +195,32 @@ td a { font-weight: 600; }
       </div>
     </div>
   </header>
+
+  <details class="card how" id="how" open>
+    <summary><span class="how-t">How Product OS works</span><span class="how-s">A one-minute guide</span><span class="how-x" aria-hidden="true"></span></summary>
+    <ol class="steps">
+      <li><b>Claude leads, in your chat</b>It asks one question at a time. You tap an answer or type your own.</li>
+      <li><b>An agent takes each step</b>Claude brings in the right one, such as the PRD Author, and tells you who is working.</li>
+      <li><b>You decide</b>Nothing is written before your yes to the plan, and nothing is published before your yes to the publish plan.</li>
+      <li><b>This board keeps score</b>It updates by itself. You only read it. Every answer goes in the chat.</li>
+    </ol>
+    <div class="how-cols">
+      <div>
+        <h3>What the badges mean</h3>
+        <ul class="legend" id="legend"></ul>
+      </div>
+      <div>
+        <h3>Things you can say in your chat</h3>
+        <ul class="says">
+          <li><q>What is next?</q><span>Claude offers the next step.</span></li>
+          <li><q>Show me the plan</q><span>Every document it will make, and for whom.</span></li>
+          <li><q>Come back to this later</q><span>Skips a question. It is kept as an open item.</span></li>
+          <li><q>connectors</q><span>What is connected: Jira, Confluence, Figma.</span></li>
+          <li><q>Write the PRD</q><span>Calls one agent directly. The Agents tab lists all 41.</span></li>
+        </ul>
+      </div>
+    </div>
+  </details>
 
   <section class="card empty" id="empty" hidden>
     <h2 id="emptyH">No project on this board yet</h2>
@@ -233,7 +283,7 @@ td a { font-weight: 600; }
       </section>
     </div>
   </div>
-  <p class="credit">Product OS™ 1.9.1 · © 2026 John De La Torre-Ugarte · <a href="https://github.com/johnedelatorre/product-os" target="_blank" rel="noopener">open source on GitHub</a></p>
+  <p class="credit">Product OS™ 1.9.2 · © 2026 John De La Torre-Ugarte · <a href="https://github.com/johnedelatorre/product-os" target="_blank" rel="noopener">open source on GitHub</a></p>
 </div>
 
 <script type="application/json" id="agents">[{"name":"Intake Analyst","does":"Transform raw, unstructured requirements into clear problem/opportunity statements.","phase":1,"say":"Run intake on this request"},{"name":"Opportunity Solution Tree","does":"Creates and maintains opportunity solution trees for structured discovery and problem exploration.","phase":2,"say":"Build the opportunity tree"},{"name":"Hypothesis Logger","does":"Tracks product hypotheses from formation through validation with structured outcomes.","phase":2,"say":"Log our hypotheses"},{"name":"Market Analyst","does":"Creates market analysis briefs covering market size, trends, segments, and strategic positioning.","phase":2,"say":"Write the market analysis"},{"name":"Competitive Analyst","does":"Analyze competitive landscape and create comparison matrices.","phase":2,"say":"Compare us with the competitors"},{"name":"UX Researcher","does":"Create user research plans and synthesize interview findings.","phase":2,"say":"Plan the user research"},{"name":"Strategist","does":"Score and prioritize features using RICE, WSJF, MoSCoW, and Kano frameworks.","phase":3,"say":"Score this with RICE"},{"name":"Roadmap","does":"Create Now/Next/Later roadmaps that communicate product direction.","phase":3,"say":"Place it on the roadmap"},{"name":"OKR","does":"Define OKRs and metric trees that connect product work to business outcomes.","phase":3,"say":"Write the OKRs"},{"name":"PRD Author","does":"Write comprehensive Product Requirements Documents with full strategic context, business rationale, and measurable outcomes.","phase":4,"say":"Write the PRD"},{"name":"PR/FAQ Author","does":"Write Amazon-style Press Release and FAQ documents.","phase":4,"say":"Write the PR/FAQ"},{"name":"Project Brief Author","does":"Create one-page executive project briefs for stakeholder alignment.","phase":4,"say":"Write the project brief"},{"name":"Metrics Designer","does":"Defines north-star metrics, guardrails, and success criteria for product initiatives.","phase":4,"say":"Write the metrics framework"},{"name":"Project Planner","does":"Create RACI matrices, Gantt charts, and project timelines.","phase":4,"say":"Write the project plan"},{"name":"Risk Manager","does":"Identify, assess, and track product and project risks.","phase":4,"say":"List the risks"},{"name":"Dependency Tracker","does":"Maintains a risk and dependency register integrated with RACI and project planning.","phase":4,"say":"List the dependencies"},{"name":"Experiment Designer","does":"Design A/B tests with proper hypothesis, sample size, and success criteria.","phase":4,"say":"Design an A/B test"},{"name":"Event Tracker","does":"Creates event tracking plans for analytics platforms (Pendo, Amplitude, Mixpanel, Segment, etc.).","phase":4,"say":"Write the tracking plan"},{"name":"Product Designer","does":"Create design briefs that translate PRD requirements into design direction.","phase":5,"say":"Write the design brief"},{"name":"Flow Designer","does":"Create comprehensive user flows, journey maps, sitemaps, and system flows from PRD and design brief.","phase":5,"say":"Draw the user flows"},{"name":"Wireframer","does":"Create low-fidelity wireframes that structure screens defined by user flows.","phase":5,"say":"Make the wireframes"},{"name":"Prototyper","does":"Create clickable, self-contained HTML/React prototypes from wireframes and flows, including the end-to-end handoff prototype for the team.","phase":5,"say":"Build the clickable prototype"},{"name":"Figma","does":"Integrate with Figma via MCP to sync designs, extract tokens, and audit against PRD.","phase":5,"say":"Sync the designs with Figma"},{"name":"Design Critique","does":"Structured critique of visual designs with severity-rated findings and concrete fixes.","phase":6,"say":"Run the design critique"},{"name":"UX Writer","does":"Run the UX writing pass on the real designs, paired with the design critique, and write the UX writing guide with the final copy for every screen.","phase":6,"say":"Run the UX writing pass"},{"name":"UX Reviewer","does":"Evaluate designs against Nielsen's heuristics, Laws of UX, and established patterns.","phase":6,"say":"Run the UX review"},{"name":"Accessibility Auditor","does":"Comprehensive WCAG 2.2 AA accessibility audit with automated and manual testing.","phase":6,"say":"Run the accessibility audit"},{"name":"Delivery","does":"Turn the PRD and designs into a short engineering handoff: one epic that links to everything, lean tickets with estimates, and a ticket tree the PM approves.","phase":7,"say":"Write the epic and tickets"},{"name":"Gate Keeper","does":"Enforces Definition of Ready (DoR) and Definition of Done (DoD) gates for stories before sprint.","phase":7,"say":"Check the tickets are ready"},{"name":"Confluence Publisher","does":"Publish all project artifacts to Confluence with proper hierarchy and backlog tables.","phase":7,"say":"Show me the Confluence publish plan"},{"name":"Jira Sync","does":"Create and sync epics and stories to Jira with story points, labels, dates, and dependencies.","phase":7,"say":"Show me the Jira ticket tree"},{"name":"Launch Manager","does":"Coordinates go-to-market activities including release notes, enablement materials, and changelog updates.","phase":8,"say":"Prepare the launch"},{"name":"Stakeholder Comms","does":"Generate stakeholder updates, executive summaries, release notes, and launch communications.","phase":8,"say":"Write the stakeholder update"},{"name":"Post-Launch Reviewer","does":"Conducts post-launch reviews comparing actual results against PRD goals and feeding insights back to intake.","phase":9,"say":"Run the post-launch review"},{"name":"Retro Facilitator","does":"Facilitate retrospectives and document learnings.","phase":9,"say":"Run a retro"},{"name":"Guide","does":"Walk PMs through the complete product lifecycle, phase by phase, tracking progress and adapting to their needs.","phase":0,"say":"Start Product OS"},{"name":"Orchestrator","does":"Coordinate the Product OS pipeline by routing work between specialist agents with defined inputs, outputs, and human checkpoints.","phase":0,"say":"Run the whole pipeline"},{"name":"Decision Logger","does":"Document product decisions in ADR (Architecture Decision Record) style.","phase":0,"say":"Log this decision"},{"name":"Artifact Registry","does":"Maintains a centralized manifest of all design and product artifacts with status tracking and link validation.","phase":0,"say":"List every document and design"},{"name":"Debt Tracker","does":"Maintains a unified tracker for technical debt and design debt with prioritization.","phase":0,"say":"Track this debt"},{"name":"Doc Cleaner","does":"Clean version history out of project docs, Confluence pages, epics and Jira tickets so they show the current state only.","phase":0,"say":"Clean the history out of the documents"}]</script>
@@ -393,6 +443,15 @@ td a { font-weight: 600; }
       mine.forEach(function (a) { var li = el("li"); li.appendChild(el("b", null, str(a.name, 80))); li.appendChild(el("span", null, str(a.does, 300))); li.appendChild(el("q", null, str(a.say, 120))); ul.appendChild(li); });
       box.appendChild(h); box.appendChild(ul);
     });
+  })();
+
+  // The guide at the top: open until the reader hides it. The choice is kept in this browser only.
+  (function () {
+    var lg = $("legend"), how = $("how"), HOW = "product-os-board-guide";
+    [["ok", "Done", "Finished, and you accepted it."], ["now", "In progress", "Claude is working on it."], ["you", "Questions for you", "Claude is waiting for you in the chat."], ["you", "Ready for your review", "Read it, then accept it or ask for a change."], ["miss", "3 TBDs", "Facts still missing. Each one is named in the document."], ["idle", "Not started", "Planned, and not begun yet."], ["skip", "Skipped", "Left out of this project."]]
+      .forEach(function (r) { var li = el("li"), w = el("span"); w.appendChild(badge(r[0], r[1])); li.appendChild(w); li.appendChild(el("span", null, r[2])); lg.appendChild(li); });
+    try { if (window.localStorage.getItem(HOW) === "closed") how.open = false; } catch (e) { /* stays open */ }
+    how.addEventListener("toggle", function () { try { window.localStorage.setItem(HOW, how.open ? "open" : "closed"); } catch (e) { /* the choice lasts for this visit only */ } });
   })();
 
   // Colours: follow the device, or the reader's own choice. The choice is kept in this browser only.
