@@ -30,14 +30,20 @@ Ask first, at the start of a project, before intake and before any document is w
 | # | Ask | What it is used for |
 |---|-----|---------------------|
 | 1 | **What are you building, and for whom?** One or two sentences. | The frame for everything else |
-| 2 | **The request.** Proposals, emails, meeting notes, tickets, customer feedback. | Intake: the problem and its evidence, in the requester's own words |
-| 3 | **How the product works today.** Existing PRDs, platform or product documentation, the roadmap. | PRD: what already exists, so requirements do not repeat or contradict it |
-| 4 | **Technical context.** The tech stack, architecture documents, backend schemas, API documentation. | Feasibility, backend tickets that link to real schemas, and the schema the PM can attach to the epic |
-| 5 | **Design context.** Existing designs, a design system or component library, a previous project to follow, brand guidelines. | Design brief, wireframes and the final design: what the product should look like |
-| 6 | **Data.** Analytics, metric baselines, research findings. | Success metrics with real baselines instead of TBDs |
-| 7 | **Constraints.** The deadline, who builds it (how many engineers, frontend and backend), compliance or legal limits. | Scope, estimates and the plan |
+| 2 | **Where did this come from?** Who asked, when, and why now: a customer, an executive, a data signal, a competitor move. | Intake: the origin of the initiative, stated plainly |
+| 3 | **The request.** Proposals, emails, meeting notes, tickets. | Intake: the problem and its evidence, in the requester's own words |
+| 4 | **Customer feedback.** Interview notes, support tickets, survey results, call recordings or summaries. | The evidence for the problem, and the users it affects |
+| 5 | **Market.** Competitive analysis, market research, analyst notes. | PRD background, positioning and what "good" looks like elsewhere |
+| 6 | **Data.** Product analytics (Pendo or another tool), metric baselines, research findings. | Success metrics with real baselines instead of TBDs |
+| 7 | **How the product works today.** Existing PRDs, platform or product documentation, the roadmap. | PRD: what already exists, so requirements do not repeat or contradict it |
+| 8 | **Technical context.** The tech stack, architecture documents, backend schemas, API documentation. | Feasibility, backend tickets that link to real schemas, and the schema the PM can attach to the epic |
+| 9 | **Design context.** Existing designs, a design system or component library, a previous project to follow, brand guidelines. | Design brief, wireframes and the final design: what the product should look like |
+| 10 | **Constraints.** The deadline, who builds it (how many engineers, frontend and backend), compliance or legal limits. | Scope, estimates and the plan |
 
-End with: **"Is there anything else I should read?"**
+Then two closing questions:
+
+1. **"Is there anything else I should read?"**
+2. **"Which of these do you want to see in the PRD?"** List what the PM gave. What they pick is cited in the PRD's background and evidence. The rest still informs the work, and is not quoted.
 
 Save what the PM gave in `progress.yaml`:
 
@@ -45,18 +51,25 @@ Save what the PM gave in `progress.yaml`:
 context:
   building: "Self-serve signup for small teams, so they can start without a sales call"
   sources:
-    - kind: request          # request | product | technical | design | data | constraints | other
+    - kind: request          # origin | request | feedback | market | data | product | technical | design | constraints | other
       ref: "emails/ceo-ask-2026-11-02.md"
       note: "The original ask"
+      in_prd: true           # the PM wants this cited in the PRD
+    - kind: data
+      ref: "pendo/signup-funnel-2026-10.csv"
+      note: "Signup funnel, last 30 days"
+      in_prd: true
     - kind: technical
       ref: "https://example.com/wiki/backend-schema"
       note: "Current accounts schema"
-  not_provided: [data]       # kinds the PM said they do not have
+      in_prd: false
+  not_provided: [market]     # kinds the PM said they do not have
 ```
 
 Rules:
 1. **Read everything the PM gave before writing.** Each agent reads the sources of the kinds it uses.
-2. **Say where facts come from.** A fact taken from a source names it ("per the accounts schema").
+2. **Say where facts come from.** A fact taken from a source names it ("per the accounts schema", "Pendo, last 30 days").
+2a. **The PM chooses what the PRD shows.** Cite the sources marked `in_prd` in the PRD's background and evidence. Use the others to get things right, without quoting them.
 3. **Never invent what a source does not say.** A gap is a named TBD: what is missing and who provides it.
 4. **"I don't have that" never blocks.** Record the kind under `not_provided` and continue. The PM can add a source any time.
 5. **Do not ask twice.** On resume, ask only for kinds that are neither in `sources` nor in `not_provided`.

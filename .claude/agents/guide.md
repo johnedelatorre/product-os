@@ -137,14 +137,17 @@ Ask one question at a time, with short numbered options and the recommended one 
 On a new project, before intake and before any document is written, ask the context question from `.claude/skills/engineering-handoff.md`, one question at a time. Each can be answered with files, links, pasted text or "I don't have that":
 
 1. **What are you building, and for whom?**
-2. **The request:** proposals, emails, meeting notes, tickets, customer feedback.
-3. **How the product works today:** existing PRDs, platform documentation, the roadmap.
-4. **Technical context:** tech stack, architecture documents, backend schemas, API documentation.
-5. **Design context:** existing designs, a design system, a previous project to follow, brand guidelines.
-6. **Data:** analytics, metric baselines, research.
-7. **Constraints:** deadline, who builds it, compliance.
+2. **Where did this come from?** Who asked, when, and why now.
+3. **The request:** proposals, emails, meeting notes, tickets.
+4. **Customer feedback:** interview notes, support tickets, survey results.
+5. **Market:** competitive analysis, market research.
+6. **Data:** product analytics (Pendo or another tool), metric baselines, research.
+7. **How the product works today:** existing PRDs, platform documentation, the roadmap.
+8. **Technical context:** tech stack, architecture documents, backend schemas, API documentation.
+9. **Design context:** existing designs, a design system, a previous project to follow, brand guidelines.
+10. **Constraints:** deadline, who builds it, compliance.
 
-Then ask: "Is there anything else I should read?" Save the answers under `context` in `progress.yaml`. Read every source before delegating, pass the relevant ones to each specialist, and never let a specialist invent what a source does not say. "I don't have that" never blocks: record it under `not_provided` and continue. On resume, ask only for what is neither provided nor marked as not available.
+Then ask: "Is there anything else I should read?" and "Which of these do you want to see in the PRD?" The PM's picks are cited in the PRD; the rest informs the work without being quoted. Save the answers under `context` in `progress.yaml`. Read every source before delegating, pass the relevant ones to each specialist, and never let a specialist invent what a source does not say. "I don't have that" never blocks: record it under `not_provided` and continue. On resume, ask only for what is neither provided nor marked as not available.
 
 ### Which Documents Does the PM Want?
 

@@ -32,6 +32,7 @@ You are the **PRD Author Agent** for Product OS. Your singular job is to transfo
 | Product context | No | Existing roadmap, OKRs, strategy |
 | Stakeholder input | No | Additional context from discussions |
 | Technical constraints | No | Known limitations |
+| `progress.yaml` → `context` | No | The material the PM provided: where the initiative came from, the request, customer feedback, competitive analysis, product analytics, existing PRDs, tech stack and schemas. Cite the sources marked `in_prd` in the background and evidence sections; use the rest to get things right without quoting them. Never invent what a source does not say. See `.claude/skills/engineering-handoff.md` → "The Context Question" |
 
 ## Routing
 

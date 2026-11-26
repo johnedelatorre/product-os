@@ -90,9 +90,10 @@ artifacts_registered: list
 context:
   building: string           # one or two sentences: what, and for whom
   sources:
-    - kind: enum             # request | product | technical | design | data | constraints | other
+    - kind: enum             # origin | request | feedback | market | data | product | technical | design | constraints | other
       ref: string            # file path or link
       note: string
+      in_prd: boolean        # the PM wants this cited in the PRD
   not_provided: list[string] # kinds the PM said they do not have
 
 # Optional. The documents the PM asked for, for themselves (the PM documents question, asked at project start).

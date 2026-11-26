@@ -41,7 +41,7 @@ Product OS does not produce every document it can. It asks guided questions, one
 
 | Question | When | What it decides |
 |----------|------|-----------------|
-| **What are you building, and what do you already have?** | First, before anything is written | The context every agent works from: the request, proposals and emails, existing PRDs and platform docs, the tech stack and backend schemas, existing designs, data and constraints. "I don't have that" is always a valid answer. |
+| **What are you building, and what do you already have?** | First, before anything is written | The context every agent works from: where the initiative came from, the request, proposals and emails, customer feedback, competitive analysis, product analytics such as Pendo, existing PRDs and platform docs, the tech stack and backend schemas, existing designs, and constraints. It then asks which of these you want to see in the PRD. "I don't have that" is always a valid answer. |
 | **Which documents do you want for yourself?** | Start of a project | Whether you get a RACI chart, a Gantt chart, a project plan, a design brief, the design reviews and so on. Only what you pick is created. |
 | **What goes to the team?** | Start of Deliver | The standard handoff (recommended) or everything, plus any other output you want attached to the epic, such as wireframes, a schema or your Gantt chart. |
 | **Which design is final?** | Start of Deliver, when you have both | The team gets one: the Figma file or the Claude design. |
@@ -205,7 +205,7 @@ This is the whole workflow, in order. Guided mode walks you through it and asks 
 | **Check before moving on** | What you confirm before the next step |
 | **Example** | The same document, filled in, from the fictional Acme project |
 
-**Before you start:** pick an initiative name and a project name, and gather what you have. Product OS asks for it first, one question at a time: the request (proposals, emails, tickets), existing PRDs and platform docs, the tech stack and any backend schemas, existing designs or a previous project to follow, data, and constraints. You do not need all of it. Existing documents are detected and marked done.
+**Before you start:** pick an initiative name and a project name, and gather what you have. Product OS asks for it first, one question at a time: where the initiative came from, the request (proposals, emails, tickets), customer feedback, competitive analysis, product analytics, existing PRDs and platform docs, the tech stack and any backend schemas, existing designs or a previous project to follow, and constraints. You do not need all of it. Existing documents are detected and marked done.
 
 ### Step 1. Intake: turn the request into a problem
 
