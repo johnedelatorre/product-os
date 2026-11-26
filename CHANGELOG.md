@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.8.2] - 2026-11-26
+
+### Added
+- **Privacy page** — `PRIVACY.md`: Product OS collects nothing, and everything stays in the PM's own Claude, Atlassian and Figma accounts. The directory copy links to it and carries keywords, a support link and a documentation link.
+
+### Changed
+- **The board loads nothing from outside Claude** — it no longer fetches web fonts and uses the fonts on the reader's device.
+
 ## [1.8.1] - 2026-11-26
 
 ### Changed

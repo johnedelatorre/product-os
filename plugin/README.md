@@ -26,8 +26,10 @@ Product OS is a set of instructions, templates and one board page. It has no ser
 3. When you ask for it, Claude reads and writes designs in your own Figma account, through your own Figma connector.
 4. The board keeps the project's state in its own database in your Claude account. Only people you share the board with can see it.
 
+[Privacy](https://github.com/johnedelatorre/product-os/blob/main/PRIVACY.md)
+
 ## Source and license
 
 Product OS is open source under the MIT License: https://github.com/johnedelatorre/product-os
 
-Product OS 1.8.1. Copyright 2026 John De La Torre-Ugarte.
+Product OS 1.8.2. Copyright 2026 John De La Torre-Ugarte.

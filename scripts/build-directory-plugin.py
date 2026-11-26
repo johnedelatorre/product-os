@@ -69,6 +69,8 @@ Product OS is a set of instructions, templates and one board page. It has no ser
 3. When you ask for it, Claude reads and writes designs in your own Figma account, through your own Figma connector.
 4. The board keeps the project's state in its own database in your Claude account. Only people you share the board with can see it.
 
+[Privacy](https://github.com/johnedelatorre/product-os/blob/main/PRIVACY.md)
+
 ## Source and license
 
 Product OS is open source under the MIT License: https://github.com/johnedelatorre/product-os
@@ -152,6 +154,10 @@ def build():
         "homepage": root["homepage"],
         "repository": root["repository"],
         "license": root["license"],
+        "keywords": ["product management", "product design", "prd", "user flows", "ux writing", "jira", "confluence", "figma"],
+        "privacyPolicyUrl": root["repository"] + "/blob/main/PRIVACY.md",
+        "supportUrl": root["repository"] + "/issues",
+        "documentationUrl": root["repository"] + "#readme",
     }
     files[".claude-plugin/plugin.json"] = json.dumps(manifest, indent=2, ensure_ascii=False) + "\n"
     with io.open(os.path.join(ROOT, ".claude-plugin", "icon.png"), "rb") as fh:
@@ -159,6 +165,7 @@ def build():
     files["README.md"] = README.format(name=NAME, version=version)
     files["LICENSE"] = io.open(os.path.join(ROOT, "LICENSE"), encoding="utf-8").read()
     files["NOTICE.md"] = clean(io.open(os.path.join(ROOT, "NOTICE.md"), encoding="utf-8").read())
+    files["PRIVACY.md"] = io.open(os.path.join(ROOT, "PRIVACY.md"), encoding="utf-8").read()
 
     problems = []
     for rel, content in files.items():

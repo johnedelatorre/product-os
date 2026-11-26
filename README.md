@@ -4,7 +4,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Product OS™ 1.8.1 · Copyright © 2026 John De La Torre-Ugarte · Code and documents under the [MIT License](LICENSE) · [Name and brand](TRADEMARKS.md)
+Product OS™ 1.8.2 · Copyright © 2026 John De La Torre-Ugarte · Code and documents under the [MIT License](LICENSE) · [Name and brand](TRADEMARKS.md)
 
 ![The Product OS board on a desktop screen and on a phone: where the project is, the next step, four numbers, three insights, and the nine phases with their status](docs/images/hero.jpg)
 
@@ -1219,6 +1219,8 @@ Product OS is a set of instructions, templates and one board page. It has no ser
 3. **Figma:** when you ask for it, Claude reads and writes designs in your own Figma account, through your own Figma connector.
 4. **The board** keeps the project's state (names, statuses, links and notes) in its own database in your Claude account. Only people you share the board with can see it.
 5. **In Claude Code only, and only if you run it:** `scripts/atlassian-fallback.py` sends documents to your Atlassian site with the credentials you put in your own `.env` file. The other scripts and tests check the repo's files and send nothing.
+
+The full statement: [Privacy](PRIVACY.md).
 
 ## License and Name
 
