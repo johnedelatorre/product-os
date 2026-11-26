@@ -63,6 +63,8 @@ Engineers and heads of product told us the full document set was too much to rea
 | 6 | **The epic** | Where the team starts. Links to 1–5, in its description and as Jira links |
 | 7 | **Short tickets** | User story, problem, requirements, a link to that ticket's own design page, a "Done when" checklist, an estimate, sub-tasks |
 
+**Specific, not generic.** Every ticket line names a real screen, component, field or rule in the project. Filler such as "handle errors gracefully" is not allowed, lists stop at 5 lines, and the epic and every ticket get a final Clear Output pass and a ready-to-run check, so the team can start from the tickets as they are.
+
 Low-fidelity wireframes and a schema are optional extras. **Backend tickets stay high level**: Product OS says what the backend must do and leaves an "Engineering to complete" section for the engineers. Everything else you asked for lives under one **PM workspace** page in Confluence, for you. Rules: [`.claude/skills/engineering-handoff.md`](.claude/skills/engineering-handoff.md).
 
 ---

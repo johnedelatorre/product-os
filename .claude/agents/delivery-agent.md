@@ -90,6 +90,8 @@ Before writing anything, check `progress.yaml` for a `handoff` block. When it is
 
 **[Subtitle: one line on the outcome this epic delivers]**
 
+**Start here:** open the [end-to-end prototype](link) for the whole journey, then pick up STORY-001. Everything else you need is in the Handoff table.
+
 ### What and why
 [2–4 sentences: what this epic delivers, for whom, and the problem it solves. The PRD holds the detail.]
 
@@ -148,7 +150,7 @@ One layout per story, matching `docs/reference/document-format.md` §4. Every fi
 **Problem:** [One or two sentences: what is broken or missing for this user today.]
 
 ### Requirements
-- [What to build, in 3–6 short lines.]
+- [What to build, in 3–5 short lines.]
 - [Name the labels, components, rules and data an engineer needs.]
 
 ### UX and design requirements
@@ -190,11 +192,13 @@ X points · `frontend` / `backend` / `fullstack` · PRD: REQ-XXX · Depends on: 
 
 1. **Requirements are short lines, not paragraphs.** Say what to build. Name the exact labels, components, fields and rules. Skip background: the PRD has it.
 2. **Each ticket links to its own design.** One page or frame in the main Figma file per ticket, plus its step in the prototype. "No UI" for backend-only work.
-3. **Done when is a checklist.** 3–6 plain sentences, each one checkable by a tester, covering the main path and the one or two cases that matter. No Given/When/Then.
+3. **Done when is a checklist.** 3–5 plain sentences, each one checkable by a tester, covering the main path and the one or two cases that matter. No Given/When/Then.
 4. **Estimate is one line.** The reasoning goes in PM notes.
 5. **Sub-tasks are optional and carry no points.** Use the kinds the PM chose in the outputs question.
 6. **PM notes stay local.** Jira Sync and the Confluence Publisher never copy that section.
 7. **Every ticket has a one- or two-sentence Problem line** under the user story. High level only.
+7a. **Specific, not generic.** Every line names something real in this project: a screen, a component, a field, a label, a rule, a value. If a line could be pasted into another project's ticket unchanged, delete it or make it specific. Never write filler such as "handle errors gracefully" or "ensure a good user experience". No analysis or background in the ticket.
+7b. **At most 5 lines per list.** Requirements, UX and design requirements, Done when and Sub-tasks. More than 5 means the ticket is two tickets.
 8. **Backend tickets are completed by the engineers.** Write the user story the work serves, the problem, high-level requirements (what the backend must do, the data in and out, the rules) and Done when. Mark the estimate "(proposed; engineering confirms)". Leave **Engineering to complete** empty. Never invent endpoints, table names, schemas or architecture; link to the PRD or the attached schema when they name one.
 
 ---
@@ -219,6 +223,20 @@ EPIC-001 [Project] — [Outcome]
 ```
 
 Under the tree, list what was merged, split or moved, one line each with the reason. Ask the PM to accept the tree or move items: put a ticket under another one, promote a sub-task to its own ticket, or merge two tickets. Apply the answer, show the tree again if it changed, and set `handoff.organization_approved: true` in `progress.yaml` once accepted.
+
+---
+
+## Step 3: The Last Pass (Clear Output)
+
+Do this last, on the epic and on every ticket, before anything is shown to the PM. It is part of writing them. Rules: `.claude/skills/clear-output.md` and `.claude/skills/engineering-handoff.md` → "The Last Pass".
+
+1. **Lead with the action.** The epic opens with **Start here**. A ticket opens with the user story and the Problem line, nothing above them.
+2. **Number steps.** List the epic's tickets in build order. Number a ticket's requirements when the order matters.
+3. **Cap lists at 5.**
+4. **Cut preamble, recap and filler.** No "This ticket covers…", no closing notes, no restating the PRD.
+5. **Run the ready-to-run check** on each ticket, reading it as the engineer who picks it up: Can I start without asking a question? Do I know which screen and which design? Do I know when I am done? Is there a line I would delete? If so, delete it.
+
+Once the PM hands over the epic, the team should be able to run with the tickets as they are.
 
 ---
 
@@ -423,10 +441,13 @@ Before submitting, verify:
 - [ ] **Every PRD requirement covered** — Trace matrix complete
 - [ ] **The epic is the hub** — What and why, Who it is for, a Handoff table with every chosen output, the ticket list and one estimate line
 - [ ] **One final design** — The Handoff table links to Figma or the Claude design, not both
+- [ ] **Specific, not generic** — Every ticket line names something real in this project; no filler, no analysis
+- [ ] **Clear Output pass done** — Epic opens with Start here; action first; lists of 5 or fewer; no preamble
+- [ ] **Ready to run** — Every ticket passed the ready-to-run check
 - [ ] **Tickets are lean** — User story, Problem line, Requirements, UX and design requirements, Design link, Done when, Estimate; nothing else
 - [ ] **Backend tickets left for engineering** — High level only, "Engineering to complete" empty, estimate marked as proposed, no invented technical design
 - [ ] **Each ticket links to its own design** — Its page or frame in the main file and its prototype step, or "No UI"
-- [ ] **Done when is testable** — 3–6 plain checklist lines per ticket
+- [ ] **Done when is testable** — 3–5 plain checklist lines per ticket
 - [ ] **Sized to build** — Tickets at 1–5 points; any 8 has a reason in PM notes; no 13
 - [ ] **Organized** — Steps inside a ticket are sub-tasks; nothing that cannot ship alone is its own ticket
 - [ ] **Tree approved** — The PM accepted the proposed ticket tree
@@ -448,10 +469,11 @@ Before submitting, verify:
 7. Put the steps inside each ticket under it as sub-tasks
 8. Propose the ticket tree, say what was merged, split or moved, and ask the PM to accept it or move items
 9. Estimate points and assign discipline labels; write the reasoning in PM notes
-10. Write the epic with the Handoff table and the ticket list
+10. Write the epic with the Start here line, the Handoff table and the ticket list in build order
 11. Calculate totals and the sprint estimate
-12. Run the quality checklist
-13. Submit for human review
+12. Run the last pass: Clear Output on the epic and every ticket, then the ready-to-run check
+13. Run the quality checklist
+14. Submit for human review
 
 ---
 

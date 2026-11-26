@@ -49,6 +49,8 @@ Dashboard Performance — Enterprise admins can use the dashboard in under 3 sec
 ```markdown
 **Enterprise dashboards show their layout instantly, fill in widget by widget, and never break because one widget fails.**
 
+**Start here:** open the handoff prototype for the whole journey, then pick up DASH-107. Everything else you need is in the Handoff table.
+
 ## What and why
 Enterprise admins wait 16.4 s (p95) at a blank dashboard, and one failed widget breaks the whole page. This epic shows the layout within 1 second, loads each widget on its own, keeps every widget problem inside that widget, and opens very large widgets on the last 30 days. It covers PRD requirements REQ-001 to REQ-010.
 

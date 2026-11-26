@@ -7,6 +7,8 @@
 
 **[Subtitle: one line on the outcome this epic delivers]**
 
+**Start here:** open the [end-to-end prototype](link) for the whole journey, then pick up [first ticket]. Everything else you need is in the Handoff table.
+
 ## What and why
 [2–4 sentences: what this epic delivers, for whom, and the problem it solves. The PRD holds the detail.]
 

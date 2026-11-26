@@ -95,6 +95,8 @@ The epic is the hub for the team. An engineer opens it and finds a link to every
 ```markdown
 **[Subtitle: one line on the outcome this epic delivers]**
 
+**Start here:** open the [end-to-end prototype](link) for the whole journey, then pick up [first ticket]. Everything else you need is in the Handoff table.
+
 ## What and why
 [2–4 sentences: what this epic delivers, for whom, and the problem it solves. The PRD holds the detail.]
 
@@ -126,6 +128,7 @@ The epic is the hub for the team. An engineer opens it and finds a link to every
 Rules:
 1. The epic does not repeat the PRD: no problem statement, scope lists or metrics tables.
 2. The team gets one final design. When a Figma file and a Claude design both exist, the PM picks one; the other stays in the PM workspace.
+2a. The epic opens with **Start here**, lists tickets in build order, and gets the Clear Output pass before it is shown (`.claude/skills/engineering-handoff.md` → "The Last Pass").
 3. Every link in the Handoff table opens. A missing output is a named TBD (what is missing, who provides it), never an empty row.
 4. Each handoff output is also added as a web link on the epic, so it shows in the epic's links panel. The links page in Confluence carries the same table and links back to the epic.
 5. The team is given one link: the epic.
@@ -146,7 +149,7 @@ A ticket is short enough to read in under a minute.
 **Problem:** [One or two sentences: what is broken or missing for this user today.]
 
 ## Requirements
-- [What to build, in 3–6 short lines.]
+- [What to build, in 3–5 short lines.]
 - [Name the labels, components, rules and data an engineer needs.]
 
 ## UX and design requirements
@@ -157,7 +160,7 @@ A ticket is short enough to read in under a minute.
 
 ## Done when
 - [ ] [A plain sentence a tester can check]
-- [ ] [3–6 lines in total]
+- [ ] [3–5 lines in total]
 
 ## Estimate
 [n] points · frontend / backend / fullstack · PRD: REQ-### · Depends on: [KEY or None]
@@ -175,6 +178,7 @@ A ticket is short enough to read in under a minute.
 Rules:
 1. **Done when** is a checklist of plain sentences, each numbered `[KEY].AC1`, `[KEY].AC2` in order, so tests and pull requests can cite them.
 2. **Sub-tasks** is optional. Use it when the work divides by discipline or by step. Each line starts with its kind: `[frontend]`, `[backend]`, `[design]`, `[testing]` or `[tracking]`. Sub-tasks become Jira sub-tasks under the ticket, carry no points, and are left out when there are none. The PM accepts the proposed ticket tree before anything is sent to Jira.
+2a. **Specific, not generic.** Every line names a real screen, component, field, rule or value in this project. No filler ("handle errors gracefully"), no analysis. Lists have at most 5 lines. Each ticket gets the Clear Output pass and the ready-to-run check before it is shown.
 3. **One ticket is one thing a user can see or do**, at 1–5 points. Slicing rules: `.claude/skills/engineering-handoff.md`.
 4. **Backend tickets are completed by the engineers.** Product OS writes the user story, the problem, high-level requirements and Done when, marks the estimate "(proposed; engineering confirms)", and leaves **Engineering to complete** empty. It never invents endpoints, tables or architecture. Frontend tickets leave that section out.
 5. Not in the ticket: a long description, a solution paragraph, test and rollout tables, and the reasoning behind the estimate. The PRD holds the first three. The reasoning goes in **PM notes** at the end of `stories.md`, which is never sent to Jira.

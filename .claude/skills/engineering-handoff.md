@@ -173,11 +173,12 @@ Low-fidelity wireframes and a schema are optional. Attach them when the PM picks
 
 An engineer opens the epic and finds everything. Layout: `docs/reference/document-format.md` §3. Template: `templates/delivery/epic.md`.
 
-1. **What and why**: 2–4 sentences.
-2. **Who it is for**: each user in one line.
-3. **Handoff**: one table of links to the PRD, project brief, user flows, final design, end-to-end prototype, any extras, and the links page.
-4. **Tickets**: the list with discipline and points, and one estimate line.
-5. **Dependencies**: only when there are any.
+1. **Start here**: one line. Open the end-to-end prototype, then pick up the first ticket.
+2. **What and why**: 2–4 sentences.
+3. **Who it is for**: each user in one line.
+4. **Handoff**: one table of links to the PRD, project brief, user flows, final design, end-to-end prototype, any extras, and the links page.
+5. **Tickets**: the list in build order, with discipline and points, and one estimate line.
+6. **Dependencies**: only when there are any.
 
 The epic does not repeat the PRD. No problem statement, scope lists or metrics tables in the epic.
 
@@ -199,15 +200,46 @@ A ticket is short enough to read without help. Layout: `docs/reference/document-
 |------|------|
 | **User story** | One line: As a / I want / so that. |
 | **Problem** | One or two sentences: what is broken or missing for this user today. |
-| **Requirements** | 3–6 short lines: what to build. Name the labels, components, rules and data an engineer needs. |
+| **Requirements** | 3–5 short lines: what to build. Name the labels, components, rules and data an engineer needs. |
 | **UX and design requirements** | Design-system components, copy, the states to show, accessibility. "None: no UI" for backend-only work. |
 | **Design** | A link to this ticket's own page or frame in the main Figma file, and its step in the prototype. |
-| **Done when** | 3–6 checklist lines a tester can check. Plain sentences, not Given/When/Then. |
+| **Done when** | 3–5 checklist lines a tester can check. Plain sentences, not Given/When/Then. |
 | **Estimate** | Points, discipline, PRD requirement, dependencies. One line. |
 | **Sub-tasks** | Optional. One line each. |
 | **Engineering to complete** | Backend tickets only. Left empty for the engineers. |
 
 Every ticket stays high level. Left out on purpose: a long description, a solution paragraph, test and rollout tables, and the reasoning behind the estimate. The PRD holds the first three. The reasoning goes in **PM notes** at the end of `stories.md`, which is never sent to Jira.
+
+## Specific, Not Generic
+
+Engineers told us that generated tickets read as generic, and that they spend time working out what to delete. A ticket that needs decoding has failed.
+
+1. **Every line names something real in this project:** a screen, a component, a field, a label, a rule, a value. "Show the `WidgetProblem` component with the text 'Couldn't load'", not "Display an appropriate error".
+2. **The paste test.** If a line could be pasted into a different project's ticket unchanged, delete it or make it specific.
+3. **No filler.** Never write "handle errors gracefully", "ensure a good user experience", "follow best practices", "should be performant" or "consider edge cases". Say which error, which state, which number.
+4. **No analysis in the ticket.** Background, options considered and reasoning live in the PRD and in PM notes. The ticket says what to build.
+5. **One home for each fact.** If the PRD says it, link to the requirement. Do not restate it.
+
+## The Last Pass: Clear Output on the Epic and Every Ticket
+
+Before the epic and tickets are shown to the PM, run them through the Clear Output style (`.claude/skills/clear-output.md`), one at a time. This is the final step of writing them, not an optional polish.
+
+| Rule | In the epic | In a ticket |
+|------|-------------|-------------|
+| **Lead with the action** | The first line is **Start here:** open the prototype, then pick up the first ticket | The user story and the Problem line come first; nothing above them |
+| **Number steps** | Tickets are listed in build order | Requirements are numbered when the order matters |
+| **Cap lists at 5** | "Who it is for" has at most 5 users | Requirements, UX and design requirements, Done when and Sub-tasks have at most 5 lines each. More than 5 means the ticket is two tickets |
+| **No preamble, no recap** | No introduction, no summary of the PRD | No "This ticket covers…", no closing notes |
+| **Short sentences** | One idea per line | One idea per line |
+
+Then the **ready-to-run check**, per ticket, reading it as the engineer who picks it up:
+
+1. Can I start without asking anyone a question?
+2. Do I know which screen to open and which design to follow?
+3. Do I know when I am done?
+4. Is there a line I would delete? If so, delete it now.
+
+A ticket passes when the answers are yes, yes, yes, no. Once the PM hands over the epic, the team should be able to run with the tickets as they are.
 
 ## Backend Tickets: Engineers Complete Them
 
@@ -309,6 +341,9 @@ Before publishing, show file paths. After publishing, show the Confluence and Ji
 - [ ] The team gets one final design, not two
 - [ ] Every ticket has a user story, a problem line, requirements, a design link (or "No UI"), a Done when list and an estimate
 - [ ] Backend tickets are high level, with "Engineering to complete" left empty and the estimate marked as proposed
+- [ ] Every ticket line is specific to this project; nothing generic, no filler, no analysis
+- [ ] The Clear Output pass was run on the epic and every ticket: action first, lists of 5 or fewer, no preamble
+- [ ] Every ticket passed the ready-to-run check
 - [ ] No ticket is over 5 points without a reason; none is 13
 - [ ] Steps inside a ticket are sub-tasks, not extra tickets
 - [ ] The PM saw the proposed ticket tree and accepted it

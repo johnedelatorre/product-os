@@ -10,7 +10,7 @@
 **Problem:** [One or two sentences: what is broken or missing for this user today.]
 
 ## Requirements
-- [What to build, in 3–6 short lines.]
+- [What to build, in 3–5 short lines.]
 - [Name the labels, components, rules and data an engineer needs.]
 
 ## UX and design requirements
@@ -21,7 +21,7 @@
 
 ## Done when
 - [ ] [A plain sentence a tester can check]
-- [ ] [3–6 lines in total, covering the main path and the one or two cases that matter]
+- [ ] [3–5 lines in total, covering the main path and the one or two cases that matter]
 
 ## Estimate
 [n] points · frontend / backend / fullstack · PRD: REQ-XXX · Depends on: [STORY-XXX or None]

@@ -361,7 +361,7 @@ As a [user type], I want [action], so that [benefit].
 
 Problem: [one or two sentences]
 
-Requirements: [3–6 short lines]
+Requirements: [3–5 short lines]
 UX and design requirements: [components, copy, states, accessibility]
 Design: [this ticket's own Figma page or frame] · [prototype step] · [flow step]
 

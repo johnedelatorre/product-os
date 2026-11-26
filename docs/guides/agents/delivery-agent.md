@@ -42,10 +42,10 @@ Epics and stories use the standard format in [`docs/reference/document-format.md
 Each story description has these parts, in order (document-format §4):
 - **User story line:** "**As a** [user], **I want** [capability], **so that** [outcome]."
 - **Problem:** one or two sentences
-- **Requirements:** 3–6 short lines, naming labels, components and rules
+- **Requirements:** 3–5 short lines, naming labels, components and rules
 - **UX and design requirements:** components, copy, states to show, accessibility
 - **Design:** a link to that ticket's own page or frame in the main Figma file, and its step in the prototype
-- **Done when:** a checklist of 3–6 testable lines
+- **Done when:** a checklist of 3–5 testable lines
 - **Estimate:** points (Fibonacci), discipline (frontend/backend/fullstack), PRD requirement, dependencies
 - **Sub-tasks:** optional, one line each
 - **Engineering to complete:** backend tickets only, left empty for the engineers (approach, API and data changes, risks)

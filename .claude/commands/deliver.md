@@ -50,10 +50,10 @@ The epic is where the team gets everything. It does not repeat the PRD.
 Each story includes, in this order:
 - User story line (As a... I want... so that...)
 - Problem: one or two sentences
-- Requirements: 3–6 short lines, naming labels, components and rules
+- Requirements: 3–5 short lines, naming labels, components and rules
 - UX and design requirements
 - Design: a link to this ticket's own page or frame in the main Figma file, and its step in the prototype
-- Done when: a checklist of 3–6 testable lines
+- Done when: a checklist of 3–5 testable lines
 - Estimate: points, **discipline label** (`frontend`, `backend`, or `fullstack`), PRD requirement, dependencies
 - Sub-tasks (optional): one line each
 

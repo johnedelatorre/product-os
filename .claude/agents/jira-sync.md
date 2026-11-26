@@ -376,6 +376,8 @@ Every epic follows `docs/reference/document-format.md` §3, which is the complet
 ```markdown
 **[Subtitle: one line on the outcome this epic delivers]**
 
+**Start here:** open the [end-to-end prototype](link), then pick up [first ticket].
+
 ## What and why
 [2–4 sentences: what this epic delivers, for whom, and the problem it solves.]
 
@@ -419,7 +421,7 @@ Every story follows `docs/reference/document-format.md` §4, which is the comple
 **Problem:** [One or two sentences.]
 
 ## Requirements
-- [What to build, in 3–6 short lines.]
+- [What to build, in 3–5 short lines.]
 
 ## UX and design requirements
 - [Components, copy, states to show, accessibility. Or "None: no UI".]
