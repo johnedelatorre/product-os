@@ -363,6 +363,17 @@ else
 fi
 
 # ============================================================
+# Check 18: Plugin skill matches its source files
+# ============================================================
+log_check "Plugin skill is up to date"
+
+if python3 scripts/build-plugin-skill.py --check >/dev/null 2>&1; then
+    log_pass "skills/product-os matches the source files"
+else
+    log_fail "skills/product-os is out of date: run python3 scripts/build-plugin-skill.py"
+fi
+
+# ============================================================
 # Summary
 # ============================================================
 echo ""

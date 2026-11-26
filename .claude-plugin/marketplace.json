@@ -1,6 +1,6 @@
 {
   "name": "product-os",
-  "description": "Product OS \u2014 product management and design operating system for Claude Code.",
+  "description": "Product OS \u2014 product management and design operating system for Claude chat, Cowork and Claude Code.",
   "owner": {
     "name": "John De La Torre-Ugarte",
     "url": "https://github.com/johnedelatorre"
@@ -9,7 +9,7 @@
     {
       "name": "product-os",
       "source": "./",
-      "description": "Product OS slash commands, namespaced as /product-os:<command>."
+      "description": "All of Product OS: 41 agents, 48 commands (/product-os:<command>), 44 playbooks, templates and the visual workspace."
     }
   ]
 }

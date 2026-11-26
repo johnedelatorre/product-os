@@ -30,13 +30,14 @@ Paste a project's `progress.yaml` under "Update the board from progress.yaml". T
 
 ## Setup (about 2 minutes)
 
-1. Download [`product-os-start.html`](product-os-start.html) from this folder.
+1. **With the Product OS plugin** in your Claude account ([how to add it](../README.md#path-a--claude-chat)): say *"Open the Product OS workspace."* Claude publishes the page as your own artifact. Go to step 3.
+   **Without it:** download [`product-os-start.html`](product-os-start.html) from this folder.
 2. In Claude (claude.ai or the desktop app), attach the file and say: *"Publish this page as an artifact. It asks Claude through the `sample` capability, so declare that capability."* The artifact is yours and private to you. Without the capability the page still works, with fixed questions.
 3. Open the artifact and answer the guide's seven questions.
 4. Tap **Yes, copy the brief**.
 5. Paste the brief into your Product OS project: [Claude chat](../claude-ai/README.md) or [ChatGPT](../chatgpt/README.md). Attach the files you listed.
 
-**For a team:** one person publishes the artifact and shares it from its page. Every PM then starts from the same link.
+**For a team:** each PM adds the plugin and opens their own workspace. A team that wants one shared page can have one person publish it and share it from its page.
 
 **Without Claude:** the file is one self-contained HTML page. Opening it in a browser works too.
 

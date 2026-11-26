@@ -56,7 +56,7 @@ Product OS is one set of content with five paths: **Claude Code**, **Cursor**, *
 |----------|----------|--------|
 | Claude Code | Plugin slash commands (`/product-os:*`, from `.claude-plugin/`) | Native Task delegation (agents in `.claude/agents/` register as subagents via frontmatter) |
 | Cursor | Role-based invocation | `.cursor/agents/` + role-based |
-| claude.ai | Plain language | One role at a time, from the files in `claude-ai/` |
+| claude.ai | Plain language; the plugin's commands load as skills | All 41, one role at a time, from the plugin skill in `skills/product-os/` (built from `.claude/`), or from the files in `claude-ai/` |
 | Claude artifact | A guided page for the start questions (`artifact/`) | Hands a brief to claude.ai or ChatGPT |
 | ChatGPT | Plain language | One role at a time, from the 8-file pack in `chatgpt/` |
 

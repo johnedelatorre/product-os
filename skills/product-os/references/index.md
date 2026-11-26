@@ -1,0 +1,145 @@
+# Product OS index
+
+Every agent, command and playbook in this skill, with one line each.
+
+## Agents
+
+- `references/agents/accessibility-auditor.md`: Comprehensive WCAG 2.2 AA accessibility audit with automated and manual testing.
+- `references/agents/artifact-registry.md`: Maintains a centralized manifest of all design and product artifacts with status tracking and link validation.
+- `references/agents/competitive-analyst.md`: Analyze competitive landscape and create comparison matrices.
+- `references/agents/confluence-publisher.md`: Publish all project artifacts to Confluence with proper hierarchy and backlog tables.
+- `references/agents/debt-tracker.md`: Maintains a unified tracker for technical debt and design debt with prioritization.
+- `references/agents/decision-logger.md`: Document product decisions in ADR (Architecture Decision Record) style.
+- `references/agents/delivery-agent.md`: Turn the PRD and designs into a short engineering handoff: one epic that links to everything, lean tickets with estimates, and a ticket tree the PM a…
+- `references/agents/dependency-tracker.md`: Maintains a risk and dependency register integrated with RACI and project planning.
+- `references/agents/design-critic.md`: Structured critique of visual designs with severity-rated findings and concrete fixes.
+- `references/agents/doc-cleaner.md`: Clean version history out of project docs, Confluence pages, epics and Jira tickets so they show the current state only.
+- `references/agents/event-tracker.md`: Creates event tracking plans for analytics platforms (Pendo, Amplitude, Mixpanel, Segment, etc.).
+- `references/agents/experiment-designer.md`: Design A/B tests with proper hypothesis, sample size, and success criteria.
+- `references/agents/figma-agent.md`: Integrate with Figma via MCP to sync designs, extract tokens, and audit against PRD.
+- `references/agents/flow-designer.md`: Create comprehensive user flows, journey maps, sitemaps, and system flows from PRD and design brief.
+- `references/agents/gate-keeper.md`: Enforces Definition of Ready (DoR) and Definition of Done (DoD) gates for stories before sprint.
+- `references/agents/guide.md`: Walk PMs through the complete product lifecycle, phase by phase, tracking progress and adapting to their needs.
+- `references/agents/hypothesis-logger.md`: Tracks product hypotheses from formation through validation with structured outcomes.
+- `references/agents/intake-analyst.md`: Transform raw, unstructured requirements into clear problem/opportunity statements.
+- `references/agents/jira-sync.md`: Create and sync epics and stories to Jira with story points, labels, dates, and dependencies.
+- `references/agents/launch-manager.md`: Coordinates go-to-market activities including release notes, enablement materials, and changelog updates.
+- `references/agents/market-analyst.md`: Creates market analysis briefs covering market size, trends, segments, and strategic positioning.
+- `references/agents/metrics-designer.md`: Defines north-star metrics, guardrails, and success criteria for product initiatives.
+- `references/agents/okr-agent.md`: Define OKRs and metric trees that connect product work to business outcomes.
+- `references/agents/opportunity-tree.md`: Creates and maintains opportunity solution trees for structured discovery and problem exploration.
+- `references/agents/orchestrator.md`: Coordinate the Product OS pipeline by routing work between specialist agents with defined inputs, outputs, and human checkpoints.
+- `references/agents/post-launch-reviewer.md`: Conducts post-launch reviews comparing actual results against PRD goals and feeding insights back to intake.
+- `references/agents/prd-author.md`: Write comprehensive Product Requirements Documents with full strategic context, business rationale, and measurable outcomes.
+- `references/agents/prfaq-author.md`: Write Amazon-style Press Release and FAQ documents.
+- `references/agents/product-designer.md`: Create design briefs that translate PRD requirements into design direction.
+- `references/agents/project-brief.md`: Create one-page executive project briefs for stakeholder alignment.
+- `references/agents/project-planner.md`: Create RACI matrices, Gantt charts, and project timelines.
+- `references/agents/prototyper.md`: Create clickable, self-contained HTML/React prototypes from wireframes and flows, including the end-to-end handoff prototype for the team.
+- `references/agents/retro-facilitator.md`: Facilitate retrospectives and document learnings.
+- `references/agents/risk-manager.md`: Identify, assess, and track product and project risks.
+- `references/agents/roadmap-agent.md`: Create Now/Next/Later roadmaps that communicate product direction.
+- `references/agents/stakeholder-comms.md`: Generate stakeholder updates, executive summaries, release notes, and launch communications.
+- `references/agents/strategist.md`: Score and prioritize features using RICE, WSJF, MoSCoW, and Kano frameworks.
+- `references/agents/ux-researcher.md`: Create user research plans and synthesize interview findings.
+- `references/agents/ux-reviewer.md`: Evaluate designs against Nielsen's heuristics, Laws of UX, and established patterns.
+- `references/agents/ux-writer.md`: Run the UX writing pass on the real designs, paired with the design critique, and write the UX writing guide with the final copy for every screen.
+- `references/agents/wireframer.md`: Create low-fidelity wireframes that structure screens defined by user flows.
+
+## Commands
+
+- `references/commands/a11y.md`: Run comprehensive accessibility audit.
+- `references/commands/artifacts.md`: Manage the design artifact registry for a project.
+- `references/commands/audit-intent.md`: Audit code against documented intent: find gaps between what docs promise and what code enforces.
+- `references/commands/brief.md`: Create a one-page executive project brief.
+- `references/commands/cleanup.md`: Clean version history out of project docs, Confluence pages and Jira tickets so they show the current state only.
+- `references/commands/comms.md`: Generate stakeholder communications.
+- `references/commands/competitive.md`: Create competitive analysis.
+- `references/commands/critique.md`: Perform structured visual design critique.
+- `references/commands/debt.md`: Manage technical and design debt tracker.
+- `references/commands/decision.md`: Log a product decision (ADR style).
+- `references/commands/deliver.md`: Generate the engineering handoff: an epic that links to everything, lean tickets with estimates, and a ticket tree you approve.
+- `references/commands/dependencies.md`: Manage project dependencies and risks.
+- `references/commands/design-brief.md`: Create design brief from PRD.
+- `references/commands/experiment.md`: Design A/B test with sample size calculation.
+- `references/commands/figma.md`: Interact with Figma via MCP.
+- `references/commands/flows.md`: Generate comprehensive user flows from PRD.
+- `references/commands/gate.md`: Check Definition of Ready or Definition of Done for stories.
+- `references/commands/guide.md`: Start or resume guided mode, or jump to a specific phase.
+- `references/commands/handover.md`: Write the handover for next session: state, evidence, next action, blockers, owner decisions.
+- `references/commands/hypotheses.md`: Manage the hypothesis log for a project.
+- `references/commands/intake.md`: Structure a raw requirement into a problem/opportunity statement.
+- `references/commands/jira-sync.md`: Create and sync the epic (with its handoff links), stories and sub-tasks to Jira.
+- `references/commands/launch.md`: Create go-to-market materials for launch.
+- `references/commands/market.md`: Create a market analysis brief.
+- `references/commands/metrics.md`: Design success metrics framework with north star and guardrails.
+- `references/commands/new-project.md`: Run the full Product OS pipeline from intake to publication.
+- `references/commands/next.md`: Execute the next recommended step in guided mode.
+- `references/commands/okrs.md`: Define OKRs and metric trees.
+- `references/commands/opportunity-tree.md`: Create an opportunity solution tree for discovery.
+- `references/commands/plan.md`: Create project plan, RACI, and Gantt chart.
+- `references/commands/prd.md`: Generate a comprehensive Product Requirements Document.
+- `references/commands/prfaq.md`: Write Amazon-style PR/FAQ.
+- `references/commands/prioritize.md`: Score and prioritize features using frameworks.
+- `references/commands/propose.md`: Research an idea and propose what to build, interface first. For new ideas \u2014 not agreed changes or bugs.
+- `references/commands/prototype.md`: Generate clickable HTML/React prototypes from wireframes, and the end-to-end handoff prototype for the team.
+- `references/commands/publish.md`: Publish to Confluence: a links page and the team's pages, with your own documents under one PM workspace page.
+- `references/commands/release-gate.md`: Run the release gate: owner preview, go/no-go, independent review, verify build serves.
+- `references/commands/research.md`: Create research plan or synthesize findings.
+- `references/commands/retro.md`: Facilitate retrospective and capture learnings.
+- `references/commands/review-launch.md`: Conduct post-launch review comparing results to PRD goals.
+- `references/commands/review-prd.md`: Conduct a multi-perspective PRD review synthesizing feasibility, UX, strategy, research, privacy, and customer perspectives.
+- `references/commands/risks.md`: Create and maintain risk register.
+- `references/commands/roadmap.md`: Create Now/Next/Later roadmap.
+- `references/commands/status.md`: Show current progress through guided mode.
+- `references/commands/tracking.md`: Create an event tracking plan for analytics platforms.
+- `references/commands/ux-review.md`: Evaluate designs against UX heuristics and patterns.
+- `references/commands/ux-writing.md`: Run the UX writing pass on the real designs and write the UX writing guide.
+- `references/commands/wireframes.md`: Create low-fidelity wireframes from flows.
+
+## Playbooks
+
+- `references/playbooks/accessibility-audit.md`: Comprehensive accessibility evaluation with automated and manual testing.
+- `references/playbooks/artifact-registry.md`: Maintain a centralized manifest of all design and product artifacts.
+- `references/playbooks/beachhead-segment.md`: Choose the first market segment to win before expanding to adjacent markets.
+- `references/playbooks/clear-output.md`: **Attribution:** Adapted from [ayghri/i-have-adhd](https://github.com/ayghri/i-have-adhd) (MIT License). See NOTICE.md for full attribution.
+- `references/playbooks/confluence-publishing.md`: Publish project artifacts to Confluence with proper hierarchy.
+- `references/playbooks/context-freshness.md`: Verify that context, baselines, and assumptions are current before decisions or launch.
+- `references/playbooks/debt-tracking.md`: Track and prioritize technical and design debt.
+- `references/playbooks/dependency-tracking.md`: Maintain dependencies and risks integrated with RACI.
+- `references/playbooks/design-critique.md`: Perform structured visual design critique with severity-rated findings.
+- `references/playbooks/discipline-labeling.md`: Assign frontend/backend/fullstack labels to stories. The label sits on the ticket's Estimate line; a ticket with frontend and backend sub-tasks is `f…
+- `references/playbooks/doc-hygiene.md`: Keep specs, Confluence pages, epics and Jira tickets in their current state only, and clean up the ones that are not.
+- `references/playbooks/dor-dod-gates.md`: Enforce quality gates for stories before sprint.
+- `references/playbooks/engineering-handoff.md`: Product OS asks before it writes, and it asks little: seven questions at the start, two at the handoff, one after it. The first answers say who will…
+- `references/playbooks/estimation.md`: **Note:** Precision varies by team and domain. Early estimates have high uncertainty; sprint-ready estimates should be lower. Actual precision depend…
+- `references/playbooks/event-tracking.md`: Create event tracking specifications for analytics platforms.
+- `references/playbooks/gantt-generation.md`: Create project timelines with dependencies for planning and Jira integration.
+- `references/playbooks/growth-loops.md`: Design growth loops (flywheels) that compound user acquisition through the product itself.
+- `references/playbooks/guided-questions.md`: Every agent asks before it writes, and keeps asking until its document is finished. One question at a time, with short options and a recommended answ…
+- `references/playbooks/guided-workflow.md`: Track PM progress through all 9 phases using `progress.yaml` state files. Missing information never blocks progress: defer it, keep going, resolve it…
+- `references/playbooks/hypothesis-logging.md`: Track product hypotheses from formation through validation.
+- `references/playbooks/independent-review.md`: Genuinely independent code review: fresh reviewer that never saw the build, unsteered, with bounded iterations.
+- `references/playbooks/intended-vs-implemented.md`: Audit code against documented intent: where implementation diverges from what docs or permissions promise.
+- `references/playbooks/jira-sync.md`: Create and sync epics/stories to Jira with dates and dependencies.
+- `references/playbooks/jobs-screen-map.md`: Map user jobs to screens: job → screen → question → primary action. For design briefs, flows, and design critique.
+- `references/playbooks/launch-gtm.md`: Create release notes, enablement materials, and changelog entries.
+- `references/playbooks/metrics-framework.md`: Define north-star metrics, guardrails, and success criteria.
+- `references/playbooks/opportunity-tree.md`: Create opportunity solution trees for structured discovery.
+- `references/playbooks/post-launch-review.md`: Evaluate shipped features against PRD goals and close the learning loop.
+- `references/playbooks/prd-writing.md`: Write comprehensive Product Requirements Documents with PM rigor.
+- `references/playbooks/prioritization.md`: Apply rigorous prioritization frameworks to decide what to build.
+- `references/playbooks/project-brief.md`: Create one-page executive summaries for stakeholder alignment.
+- `references/playbooks/proposal.md`: Research an idea, propose what to build, interface first. For new ideas and "is this worth building" — not for agreed changes or bugs.
+- `references/playbooks/prototype-generation.md`: 
+- `references/playbooks/raci-matrix.md`: Create responsibility assignment matrices for clear accountability.
+- `references/playbooks/release-gate.md`: Before ship/deploy/release: the gate, owner's preview, go/no-go, verify, and rollback. Code releases require independent review.
+- `references/playbooks/session-handover.md`: Write the handover a fresh session starts from: state, evidence, next action, blockers, and decisions awaiting owner.
+- `references/playbooks/shipping-artifacts.md`: The documentation set that makes AI-built code reviewable: architecture, flows, permissions, variables, test coverage.
+- `references/playbooks/story-pointing.md`: **Warning:** Converting T-shirt sizes directly to points is generally discouraged. T-shirts are for early roadmap sizing; points are for sprint-ready…
+- `references/playbooks/user-flows.md`: Create comprehensive user flows with canonical spec and multi-target rendering.
+- `references/playbooks/ux-heuristics.md`: Evaluate designs against Nielsen's heuristics and Laws of UX.
+- `references/playbooks/ux-writing.md`: Every project with a user interface gets a UX writing pass on the real designs, paired with the design critique. The pass starts from how the product…
+- `references/playbooks/value-curve.md`: Compare offerings on the factors one customer segment values. Identify strategic differentiation vs. deliberate parity.
+- `references/playbooks/value-proposition.md`: Create a clear, comprehensive value proposition using the 6-part structure with JTBD framing.
+- `references/playbooks/wireframing.md`: Create low-fidelity wireframes that structure screens before visual design.
