@@ -4,6 +4,8 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
+Product OS™ · Copyright © 2026 John De La Torre-Ugarte · Code and documents under the [MIT License](LICENSE) · [Name and brand](TRADEMARKS.md)
+
 ![The Product OS board on a desktop screen and on a phone: where the project is, the next step, four numbers, three insights, and the nine phases with their status](docs/images/hero.jpg)
 
 *The Product OS board, on a computer and on a phone, with an example project. Claude runs the project in your chat and keeps this board up to date. Screenshots of `artifact/product-os-board.html`.*
@@ -1208,9 +1210,13 @@ Setup guides: [Installation and Platform Setup](docs/setup/installation.md) · [
 
 ---
 
-## License
+## License and Name
 
-MIT License © 2026 John De La Torre-Ugarte. See [LICENSE](LICENSE).
+Copyright © 2026 John De La Torre-Ugarte.
+
+1. **The code and documents** are under the MIT License. You may use, change and share them. Keep the copyright and licence notice in every copy. See [LICENSE](LICENSE).
+2. **The name "Product OS™" and its look** are not part of that licence. If you share a changed version, give it a different name and say it is based on Product OS. See [TRADEMARKS.md](TRADEMARKS.md).
+3. **Content adapted from other projects** is listed in [NOTICE.md](NOTICE.md).
 
 ## Contributing
 
