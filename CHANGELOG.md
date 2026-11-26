@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.7.3] - 2026-11-26
+
+### Added
+- **Plugin icon** — `.claude-plugin/icon.png`: the letters OS above the nine-phase bar, in the board's colours.
+- **What Data It Handles** — a README section that says what Product OS sends and where: your own Claude account, your own Atlassian and Figma connectors, and the board's database.
+
 ## [1.7.2] - 2026-11-26
 
 ### Changed
