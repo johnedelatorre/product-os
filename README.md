@@ -4,6 +4,34 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
+## What is Product OS?
+
+Product OS is **41 AI agents that write the documents of product management and design**. You make the decisions. The agents ask, write, and wait for your approval at every step.
+
+**The problem it solves**
+
+1. PMs and designers lose hours to document work: writing PRDs from scratch, formatting Confluence pages, copying stories into Jira, redrawing flow diagrams. The strategic work gets squeezed.
+2. When AI writes every document it can, the team gets too much to read, and tickets that read as generic.
+3. Product OS asks before it writes, makes only what you and your readers need, and hands the team one link.
+
+**Who it is for**
+
+| Role | What you get |
+|------|--------------|
+| **Head of Product** | One standard for PRDs, stories, gates and metrics across every team. OKRs, roadmaps and prioritization built in. |
+| **Product Manager** | PRDs, briefs, plans and Jira-ready stories drafted for you to review, in one consistent format. |
+| **Product Designer** | Design briefs, flow diagrams, wireframes and clickable prototypes, plus a design critique, a UX writing pass, a UX review and an accessibility audit on those designs. |
+
+**What it outputs**
+
+| For | What comes out |
+|-----|----------------|
+| **Your team** | One link: the epic. It links to the PRD, project brief, user flows, final design, UX writing guide and an end-to-end prototype, with short tickets under it. |
+| **You** | The documents you ask for: project plan, Gantt chart, design brief, design critique, metrics framework and more. |
+| **Confluence and Jira** | Pages and tickets, published only after you approve. |
+
+---
+
 ## Start Here
 
 Three steps. Everything below "Reference" is there when you need it; you do not have to read it first.
@@ -137,26 +165,13 @@ Everything from here down explains how Product OS works. Read a section when you
 
 **PM rigor leads; design serves product strategy.**
 
-**In this reference:** [What it is](#what-is-product-os) · [Key terms](#key-terms) · [Design critique and UX writing](#design-critique-and-the-ux-writing-pass) · [Your first project](#your-first-project-step-by-step) · [Workflow](#how-it-works) · [Success and metrics](#what-success-looks-like-validation-and-metrics) · [Document format](#what-every-document-and-page-looks-like) · [Examples](#examples-you-can-copy) · [Guided Mode](#guided-mode) · [Commands](#commands) · [Agents](#agents) · [Skills](#skills) · [Documents](#documents) · [Rolling it out](#rolling-it-out-to-a-team) · [Configuration](#configuration)
+**In this reference:** [How you work with it](#how-you-work-with-it) · [Key terms](#key-terms) · [Design critique and UX writing](#design-critique-and-the-ux-writing-pass) · [Your first project](#your-first-project-step-by-step) · [Workflow](#how-it-works) · [Success and metrics](#what-success-looks-like-validation-and-metrics) · [Document format](#what-every-document-and-page-looks-like) · [Examples](#examples-you-can-copy) · [Guided Mode](#guided-mode) · [Commands](#commands) · [Agents](#agents) · [Skills](#skills) · [Documents](#documents) · [Rolling it out](#rolling-it-out-to-a-team) · [Configuration](#configuration)
 
 ---
 
-## What is Product OS?
+## How You Work With It
 
-PMs and designers lose hours to document work: writing PRDs from scratch, formatting Confluence pages, copying stories into Jira, redrawing the same flow diagrams. The strategic work (prioritization, trade-offs, alignment) gets squeezed.
-
-Product OS gives you **41 specialist AI agents**, each owning one document or job, plus playbooks (skills) and templates they follow. You tell an agent what you need, review what it writes, approve or revise, and move on. Nothing reaches Confluence or Jira until you approve it.
-
-In Claude Code you drive it with 48 commands, all named `/product-os:<command>`.
-In claude.ai and Cursor you ask for the same work in plain language ("Run the PRD Author on this intake").
-
-### Who it's for
-
-| Role | What you get |
-|------|--------------|
-| **Head of Product** | One standard for PRDs, stories, gates and metrics across every team. OKRs, roadmaps and prioritization built in. |
-| **Product Manager** | PRDs, briefs, plans and Jira-ready stories drafted for you to review, in one consistent format. |
-| **Product Designer** | Design briefs, flow diagrams, wireframes and clickable prototypes, plus design critique, UX review and accessibility audits on those designs. |
+In Claude Code you drive Product OS with 48 commands, all named `/product-os:<command>`. In Claude chat, ChatGPT and Cursor you ask for the same work in plain language ("Run the PRD Author on this intake").
 
 ### What stays with you
 
