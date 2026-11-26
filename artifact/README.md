@@ -4,6 +4,8 @@
 
 ## What It Looks Like
 
+![The visual start page at question 6 of 7, "Give me everything you have": the items sorted into Found and Missing on the left, and the brief filling in on the right](../docs/images/visual-start.png)
+
 1. **Seven questions, one per screen**, each with its place ("Question 2 of 7"): what and who, readers, your role, the design system, where it came from, everything you have, and "Is this right?"
 2. **The brief on the right fills in as you answer.** It is the playback, built live.
 3. **"Give me everything you have" sorts what you list** into Found and Missing.
