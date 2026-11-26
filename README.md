@@ -10,7 +10,7 @@
 
 Works in **Claude chat**, as a **Claude artifact**, in **ChatGPT**, **Claude Code** and **Cursor**. [Pick your path](#pick-your-path).
 
-**On this page:** [What it is](#what-is-product-os) · [Key terms](#key-terms) · [Pick your path](#pick-your-path) · [Quick Start](#quick-start) · [Your first project](#your-first-project-step-by-step) · [Workflow](#how-it-works) · [Success and metrics](#what-success-looks-like-validation-and-metrics) · [Document format](#what-every-document-and-page-looks-like) · [Examples](#examples-you-can-copy) · [Guided Mode](#guided-mode) · [Commands](#commands) · [Agents](#agents) · [Skills](#skills) · [Documents](#documents) · [Rolling it out](#rolling-it-out-to-a-team) · [Configuration](#configuration)
+**On this page:** [What it is](#what-is-product-os) · [Key terms](#key-terms) · [Design critique and UX writing](#design-critique-and-the-ux-writing-pass) · [Pick your path](#pick-your-path) · [Quick Start](#quick-start) · [Your first project](#your-first-project-step-by-step) · [Workflow](#how-it-works) · [Success and metrics](#what-success-looks-like-validation-and-metrics) · [Document format](#what-every-document-and-page-looks-like) · [Examples](#examples-you-can-copy) · [Guided Mode](#guided-mode) · [Commands](#commands) · [Agents](#agents) · [Skills](#skills) · [Documents](#documents) · [Rolling it out](#rolling-it-out-to-a-team) · [Configuration](#configuration)
 
 ---
 
@@ -78,9 +78,35 @@ Engineers and heads of product told us the full document set was too much to rea
 
 **Specific, not generic.** Every ticket line names a real screen, component, field or rule in the project. Filler such as "handle errors gracefully" is not allowed, lists stop at 5 lines, and the epic and every ticket get a final Clear Output pass and a ready-to-run check, so the team can start from the tickets as they are.
 
-**Design critique and UX writing run as a pair.** The critique runs on the real design and you decide its findings. The UX writing pass then asks for prior designs, screenshots or a style guide that show how your product already writes, and with none it works from the designs alone. The pair gives you the final designs and the UX writing guide. Rules: [`.claude/skills/ux-writing.md`](.claude/skills/ux-writing.md).
-
 Low-fidelity wireframes and a schema are optional extras. **Backend tickets stay high level**: Product OS says what the backend must do and leaves an "Engineering to complete" section for the engineers. Everything else you asked for lives under one **PM workspace** page in Confluence, for you. Rules: [`.claude/skills/engineering-handoff.md`](.claude/skills/engineering-handoff.md).
+
+### Design critique and the UX writing pass
+
+Every project with screens gets a **UX writing pass**. It is paired with the **design critique**, and it produces the **UX writing guide**.
+
+**How the pair runs**
+
+1. **Design critique.** The Design Critic reviews the real design: layout, hierarchy, consistency, fit with the PRD. Its findings on wording go to the UX Writer.
+2. **You decide.** For each Critical and Major finding: fix it now, or accept it with a reason.
+3. **Intake for the pass.** The UX Writer asks for anything that shows how your product already writes: prior designs, screenshots, a voice or style guide. With none, it works from the designs alone and confirms the voice with you.
+4. **UX writing pass.** It writes the final copy for every screen, in flow order: titles, labels, help text, buttons, messages, and empty, loading and error states. You approve it.
+5. **Into the design.** The fixes and the final copy are put into the wireframes, the prototypes and the final design.
+
+**What you get**
+
+| Output | What it is | Where it goes |
+|--------|------------|---------------|
+| **The final designs** | The design with the critique's accepted fixes and the approved copy in it | The one final design the team gets |
+| **UX writing guide** (`ux-writing.md`) | The voice and tone, the words the product uses, the copy patterns, and the final copy for every screen | Linked from the epic's Handoff table and the links page |
+| **One line in every ticket with a screen** | "Copy: use the copy in the design as is. It has been through the UX writing pass.", with a link to the guide | In the ticket, under Design |
+
+| | |
+|---|---|
+| **Claude Code** | `/product-os:critique --designs prototype.html --prd prd.md`, then `/product-os:ux-writing --designs prototype.html --prd prd.md --prior <screenshots>` |
+| **Claude chat, ChatGPT or Cursor** | "Run a design critique with the UX writing pass on these designs" (attach the designs and any screenshots of the current product) |
+| **Example** | [design/design-critique.md](examples/acme-dashboard/design/design-critique.md) and [design/ux-writing.md](examples/acme-dashboard/design/ux-writing.md) |
+
+Rules: [`.claude/skills/ux-writing.md`](.claude/skills/ux-writing.md). Agent: [`.claude/agents/ux-writer.md`](.claude/agents/ux-writer.md). Template: [`templates/design/ux-writing-guide.md`](templates/design/ux-writing-guide.md).
 
 ---
 
@@ -105,6 +131,9 @@ Plain-language definitions of every term used on this page.
 | **Low-fi wireframe** | A rough grayscale sketch of one screen: layout and content, no colors or brand. |
 | **Clickable prototype** | The wireframes linked together so you can click through a flow in a browser. |
 | **Design critique** | A review of the visual design (hierarchy, layout, consistency), with each finding rated by severity. |
+| **UX writing pass** | A review of every word on every screen (titles, labels, buttons, errors, empty states) against how the product already writes. It runs with the design critique. |
+| **UX writing guide** | The document the pass produces (`ux-writing.md`): the voice, the words the product uses, and the final copy for every screen. The epic links to it, and each ticket says to use the copy as is. |
+| **Design system** | The shared components, colors, type and spacing a product is built from, in Figma, in Claude Design, or both. Product OS asks for it at the start, and every design follows it. |
 | **UX review** | A usability review against Nielsen's 10 heuristics (well-known usability rules). |
 | **Accessibility audit** | A check that people with disabilities can use the design, against WCAG 2.2 AA (the common accessibility standard). |
 | **Handoff** | The short set of outputs the team gets: PRD, project brief, user flows, final design, end-to-end prototype, and the epic with its tickets. |
@@ -336,7 +365,7 @@ This is where user flow diagrams and clickable low-fi wireframes are made. Run t
 
 Full walkthrough with what to check at each sub-step: [From PRD to Reviewed Designs](docs/guides/design-workflow.md).
 
-### Step 6. Review: critique the real designs, then the review exit check
+### Step 6. Review: design critique and UX writing pass on the real designs, then the review exit check
 
 | | |
 |---|---|
@@ -346,7 +375,7 @@ Full walkthrough with what to check at each sub-step: [From PRD to Reviewed Desi
 | **You get** | `design-critique.md` (severity-rated visual findings), `ux-writing.md` (the UX writing guide: voice, words and the final copy for every screen) and the designs with that copy in them, `ux-review.md` (usability findings by heuristic), `accessibility-audit.md` plus `a11y-issues.csv` (WCAG 2.2 AA issues) |
 | **Where it lives** | Project folder · Confluence: **PM workspace → 2. Design** |
 | **Check before moving on (review exit check)** | Every critique, UX and accessibility finding is resolved or accepted with a written risk · no critical issue left open · the UX writing pass is done and the final design carries its copy · WCAG 2.2 AA verified · every Not Verified item has an owner |
-| **Example** | [design/design-critique.md](examples/acme-dashboard/design/design-critique.md) |
+| **Example** | [design/design-critique.md](examples/acme-dashboard/design/design-critique.md) · [design/ux-writing.md](examples/acme-dashboard/design/ux-writing.md) |
 
 **Reviews run on the actual designs, never on a description.**
 
