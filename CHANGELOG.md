@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.11.0] - 2026-11-27
+
+### Added
+- **A "Your tasks" card on the board** — under the next step. One row for each task: a checkbox, the owner's name, a priority tag and the Jira link. Tasks can belong to the PM or to anyone on the team, and a reader can show one person's tasks; the board remembers that choice in the reader's browser. The card reads a new collection, `todos`.
+- **A tick is saved from the board** — ticking a box writes `done` to that task. It is the one thing the board writes. A viewer without the right to write sees that the tick was not saved.
+- **Tasks in the skill** — when the PM asks for a task for themselves or a teammate, Claude creates a Jira ticket with the assignee, priority and due date, writes the task to the board, and closes the ticket when the box is ticked or the PM says it is done.
+
 ## [1.10.1] - 2026-11-26
 
 ### Changed

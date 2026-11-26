@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Product OS board</title>
 <style>
-/* The board is the read-only face of a Product OS project. Claude runs the project in the chat and writes its state to this page's database; the page shows it live. Layout: where you are and the next step first, then numbers, then one view at a time (tasks, documents, published). Every state is a badge with a sign and a word, so it never depends on colour alone. */
+/* The board is the face of a Product OS project. Claude runs the project in the chat and writes its state to this page's database; the page shows it live. The one thing a reader changes here is the tick on a task. Layout: where you are and the next step first, then numbers, then one view at a time (tasks, documents, published). Every state is a badge with a sign and a word, so it never depends on colour alone. */
 :root {
   --paper: #EDF0F4; --sheet: #FFFFFF; --ink: #0F1B2D; --muted: #4D596D; --line: #C8D0DB;
   --accent: #2443E0; --accent-ink: #FFFFFF; --wash: #E3E8FF; --accent-text: #1B34B8;
@@ -124,6 +124,25 @@ button.btn { cursor: pointer; }
 .next small { color: var(--muted); font-size: 0.9375rem; }
 .next small:empty { display: none; }
 
+.todo { padding: 16px 24px 10px; border-left: 6px solid var(--missing); }
+.todo-h { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 16px; }
+.todo-h h2 { margin: 0; font: 700 1.1875rem/1.3 var(--display); }
+.todo-h span { font-size: 0.9375rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.todo .filters { padding: 10px 0 2px; }
+.todos { list-style: none; margin: 6px 0 0; padding: 0; }
+.todos li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 2px 14px; align-items: start; padding: 12px 0; border-top: 1px dashed var(--line); }
+.todos li:first-child { border-top: 0; }
+.todos input { width: 1.375rem; height: 1.375rem; margin: 3px 0 0; accent-color: var(--accent); cursor: pointer; }
+.todos input:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.todos label { font-weight: 600; font-size: 1.0625rem; overflow-wrap: anywhere; cursor: pointer; }
+.todos .tm { grid-column: 2; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; font-size: 0.9375rem; color: var(--muted); overflow-wrap: anywhere; min-width: 0; }
+.todos .tm a { font-weight: 600; white-space: nowrap; }
+.todos .tp { grid-column: 3; grid-row: 1; }
+.todos li.done label { text-decoration: line-through; color: var(--muted); font-weight: 400; }
+.badge.sm { padding: 2px 10px 2px 8px; font-size: 0.875rem; }
+.todo-n { margin: 0; padding: 6px 0 4px; font-size: 0.9375rem; color: var(--muted); }
+#todoMsg { color: var(--missing); font-weight: 600; } #todoMsg:empty { display: none; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .kpis { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
 .kpis li { padding: 16px 20px; display: flex; flex-direction: column; gap: 2px; border-top-width: 5px; }
 .kpis li.ok { border-top-color: var(--found); } .kpis li.now { border-top-color: var(--accent); } .kpis li.miss { border-top-color: var(--missing); }
@@ -186,6 +205,7 @@ td a { font-weight: 600; }
 @media (pointer: coarse) {
   .btn, .theme button, .tabs button, .filters button, .how-more summary { min-height: 44px; }
   .how-more summary { display: flex; align-items: center; }
+  .todos input { width: 1.625rem; height: 1.625rem; margin: 1px 0 0; } .todos li { padding: 14px 0; }
 }
 @media (max-width: 1100px) {
   .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -201,6 +221,7 @@ td a { font-weight: 600; }
   body { font-size: 1rem; }
   .wrap { padding: 16px 16px 48px; gap: 16px; }
   .now-h { padding: 12px 14px; } .now-b { padding: 16px 14px 18px; } .now-main h2 { font-size: 1.5rem; } .now-dl { grid-template-columns: minmax(0, 1fr); gap: 2px; } .now-dl dd { margin-bottom: 8px; }
+  .todo { padding: 14px 14px 8px; } .todos li { grid-template-columns: auto minmax(0, 1fr); } .todos .tp { grid-column: 2; grid-row: auto; justify-self: start; margin-top: 4px; }
   .where { padding: 16px; } .where h1 { font-size: 1.5rem; } .next { padding: 16px; } .next p { font-size: 1.125rem; }
   .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; } .kpis li { padding: 12px 14px; } .kpis b { font-size: 1.75rem; }
   .brand span { display: none; }
@@ -248,7 +269,7 @@ td a { font-weight: 600; }
       <li><b>Claude leads, in your chat</b>It asks one question at a time. Tap an answer, or type your own.</li>
       <li><b>An agent takes each step</b>Claude brings in the right one, such as the PRD Author, and says who is working.</li>
       <li><b>You decide</b>Nothing is written before your yes to the plan. Nothing is published before your yes to the publish plan.</li>
-      <li><b>This board keeps score</b>It updates by itself. You only read it. Every answer goes in the chat.</li>
+      <li><b>This board keeps score</b>It updates by itself. Every answer goes in the chat. The one thing you do here is tick a task when it is done.</li>
     </ol>
     <div class="how-more">
       <details>
@@ -322,6 +343,15 @@ td a { font-weight: 600; }
         <small id="note"></small>
       </section>
 
+      <section class="card todo" id="todoBox" aria-labelledby="todoH" hidden>
+        <div class="todo-h"><h2 id="todoH">Your tasks</h2><span id="todoMeta"></span></div>
+        <div class="filters" id="todoWho" role="group" aria-label="Show the tasks of" hidden></div>
+        <ul class="todos" id="todos"></ul>
+        <p class="todo-n" id="todoNone" hidden></p>
+        <p class="todo-n">Tick a task when it is done. If it has a Jira ticket, Claude closes it the next time you write in the chat.</p>
+        <p class="todo-n" id="todoMsg" role="status"></p>
+      </section>
+
       <ul class="kpis" id="kpis" aria-label="The project in numbers"></ul>
 
       <h2 class="sec-h" id="insH" hidden>How the project is doing<span>written by Claude</span></h2>
@@ -360,7 +390,7 @@ td a { font-weight: 600; }
       </section>
     </div>
   </div>
-  <p class="credit">Product OS™ 1.10.1 · © 2026 John De La Torre-Ugarte · <a href="https://github.com/johnedelatorre/product-os" target="_blank" rel="noopener">open source on GitHub</a></p>
+  <p class="credit">Product OS™ 1.11.0 · © 2026 John De La Torre-Ugarte · <a href="https://github.com/johnedelatorre/product-os" target="_blank" rel="noopener">open source on GitHub</a></p>
 </div>
 
 <script type="application/json" id="agents">[{"name":"Intake Analyst","does":"Transform raw, unstructured requirements into clear problem/opportunity statements.","phase":1,"say":"Run intake on this request"},{"name":"Opportunity Solution Tree","does":"Creates and maintains opportunity solution trees for structured discovery and problem exploration.","phase":2,"say":"Build the opportunity tree"},{"name":"Hypothesis Logger","does":"Tracks product hypotheses from formation through validation with structured outcomes.","phase":2,"say":"Log our hypotheses"},{"name":"Market Analyst","does":"Creates market analysis briefs covering market size, trends, segments, and strategic positioning.","phase":2,"say":"Write the market analysis"},{"name":"Competitive Analyst","does":"Analyze competitive landscape and create comparison matrices.","phase":2,"say":"Compare us with the competitors"},{"name":"UX Researcher","does":"Create user research plans and synthesize interview findings.","phase":2,"say":"Plan the user research"},{"name":"Strategist","does":"Score and prioritize features using RICE, WSJF, MoSCoW, and Kano frameworks.","phase":3,"say":"Score this with RICE"},{"name":"Roadmap","does":"Create Now/Next/Later roadmaps that communicate product direction.","phase":3,"say":"Place it on the roadmap"},{"name":"OKR","does":"Define OKRs and metric trees that connect product work to business outcomes.","phase":3,"say":"Write the OKRs"},{"name":"PRD Author","does":"Write comprehensive Product Requirements Documents with full strategic context, business rationale, and measurable outcomes.","phase":4,"say":"Write the PRD"},{"name":"PR/FAQ Author","does":"Write Amazon-style Press Release and FAQ documents.","phase":4,"say":"Write the PR/FAQ"},{"name":"Project Brief Author","does":"Create one-page executive project briefs for stakeholder alignment.","phase":4,"say":"Write the project brief"},{"name":"Metrics Designer","does":"Defines north-star metrics, guardrails, and success criteria for product initiatives.","phase":4,"say":"Write the metrics framework"},{"name":"Project Planner","does":"Create RACI matrices, Gantt charts, and project timelines.","phase":4,"say":"Write the project plan"},{"name":"Risk Manager","does":"Identify, assess, and track product and project risks.","phase":4,"say":"List the risks"},{"name":"Dependency Tracker","does":"Maintains a risk and dependency register integrated with RACI and project planning.","phase":4,"say":"List the dependencies"},{"name":"Experiment Designer","does":"Design A/B tests with proper hypothesis, sample size, and success criteria.","phase":4,"say":"Design an A/B test"},{"name":"Event Tracker","does":"Creates event tracking plans for analytics platforms (Pendo, Amplitude, Mixpanel, Segment, etc.).","phase":4,"say":"Write the tracking plan"},{"name":"Product Designer","does":"Create design briefs that translate PRD requirements into design direction.","phase":5,"say":"Write the design brief"},{"name":"Flow Designer","does":"Create comprehensive user flows, journey maps, sitemaps, and system flows from PRD and design brief.","phase":5,"say":"Draw the user flows"},{"name":"Wireframer","does":"Create low-fidelity wireframes that structure screens defined by user flows.","phase":5,"say":"Make the wireframes"},{"name":"Prototyper","does":"Create clickable, self-contained HTML/React prototypes from wireframes and flows, including the end-to-end handoff prototype for the team.","phase":5,"say":"Build the clickable prototype"},{"name":"Figma","does":"Integrate with Figma via MCP to sync designs, extract tokens, and audit against PRD.","phase":5,"say":"Sync the designs with Figma"},{"name":"Design Critique","does":"Structured critique of visual designs with severity-rated findings and concrete fixes.","phase":6,"say":"Run the design critique"},{"name":"UX Writer","does":"Run the UX writing pass on the real designs, paired with the design critique, and write the UX writing guide with the final copy for every screen.","phase":6,"say":"Run the UX writing pass"},{"name":"UX Reviewer","does":"Evaluate designs against Nielsen's heuristics, Laws of UX, and established patterns.","phase":6,"say":"Run the UX review"},{"name":"Accessibility Auditor","does":"Comprehensive WCAG 2.2 AA accessibility audit with automated and manual testing.","phase":6,"say":"Run the accessibility audit"},{"name":"Delivery","does":"Turn the PRD and designs into a short engineering handoff: one epic that links to everything, lean tickets with estimates, and a ticket tree the PM approves.","phase":7,"say":"Write the epic and tickets"},{"name":"Gate Keeper","does":"Enforces Definition of Ready (DoR) and Definition of Done (DoD) gates for stories before sprint.","phase":7,"say":"Check the tickets are ready"},{"name":"Confluence Publisher","does":"Publish all project artifacts to Confluence with proper hierarchy and backlog tables.","phase":7,"say":"Show me the Confluence publish plan"},{"name":"Jira Sync","does":"Create and sync epics and stories to Jira with story points, labels, dates, and dependencies.","phase":7,"say":"Show me the Jira ticket tree"},{"name":"Launch Manager","does":"Coordinates go-to-market activities including release notes, enablement materials, and changelog updates.","phase":8,"say":"Prepare the launch"},{"name":"Stakeholder Comms","does":"Generate stakeholder updates, executive summaries, release notes, and launch communications.","phase":8,"say":"Write the stakeholder update"},{"name":"Post-Launch Reviewer","does":"Conducts post-launch reviews comparing actual results against PRD goals and feeding insights back to intake.","phase":9,"say":"Run the post-launch review"},{"name":"Retro Facilitator","does":"Facilitate retrospectives and document learnings.","phase":9,"say":"Run a retro"},{"name":"Guide","does":"Walk PMs through the complete product lifecycle, phase by phase, tracking progress and adapting to their needs.","phase":0,"say":"Start Product OS"},{"name":"Orchestrator","does":"Coordinate the Product OS pipeline by routing work between specialist agents with defined inputs, outputs, and human checkpoints.","phase":0,"say":"Run the whole pipeline"},{"name":"Decision Logger","does":"Document product decisions in ADR (Architecture Decision Record) style.","phase":0,"say":"Log this decision"},{"name":"Artifact Registry","does":"Maintains a centralized manifest of all design and product artifacts with status tracking and link validation.","phase":0,"say":"List every document and design"},{"name":"Debt Tracker","does":"Maintains a unified tracker for technical debt and design debt with prioritization.","phase":0,"say":"Track this debt"},{"name":"Doc Cleaner","does":"Clean version history out of project docs, Confluence pages, epics and Jira tickets so they show the current state only.","phase":0,"say":"Clean the history out of the documents"}]</script>
@@ -399,6 +429,8 @@ td a { font-weight: 600; }
     [/release|launch|changelog|comms/, "What shipped, written for the people who use it and the people who support it.", "Customers and your internal teams, at launch."]
   ];
   var STAGES = ["Your answers", "Draft", "Your review"];
+  var todos = [], saving = {}, theDb = null, WHO = "product-os-board-task-owner", who = "";
+  try { who = window.localStorage.getItem(WHO) || ""; } catch (e) { who = ""; }
   var state = null, links = null, docs = [], tickets = [], filter = "all", view = "tasks", opened = {}, gotState = false, gotDocs = false, timer = 0;
   function $(id) { return document.getElementById(id); }
   function el(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; }
@@ -447,7 +479,7 @@ td a { font-weight: 600; }
     if (/^https:\/\/claude\.ai\//.test(own)) { ot.href = own; ot.hidden = false; } else ot.hidden = true;
     var nx = str(state && state.next, 400);
     $("nextBox").hidden = !nx; $("nextTxt").textContent = nx;
-    $("note").textContent = "You answer in the Claude chat. This board only shows the project, and it updates by itself.";
+    $("note").textContent = "You answer in the Claude chat. This board shows the project, and it updates by itself.";
 
     var kb = $("kpis"); kb.textContent = "";
     [[done + " of " + docs.length, "documents done", "ok"], [open, "in progress", "now"], [tbd, "named TBDs, still missing", tbd ? "miss" : ""], [phDone + " of 9", "phases done", "ok"]].forEach(function (k) { var li = el("li", "card " + k[2]); li.appendChild(el("b", null, String(k[0]))); li.appendChild(el("span", null, k[1])); kb.appendChild(li); });
@@ -573,6 +605,46 @@ td a { font-weight: 600; }
       tb.appendChild(tr);
     });
   }
+  // Tasks for people: the PM's own and the team's. Claude writes them; the reader ticks one when it is done, and that tick is the only thing this page writes.
+  function drawTodos() {
+    var box = $("todoBox"), ul = $("todos"), wb = $("todoWho"), keep = document.activeElement && document.activeElement.id;
+    var owners = [], seen = {}, bare = todos.some(function (t) { return !t.owner; });
+    todos.forEach(function (t) { var k = t.owner.toLowerCase(); if (t.owner && !seen[k]) { seen[k] = 1; owners.push(t.owner); } });
+    owners.sort(function (a, b) { return a.toLowerCase() < b.toLowerCase() ? -1 : 1; });
+    var groups = owners.length + (bare ? 1 : 0), pick = groups > 1 && (who === "-" ? bare : seen[who.toLowerCase()]) ? who : "";
+    var mine = function (t) { return !pick || (pick === "-" ? !t.owner : t.owner.toLowerCase() === pick.toLowerCase()); }, list = todos.filter(mine), left = list.filter(function (t) { return !t.done; }).length;
+    box.hidden = !todos.length; ul.textContent = ""; wb.textContent = ""; wb.hidden = groups < 2;
+    if (!todos.length) return;
+    var shown = pick && pick !== "-" ? owners.filter(function (o) { return o.toLowerCase() === pick.toLowerCase(); })[0] : "";
+    $("todoH").textContent = shown ? "Tasks for " + shown : pick === "-" ? "Tasks with no owner" : owners.length > 1 || (owners.length && bare) ? "Tasks for everyone" : "Your tasks";
+    $("todoMeta").textContent = left + " of " + list.length + " left";
+    if (groups > 1) [["", "Everyone"]].concat(owners.map(function (o) { return [o, o]; })).concat(bare ? [["-", "No owner"]] : []).forEach(function (f) {
+      var b = el("button", null, f[1]), n = todos.filter(function (t) { return !t.done && (f[0] === "" || (f[0] === "-" ? !t.owner : t.owner.toLowerCase() === f[0].toLowerCase())); }).length;
+      b.type = "button"; b.id = "who-" + (f[0] || "all").toLowerCase().replace(/[^a-z0-9]+/g, "-"); b.appendChild(document.createTextNode(" " + n)); b.setAttribute("aria-pressed", String(pick.toLowerCase() === f[0].toLowerCase()));
+      b.addEventListener("click", function () { who = f[0]; try { window.localStorage.setItem(WHO, who); } catch (e) { /* the choice lasts for this visit only */ } drawTodos(); });
+      wb.appendChild(b);
+    });
+    list.forEach(function (t) {
+      var li = el("li", t.done ? "done" : ""), cb = el("input"), lab = el("label", null, t.text), meta = el("span", "tm"), a = link(t.url, t.key);
+      cb.type = "checkbox"; cb.id = "todo-" + t.id; cb.checked = t.done; lab.htmlFor = cb.id;
+      cb.addEventListener("change", function () {
+        var want = cb.checked; $("todoMsg").textContent = "";
+        if (!theDb || saving[t.id]) { cb.checked = !want; return; }
+        // The box stays enabled while the tick is saved, so keyboard focus stays on it. One write at a time for each task.
+        saving[t.id] = true;
+        theDb.doc("todos/" + t.id).update({ done: want, doneAt: want ? new Date().toISOString() : "" }).then(function () { saving[t.id] = false; }, function () { saving[t.id] = false; var now = $(cb.id); if (now) now.checked = !want; $("todoMsg").textContent = "This tick was not saved. Only the board's owner and contributors can tick a task."; });
+      });
+      if (t.owner) meta.appendChild(el("span", "chip", t.owner));
+      if (a) { a.className = "open"; a.appendChild(ext()); a.setAttribute("aria-label", "Open " + t.key + " in Jira, in a new tab"); meta.appendChild(a); } else if (t.key) meta.appendChild(el("span", null, t.key));
+      if (t.detail) meta.appendChild(el("span", null, t.detail));
+      li.appendChild(cb); li.appendChild(lab);
+      if (t.priority) { var k = /^highest$/i.test(t.priority) ? "risk" : /^high$/i.test(t.priority) ? "miss" : "idle", pb = badge(k, t.priority), wrap = el("span", "tp"); pb.className += " sm"; pb.insertBefore(el("span", "vh", "Priority: "), pb.lastChild); wrap.appendChild(pb); li.appendChild(wrap); }
+      if (meta.childNodes.length) li.appendChild(meta);
+      ul.appendChild(li);
+    });
+    $("todoNone").hidden = list.length > 0; $("todoNone").textContent = list.length ? "" : "No tasks here.";
+    if (keep && $(keep) && $(keep) !== document.activeElement) $(keep).focus();
+  }
   function drawPublished() {
     var tb = $("tickets"); tb.textContent = "";
     tickets.forEach(function (t) { var li = el("li"), b = el("b"), a = link(t.url, str(t.key, 40)); if (a) b.appendChild(a); else b.textContent = str(t.key, 40); b.appendChild(document.createTextNode(" " + str(t.summary, 200))); li.appendChild(b); li.appendChild(el("small", null, [str(t.type, 30), str(t.parent, 40) ? "under " + str(t.parent, 40) : "", num(t.points) ? num(t.points) + (num(t.points) === 1 ? " point" : " points") : ""].filter(Boolean).join(" · "))); tb.appendChild(li); });
@@ -648,6 +720,12 @@ td a { font-weight: 600; }
         .filter(function (x) { return str(x.title, 120); }).sort(function (a, b) { return ((a.phase || 10) - (b.phase || 10)) || (a.order - b.order) || (a.id < b.id ? -1 : 1); });
       draw();
     }, dead);
+    theDb = db;
+    db.collection("todos").limit(100).onSnapshot(function (snap) {
+      todos = snap.docs.map(function (d) { var x = d.data() || {}; return { id: d.id, text: str(x.text, 200), detail: str(x.detail, 240), owner: str(x.owner, 40).trim(), priority: str(x.priority, 24), key: str(x.key, 40), url: x.url, done: x.done === true, order: num(x.order) }; })
+        .filter(function (x) { return x.text; }).sort(function (a, b) { return (a.order - b.order) || (a.id < b.id ? -1 : 1); });
+      drawTodos();
+    }, function () { /* the card stays hidden */ });
     db.collection("tickets").limit(300).onSnapshot(function (snap) {
       tickets = snap.docs.map(function (d) { var x = d.data() || {}; return { key: x.key || d.id, type: x.type, summary: x.summary, url: x.url, parent: x.parent, points: x.points, order: num(x.order) }; }).sort(function (a, b) { return a.order - b.order; });
       draw();
