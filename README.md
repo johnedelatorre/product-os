@@ -35,6 +35,36 @@ In claude.ai and Cursor you ask for the same work in plain language ("Run the PR
 
 The agents do the writing; **you make the decisions**: what problem to solve, what to prioritize, which trade-offs to make, when to ship and what success looks like. Every step waits for your approval.
 
+### It asks before it writes
+
+Product OS does not produce every document it can. It asks guided questions, one at a time, with short numbered options and a recommended answer:
+
+| Question | When | What it decides |
+|----------|------|-----------------|
+| **What are you building, and what do you already have?** | First, before anything is written | The context every agent works from: the request, proposals and emails, existing PRDs and platform docs, the tech stack and backend schemas, existing designs, data and constraints. "I don't have that" is always a valid answer. |
+| **Which documents do you want for yourself?** | Start of a project | Whether you get a RACI chart, a Gantt chart, a project plan, a design brief, the design reviews and so on. Only what you pick is created. |
+| **What goes to the team?** | Start of Deliver | The standard handoff (recommended) or everything, plus any other output you want attached to the epic, such as wireframes, a schema or your Gantt chart. |
+| **Which design is final?** | Start of Deliver, when you have both | The team gets one: the Figma file or the Claude design. |
+| **Is this ticket tree right?** | After the tickets are drafted | Which work sits under which ticket. You accept it or move items before anything reaches Jira. |
+
+Every run ends with one list: **for the team** (one link to share, the epic), **for you**, and what was **not created**.
+
+### What your team gets: the handoff
+
+Engineers and heads of product told us the full document set was too much to read. So the team gets a short set, and the epic links to all of it.
+
+| # | The team gets | Notes |
+|---|---------------|-------|
+| 1 | **PRD** | Well detailed: the one place for the problem, requirements, testing, rollout and success metrics |
+| 2 | **Project brief** | One page |
+| 3 | **User flows** | The diagrams |
+| 4 | **Final design** | One link: the main Figma file, or the Claude design |
+| 5 | **End-to-end prototype** | Clickable: pick a user, then one straight path, first screen to last |
+| 6 | **The epic** | Where the team starts. Links to 1–5, in its description and as Jira links |
+| 7 | **Short tickets** | User story, problem, requirements, a link to that ticket's own design page, a "Done when" checklist, an estimate, sub-tasks |
+
+Low-fidelity wireframes and a schema are optional extras. **Backend tickets stay high level**: Product OS says what the backend must do and leaves an "Engineering to complete" section for the engineers. Everything else you asked for lives under one **PM workspace** page in Confluence, for you. Rules: [`.claude/skills/engineering-handoff.md`](.claude/skills/engineering-handoff.md).
+
 ---
 
 ## Key Terms
@@ -44,7 +74,7 @@ Plain-language definitions of every term used on this page.
 | Term | What it means |
 |------|---------------|
 | **Initiative** | A big goal or theme (for example "Customer Onboarding"). Holds one or more projects. |
-| **Project** | One piece of work inside an initiative (for example "Self-Serve Signup"). Each project gets its own folder and Confluence hub page. |
+| **Project** | One piece of work inside an initiative (for example "Self-Serve Signup"). Each project gets its own folder and Confluence links page. |
 | **Intake** | The first document: the raw request (email, Slack, meeting, data) rewritten as a clear problem with evidence. |
 | **Proposal** | For brand-new ideas: research plus a first sketch of the solution, before anyone commits. |
 | **PRD** | Product Requirements Document. What we build, for whom, why, and how we measure success. |
@@ -60,13 +90,17 @@ Plain-language definitions of every term used on this page.
 | **Design critique** | A review of the visual design (hierarchy, layout, consistency), with each finding rated by severity. |
 | **UX review** | A usability review against Nielsen's 10 heuristics (well-known usability rules). |
 | **Accessibility audit** | A check that people with disabilities can use the design, against WCAG 2.2 AA (the common accessibility standard). |
-| **Epic** | A large piece of work in Jira that delivers one outcome. Holds stories. |
-| **Story** | One small, buildable piece of an epic, written as "As a user, I want..., so that...". |
-| **Acceptance criteria (Gherkin)** | The testable rules a story must meet, written as Given / When / Then. |
+| **Handoff** | The short set of outputs the team gets: PRD, project brief, user flows, final design, end-to-end prototype, and the epic with its tickets. |
+| **Epic** | A large piece of work in Jira that delivers one outcome. Holds stories. In Product OS it is also the team's hub: it links to every handoff output. |
+| **Story (ticket)** | One small, buildable piece of an epic, written as "As a user, I want..., so that...". Kept short: problem, requirements, design link, "Done when", estimate. |
+| **Sub-task** | A step inside a story (frontend, backend, design, testing, tracking). It sits under its story in Jira and carries no points. |
+| **Ticket tree** | The proposed organization of the backlog: which work sits under which ticket. You accept it before anything goes to Jira. |
+| **Done when** | The acceptance criteria: a short checklist of plain sentences a tester can check. |
 | **DoR / DoD gate** | Definition of Ready (a story is ready to build) and Definition of Done (it is really finished). A gate checks each rule and records Pass, Conditional, Fail, N/A or Not Verified with evidence. |
 | **Not Verified** | A check that could not be done (no file, no tool). It is never counted as a pass. |
 | **Open item / deferred** | Information you don't have yet. You defer it, Product OS records who provides it and when, and brings it back later. |
-| **Confluence hub page** | The project's home page in Confluence: summary, metrics and a table linking every document. |
+| **Links page** | The project's page in Confluence: summary, metrics and the Handoff table, with the same links as the epic. |
+| **PM workspace** | One Confluence page, under the project page, that holds the documents you asked for yourself. The team's pages do not link to it. |
 | **Guided mode** | The step-by-step path through all nine phases, with questions and progress tracking. |
 | **Review exit check** | The end of Phase 6: every critique, UX and accessibility finding is resolved or accepted with a written risk before stories are written. |
 | **Agent** | An AI role with one job (for example the PRD Author). Each is a file in `.claude/agents/`. |
@@ -171,7 +205,7 @@ This is the whole workflow, in order. Guided mode walks you through it and asks 
 | **Check before moving on** | What you confirm before the next step |
 | **Example** | The same document, filled in, from the fictional Acme project |
 
-**Before you start:** pick an initiative name and a project name, and gather what you have (the request, tickets, data, any existing PRD). Existing documents are detected and marked done.
+**Before you start:** pick an initiative name and a project name, and gather what you have. Product OS asks for it first, one question at a time: the request (proposals, emails, tickets), existing PRDs and platform docs, the tech stack and any backend schemas, existing designs or a previous project to follow, data, and constraints. You do not need all of it. Existing documents are detected and marked done.
 
 ### Step 1. Intake: turn the request into a problem
 
@@ -181,7 +215,7 @@ This is the whole workflow, in order. Guided mode walks you through it and asks 
 | **claude.ai or Cursor** | "Start Product OS guided mode for initiative X, project Y. Here is the request: ..." |
 | **Product OS asks you** | What was asked and by whom? Who has the problem? What evidence do you have (tickets, data, quotes)? Who are the stakeholders? |
 | **You get** | `intake.md`: the request rewritten as a problem statement with evidence, affected users and stakeholders. No solution yet. |
-| **Where it lives** | `intake.md` · Confluence: **1. Strategy & Definition** |
+| **Where it lives** | `intake.md` · Confluence: **PM workspace → 1. Strategy & Definition** |
 | **Check before moving on** | The problem is stated without a solution baked in · evidence is listed · stakeholders are named · you approve the framing |
 | **Example** | [intake/intake.md](examples/acme-dashboard/intake/intake.md) |
 
@@ -219,7 +253,7 @@ What happens next depends on the request: a **new idea** goes to a proposal firs
 | **claude.ai or Cursor** | "Write the PRD from intake.md, review it, then write the project brief, metrics framework and project plan." |
 | **Product OS asks you** | Goals and non-goals · users and use cases · requirements · current baselines and targets · when to stop · team, owners and dates |
 | **You get** | `prd.md` (19-section requirements), `prd-review.md` (blockers, gaps, suggestions, conflicts), `project-brief.md` (one page), `metrics-framework.md` (how success is measured), `project-plan.md`, `raci.md`, `gantt.md` |
-| **Where it lives** | Confluence: PRD, review, brief and metrics in **1. Strategy & Definition**; plan, RACI and Gantt in **3. Delivery** |
+| **Where it lives** | Confluence: PRD and brief directly under the project page, for the team; metrics in **PM workspace → 1. Strategy & Definition**; plan, RACI and Gantt in **PM workspace → 3. Delivery**, when you asked for them |
 | **Check before moving on** | PRD stage matches intent (Early, Defined, Delivery-ready) · review blockers resolved or deferred · metrics have baselines and targets (or a named TBD) · stop criteria have owners · RACI has one owner per row |
 | **Example** | [pm/prd.md](examples/acme-dashboard/pm/prd.md) · [pm/project-brief.md](examples/acme-dashboard/pm/project-brief.md) · [pm/metrics-framework.md](examples/acme-dashboard/pm/metrics-framework.md) |
 
@@ -229,17 +263,17 @@ This is where user flow diagrams and clickable low-fi wireframes are made. Run t
 
 | Sub-step | Claude Code | You get | How to open and share it |
 |----------|-------------|---------|--------------------------|
-| 5a. Design brief | `/product-os:design-brief --from prd.md` | `design-brief.md`: design goals, principles, constraints, accessibility target | Any Markdown viewer · Confluence **2. Design → Design Brief** |
-| 5b. User flow diagrams | `/product-os:flows --from prd.md` | `flows.md` (Mermaid diagrams, happy path plus error, empty and timeout paths) and `flows.yaml` (the source the diagrams are drawn from), plus journey map and sitemap | `flows.md` renders as diagrams on GitHub, in claude.ai and in editors with a Mermaid preview. In claude.ai, if a diagram doesn't render, ask Claude to show the flow as an artifact or diagram. In Claude Code, add `--targets claude-artifact,figjam` for an interactive page or a FigJam board · Confluence **2. Design → User Flows** |
-| 5c. Low-fi wireframes | `/product-os:wireframes --from flows.yaml --brief design-brief.md` | `wireframes.md`: one grayscale sketch per screen (IDs `SCR-###`, for example `SCR-001`), with states and notes | Any Markdown viewer · ask for HTML wireframes when you need more detail · Confluence **2. Design → Wireframes & Prototype** |
-| 5d. Clickable low-fi prototype | `/product-os:prototype --from wireframes.md --flows flows.yaml` | `prototype.html`: the wireframes linked into a clickable flow with annotations; `prototype-react.tsx` for a claude.ai Artifact | Double-click `prototype.html` to open it in any browser, no install. `→`/`←` move through the flow, `a` shows notes. Share the file, or paste the `.tsx` into claude.ai for a shareable link · Confluence **2. Design → Wireframes & Prototype** (prototype attached or linked) |
+| 5a. Design brief | `/product-os:design-brief --from prd.md` | `design-brief.md`: design goals, principles, constraints, accessibility target | Any Markdown viewer · Confluence **PM workspace → 2. Design → Design Brief** |
+| 5b. User flow diagrams | `/product-os:flows --from prd.md` | `flows.md` (Mermaid diagrams, happy path plus error, empty and timeout paths) and `flows.yaml` (the source the diagrams are drawn from), plus journey map and sitemap | `flows.md` renders as diagrams on GitHub, in claude.ai and in editors with a Mermaid preview. In claude.ai, if a diagram doesn't render, ask Claude to show the flow as an artifact or diagram. In Claude Code, add `--targets claude-artifact,figjam` for an interactive page or a FigJam board · Confluence **User Flows**, under the project page, for the team |
+| 5c. Low-fi wireframes | `/product-os:wireframes --from flows.yaml --brief design-brief.md` | `wireframes.md`: one grayscale sketch per screen (IDs `SCR-###`, for example `SCR-001`), with states and notes | Any Markdown viewer · ask for HTML wireframes when you need more detail · Confluence **PM workspace → 2. Design → Wireframes & Prototype**, or under the project page when you attach it to the epic |
+| 5d. Clickable low-fi prototype | `/product-os:prototype --from wireframes.md --flows flows.yaml` | `prototype.html`: the wireframes linked into a clickable flow with annotations; `prototype-react.tsx` for a claude.ai Artifact | Double-click `prototype.html` to open it in any browser, no install. `→`/`←` move through the flow, `a` shows notes. Share the file, or paste the `.tsx` into claude.ai for a shareable link · Confluence **PM workspace → 2. Design → Wireframes & Prototype** (prototype attached or linked). The team's end-to-end version, `prototype-handoff.html`, is linked from the epic |
 | 5e. Figma (optional) | `/product-os:figma figjam --flows flows.yaml --url <figma-url>` (also `push`, `audit`, `tokens`) | A FigJam board of the flows, wireframe frames in Figma, or a Figma-vs-PRD audit | Open the Figma link · link it from the Confluence design pages |
 
 | | |
 |---|---|
 | **claude.ai or Cursor** | "Write the design brief from prd.md, then the user flows, then low-fi wireframes, then a clickable HTML prototype." |
 | **Product OS asks you** | Design system or brand to follow · platforms (web, mobile) · accessibility target · a Figma link, if you have one |
-| **Where it lives** | Project folder · Confluence: **2. Design** (`flows.yaml` stays in the repo) |
+| **Where it lives** | Project folder · Confluence: user flows under the project page, for the team; the rest in **PM workspace → 2. Design** (`flows.yaml` stays in the repo) |
 | **Check before moving on** | Every PRD use case has a flow · each flow has error paths and no dead ends · every screen in the flows is wireframed with real content · you clicked through the prototype end to end |
 | **Example** | [design/flows.md](examples/acme-dashboard/design/flows.md) · [design/flows.yaml](examples/acme-dashboard/design/flows.yaml) · [design/wireframes.md](examples/acme-dashboard/design/wireframes.md) · [design/prototype.html](examples/acme-dashboard/design/prototype.html) |
 
@@ -253,7 +287,7 @@ Full walkthrough with what to check at each sub-step: [From PRD to Reviewed Desi
 | **claude.ai or Cursor** | "Run a design critique, a UX review and an accessibility audit on prototype.html" (attach screenshots or share the Figma link) |
 | **Product OS asks you** | Which design to review: a Figma link, screenshots, `prototype.html` (or a hosted URL) or `wireframes.md` |
 | **You get** | `design-critique.md` (severity-rated visual findings), `ux-review.md` (usability findings by heuristic), `accessibility-audit.md` plus `a11y-issues.csv` (WCAG 2.2 AA issues) |
-| **Where it lives** | Project folder · Confluence: **2. Design** |
+| **Where it lives** | Project folder · Confluence: **PM workspace → 2. Design** |
 | **Check before moving on (review exit check)** | Every critique, UX and accessibility finding is resolved or accepted with a written risk · no critical issue left open · WCAG 2.2 AA verified · every Not Verified item has an owner |
 | **Example** | [design/design-critique.md](examples/acme-dashboard/design/design-critique.md) |
 
@@ -266,16 +300,16 @@ Full walkthrough with what to check at each sub-step: [From PRD to Reviewed Desi
 
 The **Definition of Ready gate** runs on the stories once they exist, in Step 7.
 
-### Step 7. Deliver: epics, stories, Confluence and Jira
+### Step 7. Deliver: the handoff, the epic, short tickets, Confluence and Jira
 
 | | |
 |---|---|
 | **Claude Code** | `/product-os:deliver --from prd.md --designs design-brief.md,wireframes.md` → `/product-os:tracking --from prd.md` → `/product-os:gate --stories stories.md --gate dor` → `/product-os:publish --project initiatives/<initiative>/<project>/` → `/product-os:jira-sync --project initiatives/<initiative>/<project>/` |
-| **claude.ai or Cursor** | "Write the epics and stories with Gherkin acceptance criteria, check them against Definition of Ready, then show me the Confluence and Jira publish plan." |
-| **Product OS asks you** | Team split (frontend, backend) · known unknowns that need a spike · your Confluence space and Jira project · approval of the publish plan |
-| **You get** | `epics.md` and `stories.md` (Jira-ready, with acceptance criteria, points and design links), `traceability.md` (requirement → story → test), `tracking-plan.md` (analytics events), `gate-report.md` (the Definition of Ready gate on the stories: Pass / Fail per rule, with evidence), then Confluence pages and Jira issues |
-| **Where it lives** | Jira: one epic with child stories · Confluence: project hub page plus **3. Delivery** (epics and stories, traceability) and **4. Decisions & Launch** (event tracking plan) · `gate-report.md` stays local |
-| **Check before moving on** | Every story has testable Given/When/Then criteria and points · unknowns are spikes, not guesses · traceability gaps have a reason · you approved exactly what gets written |
+| **claude.ai or Cursor** | "Ask me the outputs question, write the epic and short tickets, propose the ticket tree, check the tickets against Definition of Ready, then show me the Confluence and Jira publish plan." |
+| **Product OS asks you** | What goes to the team (the standard handoff is recommended) · any other outputs to attach to the epic · which design is final · how tickets are organized · whether the proposed ticket tree is right · known unknowns that need a spike · your Confluence space and Jira project · approval of the publish plan |
+| **You get** | `epics.md` (the epic, which links to every handoff output) and `stories.md` (short tickets with a "Done when" checklist, points, sub-tasks and a link to each ticket's own design page; backend tickets left for the engineers to complete), `traceability.md` (requirement → story → test), `tracking-plan.md` (analytics events), `gate-report.md` (the Definition of Ready gate on the stories: Pass / Fail per rule, with evidence), then Confluence pages and Jira issues |
+| **Where it lives** | Jira: one epic with the handoff links, child stories and their sub-tasks · Confluence: the project's links page, the team's pages (PRD, brief, user flows, Epics & Stories) and **PM workspace** for everything you asked for yourself · `gate-report.md` stays local |
+| **Check before moving on** | The epic links to every handoff output · every story has a testable "Done when" checklist and points, at 1–5 points · you accepted the ticket tree · unknowns are spikes, not guesses · traceability gaps have a reason · you approved exactly what gets written · you have the one link to share with the team: the epic |
 | **Example** | [jira/epic.md](examples/acme-dashboard/jira/epic.md) · [jira/stories.md](examples/acme-dashboard/jira/stories.md) · [confluence/00-hub-page.md](examples/acme-dashboard/confluence/00-hub-page.md) · [confluence page tree](examples/acme-dashboard/confluence/README.md) |
 
 ### Step 8. Launch: release notes, enablement, go or no-go
@@ -286,7 +320,7 @@ The **Definition of Ready gate** runs on the stories once they exist, in Step 7.
 | **claude.ai or Cursor** | "Prepare the launch: release notes, enablement and the launch checklist. List the open items first." |
 | **Product OS asks you** | For each open item: resolve it now, or carry it forward as an accepted risk (with who accepted it) · who the audience is · how to roll back |
 | **You get** | `release-notes.md`, `enablement.md` (for sales and support), `launch-checklist.md`, `decision-log.md` |
-| **Where it lives** | Confluence **4. Decisions & Launch**: release notes, decision log · `enablement.md` stays local |
+| **Where it lives** | Confluence **PM workspace → 4. Decisions & Launch**: release notes, decision log · `enablement.md` stays local |
 | **Check before moving on** | Open items decided · support enabled · monitoring and alerts live · rollback written and tested · PRD still matches what was built |
 | **Example** | No Acme file; blank template: `templates/launch/release-notes.md` |
 
@@ -298,7 +332,7 @@ The **Definition of Ready gate** runs on the stories once they exist, in Step 7.
 | **claude.ai or Cursor** | "Run the post-launch review against the PRD targets, then a retro." |
 | **Product OS asks you** | Actual numbers and dashboard links for each metric · guardrail status · what the team learned |
 | **You get** | `post-launch-review.md` (results vs targets, with evidence), decision-log updates, `followup-intake.md` (the next piece of work) |
-| **Where it lives** | Confluence **4. Decisions & Launch**: post-launch review, decision log · the retro goes to Confluence outside the four standard groups (the publish plan shows where) |
+| **Where it lives** | Confluence **PM workspace → 4. Decisions & Launch**: post-launch review, decision log · the retro goes to Confluence outside the four standard groups (the publish plan shows where) |
 | **Check before moving on** | Every metric compared to its target with evidence · guardrails checked, not assumed · stop criteria evaluated · follow-ups created, or "none needed" written down |
 | **Example** | What it is measured against: [metrics framework §5 and §7](examples/acme-dashboard/pm/metrics-framework.md#5-stop-criteria-and-success-criteria) · blank template: `templates/pm/post-launch-review.md` |
 
@@ -448,10 +482,10 @@ prd.md (stage: Early → Defined → Delivery-ready)                            
              ▼                                                               │
     epics.md (T-shirt estimates) ──▶ stories.md (Fibonacci points)          │
              │                           │                                   │
-             │                           ├── Gherkin acceptance criteria     │
-             │                           ├── Testing requirements            │
-             │                           ├── Observability requirements      │
-             │                           └── Rollout/rollback requirements   │
+             │                           ├── User story and problem          │
+             │                           ├── Requirements and design link    │
+             │                           ├── "Done when" checklist           │
+             │                           └── Estimate and sub-tasks          │
              │                           │                                   │
              │                           ▼                                   │
              │              gate-report.md: Definition of Ready gate         │
@@ -511,22 +545,22 @@ Documents and Confluence pages open with the full standard header below, so a re
 [Document-specific sections follow]
 ```
 
-**Confluence:** one hub page per project, with four groups under it.
+**Confluence:** one links page per project for the team, and one PM workspace page for you.
 
 | Page | What it holds |
 |------|---------------|
-| **[Project name]** (hub page) | The standard header plus a "Documents in this project" table linking every page |
-| **1. Strategy & Definition** | Intake, proposal or project brief, PRD, PRD review, metrics framework |
-| **2. Design** | Design brief, user flows, wireframes and prototype, design critique, UX review, accessibility audit |
-| **3. Delivery** | Epics and stories, project plan, RACI, Gantt, risks, dependencies, traceability |
-| **4. Decisions & Launch** | Decision log, event tracking plan, release notes, post-launch review |
+| **[Project name]** (links page) | The standard header plus the "Handoff" table, with the same links as the epic |
+| **PRD, Project Brief, User Flows** | The team's pages, directly under the project page, plus any extras you attached |
+| **Epics & Stories** | What each epic delivers, the handoff links and the ticket tree with Jira links |
+| **PM workspace** | Everything you asked for yourself, in four groups: 1. Strategy & Definition · 2. Design · 3. Delivery · 4. Decisions & Launch |
 
 **Jira:**
 
 | Item | Summary format | Description holds |
 |------|----------------|-------------------|
-| **Epic** | `[Project] — [Outcome in plain words]` | Subtitle, Description, Problem Statement, Solution, Success Metrics, the story groups, and links to the PRD, designs and Confluence hub |
-| **Story** | `[Verb] [thing] [for whom]` | "As a / I want / so that", Description, Problem Statement, Solution, Gherkin acceptance criteria, links to the actual screens, Validation, and discipline, points and dependencies |
+| **Epic** | `[Project] — [Outcome in plain words]` | Subtitle, What and why, Who it is for, the Handoff table (PRD, project brief, user flows, final design, end-to-end prototype, extras), the ticket list and one estimate line. Each handoff output is also a Jira link on the epic |
+| **Story** | `[Verb] [thing] [for whom]` | "As a / I want / so that", a short Problem, Requirements, UX and design requirements, a link to that ticket's own design page, a "Done when" checklist and an Estimate. Backend tickets add an empty "Engineering to complete" section |
+| **Sub-task** | `[frontend] [step]` | Nothing: the parent story has the detail |
 
 Full rules: [Document Format Standard](docs/reference/document-format.md). Docs, pages and tickets show the current state only, with no version history.
 
@@ -534,7 +568,7 @@ Full rules: [Document Format Standard](docs/reference/document-format.md). Docs,
 
 ## Examples You Can Copy
 
-A complete fictional project, **Acme Dashboard Performance**, filled in end to end. Every document uses the standard header; the Jira examples use the trimmed epic and story formats. Start with the [gallery guide](examples/acme-dashboard/README.md).
+A complete fictional project, **Acme Dashboard Performance**, filled in end to end. Every document uses the standard header; the Jira examples show the epic as the team's hub and the short ticket format. Start with the [gallery guide](examples/acme-dashboard/README.md).
 
 | # | Example | What it shows | Made by |
 |---|---------|---------------|---------|
@@ -544,11 +578,12 @@ A complete fictional project, **Acme Dashboard Performance**, filled in end to e
 | 4 | [Metrics framework](examples/acme-dashboard/pm/metrics-framework.md) | North star, inputs, guardrails, stop criteria, validation plan | `/product-os:metrics` |
 | 5 | [User flows](examples/acme-dashboard/design/flows.md) + [flows.yaml](examples/acme-dashboard/design/flows.yaml) | Flow diagrams with step tables; the YAML is the source | `/product-os:flows` |
 | 6 | [Wireframes](examples/acme-dashboard/design/wireframes.md) | Low-fi screens with notes and states | `/product-os:wireframes` |
-| 7 | [Clickable prototype](examples/acme-dashboard/design/prototype.html) | Download and open in a browser; `←` `→` move between screens | `/product-os:prototype` |
+| 7 | [Clickable prototype](examples/acme-dashboard/design/prototype.html) | The full version with every state, for design review. Download and open in a browser; `←` `→` move between screens | `/product-os:prototype` |
+| 7a | [Handoff prototype](examples/acme-dashboard/design/prototype-handoff.html) | The team's version: pick a user, then one straight path end to end | `/product-os:prototype --handoff` |
 | 8 | [Design critique](examples/acme-dashboard/design/design-critique.md) | A critique of the actual prototype; every finding cites a screen and element | `/product-os:critique` |
-| 9 | [Jira epic](examples/acme-dashboard/jira/epic.md) | Summary and Description exactly as Jira shows them | `/product-os:deliver` |
-| 10 | [Jira stories](examples/acme-dashboard/jira/stories.md) | Stories with Gherkin criteria, design links and validation | `/product-os:deliver` |
-| 11 | [Confluence hub page](examples/acme-dashboard/confluence/00-hub-page.md) | The project home page with the documents table | `/product-os:publish` |
+| 9 | [Jira epic](examples/acme-dashboard/jira/epic.md) | The team's hub: the Handoff links, the ticket list, and the ticket tree the PM accepted | `/product-os:deliver` |
+| 10 | [Jira stories](examples/acme-dashboard/jira/stories.md) | Short tickets with a "Done when" checklist, design links and sub-tasks; backend parts left for engineering; PM notes at the end | `/product-os:deliver` |
+| 11 | [Confluence links page](examples/acme-dashboard/confluence/00-hub-page.md) | The project page with the Handoff table, pointing to the epic | `/product-os:publish` |
 | 12 | [Confluence page tree](examples/acme-dashboard/confluence/README.md) | Which file becomes which Confluence page | `/product-os:publish` |
 
 To use one as a template: copy it into `initiatives/<initiative>/<project>/`, keep the headings, replace the content. Blank templates are in `templates/`.
@@ -690,9 +725,9 @@ Every command is a Claude Code slash command. In claude.ai or Cursor, ask for th
 
 | Command | What it does |
 |---------|--------------|
-| `/product-os:deliver` | Epics and stories with Gherkin acceptance criteria and points |
-| `/product-os:publish` | Publish project docs to Confluence (after approval) |
-| `/product-os:jira-sync` | Create or update Jira epics and stories (after approval) |
+| `/product-os:deliver` | The engineering handoff: asks what goes to the team, then writes the epic (the team's hub), short tickets with points, and a ticket tree you approve |
+| `/product-os:publish` | Publish to Confluence (after approval): a links page and the team's pages, with your own documents under PM workspace |
+| `/product-os:jira-sync` | Create or update the Jira epic with its handoff links, stories and sub-tasks (after approval) |
 
 **Launch**
 
@@ -756,7 +791,7 @@ Product OS includes **40 specialist agents**, each with one responsibility. The 
 | | UX Reviewer | `/product-os:ux-review` | Nielsen's heuristics evaluation |
 | | Accessibility Auditor | `/product-os:a11y` | WCAG 2.2 AA audit |
 | | Gate Keeper | `/product-os:gate` | DoR/DoD validation |
-| **Delivery** | Delivery Agent | `/product-os:deliver` | Epics and stories with points |
+| **Delivery** | Delivery Agent | `/product-os:deliver` | The engineering handoff: the epic as hub, short tickets with points, the ticket tree |
 | | Confluence Publisher | `/product-os:publish` | Publishes to Confluence |
 | | Jira Sync | `/product-os:jira-sync` | Creates/updates Jira issues |
 | **Metrics** | Metrics Designer | `/product-os:metrics` | North star, guardrails, success criteria |
@@ -787,10 +822,10 @@ Each agent's inputs, outputs and examples: [Agent Guide Index](docs/guides/agent
 
 ## Skills
 
-Skills are the playbooks agents follow: frameworks, best practices and quality checklists. Product OS ships 41 reusable skills in `.claude/skills/`. Agents read them automatically; you can also point Claude at one ("use the prioritization skill to score these features").
+Skills are the playbooks agents follow: frameworks, best practices and quality checklists. Product OS ships 42 reusable skills in `.claude/skills/`. Agents read them automatically; you can also point Claude at one ("use the prioritization skill to score these features").
 
 <details>
-<summary><b>All 41 skills, by area, with the agents that use them</b> (click to expand)</summary>
+<summary><b>All 42 skills, by area, with the agents that use them</b> (click to expand)</summary>
 
 | Area | Skill | What it teaches | Used by |
 |------|-------|-----------------|---------|
@@ -824,7 +859,8 @@ Skills are the playbooks agents follow: frameworks, best practices and quality c
 | | UX Heuristics | Nielsen's 10 heuristics, Laws of UX | UX Reviewer |
 | | Accessibility Audit | WCAG 2.2 AA criteria, axe-core | Accessibility Auditor |
 | | DoR/DoD Gates | Definition of Ready/Done criteria | Gate Keeper |
-| **Delivery** | Story Pointing | Fibonacci scale, complexity factors | Delivery Agent |
+| **Delivery** | Engineering Handoff | Guided questions, what the team gets, the epic as hub, short tickets, the ticket tree, PM workspace | Guide, Delivery Agent, Prototyper, Confluence Publisher, Jira Sync |
+| | Story Pointing | Fibonacci scale, complexity factors | Delivery Agent |
 | | Discipline Labeling | Frontend/backend/fullstack assignment | Delivery Agent |
 | | Confluence Publishing | Page hierarchy, backlog tables, approval before writes | Confluence Publisher |
 | | Jira Sync | Epic/story creation, dependency links, approval before writes | Jira Sync |
@@ -850,7 +886,7 @@ Every document Product OS can write, with where it ends up. In Claude Code and C
 
 | Document | What it is | When to use | Agent | Destination |
 |----------|-----------|-------------|-------|-------------|
-| **Intake** | Structured problem statement | First step for any new work | Intake Analyst | Confluence: 1. Strategy & Definition |
+| **Intake** | Structured problem statement | First step for any new work | Intake Analyst | Confluence: PM workspace · 1. Strategy & Definition |
 | **Opportunity Tree** | Outcome → opportunities → solutions | Discovery | Opportunity Tree | Confluence: outside the groups* |
 | **Hypothesis Log** | Assumptions with validation status | Throughout discovery | Hypothesis Logger | Confluence: outside the groups* |
 | **Market Analysis** | TAM/SAM/SOM, trends, segments | Strategic planning | Market Analyst | Confluence: outside the groups* |
@@ -860,32 +896,33 @@ Every document Product OS can write, with where it ends up. In Claude Code and C
 | **Roadmap** | Now/Next/Later view | Stakeholder communication | Roadmap Agent | Confluence: outside the groups* |
 | **OKRs** | Objectives and key results | Quarterly planning | OKR Agent | Confluence: outside the groups* |
 | **PR/FAQ** | Amazon-style press release | Early validation | PR/FAQ Author | Local |
-| **PRD** | Comprehensive requirements (19 sections) | Features needing a full spec | PRD Author | Confluence: 1. Strategy & Definition |
-| **Project Brief** | One-page executive summary | Stakeholder alignment | Project Brief | Confluence: 1. Strategy & Definition |
-| **Metrics Framework** | North star, inputs, guardrails | Every initiative | Metrics Designer | Confluence: 1. Strategy & Definition |
-| **Project Plan** | Phases, milestones, timeline | Complex projects | Project Planner | Confluence: 3. Delivery |
-| **RACI Matrix** | Responsibility assignment | Cross-functional projects | Project Planner | Confluence: 3. Delivery |
-| **Gantt Chart** | Timeline with dependencies | Sprint planning, Jira Plans | Project Planner | Confluence: 3. Delivery + Jira Plans |
-| **Risk Register** | Risks with mitigations | Project planning | Risk Manager | Confluence: 3. Delivery (Risks) |
-| **Design Brief** | Design direction and constraints | Before wireframes | Product Designer | Confluence: 2. Design |
-| **User Flows** | Step-by-step journeys (YAML + Mermaid) | Multi-step features | Flow Designer | Confluence: 2. Design |
-| **Wireframes** | Low-fidelity layouts | Before visual design | Wireframer | Confluence: 2. Design (Wireframes & Prototype page) |
-| **Prototype** | Clickable HTML/React demo | User testing | Prototyper | Confluence: 2. Design (Wireframes & Prototype page, prototype attached or linked) |
+| **PRD** | Comprehensive requirements (19 sections) | Features needing a full spec | PRD Author | Confluence: under the project page, for the team|
+| **Project Brief** | One-page executive summary | Stakeholder alignment | Project Brief | Confluence: under the project page, for the team|
+| **Metrics Framework** | North star, inputs, guardrails | Every initiative | Metrics Designer | Confluence: PM workspace · 1. Strategy & Definition |
+| **Project Plan** | Phases, milestones, timeline | Complex projects | Project Planner | Confluence: PM workspace · 3. Delivery |
+| **RACI Matrix** | Responsibility assignment | Cross-functional projects | Project Planner | Confluence: PM workspace · 3. Delivery |
+| **Gantt Chart** | Timeline with dependencies | Sprint planning, Jira Plans | Project Planner | Confluence: PM workspace · 3. Delivery + Jira Plans |
+| **Risk Register** | Risks with mitigations | Project planning | Risk Manager | Confluence: PM workspace · 3. Delivery (Risks) |
+| **Design Brief** | Design direction and constraints | Before wireframes | Product Designer | Confluence: PM workspace · 2. Design |
+| **User Flows** | Step-by-step journeys (YAML + Mermaid) | Multi-step features | Flow Designer | Confluence: under the project page, for the team|
+| **Wireframes** | Low-fidelity layouts | Before visual design | Wireframer | Confluence: PM workspace · 2. Design (Wireframes & Prototype page) |
+| **Handoff Prototype** | The team's end-to-end prototype: one straight path per user | Engineering handoff | Prototyper | Linked from the epic and the links page |
+| **Prototype** | Clickable HTML/React demo | User testing | Prototyper | Confluence: PM workspace · 2. Design (Wireframes & Prototype page, prototype attached or linked) |
 | **Artifact Registry** | Links to all design assets | Throughout project | Artifact Registry | Confluence: outside the groups* |
-| **Design Critique** | Severity-rated visual feedback | Before handoff | Design Critic | Confluence: 2. Design |
-| **UX Review** | Nielsen's heuristics evaluation | Quality gate | UX Reviewer | Confluence: 2. Design |
-| **Accessibility Audit** | WCAG 2.2 AA compliance | Before launch | Accessibility Auditor | Confluence: 2. Design |
+| **Design Critique** | Severity-rated visual feedback | Before handoff | Design Critic | Confluence: PM workspace · 2. Design |
+| **UX Review** | Nielsen's heuristics evaluation | Quality gate | UX Reviewer | Confluence: PM workspace · 2. Design |
+| **Accessibility Audit** | WCAG 2.2 AA compliance | Before launch | Accessibility Auditor | Confluence: PM workspace · 2. Design |
 | **Gate Report** | DoR/DoD compliance | Sprint planning | Gate Keeper | Local |
-| **Epics & Stories** | User stories with ACs and points | Sprint backlog | Delivery Agent | Jira + Confluence: 3. Delivery (Epics & Stories page) |
-| **Dependency Register** | Dependencies + risks + RACI | Project planning | Dependency Tracker | Confluence: 3. Delivery (Dependencies) |
-| **Event Tracking Plan** | Analytics events spec | Before launch | Event Tracker | Confluence: 4. Decisions & Launch |
-| **Release Notes** | Customer-facing changes | Launch | Launch Manager | Confluence: 4. Decisions & Launch |
+| **Epics & Stories** | The epic (the team's hub) and short tickets with a "Done when" checklist and points | Sprint backlog | Delivery Agent | Jira + Confluence: Epics & Stories page, for the team |
+| **Dependency Register** | Dependencies + risks + RACI | Project planning | Dependency Tracker | Confluence: PM workspace · 3. Delivery (Dependencies) |
+| **Event Tracking Plan** | Analytics events spec | Before launch | Event Tracker | Confluence: PM workspace · 4. Decisions & Launch |
+| **Release Notes** | Customer-facing changes | Launch | Launch Manager | Confluence: PM workspace · 4. Decisions & Launch |
 | **Enablement** | Sales/support materials | Launch | Launch Manager | Local |
 | **Stakeholder Update** | Progress summary | Weekly | Stakeholder Comms | Email/Confluence |
-| **Post-Launch Review** | Results vs PRD goals | 14+ days after launch | Post-Launch Reviewer | Confluence: 4. Decisions & Launch |
+| **Post-Launch Review** | Results vs PRD goals | 14+ days after launch | Post-Launch Reviewer | Confluence: PM workspace · 4. Decisions & Launch |
 | **Retrospective** | Start/Stop/Continue | End of project | Retro Facilitator | Confluence: outside the groups* |
 | **Debt Register** | Tech and design debt | Ongoing | Debt Tracker | Confluence: outside the groups* |
-| **Decision Log** | ADR-style records | Capturing rationale | Decision Logger | Confluence: 4. Decisions & Launch |
+| **Decision Log** | ADR-style records | Capturing rationale | Decision Logger | Confluence: PM workspace · 4. Decisions & Launch |
 
 \* Not one of the four standard group pages. The publish plan proposes where the page goes under the project hub, and you approve it before anything is written.
 

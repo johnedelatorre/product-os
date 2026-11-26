@@ -188,8 +188,8 @@ definition_of_done:
 | Criterion | Status | Evidence | Notes |
 |-----------|--------|----------|-------|
 | User story format | ✅ Pass | Story follows format | |
-| Acceptance criteria | ✅ Pass | 4 ACs in Gherkin | |
-| Story points | ✅ Pass | 5 pts with rationale | |
+| Acceptance criteria | ✅ Pass | 4 testable "Done when" lines | |
+| Story points | ✅ Pass | 5 pts, proposed; engineering confirmed | |
 | Discipline label | ✅ Pass | Backend assigned | |
 | Dependencies | ⚠️ Conditional | Auth API v2 listed | Not in dependency register |
 | Designs | N/A | Backend-only story | No UI component |

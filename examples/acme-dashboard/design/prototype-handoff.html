@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard Performance · Handoff prototype</title>
+<!--
+  Fictional example. The team's end-to-end prototype (Product OS: .claude/skills/engineering-handoff.md).
+  Pick a user, then follow one straight path with Next and Back. No option panels, no annotations.
+  Each screen keeps its SCR-### ID, so a ticket can link to its step: prototype-handoff.html#scr-003
+-->
+<style>
+  :root { --ink:#1f2933; --muted:#5b6770; --line:#c9d1d9; --fill:#eef1f4; --block:#dfe4e9; --accent:#1d4ed8; --warn:#92400e; --warn-bg:#fef3c7; }
+  * { box-sizing: border-box; }
+  body { margin:0; font:16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; color:var(--ink); background:#f6f7f9; }
+  header.bar { position:sticky; top:0; z-index:2; background:#fff; border-bottom:1px solid var(--line); padding:12px 20px; display:flex; flex-wrap:wrap; gap:8px 20px; align-items:center; justify-content:space-between; }
+  header.bar strong { font-size:15px; }
+  .where { font:13px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; color:var(--muted); }
+  main { max-width:960px; margin:0 auto; padding:24px 20px 96px; }
+  h1 { font-size:26px; margin:8px 0 6px; }
+  h2 { font-size:20px; margin:0 0 4px; }
+  p { margin:0 0 12px; }
+  .lede { color:var(--muted); max-width:640px; }
+  .users { display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:14px; margin-top:20px; }
+  button { font:inherit; cursor:pointer; }
+  .user { text-align:left; background:#fff; border:1.5px solid var(--line); border-radius:10px; padding:18px; display:flex; flex-direction:column; gap:6px; }
+  .user b { font-size:18px; }
+  .user span { color:var(--muted); }
+  .user:hover, .user:focus-visible { border-color:var(--accent); }
+  :focus-visible { outline:3px solid var(--accent); outline-offset:2px; }
+  section.screen { display:none; }
+  section.screen.on { display:block; }
+  .frame { background:#fff; border:1.5px solid var(--line); border-radius:10px; padding:18px; margin-top:16px; }
+  .top { display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:14px; }
+  .pill { border:1px solid var(--line); border-radius:999px; padding:4px 12px; font-size:14px; background:var(--fill); }
+  .kpis { display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; margin-bottom:12px; }
+  .grid { display:grid; grid-template-columns:repeat(2, 1fr); gap:12px; }
+  .tile { border:1px solid var(--line); border-radius:8px; padding:14px; min-height:92px; background:#fff; }
+  .tile small { color:var(--muted); display:block; }
+  .tile b { font-size:24px; }
+  .skel { background:var(--block); border-color:var(--block); }
+  .skel i { display:block; height:12px; border-radius:6px; background:#c7ced6; margin:8px 0; width:60%; }
+  .skel i + i { width:35%; height:22px; }
+  .problem { background:var(--warn-bg); border-color:#f0d58a; color:var(--warn); }
+  .problem button, .notice button { margin-top:8px; background:#fff; border:1.5px solid currentColor; color:inherit; border-radius:6px; padding:6px 12px; }
+  .notice { background:#e8f0fe; border:1px solid #b6ccf5; border-radius:8px; padding:10px 14px; margin-bottom:10px; font-size:15px; }
+  .rows { font:14px/1.9 ui-monospace, SFMono-Regular, Menlo, monospace; color:var(--muted); }
+  nav.steps { position:fixed; left:0; right:0; bottom:0; background:#fff; border-top:1px solid var(--line); padding:12px 20px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+  nav.steps button { border-radius:8px; padding:10px 18px; border:1.5px solid var(--line); background:#fff; min-height:44px; }
+  nav.steps button.primary { background:var(--accent); border-color:var(--accent); color:#fff; }
+  nav.steps button[disabled] { opacity:.45; cursor:not-allowed; }
+  nav.steps[hidden] { display:none; }
+  @media (max-width:640px) { .kpis { grid-template-columns:1fr; } .grid { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<header class="bar">
+  <strong>Dashboard Performance · Handoff prototype</strong>
+  <span class="where" id="where" aria-live="polite">Start</span>
+</header>
+
+<main>
+  <!-- Start: who is using this? -->
+  <section class="screen on" id="who" aria-labelledby="who-t">
+    <h1 id="who-t">Who is using this?</h1>
+    <p class="lede">Pick a user. You get one straight path through the dashboard, first screen to last. Use Next and Back.</p>
+    <div class="users">
+      <button class="user" type="button" data-user="admin"><b>Enterprise admin</b><span>Opens the dashboard every morning and needs the key numbers right away.</span><span class="where">3 steps · SCR-001 → SCR-002 → SCR-004</span></button>
+      <button class="user" type="button" data-user="viewer"><b>Enterprise viewer</b><span>Checks weekly summaries and must not be blocked when one widget is unavailable.</span><span class="where">3 steps · SCR-001 → SCR-003 → SCR-002</span></button>
+    </div>
+  </section>
+
+  <section class="screen" id="scr-001" aria-labelledby="t1">
+    <h2 id="t1">Dashboard, loading</h2>
+    <p class="lede">The layout appears within 1 second. Each block is replaced by its widget as the data arrives. Ticket: DASH-101.</p>
+    <div class="frame" aria-busy="true">
+      <div class="top"><b>Dashboard</b><span class="pill">Last 30 days</span></div>
+      <div class="kpis"><div class="tile skel"><i></i><i></i></div><div class="tile skel"><i></i><i></i></div><div class="tile skel"><i></i><i></i></div></div>
+      <div class="grid"><div class="tile skel"><i></i><i></i></div><div class="tile skel"><i></i><i></i></div><div class="tile skel"><i></i><i></i></div><div class="tile skel"><i></i><i></i></div></div>
+    </div>
+  </section>
+
+  <section class="screen" id="scr-002" aria-labelledby="t2">
+    <h2 id="t2">Dashboard, loaded</h2>
+    <p class="lede">The widgets on screen load first, each on its own. The dashboard is usable as soon as they render. Ticket: DASH-102.</p>
+    <div class="frame">
+      <div class="top"><b>Dashboard</b><span class="pill">Last 30 days</span></div>
+      <div class="kpis"><div class="tile"><small>Revenue</small><b>$1.24M</b></div><div class="tile"><small>Orders</small><b>18,402</b></div><div class="tile"><small>Active users</small><b>3,911</b></div></div>
+      <div class="grid"><div class="tile"><small>Revenue by region</small><div class="rows">EMEA ▇▇▇▇▇▇<br>AMER ▇▇▇▇<br>APAC ▇▇▇</div></div><div class="tile"><small>Orders over time</small><div class="rows">▁▂▃▅▆▇▆▅▆▇</div></div><div class="tile"><small>Top accounts</small><div class="rows">Acme Corp · Globex · Initech</div></div><div class="tile"><small>Billing</small><div class="rows">Last updated 09:02</div></div></div>
+    </div>
+  </section>
+
+  <section class="screen" id="scr-003" aria-labelledby="t3">
+    <h2 id="t3">Dashboard, one widget has a problem</h2>
+    <p class="lede">The problem stays inside that widget. Every other widget keeps working. Retry reloads that widget only. Ticket: DASH-103.</p>
+    <div class="frame">
+      <div class="top"><b>Dashboard</b><span class="pill">Last 30 days</span></div>
+      <div class="kpis"><div class="tile"><small>Revenue</small><b>$1.24M</b></div><div class="tile"><small>Orders</small><b>18,402</b></div><div class="tile problem"><small style="color:inherit">Active users</small>Taking longer than usual<br><button type="button" aria-label="Retry Active users">Retry</button></div></div>
+      <div class="grid"><div class="tile problem"><small style="color:inherit">Revenue by region</small>Couldn't load<br><button type="button" aria-label="Retry Revenue by region">Retry</button></div><div class="tile"><small>Orders over time</small><div class="rows">▁▂▃▅▆▇▆▅▆▇</div></div><div class="tile"><small>Top accounts</small><div class="rows">Acme Corp · Globex · Initech</div></div><div class="tile problem"><small style="color:inherit">Billing</small>You don't have access<br><button type="button">Request access</button></div></div>
+    </div>
+  </section>
+
+  <section class="screen" id="scr-004" aria-labelledby="t4">
+    <h2 id="t4">Dashboard, very large widget</h2>
+    <p class="lede">A widget with more than 50,000 rows opens on the last 30 days and says so. The full range loads only when asked. Ticket: DASH-104.</p>
+    <div class="frame">
+      <div class="top"><b>Orders</b><span class="pill">Last 12 months</span></div>
+      <div class="notice">Showing the last 30 days (2.3M rows in total)<br><button type="button">Load full range</button></div>
+      <div class="tile"><small>Orders</small><div class="rows">#48211 · Acme Corp · $12,400<br>#48210 · Globex · $3,150<br>#48209 · Initech · $980<br>#48208 · Acme Corp · $7,720</div></div>
+    </div>
+  </section>
+
+  <section class="screen" id="end" aria-labelledby="te">
+    <h1 id="te">End of this path</h1>
+    <p class="lede">That is the whole journey for this user. Start over to follow the other user. The empty workspace screen (SCR-005, ticket DASH-105) is in the final design.</p>
+  </section>
+</main>
+
+<nav class="steps" id="steps" aria-label="Prototype steps" hidden>
+  <button type="button" id="back">Back</button>
+  <button type="button" id="next" class="primary">Next</button>
+  <button type="button" id="restart">Start over</button>
+</nav>
+
+<script>
+  // One straight path per user. A screen appears on a path only when a ticket builds it.
+  const paths = {
+    admin:  { name: 'Enterprise admin',  steps: ['scr-001', 'scr-002', 'scr-004'] },
+    viewer: { name: 'Enterprise viewer', steps: ['scr-001', 'scr-003', 'scr-002'] },
+  };
+  let user = null;
+  let at = 0;
+  const $ = (id) => document.getElementById(id);
+  const show = (id) => {
+    document.querySelectorAll('section.screen').forEach((s) => s.classList.toggle('on', s.id === id));
+    const heading = document.querySelector('#' + id + ' h1, #' + id + ' h2');
+    if (heading) { heading.setAttribute('tabindex', '-1'); heading.focus(); }
+    window.scrollTo(0, 0);
+  };
+  const render = () => {
+    if (!user) { show('who'); $('steps').hidden = true; $('where').textContent = 'Start'; return; }
+    const p = paths[user];
+    $('steps').hidden = false;
+    if (at >= p.steps.length) {
+      show('end'); $('where').textContent = p.name + ' · End'; $('next').disabled = true; $('back').disabled = false; return;
+    }
+    const id = p.steps[at];
+    show(id);
+    $('where').textContent = p.name + ' · ' + id.toUpperCase() + ' · Step ' + (at + 1) + ' of ' + p.steps.length;
+    $('next').disabled = false; $('back').disabled = false;
+    history.replaceState(null, '', '#' + id);
+  };
+  document.querySelectorAll('[data-user]').forEach((b) => b.addEventListener('click', () => { user = b.dataset.user; at = 0; render(); }));
+  $('next').addEventListener('click', () => { at += 1; render(); });
+  $('back').addEventListener('click', () => { if (at === 0) { user = null; history.replaceState(null, '', location.pathname); } else { at -= 1; } render(); });
+  $('restart').addEventListener('click', () => { user = null; at = 0; history.replaceState(null, '', location.pathname); render(); });
+  // A ticket links to its step, for example prototype-handoff.html#scr-003: open the first path that has that screen.
+  const openFromHash = () => {
+    const wanted = location.hash.slice(1);
+    if (!wanted) return;
+    if (user && paths[user].steps[at] === wanted) return;
+    const found = (user && paths[user].steps.includes(wanted)) ? user : Object.keys(paths).find((k) => paths[k].steps.includes(wanted));
+    if (found) { user = found; at = paths[found].steps.indexOf(wanted); }
+  };
+  window.addEventListener('hashchange', () => { openFromHash(); render(); });
+  openFromHash();
+  render();
+</script>
+</body>
+</html>

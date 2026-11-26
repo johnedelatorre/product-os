@@ -2,61 +2,38 @@
 
 <!-- Jira Summary: "[Verb] [thing] [for whom]", e.g. "Show password rules while the user types".
      Jira Description: everything below this comment, exactly as laid out in docs/reference/document-format.md §4.
-     Jira fields, not repeated in the Description: key, assignee, status, story points field (mirrors Details), labels. -->
+     Keep it short: an engineer should read the whole ticket in under a minute (.claude/skills/engineering-handoff.md).
+     Jira fields, not repeated in the Description: key, assignee, status, story points field (mirrors Estimate), labels. -->
 
 **As a** [user type], **I want** [capability], **so that** [outcome].
 
-## Description
-[What this story changes, in 2–3 sentences.]
+**Problem:** [One or two sentences: what is broken or missing for this user today.]
 
-## Problem Statement
-[The user problem this story solves.]
+## Requirements
+- [What to build, in 3–6 short lines.]
+- [Name the labels, components, rules and data an engineer needs.]
 
-## Solution
-[What we build, with any technical notes engineering needs. Exclusions go under Details → Out of scope.]
-
-## Acceptance Criteria
-
-```gherkin
-Feature: [Feature name]
-
-  Scenario: STORY-XXX.AC1 [Happy path]
-    Given [precondition]
-    When [action]
-    Then [outcome]
-
-  Scenario: STORY-XXX.AC2 [Error case]
-    Given [precondition]
-    When [error condition]
-    Then [error handling]
-
-  Scenario: STORY-XXX.AC3 [Edge case]
-    Given [edge case precondition]
-    When [action]
-    Then [edge case outcome]
-```
+## UX and design requirements
+- [Design-system components, copy, the states to show, accessibility. Or "None: no UI" for backend-only work.]
 
 ## Design
-**Use cases:** [UC-X / JTBD-X this story serves (PRD §Use Cases / §JTBD)]
-**Flow and screens:** [FLOW-### steps and SCR-### screens this story implements, linked to flows.md, wireframes.md and prototype.html (`#scr-###`); or "No UI design" for backend-only stories]
-**States:** [empty, loading, error, success and edge states this story must show; name the AC that covers each]
-**UX requirements:** [design-system, copy, accessibility (WCAG 2.2 AA) and interaction rules; or "None" with the reason]
+[Figma: link to this ticket's own page or frame in the main design file] · Prototype: [link to its step, `#scr-###`] · Flow: [FLOW-### step]
 
-## Validation
-| Check | What proves it |
-|-------|----------------|
-| Tests | [Unit: …; Integration: …; E2E: … (N/A if not applicable)] |
-| Observability | [Logs, events and alerts that prove it works in production] |
-| Rollout / rollback | [Feature flag, rollback trigger, rollback step] |
-| Success metric | [MET-### or event this story moves] |
+## Done when
+- [ ] [A plain sentence a tester can check]
+- [ ] [3–6 lines in total, covering the main path and the one or two cases that matter]
 
-## Details
-| Discipline | Points | Confidence | Dependencies |
-|------------|--------|------------|--------------|
-| frontend / backend / fullstack | [1-13 or TBD: team calibration] | High / Medium / Low | [STORY-XXX (blocks / blocked by, status) or None] |
+## Estimate
+[n] points · frontend / backend / fullstack · PRD: REQ-XXX · Depends on: [STORY-XXX or None]
+<!-- Backend tickets: write "[n] points (proposed; engineering confirms)". -->
 
-**Estimate rationale:** [Complexity, uncertainty, similar past work, and why this discipline]
-**Out of scope:** [Explicit exclusion, or "None"]
+## Sub-tasks
+<!-- Optional. Use when the work divides by discipline or by step. One line each, no points. Leave the section out when there are none. -->
+- [frontend] [step]
+- [backend] [step]
 
-## Links
-Epic: EPIC-XXX · PRD requirement: REQ-XXX · Confluence: [Epics & Stories page link]
+## Engineering to complete
+<!-- Backend tickets only. Product OS writes the user story, the problem, the high-level requirements and Done when, and leaves this section empty. The engineers fill it in. Leave the section out of frontend tickets. -->
+- **Approach:**
+- **API and data changes:**
+- **Risks and unknowns:**

@@ -1,6 +1,6 @@
 # Product OS in claude.ai
 
-> **TL;DR:** Create a Claude Project, paste [`project-instructions.md`](project-instructions.md) into its Instructions, upload the 22 starter files listed below as Knowledge, then say "Start Product OS guided mode for initiative X, project Y." Add more agent files later as you need them.
+> **TL;DR:** Create a Claude Project, paste [`project-instructions.md`](project-instructions.md) into its Instructions, upload the 23 starter files listed below as Knowledge, then say "Start Product OS guided mode for initiative X, project Y." Add more agent files later as you need them.
 
 ## Setup
 
@@ -33,7 +33,7 @@ These files cover guided mode and the core path: intake, PRD, metrics, design, r
 | `.claude/agents/design-critic.md` | Design Critic: visual design critique |
 | `.claude/agents/ux-reviewer.md` | UX Reviewer: usability review |
 | `.claude/agents/accessibility-auditor.md` | Accessibility Auditor: WCAG 2.2 AA audit |
-| `.claude/agents/delivery-agent.md` | Delivery Agent: epics and stories |
+| `.claude/agents/delivery-agent.md` | Delivery Agent: the engineering handoff, the epic as hub, short tickets, the ticket tree |
 
 **Playbooks and format** (`.claude/skills/`, `docs/`)
 
@@ -42,6 +42,7 @@ These files cover guided mode and the core path: intake, PRD, metrics, design, r
 | `.claude/skills/clear-output.md` | How every reply and document is written |
 | `.claude/skills/doc-hygiene.md` | Current state only, no version history |
 | `.claude/skills/guided-workflow.md` | Phases, `progress.yaml` and open items |
+| `.claude/skills/engineering-handoff.md` | The guided questions, what the team gets, and what stays with you |
 | `docs/reference/document-format.md` | The standard header, Confluence page tree, Jira epic and story formats |
 
 **Templates** (`templates/`)

@@ -1,10 +1,10 @@
 ---
-description: "Generate epics and user stories with acceptance criteria."
+description: "Generate the engineering handoff: an epic that links to everything, lean tickets with estimates, and a ticket tree you approve."
 argument-hint: "--from <prd.md> --designs <design-brief.md,wireframes.md>"
 ---
 # /product-os:deliver
 
-Generate epics and user stories with acceptance criteria.
+Generate the engineering handoff: an epic that links to everything, lean tickets with estimates, and a ticket tree you approve.
 
 ## Usage
 
@@ -21,29 +21,55 @@ Generate epics and user stories with acceptance criteria.
 | `--velocity` | No | Team velocity for sprint estimate |
 | `--output` | No | Output directory |
 
+## Before It Writes Anything: The Outputs Question
+
+Asked once per project, when `progress.yaml` has no `handoff` block (`.claude/skills/engineering-handoff.md`):
+
+1. **What goes to the team?** A · Standard handoff (recommended): PRD, project brief, user flows, final design, end-to-end prototype, the epic and its tickets. B · Everything.
+2. **Any other outputs to attach to the epic?** For example low-fidelity wireframes or a schema.
+3. **Which design is final?** Only when a Figma file and a Claude design both exist.
+4. **How should tickets be organized?** Parent tickets with sub-tasks (recommended), or a flat list.
+
 ## Output
 
 Generates:
-- `epics.md` — Epics mapped to PRD goals
-- `stories.md` — Stories with acceptance criteria
+- `epics.md` — The epic: the team's hub, with a link to every handoff output
+- `stories.md` — Lean tickets, then PM notes (never sent to Jira)
 - `backlog.csv` — Export for Jira import
 
 ## Epic Format
 
-`epics.md` opens with the standard header (`docs/reference/document-format.md` §1). Each epic follows §3: summary `[Project] — [Outcome in plain words]`, then one complete body: Subtitle, Description, Problem Statement, Solution (in / out of scope), Success Metrics, Stories (summary, story list, estimation), Dependencies and Links. Priority, owner and status are Jira fields. Template: `templates/delivery/epic.md`.
+`epics.md` opens with the standard header (`docs/reference/document-format.md` §1). Each epic follows §3: summary `[Project] — [Outcome in plain words]`, then one short body: Subtitle, What and why, Who it is for, the Handoff table (PRD, project brief, user flows, final design, end-to-end prototype, extras, links page), the ticket list with one estimate line, and Dependencies when there are any. Priority, owner and status are Jira fields. Template: `templates/delivery/epic.md`.
+
+The epic is where the team gets everything. It does not repeat the PRD.
 
 ## Story Format
 
-`stories.md` opens with the standard header. Each story follows §4 (summary `[Verb] [thing] [for whom]`): one complete body, each field once. Template: `templates/delivery/user-story.md`.
+`stories.md` opens with the standard header. Each story follows §4 (summary `[Verb] [thing] [for whom]`): one short body, each part once. Template: `templates/delivery/user-story.md`.
 
 Each story includes, in this order:
 - User story line (As a... I want... so that...)
-- Description, Problem Statement and Solution
-- Acceptance criteria (Given/When/Then)
-- Design: use cases, flow and screens (FLOW-###, SCR-###), states, UX requirements
-- Validation: tests, observability, rollout / rollback, the success metric it moves
-- Details: **discipline label** (`frontend`, `backend`, or `fullstack`), story points, confidence, dependencies, estimate rationale, out of scope
-- Links: epic, PRD requirement, Confluence
+- Problem: one or two sentences
+- Requirements: 3–6 short lines, naming labels, components and rules
+- UX and design requirements
+- Design: a link to this ticket's own page or frame in the main Figma file, and its step in the prototype
+- Done when: a checklist of 3–6 testable lines
+- Estimate: points, **discipline label** (`frontend`, `backend`, or `fullstack`), PRD requirement, dependencies
+- Sub-tasks (optional): one line each
+
+**Backend tickets** stay high level and end with an empty **Engineering to complete** section (approach, API and data changes, risks). The engineers fill it in and confirm the estimate.
+
+## The Ticket Tree
+
+After drafting, the agent proposes how the tickets are organized: which piece of work sits under which ticket, and what it merged or split and why. You accept the tree or move items. Nothing goes to Jira before you accept it.
+
+```
+EPIC-001 Self-Serve Signup — Users finish signup without sales help
+├── STORY-001 Create an account with email            3 pts · fullstack
+│   ├── [frontend] Signup form and inline validation
+│   └── [backend]  Create-account endpoint
+└── STORY-002 See password rules while typing         2 pts · frontend
+```
 
 ## Discipline Labels
 
@@ -61,8 +87,8 @@ Each story includes, in this order:
 | 2 | Simple | Low |
 | 3 | Moderate | Low |
 | 5 | Complex | Medium |
-| 8 | Very Complex | High |
-| 13 | Extremely Complex | Very High |
+| 8 | Very Complex | High (needs a reason; split it if you can) |
+| 13 | Extremely Complex | Very High (split it, or run a spike first) |
 
 ## Example
 
@@ -79,9 +105,13 @@ Uses: `delivery-agent.md`
 
 ## Quality Checklist
 
+- [ ] Outputs question answered
 - [ ] Every PRD requirement has stories
-- [ ] Every epic and story has Description, Problem Statement, Solution and Success Metrics / Validation
-- [ ] Acceptance criteria are testable
-- [ ] Story points have rationale
+- [ ] The epic links to every handoff output, with one final design
+- [ ] Every story is short: user story, problem, requirements, design link, Done when, estimate
+- [ ] Done when lines are testable
+- [ ] Tickets are 1–5 points; steps inside a ticket are sub-tasks
+- [ ] Backend tickets are high level, with Engineering to complete left empty
+- [ ] You accepted the ticket tree
 - [ ] Discipline labels assigned
 - [ ] Dependencies identified

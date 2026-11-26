@@ -16,7 +16,7 @@ Publish project artifacts to Confluence with proper hierarchy.
 3. **Search before create** — Find pages by `publish-manifest.json` IDs, then by title/CQL search; update in place.
 4. **Check the instance** — Confirm space, parent page, and available macros before publishing.
 5. **Record IDs** in `publish-manifest.json`.
-6. **Standard format** — Hub + 4 groups, standard header on every page (see Page Rules below and `docs/reference/document-format.md`).
+6. **Standard format** — Links page, the team's pages and the PM workspace; standard header on every page (see Page Rules below and `docs/reference/document-format.md`).
 
 ## Quick Start
 
@@ -26,58 +26,58 @@ Publish project artifacts to Confluence with proper hierarchy.
 
 ## Confluence Hierarchy
 
-One hub page per project, then four group pages (`docs/reference/document-format.md` §2):
+One links page per project for the team, and one PM workspace page for everything else (`docs/reference/document-format.md` §2, `.claude/skills/engineering-handoff.md`):
 
 ```
 Product Space (PROD)
 └── Initiatives
     └── [Initiative Name]
-        └── [Project Name]                   ← Hub page: standard header + "Documents in this project" table
-            ├── 1. Strategy & Definition     ← Intake, Proposal, PRD, Project Brief, Metrics Framework
-            ├── 2. Design                    ← Design Brief, User Flows, Wireframes & Prototype, Design Critique, UX Review, Accessibility Audit
-            ├── 3. Delivery                  ← Project Plan (RACI, Gantt Chart, Risks, Dependencies as child pages), Epics & Stories (Backlog, special page with tables; Traceability as a child page)
-            └── 4. Decisions & Launch        ← Decision Log, Event Tracking Plan, Release Notes, Post-Launch Review
+        └── [Project Name]                   ← Links page: standard header + "Handoff" table
+            ├── PRD
+            ├── Project Brief
+            ├── User Flows
+            ├── [Extras the PM attached]     ← for example Wireframes, Schema, Gantt Chart
+            ├── Epics & Stories              ← the ticket tree, with Jira links
+            └── PM workspace                 ← the documents the PM asked for, for themselves
+                ├── 1. Strategy & Definition ← Intake, Proposal, Metrics Framework
+                ├── 2. Design                ← Design Brief, Wireframes & Prototype, Design Critique, UX Review, Accessibility Audit
+                ├── 3. Delivery              ← Project Plan (RACI, Gantt Chart, Risks, Dependencies as child pages), Traceability
+                └── 4. Decisions & Launch    ← Decision Log, Event Tracking Plan, Release Notes, Post-Launch Review
 ```
 
 ## Page Rules
 
-1. **Standard header on every page** (hub, group and document pages): Title, Subtitle, Initiative / Project / Owner / Status / Last updated table, Description, Problem Statement, Solution, Success Metrics, Next Action. Gaps are named TBDs, never invented.
-2. **Hub page** carries a "Documents in this project" table: Document (link) | What it is | Status | Owner.
-3. **Group pages** list every page under them with a one-line description.
-4. **Titles name the thing:** `[Project] — [Document]`. No numbers, file names or version tags.
-4a. **Creation order:** pages and documents-table rows follow the order the PM creates them (`docs/reference/document-format.md` §2).
-4b. **Final documents only:** never publish working notes such as `prd-review.md`. Supporting documents are child pages of the document they support.
-5. **Split long documents at their own sections**, named for their content ("PRD — Functional Requirements"), never "Part 1".
+1. **Standard header on every page.** The links page and the PRD carry the full header; every other page carries Title, Subtitle, header table, Description and the PRD link line. Gaps are named TBDs, never invented.
+2. **Links page** carries the "Handoff" table: What | Link | Status. The same rows as the Jira epic, plus a line pointing to the epic: the team starts there.
+3. **The team's pages never link into the PM workspace**, unless the PM chose "Everything" in the outputs question.
+4. **PM workspace group pages** list every page under them with a one-line description.
+5. **Titles name the thing:** `[Project] — [Document]`. No numbers, file names or version tags.
+6. **Creation order:** pages and table rows follow the order the PM creates them (`docs/reference/document-format.md` §2).
+7. **Final documents only:** never publish working notes such as `prd-review.md`, or the PM notes section of `stories.md`. Supporting documents are child pages of the document they support.
+8. **Split long documents at their own sections**, named for their content ("PRD — Functional Requirements"), never "Part 1".
+9. **Existing projects keep their pages.** The publish plan lists each page that would move under PM workspace; nothing moves until the PM approves.
 
-## Backlog Page Structure
+## Epics & Stories Page Structure
 
-The Backlog page (Epics & Stories, under 3. Delivery) summarizes all epics and stories, below its standard header:
+One short page, below its standard header: what each epic delivers, the handoff links, and the ticket tree.
 
 ```markdown
-## Summary
-| Metric | Value |
-|--------|-------|
-| Total Epics | 3 |
-| Total Stories | 18 |
-| Total Story Points | 73 |
+## EPIC-001: Self-Serve Signup — Users finish signup without sales help · [PROJ-101]
 
-## Story Points by Discipline
-| Discipline | Points | % |
-|------------|--------|---|
-| Frontend | 31 | 42% |
-| Backend | 26 | 36% |
-| Fullstack | 16 | 22% |
+[What and why, 2–4 sentences.]
 
-## Epics
-| Epic | Stories | Points | FE | BE | FS | Jira |
-|------|---------|--------|-----|-----|-----|------|
-| Auth | 5 | 21 | 8 | 8 | 5 | [PROJ-101] |
+**Handoff:** [PRD] · [Project brief] · [User flows] · [Final design] · [Prototype]
 
-## Stories
-| Story | Epic | Points | Discipline | Jira |
-|-------|------|--------|------------|------|
-| Login form | Auth | 3 | frontend | [PROJ-111] |
+| Ticket | Summary | Discipline | Points | Jira |
+|--------|---------|------------|--------|------|
+| STORY-001 | Create an account with email | fullstack | 3 | [PROJ-111] |
+| ↳ sub-task | [frontend] Signup form and inline validation | | | [PROJ-113] |
+| ↳ sub-task | [backend] Create-account endpoint | | | [PROJ-114] |
+
+**Estimate:** 2 tickets · 8 points · about 1 sprint at 21 points per sprint
 ```
+
+Point totals by discipline and the sprint allocation are in the Project Plan, in the PM workspace.
 
 ## Configuration
 
@@ -159,11 +159,12 @@ python scripts/atlassian-fallback.py publish \
 - [ ] Config has correct space key
 - [ ] Atlassian MCP connected (or credentials in .env for the REST fallback)
 - [ ] Human approved the publish plan
-- [ ] Hierarchy will be correct (hub → 4 groups → documents)
-- [ ] Every page opens with the standard header; hub lists every document
+- [ ] Hierarchy will be correct (links page → the team's pages and Epics & Stories → PM workspace → 4 groups)
+- [ ] Every page opens with the standard header; the links page lists every handoff output and points to the epic
+- [ ] The team's pages do not link into the PM workspace
 - [ ] Long docs split at named sections, no "Part N"
 - [ ] No numbered titles; pages and table rows in creation order
-- [ ] Backlog page has discipline columns
+- [ ] Epics & Stories page shows the approved ticket tree
 
 ## Tips
 

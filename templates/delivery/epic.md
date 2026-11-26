@@ -2,38 +2,35 @@
 
 <!-- Jira Summary: "[Project] — [Outcome in plain words]", e.g. "Self-Serve Signup — Users finish signup without sales help".
      Jira Description: everything below this comment, exactly as laid out in docs/reference/document-format.md §3.
+     The epic is the hub for the team: it links to every handoff output (.claude/skills/engineering-handoff.md).
      Jira fields, not repeated in the Description: key, owner (assignee), status (Draft / Ready / In Progress / Done), priority, labels, target release. -->
 
 **[Subtitle: one line on the outcome this epic delivers]**
 
-## Description
-[2–4 sentences: what this epic covers.]
+## What and why
+[2–4 sentences: what this epic delivers, for whom, and the problem it solves. The PRD holds the detail.]
 
-## Problem Statement
-[Who has the problem and the evidence.]
+## Who it is for
+- **[User type]:** [what they need from this, in one line]
+- **[User type]:** [what they need from this, in one line]
 
-## Solution
-**In scope:** [What this epic delivers]
-**Out of scope:** [What this epic excludes]
+## Handoff
+| What | Link |
+|------|------|
+| PRD | [link] |
+| Project brief | [link] |
+| User flows | [link] |
+| Final design ([Figma / Claude design]) | [link to the main design file] |
+| End-to-end prototype | [link: one straight path per user] |
+| [Extra the PM chose: low-fidelity wireframes, schema, …] | [link] |
+| Links page | [link to the project page in Confluence] |
 
-## Success Metrics
-| Metric | Baseline | Target |
-|--------|----------|--------|
-| [metric from the PRD] | [value or TBD: who provides it] | [value] |
+## Tickets
+| Ticket | Summary | Discipline | Points |
+|--------|---------|------------|--------|
+| STORY-XXX | [Verb] [thing] [for whom] | frontend / backend / fullstack | [1–5] |
 
-## Stories
-[1–3 lines: the story groups and the order they ship in. Jira lists the child issues.]
-
-| Story | Summary | Discipline | Points | Status |
-|-------|---------|------------|--------|--------|
-| STORY-XXX | [Verb] [thing] [for whom] | frontend / backend / fullstack | [1-13] | [status] |
-
-**Estimation:** [n] stories · [n] points ([n] frontend, [n] backend) · confidence High / Medium / Low · about [n] sprints at [velocity] points per sprint
+**Estimate:** [n] tickets · [n] points · about [n] sprints at [velocity] points per sprint
 
 ## Dependencies
-| Dependency | Type | Status |
-|------------|------|--------|
-| [team, system or issue] | Blocks / Blocked by / External | [status] |
-
-## Links
-PRD: [link, goal and REQ IDs] · Design: [flows, wireframes, prototype links] · Confluence hub page: [link] · Backlog: [link]
+[Only when there are any: team, system or issue, and whether it blocks this epic. Otherwise leave this section out.]

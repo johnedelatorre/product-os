@@ -53,7 +53,7 @@ Product OS provides a complete pipeline from raw requirement to shipped, measure
 2. **Proposal** — For new ideas: research, propose solution, interface first (see `.claude/skills/proposal.md`)
 3. **PM Agent** — Deep PRD, project brief, project plan, RACI, Gantt chart with full strategic and delivery context
 4. **Design Agents** — Design brief, user flows, wireframes, clickable prototypes, Figma sync, then design critique, UX review, and accessibility audit
-5. **Delivery Agent** — Epics, user stories with acceptance criteria, story points, engineering hand-off
+5. **Delivery Agent** — The engineering handoff: one epic that links to everything the team needs, lean tickets with estimates, and a ticket tree the PM approves (see `.claude/skills/engineering-handoff.md`)
 6. **Publisher** — After human approval, write to Confluence, create or update Jira epics/stories, link everything together
 7. **Tools** — RICE/WSJF prioritization, OKRs, roadmaps, competitive analysis, experiments, and more
 
@@ -81,6 +81,17 @@ See `docs/guides/guided-workflow.md` for the full playbook.
 ```
 
 Runs the complete pipeline with human checkpoints at each stage. You review and approve before proceeding.
+
+### It Asks Before It Writes
+
+Product OS asks guided questions, one at a time, instead of producing everything:
+
+1. **What are you building, and what do you already have?** The request, proposals, emails, existing PRDs, the tech stack, backend schemas, existing designs. "I don't have that" is always a valid answer.
+2. **Which documents do you want for yourself?** A RACI chart, a Gantt chart, a design brief and so on. Only what you pick is created.
+3. **What goes to the team?** The standard handoff, plus anything you attach to the epic.
+4. **Is this ticket tree right?** You accept it or move items before anything reaches Jira.
+
+Every run ends with one list: for the team (share the epic), for you, and what was not created. Rules: `.claude/skills/engineering-handoff.md`.
 
 ### Individual Commands
 
@@ -148,10 +159,11 @@ Every artifact must meet these bars:
 - [ ] Hand-off spec complete for implementation
 
 ### Delivery Artifacts
-- [ ] Acceptance criteria in Given/When/Then format
-- [ ] Story points with estimation rationale
+- [ ] The epic links to every handoff output: PRD, project brief, user flows, final design, end-to-end prototype
+- [ ] Tickets are short: user story, problem, requirements, design link, a testable "Done when" checklist, estimate
+- [ ] Tickets are 1–5 points; steps inside a ticket are sub-tasks; the PM accepted the ticket tree
+- [ ] Backend tickets are high level and left for the engineers to complete
 - [ ] Dependencies and blockers identified
-- [ ] Links back to PRD and design specs
 
 ## Local Workspace Convention
 

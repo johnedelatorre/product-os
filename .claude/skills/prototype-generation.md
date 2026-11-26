@@ -25,6 +25,23 @@ Create clickable, self-contained HTML/React prototypes.
 
 In the prototype: `→`/`←` move through the flow, `a` toggles annotations.
 
+## Handoff Prototype
+
+The team gets a second, simpler file: `prototype-handoff.html`.
+
+```
+/product-os:prototype --from wireframes.md --flows flows.yaml --handoff
+```
+
+| Rule | Detail |
+|------|--------|
+| Starts with the users | "Who is using this?" with one button per user type and a one-line description of each |
+| One straight path per user | The happy path from `flows.yaml`, first screen to last, with Next, Back and Start over |
+| No branching | No use-case switchers, option panels or annotations. A state appears only when a ticket builds it, as its own step on the path |
+| Same screen IDs | `id="scr-###"`, with the `SCR-###` label and "Step n of N" on each screen |
+
+The epic's Handoff table links to it. If the final design is in Figma and has a prototype flow that follows the same rules, link that instead. `prototype.html` stays the full version for design review. See `.claude/skills/engineering-handoff.md`.
+
 ## Output Formats
 
 ### Self-Contained HTML
@@ -187,6 +204,7 @@ Build in for testing:
 - [ ] Annotations toggle works
 - [ ] Keyboard navigation works
 - [ ] React version is Claude-compatible
+- [ ] Handoff prototype runs end to end for each user, with no dead ends and no option panels
 
 ## Tips
 

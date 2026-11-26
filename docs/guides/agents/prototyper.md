@@ -1,6 +1,6 @@
 # Prototyper Agent
 
-Creates the clickable low-fidelity prototype from wireframes and flows.
+Creates the clickable low-fidelity prototype from wireframes and flows, and the end-to-end handoff prototype for the team.
 
 ## What It Does
 
@@ -26,6 +26,7 @@ All files land in `initiatives/<initiative>/<project>/`.
 | File | What it is | How to open | Confluence |
 |------|-----------|-------------|------------|
 | `prototype.html` | Self-contained clickable prototype | Double-click to open in any browser; no install or server. Share the file or host it as static HTML | **Prototype** page under **2. Design** links to or attaches it (TBD: attach vs hosted link is not yet defined by the publisher; the PM decides per project) |
+| `prototype-handoff.html` | The team's end-to-end prototype: pick a user, then one straight path with Next and Back. No option panels or annotations | Double-click to open in any browser. Tickets link to their step with `#scr-###` | Linked from the epic and the links page |
 | `prototype-react.tsx` | Claude Artifact-compatible React | Paste into claude.ai and ask for an Artifact; it renders as a clickable prototype there | Link the artifact from the Prototype page |
 | `prompt-pack.md` | Prompts for generating the prototype in claude.ai | Copy each prompt into claude.ai | Not published |
 

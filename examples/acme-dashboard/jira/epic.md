@@ -1,6 +1,6 @@
 # Dashboard Performance — Jira Epic DASH-100
 
-**The epic exactly as it appears in Jira: Summary field, then the Description field.**
+**The epic exactly as it appears in Jira: the one place the team opens to find everything.**
 
 | Initiative | Project | Owner | Status | Last updated |
 |------------|---------|-------|--------|--------------|
@@ -9,24 +9,23 @@
 > **Fictional example.** Acme Corp, every person, number and link in this project are invented to show the Product OS format.
 
 ## Description
-This file shows one Jira epic in the format from `docs/reference/document-format.md` §3. Everything inside the box below "Description field" is the complete Jira Description, pasted (or synced by `/product-os:jira-sync`) as is; the line under "Summary field" is the Jira Summary. The epic stays In review until the design critique's Critical and Major findings are closed. The child stories are in [stories.md](stories.md).
-
-## Problem Statement
-Enterprise admins wait 16.4 s (p95) at a blank dashboard, and one failed widget breaks the whole page; Acme Corp ($2M ARR) is evaluating competitors ([PRD §1](../pm/prd.md#1-problem-statement)).
-
-## Solution
-One epic that delivers the PRD's Must and Should requirements (REQ-001 to REQ-010), split into seven child issues that each ship behind the `dashboard_progressive_load` flag.
-
-## Success Metrics
-| Metric | Baseline | Target | How we measure |
-|--------|----------|--------|----------------|
-| p95 Time to Interactive (MET-001) | 16.4 s | < 3 s | RUM `dashboard_interactive` |
-| Dashboard CSAT (MET-010) | 2.1 / 5 | > 4.0 | Zendesk |
+This file shows one Jira epic in the format from `docs/reference/document-format.md` §3. The epic is the team's hub: a short summary, who it is for, and a table of links to every handoff output. Everything inside the box below "Description field" is the complete Jira Description, pasted (or synced by `/product-os:jira-sync`) as is. The child stories are in [stories.md](stories.md). The problem, the solution and the success metrics are in the [PRD](../pm/prd.md).
 
 ## Next Action
 Kenji Mori closes the open Critical and Major design critique findings (C-001, M-001 to M-004) by 2026-11-14, so Hana Kim (QA) can run the Definition of Ready check on DASH-101 to DASH-104.
 
 ---
+
+## What Priya chose
+
+The answers to the outputs question (`.claude/skills/engineering-handoff.md`), saved in `progress.yaml`:
+
+| Question | Answer |
+|----------|--------|
+| What goes to the team? | A · Standard handoff |
+| Any other outputs to attach to the epic? | Low-fidelity wireframes |
+| Which design is final? | The Claude design (this project has no Figma file) |
+| How should tickets be organized? | Parent tickets with sub-tasks: frontend, backend, tracking |
 
 ## Jira fields
 
@@ -37,6 +36,7 @@ Kenji Mori closes the open Critical and Major design critique findings (C-001, M
 | Labels | `dashboard-performance`, `platform-performance`, `product-os` |
 | Owner | Priya Shah |
 | Target release | 2026-12-16 (GA) |
+| Web links | One per row of the Handoff table below, so they also show in the epic's links panel |
 
 ## Summary field
 
@@ -49,63 +49,66 @@ Dashboard Performance — Enterprise admins can use the dashboard in under 3 sec
 ```markdown
 **Enterprise dashboards show their layout instantly, fill in widget by widget, and never break because one widget fails.**
 
-## Description
-This epic replaces the single blocking dashboard request with a skeleton layout and per-widget loading, adds a separate state for every widget problem, defaults very large widgets to the last 30 days, and adds monitoring so slow loads are caught before customers report them. It covers PRD requirements REQ-001 to REQ-010.
+## What and why
+Enterprise admins wait 16.4 s (p95) at a blank dashboard, and one failed widget breaks the whole page. This epic shows the layout within 1 second, loads each widget on its own, keeps every widget problem inside that widget, and opens very large widgets on the last 30 days. It covers PRD requirements REQ-001 to REQ-010.
 
-## Problem Statement
-Enterprise admins (~500 daily) wait 16.4 s (p95) at a blank page before the dashboard is usable, and one failed widget breaks the whole page. Evidence: 47 "slow dashboard" tickets in 30 days (CSAT 2.1/5), 31% of sessions reload before the page finishes, and Acme Corp ($2M ARR) is demoing competitors ahead of its QBR.
+## Who it is for
+- **Enterprise admin:** opens the dashboard every morning and needs the key numbers right away.
+- **Enterprise viewer:** checks weekly summaries and must not be blocked when one widget is unavailable.
 
-## Solution
-**In scope:** skeleton layout (REQ-001), per-widget and lazy loading (REQ-002, REQ-003), per-widget error, timeout and no-access states (REQ-004, REQ-005, REQ-010), 30-day default for widgets over 50,000 rows (REQ-006), empty workspace state (REQ-009), RUM events and a p95 alert (REQ-007, REQ-008).
-**Out of scope:** new widgets, mobile redesign, real-time refresh.
+## Handoff
+| What | Link |
+|------|------|
+| PRD | Dashboard Performance — PRD |
+| Project brief | Dashboard Performance — Project Brief |
+| User flows | Dashboard Performance — User Flows (FLOW-001 to FLOW-003) |
+| Final design (Claude design) | Dashboard Performance — design screens SCR-001 to SCR-005 |
+| End-to-end prototype | Dashboard Performance — handoff prototype (one path per user) |
+| Low-fidelity wireframes | Dashboard Performance — Wireframes |
+| Links page | Dashboard Performance (Confluence) |
 
-## Success Metrics
-| Metric | Baseline | Target |
-|--------|----------|--------|
-| Fast dashboard sessions, TTI < 3 s (north star) | 18% | ≥ 95% |
-| p95 Time to Interactive, enterprise | 16.4 s | < 3 s |
-| Dashboard CSAT | 2.1 / 5 | > 4.0 (30 days post-GA) |
-| Dashboard tickets per 30 days | 47 | ≤ 23 |
-| Guardrail: widget failure rate | 0.6% of loads fail the page | ≤ 1% of widget loads |
+## Tickets
+| Ticket | Summary | Discipline | Points |
+|--------|---------|------------|--------|
+| DASH-107 | Spike: confirm per-widget loading meets p95 < 3 s on an Acme-sized workspace | backend | 3 (proposed) |
+| DASH-101 | Show the dashboard layout instantly while widgets load | frontend | 3 |
+| DASH-102 | Load each widget on its own so admins can start before everything is ready | fullstack | 8 |
+| DASH-103 | Keep the dashboard usable when one widget fails | frontend | 5 |
+| DASH-104 | Open very large widgets on the last 30 days for big accounts | fullstack | 5 |
+| DASH-105 | Guide new workspaces to connect a data source | frontend | 2 |
+| DASH-106 | Alert on-call when dashboard p95 load time passes 4 seconds | backend | 2 (proposed) |
 
-## Stories
-Spike first (DASH-107), then the loading core (DASH-101, DASH-102), then states (DASH-103, DASH-104, DASH-105) and the alert (DASH-106). All seven ship behind `dashboard_progressive_load`.
-
-| Story | Summary | Discipline | Points | Status |
-|-------|---------|------------|--------|--------|
-| DASH-107 | Spike: confirm per-widget endpoints meet p95 < 3 s on an Acme-sized workspace | TBD: Tomás Ortega | 3 | TBD: Tomás Ortega |
-| DASH-101 | Show the dashboard layout instantly while widgets load | frontend | 3 | Ready for DoR check |
-| DASH-102 | Load each widget on its own so admins can start before everything is ready | frontend + backend | 8 | Ready for DoR check |
-| DASH-103 | Keep the dashboard usable when one widget fails | frontend | 5 | Ready for DoR check |
-| DASH-104 | Open very large widgets on the last 30 days for big accounts | frontend + backend | 5 | Ready for DoR check |
-| DASH-105 | Guide new workspaces to connect a data source | TBD: Marco Silva | 2 | TBD: Marco Silva |
-| DASH-106 | Alert on-call when dashboard p95 load time passes 4 seconds | TBD: Tomás Ortega | 2 | TBD: Tomás Ortega |
-
-**Estimation:** 7 issues · 28 points · confidence TBD: set by the team at the DoR check · about 1.3 sprints at 21 points per sprint
+**Estimate:** 7 tickets · 28 points · about 1.3 sprints at 21 points per sprint
 
 ## Dependencies
-| Dependency | Type | Status |
-|------------|------|--------|
-| DEP-1 Per-widget endpoints (Platform team) | External | In progress |
-| DEP-2 RUM collector supports custom events (Observability) | External | Done |
-| DASH-107 spike result | Blocks DASH-101, DASH-102 | TBD: Tomás Ortega |
-
-## Links
-PRD: Dashboard Performance — PRD (goals G-1 to G-3; REQ-001 to REQ-010) · Design: User Flows (FLOW-001 to FLOW-003), Wireframes & Prototype (SCR-001 to SCR-005), Design Critique, UX Review, Accessibility Audit · Confluence hub: Dashboard Performance · Metrics: Dashboard Performance — Metrics Framework
+- Per-widget endpoints (Platform team): in progress. Blocks DASH-102.
+- DASH-107 spike result: blocks DASH-101 and DASH-102.
 ```
 
-## Child issues
+## The ticket tree Priya accepted
 
-Jira fields of the child issues (summary, discipline, points and status are in the Description above):
+`/product-os:deliver` proposed this tree, said what it moved, and Priya accepted it before anything was sent to Jira.
 
-| Key | Type | REQ | Assignee |
-|-----|------|-----|----------|
-| [DASH-107](https://example.atlassian.net/browse/DASH-107) | Spike | H-1, Q-1 | Tomás Ortega |
-| [DASH-101](stories.md#dash-101--show-the-dashboard-layout-instantly-while-widgets-load) | Story | REQ-001 | Lena Fischer |
-| [DASH-102](stories.md#dash-102--load-each-widget-on-its-own-so-admins-can-start-before-everything-is-ready) | Story | REQ-002, 003, 007 | Lena Fischer |
-| [DASH-103](stories.md#dash-103--keep-the-dashboard-usable-when-one-widget-fails) | Story | REQ-004, 005, 010 | Marco Silva |
-| [DASH-104](stories.md#dash-104--open-very-large-widgets-on-the-last-30-days-for-big-accounts) | Story | REQ-006 | Marco Silva |
-| [DASH-105](https://example.atlassian.net/browse/DASH-105) | Story | REQ-009 | Marco Silva |
-| [DASH-106](https://example.atlassian.net/browse/DASH-106) | Story | REQ-008 | Tomás Ortega |
+```
+DASH-100 Dashboard Performance — Enterprise admins can use the dashboard in under 3 seconds
+├── DASH-107 Spike: confirm per-widget loading meets p95 < 3 s        3 pts · backend
+├── DASH-101 Show the dashboard layout instantly                      3 pts · frontend
+├── DASH-102 Load each widget on its own                              8 pts · fullstack
+│   ├── [backend]  One request per widget
+│   ├── [frontend] Load visible widgets first, the rest on scroll
+│   └── [tracking] Fire the load-time events
+├── DASH-103 Keep the dashboard usable when one widget fails          5 pts · frontend
+├── DASH-104 Open very large widgets on the last 30 days              5 pts · fullstack
+│   ├── [backend]  Return the last 30 days for widgets over 50,000 rows
+│   └── [frontend] Notice, Load full range and progress
+├── DASH-105 Guide new workspaces to connect a data source            2 pts · frontend
+└── DASH-106 Alert on-call when p95 load time passes 4 seconds        2 pts · backend
+```
 
-Four of these are written out in full in [stories.md](stories.md) as format examples.
+What was moved, and why:
+
+1. Merged "Fire the load-time events" into DASH-102: the events cannot ship without per-widget loading.
+2. Kept DASH-102 as one ticket of 8 points: the endpoint and the loading order only work together. The reason is in PM notes in [stories.md](stories.md).
+3. Put the backend and frontend steps of DASH-102 and DASH-104 under them as sub-tasks instead of separate tickets.
+
+Four of these tickets are written out in full in [stories.md](stories.md) as format examples.

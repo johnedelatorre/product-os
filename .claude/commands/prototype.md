@@ -1,5 +1,5 @@
 ---
-description: "Generate clickable HTML/React prototypes from wireframes."
+description: "Generate clickable HTML/React prototypes from wireframes, and the end-to-end handoff prototype for the team."
 argument-hint: "--from <wireframes.md> --flows <flows.yaml>"
 ---
 # /product-os:prototype
@@ -12,7 +12,8 @@ Generate clickable HTML/React prototypes from wireframes.
 ```
 
 ## Output
-- `prototype.html` — Self-contained clickable prototype
+- `prototype.html` — Self-contained clickable prototype with every screen and state, for design review
+- `prototype-handoff.html` — The team's prototype: pick a user, then one straight path end to end (`--handoff` builds only this one)
 - `prototype-react.tsx` — Claude Artifact-compatible React
 - `prompt-pack.md` — Prompts for Claude.ai
 
@@ -25,6 +26,14 @@ Generate clickable HTML/React prototypes from wireframes.
 | `prompt-pack.md` | Copy prompts into claude.ai to generate Artifacts | Not published |
 
 In the prototype: `→`/`←` move through the flow, `a` toggles annotations.
+
+## Handoff Prototype
+
+```
+/product-os:prototype --from <wireframes.md> --flows <flows.yaml> --handoff
+```
+
+For engineers and the head of product: it opens on "Who is using this?", then gives each user one straight path with Next and Back. No option panels or use-case switchers; a state appears only when a ticket builds it, as its own step. The epic links to it. Rules: `.claude/skills/engineering-handoff.md`.
 
 ## Features
 - All screens from flows, one section per screen: `id="scr-###"` matching `SCR-###` in `wireframes.md`, opened by `#scr-###`

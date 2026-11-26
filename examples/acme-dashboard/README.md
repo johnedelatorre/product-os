@@ -31,19 +31,20 @@ Open [confluence/00-hub-page.md](confluence/00-hub-page.md) to see the project a
 
 | # | Example | What it is | Produced by | Ends up in |
 |---|---------|-----------|-------------|------------|
-| 1 | [intake/intake.md](intake/intake.md) | The raw request structured into a problem, evidence and affected users | `/product-os:intake` · `intake-analyst` | Confluence · 1. Strategy & Definition |
-| 2 | [pm/project-brief.md](pm/project-brief.md) | One-page executive summary | `/product-os:brief` · `project-brief` | Confluence · 1. Strategy & Definition |
-| 3 | [pm/prd.md](pm/prd.md) | Requirements, hypotheses, success metrics, rollout | `/product-os:prd` · `prd-author` | Confluence · 1. Strategy & Definition |
-| 4 | [pm/metrics-framework.md](pm/metrics-framework.md) | North star, inputs, guardrails, stop criteria, **validation plan** | `/product-os:metrics` · `metrics-designer` | Confluence · 1. Strategy & Definition |
-| 5 | [design/flows.md](design/flows.md) + [flows.yaml](design/flows.yaml) | User flows as Mermaid diagrams with step tables; YAML is the source | `/product-os:flows` · `flow-designer` | Confluence · 2. Design (YAML stays local) |
-| 6 | [design/wireframes.md](design/wireframes.md) | Low-fi ASCII wireframes with annotations | `/product-os:wireframes` · `wireframer` | Confluence · 2. Design |
-| 7 | [design/prototype.html](design/prototype.html) | Clickable low-fi prototype; open it in a browser | `/product-os:prototype` · `prototyper` | Confluence · 2. Design (attached to the Wireframes & Prototype page) |
-| 8 | [design/design-critique.md](design/design-critique.md) | Critique of the actual prototype; every finding cites a screen and element | `/product-os:critique` · `design-critic` | Confluence · 2. Design |
-| 9 | [design/ux-review.md](design/ux-review.md) | Heuristic evaluation of the same prototype; every finding cites screen, element and line | `/product-os:ux-review` · `ux-reviewer` | Confluence · 2. Design |
-| 10 | [design/accessibility-audit.md](design/accessibility-audit.md) | WCAG 2.2 AA source audit of the same prototype; untestable checks marked Not Verified | `/product-os:a11y` · `accessibility-auditor` | Confluence · 2. Design |
-| 11 | [jira/epic.md](jira/epic.md) | One epic: Summary + Description as Jira shows it | `/product-os:deliver` · `delivery-agent` | Jira (synced by `/product-os:jira-sync`); summarized in Confluence · 3. Delivery |
-| 12 | [jira/stories.md](jira/stories.md) | Four stories with Gherkin acceptance criteria and design links | `/product-os:deliver` · `delivery-agent` | Jira; summarized in Confluence · 3. Delivery |
-| 13 | [confluence/00-hub-page.md](confluence/00-hub-page.md) | The project hub page with the "Documents in this project" table | `/product-os:publish` · `confluence-publisher` | Confluence · project root page |
+| 1 | [intake/intake.md](intake/intake.md) | The raw request structured into a problem, evidence and affected users | `/product-os:intake` · `intake-analyst` | Confluence · PM workspace · 1. Strategy & Definition |
+| 2 | [pm/project-brief.md](pm/project-brief.md) | One-page executive summary | `/product-os:brief` · `project-brief` | Confluence · under the project page, for the team |
+| 3 | [pm/prd.md](pm/prd.md) | Requirements, hypotheses, success metrics, rollout | `/product-os:prd` · `prd-author` | Confluence · under the project page, for the team |
+| 4 | [pm/metrics-framework.md](pm/metrics-framework.md) | North star, inputs, guardrails, stop criteria, **validation plan** | `/product-os:metrics` · `metrics-designer` | Confluence · PM workspace · 1. Strategy & Definition |
+| 5 | [design/flows.md](design/flows.md) + [flows.yaml](design/flows.yaml) | User flows as Mermaid diagrams with step tables; YAML is the source | `/product-os:flows` · `flow-designer` | Confluence · under the project page, for the team (YAML stays local) |
+| 6 | [design/wireframes.md](design/wireframes.md) | Low-fi ASCII wireframes with annotations | `/product-os:wireframes` · `wireframer` | Confluence · under the project page (the PM attached it to the epic) |
+| 7 | [design/prototype.html](design/prototype.html) | Clickable low-fi prototype with every state, for design review; open it in a browser | `/product-os:prototype` · `prototyper` | Confluence · PM workspace · 2. Design |
+| 7a | [design/prototype-handoff.html](design/prototype-handoff.html) | The team's end-to-end prototype: pick a user, then one straight path | `/product-os:prototype --handoff` · `prototyper` | Linked from the epic and the links page |
+| 8 | [design/design-critique.md](design/design-critique.md) | Critique of the actual prototype; every finding cites a screen and element | `/product-os:critique` · `design-critic` | Confluence · PM workspace · 2. Design |
+| 9 | [design/ux-review.md](design/ux-review.md) | Heuristic evaluation of the same prototype; every finding cites screen, element and line | `/product-os:ux-review` · `ux-reviewer` | Confluence · PM workspace · 2. Design |
+| 10 | [design/accessibility-audit.md](design/accessibility-audit.md) | WCAG 2.2 AA source audit of the same prototype; untestable checks marked Not Verified | `/product-os:a11y` · `accessibility-auditor` | Confluence · PM workspace · 2. Design |
+| 11 | [jira/epic.md](jira/epic.md) | One epic, the team's hub: a short summary, the Handoff links, the ticket list, and the ticket tree the PM accepted | `/product-os:deliver` · `delivery-agent` | Jira (synced by `/product-os:jira-sync`); summarized on the Epics & Stories page |
+| 12 | [jira/stories.md](jira/stories.md) | Four short tickets: user story, problem, requirements, design link, "Done when" checklist, estimate, sub-tasks; backend parts left for engineering; PM notes at the end | `/product-os:deliver` · `delivery-agent` | Jira; summarized on the Epics & Stories page |
+| 13 | [confluence/00-hub-page.md](confluence/00-hub-page.md) | The project's links page with the "Handoff" table, pointing to the epic | `/product-os:publish` · `confluence-publisher` | Confluence · project root page |
 
 [confluence/README.md](confluence/README.md) shows the full Confluence page tree.
 

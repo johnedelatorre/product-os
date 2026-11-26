@@ -1,10 +1,10 @@
 ---
-description: "Publish all project artifacts to Confluence."
+description: "Publish to Confluence: a links page and the team's pages, with your own documents under one PM workspace page."
 argument-hint: "--project <path> [--config <config.yaml>]"
 ---
 # /product-os:publish
 
-Publish all project artifacts to Confluence.
+Publish to Confluence: a links page and the team's pages, with your own documents under one PM workspace page.
 
 ## Usage
 
@@ -22,29 +22,38 @@ Publish all project artifacts to Confluence.
 
 ## Confluence Hierarchy
 
-One hub page per project, then four groups (`docs/reference/document-format.md` §2):
+One links page per project for the team, and one PM workspace page for everything else (`docs/reference/document-format.md` §2, `.claude/skills/engineering-handoff.md`):
 
 ```
 Product Space
 └── Initiatives
     └── [Initiative Name]
-        └── [Project Name]                   ← Hub page: standard header + "Documents in this project" table
-            ├── 1. Strategy & Definition     ← Intake, Proposal / Project Brief, PRD, PRD Review, Metrics Framework
-            ├── 2. Design                    ← Design Brief, User Flows, Wireframes & Prototype, Design Critique, UX Review, Accessibility Audit
-            ├── 3. Delivery                  ← Epics & Stories (Backlog), Project Plan, RACI, Gantt Chart, Risks, Dependencies, Traceability
-            └── 4. Decisions & Launch        ← Decision Log, Event Tracking Plan, Release Notes, Post-Launch Review
+        └── [Project Name]                   ← Links page: standard header + "Handoff" table
+            ├── PRD
+            ├── Project Brief
+            ├── User Flows
+            ├── [Extras you attached]        ← for example Wireframes, Schema
+            ├── Epics & Stories              ← the ticket tree, with Jira links
+            └── PM workspace                 ← everything else, for you
+                ├── 1. Strategy & Definition ← Intake, Proposal, Metrics Framework
+                ├── 2. Design                ← Design Brief, Wireframes & Prototype, Design Critique, UX Review, Accessibility Audit
+                ├── 3. Delivery              ← Project Plan, RACI, Gantt Chart, Risks, Dependencies, Traceability
+                └── 4. Decisions & Launch    ← Decision Log, Event Tracking Plan, Release Notes, Post-Launch Review
 ```
 
-Every page opens with the standard header (Title, Subtitle, Description, Problem Statement, Solution, Success Metrics, Next Action). Long documents split at their own sections, named for their content ("PRD — Functional Requirements"), never "Part 1".
+The links page carries the same Handoff table as the Jira epic and links back to it. The team's pages never link into the PM workspace. Long documents split at their own sections, named for their content ("PRD — Functional Requirements"), never "Part 1".
 
-## Backlog Page
+A project published with the earlier layout keeps its pages: the publish plan lists each page that would move under PM workspace, and nothing moves until you approve.
 
-The Backlog page (Epics & Stories, under 3. Delivery) includes, below its standard header:
-- Epic table with story point totals
-- Story table with discipline column
-- **Story point subtotals by discipline** (Frontend, Backend, Fullstack)
-- Sprint allocation estimate
-- Links to Jira (populated after jira-sync)
+## Epics & Stories Page
+
+One short page, below its standard header:
+- What the epic delivers, in 2–4 sentences
+- The handoff links
+- The ticket tree with discipline, points and Jira links (populated after jira-sync)
+- One estimate line
+
+Point totals by discipline and the sprint allocation are in the Project Plan, in the PM workspace.
 
 ## Output
 

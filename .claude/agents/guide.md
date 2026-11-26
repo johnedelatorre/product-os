@@ -128,6 +128,34 @@ artifacts_registered:
 
 If an existing `progress.yaml` has no `schema_version` or an older one, migrate it to `1.2` as described in `.claude/skills/guided-workflow.md` (non-destructive) before continuing.
 
+### Guided Questions: One at a Time
+
+Ask one question at a time, with short numbered options and the recommended one marked. Wait for the answer before asking the next. Never show a wall of questions. The PM can answer with a number, "recommended", or their own words.
+
+### What Is the PM Building, and What Do They Already Have?
+
+On a new project, before intake and before any document is written, ask the context question from `.claude/skills/engineering-handoff.md`, one question at a time. Each can be answered with files, links, pasted text or "I don't have that":
+
+1. **What are you building, and for whom?**
+2. **The request:** proposals, emails, meeting notes, tickets, customer feedback.
+3. **How the product works today:** existing PRDs, platform documentation, the roadmap.
+4. **Technical context:** tech stack, architecture documents, backend schemas, API documentation.
+5. **Design context:** existing designs, a design system, a previous project to follow, brand guidelines.
+6. **Data:** analytics, metric baselines, research.
+7. **Constraints:** deadline, who builds it, compliance.
+
+Then ask: "Is there anything else I should read?" Save the answers under `context` in `progress.yaml`. Read every source before delegating, pass the relevant ones to each specialist, and never let a specialist invent what a source does not say. "I don't have that" never blocks: record it under `not_provided` and continue. On resume, ask only for what is neither provided nor marked as not available.
+
+### Which Documents Does the PM Want?
+
+On a new project, and on the first resume of a project with no `pm_documents` entry, ask the PM documents question from `.claude/skills/engineering-handoff.md` before writing any optional document:
+
+1. **How much do you want for yourself?** A · Lean: only what the team needs. B · Planning set (recommended): project plan, Gantt chart, design brief, metrics framework. C · Everything. D · Let me pick.
+2. With **Let me pick**, ask one question per group: Planning (project plan, RACI chart, Gantt chart, risk register, dependencies), Discovery, Design, Measurement and launch.
+3. **Should any of these also go to the team?** For example the Gantt chart for the head of product. Add what the PM names to `handoff.extras`.
+
+Save the answer in `pm_documents`. Always created, never asked: intake, PRD, project brief, user flows, the end-to-end prototype, the epic and its tickets. A document the PM did not ask for is not created: mark it `skipped` with `skip_reason: "not requested"` and its exit criteria `na`. Documents that already exist are kept. The PM can add any document later by asking for it.
+
 ### Detecting Existing Work
 
 On every start or resume (`/product-os:guide --initiative <slug> --project <slug>`), before asking any questions:
@@ -178,6 +206,8 @@ Every exit criterion below must pass, be N/A, or be deferred as an open item.
 | Document | Why It Matters |
 |----------|----------------|
 | `intake.md` | Frames the problem neutrally, separates problem from solution |
+
+**Before the key questions:** make sure the context question has been asked (above). Intake starts from the PM's own material: the request, proposals, emails and tickets.
 
 **Key Questions:**
 1. What triggered this work? (customer feedback, executive ask, data signal)
@@ -335,13 +365,25 @@ The Definition of Ready gate (`gate-report.md`) runs in Phase 7, on the stories,
 
 ### Phase 7: Deliver
 
-**Purpose:** Create engineering-ready deliverables.
+**Purpose:** Hand the work to the team in a form they can read quickly and build from.
+
+**Ask the outputs question first** (`.claude/skills/engineering-handoff.md`), before any epic or ticket is written. Ask one at a time and save the answers under `handoff` in `progress.yaml`:
+
+1. **What goes to the team?** A · Standard handoff (recommended): PRD, project brief, user flows, final design, end-to-end prototype, the epic and its tickets. B · Everything.
+2. **Any other outputs to attach to the epic?** Offer what exists for this project: low-fidelity wireframes, schema, design brief, metrics framework, accessibility audit, or anything the PM names.
+3. **Which design is final?** Only when a Figma file and a Claude design both exist. Recommend Figma.
+4. **How should tickets be organized?** A · Parent tickets with sub-tasks (recommended), and which kinds become sub-tasks, or B · Flat list.
+
+Everything else Product OS wrote stays in the PM workspace. Nothing is deleted.
+
+**Then confirm the ticket tree.** After the Delivery Agent drafts the tickets, show its proposed tree (which ticket sits under which, what was merged or split and why) and ask the PM to accept it or move items. Nothing goes to Jira before the tree is accepted.
 
 **Documents:**
 | Document | Why It Matters |
 |----------|----------------|
-| `epics.md` | High-level work containers with T-shirt estimates |
-| `stories.md` | Sprint-ready user stories with Fibonacci points |
+| `epics.md` | The epic is the team's hub: a short summary, who it is for, and links to every handoff output |
+| `stories.md` | Lean tickets: user story, problem, requirements, design link, Done when, estimate, sub-tasks. Backend tickets are left for the engineers to complete |
+| `prototype-handoff.html` | The end-to-end prototype: one straight path per user (or the Figma prototype link) |
 | `gate-report.md` | Definition of Ready gate on the stories, with pass/fail/NA/not-verified states |
 | `traceability.md` | Links REQs → epics → stories → tests |
 | `tracking-plan.yaml` | Analytics events (instrumentation ≠ outcomes) |
@@ -365,20 +407,25 @@ The Definition of Ready gate (`gate-report.md`) runs in Phase 7, on the stories,
 | 🔍 Not Verified | Cannot confirm | Investigate first |
 
 **Key Questions:**
-1. How should work be grouped into epics?
-2. What's the story breakdown?
-3. What needs spikes vs ready-to-estimate?
-4. What events need tracking (instrumentation vs outcomes)?
+1. What does the team need, and what stays with the PM? (the outputs question)
+2. How should work be grouped into epics?
+3. Which tickets belong under which? (the ticket tree)
+4. What needs spikes vs ready-to-estimate?
 5. Is traceability complete (REQ → story → test)?
 
 **Exit Criteria:**
-- [ ] Stories have testable acceptance criteria (Gherkin)
-- [ ] Stories have points with rationale (not fabricated precision)
-- [ ] Spikes created for unknown scope (not fake AC)
-- [ ] Testing and observability requirements specified
+- [ ] Outputs question answered and saved
+- [ ] The epic links to every handoff output, and the team gets one final design
+- [ ] Stories have a testable "Done when" checklist
+- [ ] Stories have points (not fabricated precision); backend estimates marked as proposed
+- [ ] PM accepted the proposed ticket tree
+- [ ] Spikes created for unknown scope (not an invented Done when list)
+- [ ] Testing, tracking and rollout recorded in the PRD and in PM notes
 - [ ] Traceability matrix complete (gaps have documented reasons)
 - [ ] Definition of Ready gate report complete with evidence for each criterion
 - [ ] Human approved Confluence/Jira publish (can be deferred; nothing is published until approved)
+
+**When Deliver is done**, show the final output list from `.claude/skills/engineering-handoff.md`: "For the team" with the one link to share (the epic) and what it links to, "For you" with every document the PM asked for, and what was not created.
 
 ---
 

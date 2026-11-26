@@ -8,8 +8,8 @@ Product OS works in both **Claude Code** and **Cursor**:
 
 | Platform | Agents | Commands | Skills | Native Adapters |
 |----------|--------|----------|--------|-----------------|
-| Claude Code | 40 (subagents) | 47 (plugin slash commands, `/product-os:*`) | 41 (reference docs) | Full (Task tool) |
-| Cursor | 40 | Role-based invocation | 41 | 3 (`.cursor/agents/`) |
+| Claude Code | 40 (subagents) | 47 (plugin slash commands, `/product-os:*`) | 42 (reference docs) | Full (Task tool) |
+| Cursor | 40 | Role-based invocation | 42 | 3 (`.cursor/agents/`) |
 
 ### Cursor Native Adapters
 
@@ -87,7 +87,7 @@ Documents include TL;DR blocks, scannable headings, and numbered steps while mai
 
 | Agent | File | Role | Command |
 |-------|------|------|---------|
-| Delivery Agent | `delivery-agent.md` | Epics, stories, story points | `/product-os:deliver` |
+| Delivery Agent | `delivery-agent.md` | The engineering handoff: an epic that links to everything, lean tickets, the ticket tree | `/product-os:deliver` |
 | Confluence Publisher | `confluence-publisher.md` | Publish to Confluence | `/product-os:publish` |
 | Jira Sync | `jira-sync.md` | Create/update Jira issues | `/product-os:jira-sync` |
 
@@ -184,7 +184,7 @@ The orchestrator runs 7 stages (plus an optional PRD review), matching `.claude/
 **Agents:** `.claude/agents/prototyper.md`, `.claude/agents/figma-agent.md` (parallel when Figma MCP is available)  
 **Commands:** `/product-os:prototype`, `/product-os:figma`  
 **Input:** Approved wireframes and flows  
-**Output:** `prototype.html`, `prototype-react.tsx`, Figma sync  
+**Output:** `prototype.html`, `prototype-react.tsx`, `prototype-handoff.html` (the team's end-to-end prototype), Figma sync  
 **Checkpoint:** Human approves prototype
 
 ### Stage 5: Design Review
@@ -198,14 +198,15 @@ The orchestrator runs 7 stages (plus an optional PRD review), matching `.claude/
 **Agents:** `.claude/agents/delivery-agent.md`, `.claude/agents/gate-keeper.md`  
 **Commands:** `/product-os:deliver`, `/product-os:gate`  
 **Input:** Approved design + PRD  
+**First:** The outputs question: what goes to the team, any extras to attach to the epic, which design is final, how tickets are organized (`.claude/skills/engineering-handoff.md`)  
 **Output:** `epics.md`, `stories.md`, `backlog.csv`, `gate-report.md`, `traceability.md`  
-**Checkpoint:** Human approves stories and gate status (DoR failures block sprint entry)
+**Checkpoint:** Human accepts the proposed ticket tree, then approves stories and gate status (DoR failures block sprint entry)
 
 ### Stage 7: Publishing
 **Agents:** `.claude/agents/confluence-publisher.md`, `.claude/agents/jira-sync.md`  
 **Commands:** `/product-os:publish`, `/product-os:jira-sync`  
 **Input:** All approved artifacts  
-**Output:** Confluence pages, Jira epics/stories with links, `publish-manifest.json`, `jira-sync-manifest.json`  
+**Output:** Confluence links page, the team's pages and the PM workspace; Jira epic with handoff links, stories and sub-tasks; `publish-manifest.json`, `jira-sync-manifest.json`; the final output list, ending with the one link to share: the epic  
 **Checkpoint:** Proposed changes are shown first; nothing is written to Confluence or Jira without explicit human approval
 
 ---
@@ -340,37 +341,40 @@ The definitions below summarize each pipeline role. The full instructions live i
 
 **Files:** `.claude/agents/delivery-agent.md`, `.claude/agents/gate-keeper.md`
 
-**Role:** Transform approved designs and PRD into implementation-ready epics and user stories.
+**Role:** Turn the approved PRD and designs into a short engineering handoff. The team gets a few outputs, the epic links to all of them, and tickets are short enough to read without help. Rules: `.claude/skills/engineering-handoff.md`.
 
 **Inputs:**
 - Approved PRD
-- Approved design artifacts
+- Approved design artifacts, the final design link and the end-to-end prototype
+- The `handoff` answers in `progress.yaml` (asked when missing)
 - Team conventions (sprint length, story point scale)
 
 **Outputs:**
-- `epics.md` — High-level epics mapping to PRD goals
-- `stories.md` — User stories with acceptance criteria and story points
+- `epics.md` — The epic: what and why, who it is for, a Handoff table of links, the ticket list
+- `stories.md` — Lean tickets, then PM notes that are never sent to Jira
 
 **Story Format:**
 ```
 **[STORY-ID] Story Title**
 
-As a [user type],
-I want to [action],
-So that [benefit].
+As a [user type], I want [action], so that [benefit].
 
-**Acceptance Criteria:**
-- Given [context], When [action], Then [outcome]
-- Given [context], When [action], Then [outcome]
+Problem: [one or two sentences]
 
-**Story Points:** X (Rationale: ...)
+Requirements: [3–6 short lines]
+UX and design requirements: [components, copy, states, accessibility]
+Design: [this ticket's own Figma page or frame] · [prototype step] · [flow step]
 
-**Dependencies:** [list]
+Done when:
+- [ ] [a plain sentence a tester can check]
 
-**Design Reference:** [link to wireframe/flow]
+Estimate: X points · frontend / backend / fullstack · PRD: REQ-### · Depends on: [list]
 
-**PRD Reference:** [requirement ID]
+Sub-tasks: [frontend] ... · [backend] ...
+Engineering to complete (backend tickets only, left empty): Approach · API and data changes · Risks
 ```
+
+**Ticket tree:** The agent proposes which work sits under which ticket, says what it merged or split and why, and the PM accepts it or moves items before anything reaches Jira.
 
 **Story Point Rubric (Fibonacci):**
 | Points | Complexity | Uncertainty | Examples |
@@ -379,16 +383,19 @@ So that [benefit].
 | 2 | Simple | Low | Single component, clear spec |
 | 3 | Moderate | Low | Multiple components, some logic |
 | 5 | Complex | Medium | New feature area, integrations |
-| 8 | Very Complex | High | Cross-system, significant unknowns |
-| 13 | Extremely Complex | Very High | Architecture change, spike needed |
+| 8 | Very Complex | High | Cross-system, significant unknowns. Needs a written reason; split it if you can |
+| 13 | Extremely Complex | Very High | Split it, or run a spike first |
 
 **Quality Checklist:**
+- [ ] Outputs question answered
 - [ ] Every PRD requirement has ≥1 story
-- [ ] Acceptance criteria are testable (Given/When/Then)
-- [ ] Stories are independent and vertically sliced
+- [ ] The epic links to every handoff output, with one final design
+- [ ] "Done when" lines are testable
+- [ ] Stories are independent, vertically sliced and 1–5 points; steps inside a story are sub-tasks
+- [ ] Backend tickets are high level, with "Engineering to complete" left empty
+- [ ] PM accepted the ticket tree
 - [ ] Dependencies explicit with linked stories
-- [ ] Story points consistent with rubric
-- [ ] Design and PRD references linked
+- [ ] Each UI story links to its own design page or frame
 
 ---
 
@@ -413,34 +420,32 @@ So that [benefit].
 Product Space
 └── Initiatives Section
     └── [Initiative Name]
-        └── [Project Name]
-            ├── 1. Intake
-            ├── 2. PRD
-            ├── 3. Project Brief
-            ├── 4. Project Plan
-            ├── 5. RACI
-            ├── 6. Gantt
-            ├── 7. Design Brief
-            ├── 8. User Flows
-            ├── 9. Wireframes
-            ├── 10. Prototype
-            ├── 11. Design Critique
-            ├── 12. Epics & Stories
-            └── 13. Decision Log
+        └── [Project Name]              ← Links page: the Handoff table, pointing to the epic
+            ├── PRD
+            ├── Project Brief
+            ├── User Flows
+            ├── [Extras the PM attached]
+            ├── Epics & Stories
+            └── PM workspace            ← the documents the PM asked for, for themselves
 ```
 
+Full layout: `docs/reference/document-format.md` §2.
+
 **Jira Structure:**
-- Epic per PRD goal
+- Epic per PRD goal; the epic is the team's hub
+- The epic's description carries the Handoff table (PRD, project brief, user flows, final design, end-to-end prototype, extras), and each output is also a web link on the epic
 - Stories linked to parent epic (team-managed projects use the `parent` field)
+- Sub-tasks created under their parent story
 - Story points populated
 - Labels: `product-os`, initiative slug, project slug
-- Links to Confluence pages in description
 
 **Quality Checklist:**
 - [ ] All artifacts published to correct Confluence location
 - [ ] Page hierarchy matches specification
-- [ ] Jira epics/stories created with correct fields
-- [ ] Bidirectional links (Confluence ↔ Jira)
+- [ ] Jira epics, stories and sub-tasks created with correct fields
+- [ ] The epic links to every handoff output, and every link opens
+- [ ] Bidirectional links (Confluence links page ↔ Jira epic)
+- [ ] The PM was given one link to share with the team: the epic
 - [ ] Publish manifest saved locally for reference
 
 ---
@@ -503,12 +508,15 @@ The `/product-os:new-project` command runs the full pipeline (see `.claude/agent
    └── **CHECKPOINT:** Human addresses critical findings
 
 6. DELIVERY
+   └── Ask the outputs question (what goes to the team, extras, final design, ticket organization)
    └── Generate epics.md, stories.md, gate-report.md, traceability.md
-   └── **CHECKPOINT:** Human approves stories and gate status
+   └── Propose the ticket tree
+   └── **CHECKPOINT:** Human accepts the ticket tree, then approves stories and gate status
 
 7. PUBLISHING
    └── Show proposed Confluence pages and Jira issues, then write only after approval
    └── **CHECKPOINT:** Human confirms publication
+   └── Show the final output list: for the team (share the epic), for the PM, not created
 ```
 
 At each checkpoint, the orchestrator:
