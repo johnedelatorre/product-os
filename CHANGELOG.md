@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - **Agents view on the board** — all 41 roles by phase, what each one does, and what to say in the chat to call it. `scripts/build-plugin-skill.py` writes the list into the board from `.claude/agents/`, and fails when an agent is missing from it.
 - **Light, dark or auto** — a switch at the top of the board. The choice is kept in the reader's browser.
+- **Open in new tab** — a button at the top of the board opens the board in its own browser tab, and every document link carries a new-tab sign. Claude writes the board's own link to `project/state` as `board`.
 
 ### Changed
 - **A wider board with larger type** — the page uses the width of the screen, and every text size is larger.

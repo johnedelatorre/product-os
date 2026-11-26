@@ -33,6 +33,10 @@ button:focus-visible, a:focus-visible, summary:focus-visible { outline: 3px soli
 .theme { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; background: var(--sheet); padding: 3px; }
 .theme button { border: 0; background: none; border-radius: 999px; padding: 6px 14px; font-size: 0.9375rem; font-weight: 600; color: var(--muted); cursor: pointer; }
 .theme button[aria-pressed="true"] { background: var(--wash); color: var(--accent-text); box-shadow: inset 0 0 0 1px var(--accent); }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border: 1px solid var(--line); border-radius: 999px; background: var(--sheet); color: var(--ink); font-size: 0.9375rem; font-weight: 600; text-decoration: none; }
+.btn:hover { border-color: var(--accent); color: var(--accent-text); }
+.ext { width: 1em; height: 1em; flex: none; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; vertical-align: -0.12em; }
+a.open { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; white-space: nowrap; }
 .credit { margin: 28px 0 0; font-size: 0.9375rem; color: var(--muted); }
 .credit a { color: inherit; }
 .live { margin: 0; font-size: 0.9375rem; color: var(--muted); display: flex; align-items: center; gap: 8px; }
@@ -91,10 +95,10 @@ a.badge:hover { text-decoration: underline; }
 .tasks .t { font: 700 1.1875rem/1.3 var(--display); }
 .tasks .m { font-size: 1rem; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
 .rows { list-style: none; margin: 0; padding: 0 20px 14px 4.1rem; }
-.rows li { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.3fr) minmax(0, 1.4fr) 4rem; gap: 8px 20px; align-items: center; padding: 10px 0; border-top: 1px dashed var(--line); font-size: 1.0625rem; }
+.rows li { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.3fr) minmax(0, 1.4fr) 5.5rem; gap: 8px 20px; align-items: center; padding: 10px 0; border-top: 1px dashed var(--line); font-size: 1.0625rem; }
 .rows li:first-child { border-top: 0; }
 .rows .k { font-weight: 600; overflow-wrap: anywhere; } .rows .v { color: var(--muted); overflow-wrap: anywhere; }
-.rows a { font-weight: 600; white-space: nowrap; justify-self: end; }
+.rows a { justify-self: end; }
 
 .scroll { overflow-x: auto; }
 table { border-collapse: collapse; width: 100%; font-size: 1.0625rem; }
@@ -159,6 +163,7 @@ td a { font-weight: 600; }
     <p class="brand">Product OS<span>Board</span></p>
     <div class="tools">
       <p class="live"><span class="dot" id="dot"></span><span id="liveTxt">Connecting…</span></p>
+      <a class="btn" id="openTab" target="_blank" rel="noopener" hidden><svg class="ext" viewBox="0 0 16 16" aria-hidden="true"><path d="M9 2.5h4.5V7M13.5 2.5 7.5 8.5M6 3.5H3.5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V10"/></svg>Open in new tab</a>
       <div class="theme" role="group" aria-label="Colours">
         <button type="button" data-theme-set="auto" aria-pressed="true">Auto</button>
         <button type="button" data-theme-set="light" aria-pressed="false">Light</button>
@@ -239,12 +244,18 @@ td a { font-weight: 600; }
   var KINDS = { doc: "Claude doc", design: "Claude Design", whiteboard: "Whiteboard", figma: "Figma", figjam: "FigJam", prototype: "Prototype", file: "File", page: "Page" };
   var STATUS = { planned: ["Not started", "", "idle"], asking: ["Questions for you", "now", "you"], writing: ["Being written", "now", "now"], review: ["Ready for your review", "now", "you"], done: ["Done", "done", "ok"], skipped: ["Skipped", "", "skip"] };
   var SIGN = { ok: "✓", now: "●", you: "●", miss: "!", risk: "▲", idle: "○", skip: "–" };
-  var state = null, docs = [], tickets = [], filter = "all", view = "tasks", opened = {}, gotState = false, gotDocs = false, timer = 0;
+  var state = null, links = null, docs = [], tickets = [], filter = "all", view = "tasks", opened = {}, gotState = false, gotDocs = false, timer = 0;
   function $(id) { return document.getElementById(id); }
   function el(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; }
   function str(v, n) { return typeof v === "string" ? v.slice(0, n || 400) : ""; }
   function num(v) { return typeof v === "number" && isFinite(v) ? v : 0; }
   function link(url, text) { if (typeof url !== "string" || !/^https:\/\//.test(url)) return null; var a = el("a", null, text); a.href = url; a.target = "_blank"; a.rel = "noopener"; return a; }
+  function ext() {
+    var NS = "http://www.w3.org/2000/svg", svg = document.createElementNS(NS, "svg"), p = document.createElementNS(NS, "path");
+    svg.setAttribute("class", "ext"); svg.setAttribute("viewBox", "0 0 16 16"); svg.setAttribute("aria-hidden", "true");
+    p.setAttribute("d", "M9 2.5h4.5V7M13.5 2.5 7.5 8.5M6 3.5H3.5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V10"); svg.appendChild(p); return svg;
+  }
+  function openLink(url, title) { var a = link(url, "Open"); if (!a) return null; a.className = "open"; a.appendChild(ext()); a.setAttribute("aria-label", "Open " + title + " in a new tab"); a.title = "Opens in a new tab"; return a; }
   function ago(iso) {
     var t = Date.parse(iso); if (!t) return "";
     var m = Math.max(0, Math.round((Date.now() - t) / 60000));
@@ -277,6 +288,8 @@ td a { font-weight: 600; }
     var tr = $("track"); tr.textContent = ""; ph.forEach(function (p) { tr.appendChild(el("li", p === "done" ? "done" : p === "now" ? "now" : "")); });
     $("trackTxt").textContent = phDone + " of 9 phases";
 
+    var own = str(state && state.board, 300) || str(links && links.board, 300), ot = $("openTab");
+    if (/^https:\/\/claude\.ai\//.test(own)) { ot.href = own; ot.hidden = false; } else ot.hidden = true;
     var nx = str(state && state.next, 400);
     $("nextBox").hidden = !nx; $("nextTxt").textContent = nx;
     $("note").textContent = "You answer in the Claude chat. This board only shows the project, and it updates by itself.";
@@ -320,7 +333,7 @@ td a { font-weight: 600; }
         li.appendChild(el("span", "k", str(x.title, 120)));
         g.appendChild(badge(STATUS[s][2], STATUS[s][0])); if (num(x.tbd)) g.appendChild(tbdBadge(num(x.tbd))); if (str(x.agent, 60)) g.appendChild(el("span", "chip", str(x.agent, 60)));
         li.appendChild(g); li.appendChild(el("span", "v", str(x.note, 200)));
-        var a = link(x.url, "Open"); if (a) { a.setAttribute("aria-label", "Open " + str(x.title, 120)); li.appendChild(a); } else li.appendChild(el("span"));
+        var a = openLink(x.url, str(x.title, 120)); if (a) li.appendChild(a); else li.appendChild(el("span"));
         ul.appendChild(li);
       });
       if (!mine.length) { var li = el("li"); li.appendChild(el("span", "v", "Claude lists the documents here when it shows you the plan.")); ul.appendChild(li); }
@@ -340,7 +353,7 @@ td a { font-weight: 600; }
       var c2 = el("td", null, KINDS[x.kind] || "Document"); c2.setAttribute("data-l", "Made as"); tr.appendChild(c2);
       var c3 = el("td", null, x.phase >= 1 && x.phase <= 9 ? x.phase + " · " + PHASES[x.phase - 1] : "Extra"); c3.setAttribute("data-l", "Phase"); tr.appendChild(c3);
       var c4 = el("td"), g4 = el("span", "set"); c4.setAttribute("data-l", "Status"); g4.appendChild(badge(STATUS[s][2], STATUS[s][0])); if (num(x.tbd)) g4.appendChild(tbdBadge(num(x.tbd))); c4.appendChild(g4); tr.appendChild(c4);
-      var c5 = el("td"); c5.setAttribute("data-l", "Open"); var a = link(x.url, "Open"); if (a) { a.setAttribute("aria-label", "Open " + str(x.title, 120)); c5.appendChild(a); } else c5.appendChild(badge(s === "done" ? "miss" : "idle", s === "done" ? "Link missing" : "Not made yet")); tr.appendChild(c5);
+      var c5 = el("td"); c5.setAttribute("data-l", "Open"); var a = openLink(x.url, str(x.title, 120)); if (a) c5.appendChild(a); else c5.appendChild(badge(s === "done" ? "miss" : "idle", s === "done" ? "Link missing" : "Not made yet")); tr.appendChild(c5);
       var c6 = el("td"), g6 = el("span", "set"); c6.setAttribute("data-l", "Published"); var pubs = (Array.isArray(x.published) ? x.published : []).filter(function (p) { return p && typeof p.url === "string" && /^https:\/\//.test(p.url); });
       if (pubs.length) pubs.forEach(function (p) { g6.appendChild(badge("ok", str(p.where, 40) || "Published", p.url)); }); else g6.appendChild(badge("idle", "Not published")); c6.appendChild(g6); tr.appendChild(c6);
       tb.appendChild(tr);
@@ -402,6 +415,7 @@ td a { font-weight: 600; }
     timer = setTimeout(function () { if (!gotState || !gotDocs) live(false, "Still connecting. The data cannot be reached yet."); }, 10000);
     function seen(snap) { if (!snap.metadata || !snap.metadata.fromCache) { clearTimeout(timer); } }
     db.doc("project/state").onSnapshot(function (snap) { gotState = true; state = snap.exists ? snap.data() : null; seen(snap); stamp(); draw(); }, dead);
+    db.doc("project/links").onSnapshot(function (snap) { links = snap.exists ? snap.data() : null; draw(); }, function () { /* the button stays hidden */ });
     db.collection("documents").limit(200).onSnapshot(function (snap) {
       gotDocs = true; seen(snap);
       docs = snap.docs.map(function (d) { var x = d.data() || {}; return { id: d.id, title: x.title, phase: num(x.phase), kind: x.kind, status: x.status, agent: x.agent, url: x.url, published: x.published, tbd: x.tbd, note: x.note, order: num(x.order) }; })

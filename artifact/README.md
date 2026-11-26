@@ -13,7 +13,7 @@
 5. **Four views, one at a time**: Tasks (the start questions, the nine phases and their documents), Documents (a table of every document, what it was made as, its status, its link, and where it is published), Published and connected (the Jira epic and tickets, the Confluence pages, and your connectors), and Agents (all 41 roles by phase, what each one does, and what to say in your chat to call it).
 6. **Badges for every state**: Done, In progress, Questions for you, Ready for your review, Not started, Skipped, and the number of TBDs still missing. Each badge has a sign and a word, so it does not depend on colour.
 
-The board is read-only. You answer Claude in the chat, and the board changes by itself. It follows your device's light or dark setting, or your own choice with the Auto, Light and Dark switch at the top. It fits a phone, and it opens in its own browser tab from its link.
+The board is read-only. You answer Claude in the chat, and the board changes by itself. It follows your device's light or dark setting, or your own choice with the Auto, Light and Dark switch at the top. It fits a phone. The "Open in new tab" button at the top opens the board in its own browser tab, and every document link opens in a new tab too.
 
 ## How You Get It
 
