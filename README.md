@@ -133,14 +133,15 @@ For PMs who want a UI: the conversation, the documents and a board of every task
 
 1. **With the plugin (path A):** say *"Open the Product OS workspace."* Claude publishes the page as your own artifact. Go to step 3.
    **Without it:** download [`artifact/product-os.html`](artifact/product-os.html).
-2. In Claude, attach the file and say: *"Publish this page as an artifact. Declare these capabilities for it: `sample` with images, and `downloads`."* The artifact is yours, and private to you.
-3. Open the artifact and answer the seven start questions with chips or by typing.
+2. In Claude, attach the file and say: *"Publish this page as an artifact, and declare the capabilities listed in its `capabilities` block."* The artifact is yours, and private to you.
+3. Open the artifact and answer the seven start questions with chips or by typing. Attach your files at question 6: the agents read them.
 4. Tap **Start: Intake**. The agent for each document asks its questions, writes the document in the page, and waits for you to accept it or ask for a change.
-5. Follow the board through the nine phases. Open, copy or download any document. Run any of the 41 agents and 48 commands from "All agents and commands".
+5. Follow the board through the nine phases. Open, copy or download any document. Under **More**: check your Jira, Confluence and Figma connectors, pick your real Jira project and Confluence space, and run any of the 41 agents and 48 commands.
+6. Tap **Publish**. The guide shows the plan and the ticket tree, and creates the Confluence pages and the Jira epic and tickets after your yes.
 
 ![A PRD open in the workspace: a summary, numbered sections and a metrics table with named TBDs, and buttons to copy, download and close](docs/images/document.png)
 
-The page carries every agent, playbook, command and template, and uses your own Claude to write. Publishing to Confluence and Jira happens in your chat, with the documents you download. What it does and does not do: [Product OS as a Claude artifact](artifact/README.md).
+The page carries every agent, playbook, command and template. It uses your own Claude to write and your own connectors to read Figma and publish, and it shows only what each step needs. What it does and does not do: [Product OS as a Claude artifact](artifact/README.md).
 
 ### Path C · ChatGPT
 

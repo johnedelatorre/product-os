@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Public+Sans:wght@400;600&display=swap" rel="stylesheet">
 <style>
-/* Layout idea: the agent's conversation on the left, the project board it fills in on the right. On a narrow screen the board slides out over the conversation. Each document opens in a reading panel over both. */
+/* Layout idea: the agent's conversation on the left, the project board it fills in on the right. On a narrow screen, and until the start is done, the board slides out over the conversation. Each document opens in a reading panel over both. */
 :root {
   --paper: #EDF0F4;
   --sheet: #FFFFFF;
@@ -184,37 +184,54 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .more textarea { width: 100%; min-height: 6rem; margin: 8px 0; padding: 8px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--sheet); font-size: 0.8125rem; }
 .more button { padding: 7px 12px; border: 1px solid var(--ink); border-radius: 6px; background: none; font-weight: 600; cursor: pointer; }
 
+/* Progressive disclosure: before the plan exists there is only the conversation. The board is a panel that slides out, on a phone at any time and on a wide screen until the start is done. */
+.solo .wrap { max-width: 760px; }
+.kpis[hidden], .notes[hidden], .open-board[hidden] { display: none; }
+.drawer .work { grid-template-columns: minmax(0, 1fr); }
+.drawer .talk { position: static; }
+.drawer .where { position: sticky; top: 8px; z-index: 5; }
+.drawer .open-board { display: flex; flex: 1 1 100%; align-items: center; justify-content: space-between; gap: 10px; min-height: 44px; padding: 9px 12px; border: 1px solid var(--accent); border-radius: 6px; background: var(--wash); font-weight: 600; text-align: left; cursor: pointer; }
+.drawer .open-board[hidden] { display: none; }
+.drawer .open-board span { font-weight: 400; font-size: 0.875rem; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.drawer .open-board span::after { content: ""; display: inline-block; width: .5em; height: .5em; margin-left: .6em; border: solid currentColor; border-width: 2px 2px 0 0; transform: rotate(45deg) translateY(-1px); }
+.drawer .board { position: fixed; top: 0; right: 0; bottom: 0; z-index: 20; width: min(88vw, 27rem); padding: 0 14px 28px; background: var(--paper); border-left: 1px solid var(--line); overflow-y: auto; overscroll-behavior: contain; transform: translateX(100%); visibility: hidden; }
+.drawer .work[data-show="board"] .board { transform: none; visibility: visible; box-shadow: -14px 0 36px rgba(8, 14, 24, .28); }
+.drawer .board-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; position: sticky; top: 0; z-index: 1; margin: 0 -14px; padding: 12px 14px 10px; background: var(--paper); border-bottom: 1px solid var(--line); }
+.drawer .board-head h2 { font-size: 1.0625rem; }
+.drawer .board-head h2 small { display: block; font: 400 0.8125rem/1.3 var(--body); color: var(--muted); }
+.drawer .board-head button { min-height: 40px; padding: 7px 14px; border: 1px solid var(--ink); border-radius: 6px; background: none; font-weight: 600; cursor: pointer; }
+.drawer .scrim:not([hidden]) { display: block; position: fixed; inset: 0; z-index: 15; width: 100%; border: 0; padding: 0; background: rgba(8, 14, 24, .5); cursor: pointer; }
+.drawer .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.drawer .rows { padding-left: 14px; }
+.drawer .rows li { grid-template-columns: 1.1rem minmax(0, 1fr) auto; }
+.drawer .rows .v { grid-column: 2 / 3; grid-row: 2; }
+.drawer .tasks summary { grid-template-columns: 1.4rem minmax(0, 1fr) auto; row-gap: 0; }
+.drawer .tasks .m { grid-column: 2; grid-row: 2; white-space: normal; }
+.drawer .tasks .pill { grid-column: 3; grid-row: 1 / span 2; }
+.tasks > h2 #tasksTitle { font: inherit; color: inherit; }
+.more-h { margin: 8px 0 -6px; font: 600 0.8125rem/1.3 var(--body); color: var(--muted); }
+.more-h:focus { outline: none; }
+.more summary span { display: inline-block; margin-left: 8px; color: var(--muted); font-size: 0.8125rem; }
+.more .setup { border: 0; background: none; padding: 4px 0 0; }
+.setup li .v.ok { color: var(--found); font-weight: 600; }
+.setup li > button { grid-row: 1 / span 3; }
+.setup li button[disabled] { color: var(--muted); cursor: default; }
+.filelist { list-style: none; margin: 0; padding: 0; }
+.filelist li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1px 12px; align-items: center; padding: 7px 0; border-top: 1px dashed var(--line); color: var(--ink); }
+.filelist li b { font-weight: 600; overflow-wrap: anywhere; }
+.filelist li small { grid-column: 1 / 2; color: var(--muted); }
+.filelist li button { grid-column: 2 / 3; grid-row: 1 / span 2; }
+#thread .txt a { color: var(--accent); overflow-wrap: anywhere; }
 @media (max-width: 860px) {
-  .work { grid-template-columns: minmax(0, 1fr); }
-  .where { position: sticky; top: 8px; z-index: 5; }
-  .open-board { display: flex; flex: 1 1 100%; align-items: center; justify-content: space-between; gap: 10px; min-height: 44px; padding: 9px 12px; border: 1px solid var(--accent); border-radius: 6px; background: var(--wash); font-weight: 600; text-align: left; cursor: pointer; }
-  .open-board span { font-weight: 400; font-size: 0.875rem; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
-  .open-board span::after { content: ""; display: inline-block; width: .5em; height: .5em; margin-left: .6em; border: solid currentColor; border-width: 2px 2px 0 0; transform: rotate(45deg) translateY(-1px); }
-  .board { position: fixed; top: 0; right: 0; bottom: 0; z-index: 20; width: min(88vw, 26rem); padding: 0 14px 28px; background: var(--paper); border-left: 1px solid var(--line); overflow-y: auto; overscroll-behavior: contain; transform: translateX(100%); visibility: hidden; }
-  .work[data-show="board"] .board { transform: none; visibility: visible; box-shadow: -14px 0 36px rgba(8, 14, 24, .28); }
-  .board-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; position: sticky; top: 0; z-index: 1; margin: 0 -14px; padding: 12px 14px 10px; background: var(--paper); border-bottom: 1px solid var(--line); }
-  .board-head h2 { font-size: 1.0625rem; }
-  .board-head h2 small { display: block; font: 400 0.8125rem/1.3 var(--body); color: var(--muted); }
-  .board-head button { min-height: 40px; padding: 7px 14px; border: 1px solid var(--ink); border-radius: 6px; background: none; font-weight: 600; cursor: pointer; }
-  .scrim:not([hidden]) { display: block; position: fixed; inset: 0; z-index: 15; width: 100%; border: 0; padding: 0; background: rgba(8, 14, 24, .5); cursor: pointer; }
-  .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   #thread { max-height: 15rem; }
-  .rows { padding-left: 14px; }
-  .rows li { grid-template-columns: 1.1rem minmax(0, 1fr) auto; }
-  .rows .v { grid-column: 2 / 3; grid-row: 2; }
   .brand span { display: none; }
-  .tasks summary { grid-template-columns: 1.4rem minmax(0, 1fr) auto; row-gap: 0; }
-  .tasks .m { grid-column: 2; grid-row: 2; white-space: normal; }
-  .tasks .pill { grid-column: 3; grid-row: 1 / span 2; }
   .doc { width: 100vw; max-width: 100vw; height: 100dvh; max-height: 100dvh; margin: 0; border: 0; border-radius: 0; }
   .doc-body { padding: 14px 16px 28px; }
 }
 @media (prefers-reduced-motion: no-preference) {
   .chip { transition: border-color .15s, background-color .15s; }
-  @media (max-width: 860px) {
-    .board { transition: transform .22s ease, visibility 0s linear .22s; }
-    .work[data-show="board"] .board { transition: transform .22s ease; }
-  }
+  .drawer .board { transition: transform .22s ease, visibility 0s linear .22s; }
+  .drawer .work[data-show="board"] .board { transition: transform .22s ease; }
 }
 </style>
 </head>
@@ -222,13 +239,13 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 <div class="wrap">
   <header class="bar" id="bar">
     <p class="brand">Product OS<span>Workspace</span></p>
-    <p class="meta"><span class="badge" id="badge">Guided questions</span><span id="exNote"></span><button class="linkish" id="openSetup" type="button">Connectors and settings</button><button class="linkish" id="clear" type="button">Start over</button></p>
+    <p class="meta"><span class="badge" id="badge">Guided questions</span><span id="exNote"></span><button class="linkish" id="openMore" type="button">More</button></p>
   </header>
 
   <section class="where" id="where" aria-label="Where you are">
     <h1><span id="project">New project</span><small id="whereLine"></small></h1>
     <div class="track"><ol id="track" aria-hidden="true"></ol><span id="trackTxt"></span></div>
-    <button type="button" class="open-board" id="openBoard" aria-haspopup="dialog" aria-controls="board" aria-expanded="false">Tasks and documents<span id="openBoardMeta"></span></button>
+    <button type="button" class="open-board" id="openBoard" aria-haspopup="dialog" aria-controls="board" aria-expanded="false" hidden><b id="openBoardText">Tasks and documents</b><span id="openBoardMeta"></span></button>
   </section>
 
   <main class="work" id="work" data-show="talk">
@@ -245,29 +262,35 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
     <button type="button" class="scrim" id="scrim" tabindex="-1" aria-label="Close the board" hidden></button>
     <aside class="board" id="board" aria-label="Project board">
       <div class="board-head"><h2>Board<small id="boardWhere"></small></h2><button type="button" id="closeBoard">Close</button></div>
-      <ul class="kpis" id="kpis"></ul>
-      <section class="tasks"><h2>Tasks<span id="taskMeta"></span></h2><div id="tasks"></div></section>
-      <section class="setup" id="setup" aria-labelledby="setupH" tabindex="-1">
-        <h2 id="setupH">Connectors and settings<span id="setupMeta"></span></h2>
-        <h3>Connectors</h3>
-        <ul id="conn"></ul>
-        <p>This page cannot see your connections. Set what you know. The documents I write here use it, and your chat checks each connector before it publishes.</p>
-        <h3>Settings</h3>
-        <ul id="sets"></ul>
-      </section>
-      <details class="more lib" id="lib"><summary>All agents and commands</summary>
-        <p id="libMeta"></p>
+      <ul class="kpis" id="kpis" hidden></ul>
+      <section class="tasks"><h2><span id="tasksTitle">Tasks</span><span id="taskMeta"></span></h2><div id="tasks"></div></section>
+      <section class="notes" id="notesBox" hidden><h2>What I noticed<span id="noteSrc"></span></h2><ul id="notes"></ul></section>
+      <h2 class="more-h" id="moreH" tabindex="-1">More</h2>
+      <details class="more" id="setupBox"><summary>Connectors and settings<span id="setupMeta"></span></summary>
+        <section class="setup" id="setup" aria-label="Connectors and settings" tabindex="-1">
+          <h3>Connectors</h3>
+          <ul id="conn"></ul>
+          <h3>Settings</h3>
+          <ul id="sets"></ul>
+        </section>
+      </details>
+      <details class="more" id="filesBox"><summary>Your files<span id="filesMeta"></span></summary>
+        <p>Attach text files and every agent reads them: .md, .txt, .csv, .json, .yaml, .html. For a PDF, Word, Excel or PowerPoint file, paste its text or save it as text.</p>
+        <ul class="filelist" id="filesList"></ul>
+        <div class="files"><button type="button" id="addFiles">Attach files</button></div>
+      </details>
+      <details class="more lib" id="lib"><summary>All agents and commands<span id="libMeta"></span></summary>
         <label for="libFind" hidden>Find an agent or a command</label><input id="libFind" type="search" placeholder="Find an agent or a command" autocomplete="off">
         <ul id="libList"></ul>
       </details>
-      <section class="notes"><h2>What I noticed<span id="noteSrc"></span></h2><ul id="notes"></ul></section>
-      <details class="more"><summary>Save, open or move the project</summary>
+      <details class="more" id="projectBox"><summary>Save, open or move the project</summary>
         <p>Your project is saved in this browser. To continue on another device, save the project file and open it there. For Claude Code or a chat, copy <code>progress.yaml</code>.</p>
         <div class="files"><button type="button" id="saveProject">Save the project file</button><button type="button" id="openProject">Open a project file</button><button type="button" id="copyYaml">Copy progress.yaml</button></div>
         <input type="file" id="projectFile" accept=".json,application/json" hidden>
         <p>Worked in Claude Code or a chat? Paste that project's <code>progress.yaml</code> here and the board shows what is done there.</p>
         <label for="yaml" hidden>progress.yaml</label><textarea id="yaml" spellcheck="false"></textarea>
         <button type="button" id="applyYaml">Update the board</button> <span id="yamlMsg" role="status"></span>
+        <div class="files"><button type="button" id="clear">Start over</button></div>
       </details>
     </aside>
   </main>
@@ -281,6 +304,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   <div class="doc-body md" id="docBody" tabindex="0"></div>
 </dialog>
 <input type="file" id="shots" accept="image/png,image/jpeg,image/webp" multiple hidden>
+<input type="file" id="files" accept=".md,.markdown,.txt,.csv,.tsv,.json,.yaml,.yml,.html,.htm,.xml,.log,text/*" multiple hidden>
+<script type="application/json" id="capabilities">{"sample":{"images":true},"downloads":true,"mcp":{"servers":[{"server":"Atlassian Rovo","tools":["getAccessibleAtlassianResources","getVisibleJiraProjects","getConfluenceSpaces","getJiraProjectIssueTypesMetadata","createConfluencePage","createJiraIssue"]},{"server":"Figma","tools":["whoami","get_screenshot"]}]}}</script>
 <script type="application/json" id="os-data">__PRODUCT_OS_DATA__</script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
@@ -315,22 +340,13 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
     { key: "review", q: 7, step: 6, ask: "Does this look right? The board has what I understood and every document I will make. Nothing is written before your yes.", kind: "review" }
   ];
   var STEPS = ["What and who", "Readers", "Your role", "Design system", "Where it came from", "What you have", "Review"];
-  var EXAMPLE = { building: "Self-serve signup, so small teams can start without a sales call", users: "Small teams of 2 to 10 people", readers: ["engineers", "product-lead"], role: "pm-and-design", system: "", systemRef: "", designs: "", origin: "", everything: "", answered: { what: 1, users: 1, readers: 1, role: 1 }, confirmed: false, example: true, phases: null };
-  var CONNECTORS = [
-    ["confluence", "Confluence", "Publishes the documents, after your approval"],
-    ["jira", "Jira", "Creates the epic and the tickets, after your approval"],
-    ["figma", "Figma", "Reads the design system and the designs"],
-    ["claude_design", "Claude Design", "Reads the design system and the designs"]
-  ];
-  var CONN_STATUS = [["", "Not set"], ["connected", "Connected"], ["not_connected", "Not connected"], ["not_used", "Not used"]];
-  EXAMPLE.connectors = { confluence: "connected", jira: "connected", figma: "not_connected" }; EXAMPLE.keys = { confluence: "PROD", jira: "SIGNUP" };
   var EMPTY = { building: "", users: "", readers: [], role: "", system: "", systemRef: "", designs: "", origin: "", everything: "", answered: {}, confirmed: false, example: false, phases: null };
   var KEY = "product-os-workspace-1";
-  var state = norm(load() || copy(EXAMPLE)), picking = [], busy = false, sample = null, aiOn = false, aiNotes = null, thread = [];
+  var state = norm(load() || copy(EMPTY)), picking = [], busy = false, sample = null, aiOn = false, aiNotes = null, thread = [];
 
   function copy(o) { return JSON.parse(JSON.stringify(o)); }
   function load() { try { var v = localStorage.getItem(KEY); return v ? JSON.parse(v) : null; } catch (e) { return null; } }
-  function norm(o) { if (!o.connectors || typeof o.connectors !== "object") o.connectors = {}; if (!o.keys || typeof o.keys !== "object") o.keys = {}; if (!o.docs || typeof o.docs !== "object") o.docs = {}; if (!Array.isArray(o.log)) o.log = []; if (!o.answered || typeof o.answered !== "object") o.answered = {}; if (!Array.isArray(o.readers)) o.readers = []; ["building", "users", "role", "system", "systemRef", "designs", "origin", "everything"].forEach(function (k) { if (typeof o[k] !== "string") o[k] = ""; }); return o; }
+  function norm(o) { if (!o.connectors || typeof o.connectors !== "object") o.connectors = {}; if (!o.keys || typeof o.keys !== "object") o.keys = {}; if (!o.docs || typeof o.docs !== "object") o.docs = {}; if (!Array.isArray(o.log)) o.log = []; if (!Array.isArray(o.files)) o.files = []; o.files = o.files.filter(function (f) { return f && typeof f.name === "string" && typeof f.text === "string"; }); if (!o.site || typeof o.site !== "object") o.site = {}; if (!o.published || typeof o.published !== "object") o.published = {}; if (!o.answered || typeof o.answered !== "object") o.answered = {}; if (!Array.isArray(o.readers)) o.readers = []; ["building", "users", "role", "system", "systemRef", "designs", "origin", "everything"].forEach(function (k) { if (typeof o[k] !== "string") o[k] = ""; }); return o; }
   function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { /* storage is optional */ } }
   function $(id) { return document.getElementById(id); }
   function el(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; }
@@ -397,19 +413,24 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
     for (var i = 0; i < TURNS.length; i++) {
       var t = TURNS[i];
       if (t.key === "systemRef" && (state.system === "none" || !state.system) && state.answered.system) continue;
-      if (!turnDone(t)) { thread.push({ who: "agent", q: t.q, text: t.ask }); return; }
+      if (!turnDone(t)) { if (i === 0) thread.push({ who: "agent", text: "I am the Product OS guide. I ask seven short questions. Then each agent writes its document, and you review it." }); thread.push({ who: "agent", q: t.q, text: t.ask }); return; }
       if (t.key === "review") { thread.push({ who: "agent", q: 7, text: t.ask }, { who: "you", text: "Yes" }, { who: "agent", text: "The brief is ready. Paste it into your Product OS project in Claude, ChatGPT or Claude Code. Next on the board: phase 1, Intake." }); return; }
       thread.push({ who: "agent", q: t.q, text: t.ask }, { who: "you", text: answerText(t) });
     }
   }
 
   /* ---------- drawing ---------- */
+  function linked(text, into, links) {
+    var re = /https:\/\/[^\s<>"]+[^\s<>".,;:!?)]/g, last = 0, m;
+    if (links) while ((m = re.exec(text))) { if (m.index > last) into.appendChild(document.createTextNode(text.slice(last, m.index))); var a = el("a", null, m[0]); a.href = m[0]; a.target = "_blank"; a.rel = "noopener"; into.appendChild(a); last = m.index + m[0].length; }
+    if (last < text.length) into.appendChild(document.createTextNode(text.slice(last)));
+  }
   function drawThread() {
     var box = $("thread"); box.textContent = "";
     thread.forEach(function (m) {
       var li = el("li", m.who === "you" ? "you" : (m.wait ? "wait" : ""));
       li.appendChild(el("span", "who", m.who === "you" ? "You" : (m.as || "Guide")));
-      var p = el("p", "txt"); if (m.label || m.q) p.appendChild(el("b", null, m.label || "Question " + m.q + " of 7")); p.appendChild(document.createTextNode(m.text)); li.appendChild(p); box.appendChild(li);
+      var p = el("p", "txt"); if (m.label || m.q) p.appendChild(el("b", null, m.label || "Question " + m.q + " of 7")); linked(m.text, p, m.who !== "you"); li.appendChild(p); box.appendChild(li);
     });
     box.scrollTop = box.scrollHeight;
   }
@@ -424,8 +445,10 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
       t.opts.forEach(function (o) { chip(o[1], "", function () { var f = {}; f[t.key] = o[0]; answer(t, o[1], f); }); });
     } else if (t.kind === "review") {
       chip("Yes, this is right", "go", function () { answer(t, "Yes", {}); });
+      if (drawerMode()) chip("See the plan", "", function () { show("board"); });
       chip("I want to change something", "", function () { $("note").textContent = "Tap Change next to any finished step on the board."; show("board"); });
     } else {
+      if (t.key === "material") chip("Attach files", "", function () { $("files").click(); });
       (t.quick || []).forEach(function (qk) { chip(qk, "", function () { answer(t, qk, emptyFor(t)); }); });
       chip("I don't know yet", "soft", function () { answer(t, "I don't know yet", emptyFor(t)); });
     }
@@ -445,19 +468,23 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
     var startDone = state.confirmed, stepsDone = STEPS.filter(function (_, i) { return stepState(i) === "done"; }).length;
     box.appendChild(task("0", "Start", startDone ? "done" : "now", stepsDone + " of 7 steps", STEPS.map(function (name, i) {
       var ss = stepState(i); return { st: ss, k: name, v: ss === "todo" ? "Not started" : (stepResult(i) || (ss === "now" ? "Answering now" : "Skipped for now")), change: ss === "done" && !state.confirmed ? i : null };
-    }), !startDone));
-    var nextUp = nextDoc();
-    PHASES.forEach(function (p, i) {
+    }), !(startDone || (cur && cur.key === "review"))));
+    var nextUp = nextDoc(), showPlan = startDone || (cur && cur.key === "review");
+    if (showPlan) PHASES.forEach(function (p, i) {
       var mine = pl.filter(function (x) { return x.c.phase === i + 1; }), ps = phaseOf(i);
       var stt = ps || (startDone && nextUp && nextUp.phase === i + 1 ? "next" : "todo");
       var rows = mine.map(function (x) { return docRow(x, p[0]); });
       if (!rows.length) rows = [{ st: "todo", k: "Optional", v: "Run a market analysis, a research plan or an opportunity tree from All agents and commands." }];
       var doneN = rows.filter(function (r) { return r.st === "done"; }).length;
-      box.appendChild(task(String(i + 1), p[1], stt, mine.length ? doneN + " of " + mine.length + (mine.length === 1 ? " document" : " documents") : "optional", rows, stt === "now" || stt === "next"));
+      box.appendChild(task(String(i + 1), p[1], stt, mine.length ? doneN + " of " + mine.length + (mine.length === 1 ? " document" : " documents") : "optional", rows, stt === "now" || stt === "next" || (!startDone && mine.length > 0)));
     });
     var extra = pl.filter(function (x) { return !x.c.phase; });
     if (extra.length) box.appendChild(task("+", "Other documents", extra.some(function (x) { return isOpen(st(x.c.id)); }) ? "now" : extra.every(function (x) { return st(x.c.id) === "done"; }) ? "done" : "todo", extra.length + (extra.length === 1 ? " document" : " documents"), extra.map(function (x) { return docRow(x, ""); }), true));
-    $("taskMeta").textContent = "10 tasks · " + ((startDone ? 1 : 0) + phaseDone) + " done";
+    $("tasksTitle").textContent = showPlan ? "Tasks" : "Your answers";
+    $("taskMeta").textContent = showPlan ? "10 tasks · " + ((startDone ? 1 : 0) + phaseDone) + " done" : stepsDone + " of 7";
+    $("kpis").hidden = !startDone; $("notesBox").hidden = !state.readers.length;
+    $("openBoard").hidden = !stepsDone;
+    $("openBoardText").textContent = startDone ? "Tasks and documents" : showPlan ? "The plan: tasks and documents" : "Your answers so far";
 
     var nb = $("notes"); nb.textContent = "";
     (aiNotes || ruleNotes(s)).forEach(function (n) { nb.appendChild(el("li", n[0] === "warn" ? "warn" : "", n[1])); });
@@ -470,9 +497,9 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
     else STEPS.forEach(function (_, i) { var ss = stepState(i); tr.appendChild(el("li", ss === "done" ? "done" : ss === "now" ? "now" : "")); });
     $("trackTxt").textContent = startDone ? phaseDone + " of 9 phases" : stepsDone + " of 7 steps";
     $("talkMeta").textContent = cur ? "Question " + cur.q + " of 7" : (state.active && cat(state.active) ? cat(state.active).title : "All nine phases");
-    $("openBoardMeta").textContent = ((startDone ? 1 : 0) + phaseDone) + " of 10 done";
+    $("openBoardMeta").textContent = startDone ? ((startDone ? 1 : 0) + phaseDone) + " of 10 done" : stepsDone + " of 7 steps";
     $("boardWhere").textContent = $("whereLine").textContent;
-    $("exNote").textContent = state.example ? "Example answers so far." : "Saved in this browser.";
+    $("exNote").textContent = "Saved in this browser.";
     $("clear").textContent = eraseArmed ? "Tap again to erase everything" : "Start over";
     $("badge").textContent = aiOn ? "Agent: Claude" : "Guided questions"; $("badge").className = "badge" + (aiOn ? " ai" : "");
   }
@@ -508,47 +535,321 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
     return ({ complete: ["done", "done"], in_progress: ["now", "in progress"], skipped: ["todo", "skipped"], deferred: ["todo", "deferred"] })[hit] || ["todo", "planned"];
   }
   function phaseNow() { for (var i = 0; i < PHASES.length; i++) if (phaseStatus(PHASES[i][0]) === "now") return "Phase " + (i + 1) + " of 9 · " + PHASES[i][1]; return ""; }
-  /* ---------- connectors and settings ---------- */
-  function buildSetup() {
-    var cb = $("conn");
-    CONNECTORS.forEach(function (c) {
-      var li = el("li"); li.appendChild(el("b", null, c[1])); li.appendChild(el("small", null, c[2]));
-      var sel = el("select"); sel.id = "conn-" + c[0]; sel.setAttribute("aria-label", c[1] + " status");
-      CONN_STATUS.forEach(function (o) { var op = el("option", null, o[1]); op.value = o[0]; sel.appendChild(op); });
-      sel.addEventListener("change", function () { state.connectors[c[0]] = sel.value; state.example = false; save(); syncSetup(); });
-      li.appendChild(sel); cb.appendChild(li);
-    });
-    var sb = $("sets");
-    [["readers", "Readers", 1], ["role", "Your role", 2], ["system", "Design system", 3]].forEach(function (r) {
-      var li = el("li"); li.appendChild(el("b", null, r[1])); var v = el("span", "v"); v.id = "set-" + r[0]; li.appendChild(v);
-      var b = el("button", "linkish", "Change"); b.type = "button"; b.id = "chg-" + r[0]; b.addEventListener("click", function () { reopen(r[2]); }); li.appendChild(b); sb.appendChild(li);
-    });
-    [["confluence", "Confluence space", "Where the documents are published", "Space key"], ["jira", "Jira project", "Where the epic and tickets are created", "Project key"]].forEach(function (r) {
-      var li = el("li"), lab = el("label"); lab.htmlFor = "key-" + r[0]; lab.appendChild(el("b", null, r[1])); li.appendChild(lab); li.appendChild(el("small", null, r[2]));
-      var inp = el("input"); inp.id = "key-" + r[0]; inp.type = "text"; inp.placeholder = r[3]; inp.maxLength = 24; inp.autocomplete = "off"; inp.setAttribute("autocapitalize", "characters");
-      inp.addEventListener("input", function () { state.keys[r[0]] = inp.value.trim(); state.example = false; save(); });
-      li.appendChild(inp); sb.appendChild(li);
-    });
-    [["Ticket size", "Up to 5 points", "Team default"], ["Before anything is published", "I always ask you first", "Always on"]].forEach(function (r) {
-      var li = el("li"); li.appendChild(el("b", null, r[0])); li.appendChild(el("span", "v", r[1])); li.appendChild(el("span", "fixed", r[2])); sb.appendChild(li);
-    });
+  /* ---------- real connectors: the viewer's own Claude connectors, with their sign-in ---------- */
+  var ATLASSIAN = ["Atlassian Rovo", "Atlassian"], FIGMA = "Figma";
+  var mcp = null, conn = { atlassian: "off", figma: "off", server: "", sites: [], projects: [], spaces: [], busy: "" };
+  var CONN_TEXT = { ok: "Connected", ask: "Not checked yet", reauth: "Sign-in expired", missing: "Not connected", denied: "Not allowed for this page", error: "Could not be reached", off: "Not available in this view" };
+  function connHelp(name, s) {
+    if (s === "missing") return "Add " + name + " in Claude: Settings, then Connectors. Then tap Check.";
+    if (s === "reauth") return "Reconnect " + name + " in Claude: Settings, then Connectors. Then tap Check.";
+    if (s === "denied") return "You did not allow " + name + " for this page. Tap Check and Claude asks again.";
+    if (s === "off") return "Open this page in Claude to use your connectors.";
+    if (s === "error") return "Try again in a minute.";
+    if (s === "ask") return "Tap Check. Claude asks you to allow it, once.";
+    return "";
   }
+  function codeStatus(e) {
+    var c = e && e.code;
+    if (c === "needs_reauth") return "reauth";
+    if (c === "server_not_connected" || c === "selection_required" || c === "server_not_found") return "missing";
+    if (c === "not_in_manifest" || c === "approval_required" || c === "blocked_by_policy" || c === "consent_required") return "denied";
+    if (c === "not_granted" || c === "capability_disabled" || c === "capability_removed") return "off";
+    return "error";
+  }
+  function rowsOf(p) {
+    if (typeof p === "string") { try { p = JSON.parse(p); } catch (e) { return []; } }
+    if (Array.isArray(p)) return p;
+    if (p && typeof p === "object") { var ks = ["values", "results", "projects", "spaces", "issueTypes", "items", "data"]; for (var i = 0; i < ks.length; i++) if (Array.isArray(p[ks[i]])) return p[ks[i]]; }
+    return [];
+  }
+  function site() { for (var i = 0; i < conn.sites.length; i++) if (conn.sites[i].id === state.site.id) return conn.sites[i]; return state.site.id ? state.site : null; }
+  function readConnectors() {
+    if (!mcp) { conn.atlassian = conn.figma = "off"; syncSetup(); return; }
+    mcp.listTools().then(function (r) {
+      var by = {}; ((r && r.servers) || []).forEach(function (s) { by[s.server] = s; });
+      var a = null; ATLASSIAN.forEach(function (n) { var s = by[n]; if (s && (s.tools || []).length && (!a || s.authStatus === "connected")) a = s; });
+      function status(s) { return !s || !(s.tools || []).length ? "missing" : s.authStatus === "connected" ? (conn.sites.length || s.server === FIGMA && conn.figma === "ok" ? "ok" : "ask") : s.authStatus === "needs_reauth" ? "reauth" : "ask"; }
+      conn.server = a ? a.server : ATLASSIAN[0]; conn.atlassian = conn.sites.length ? "ok" : status(a); conn.figma = conn.figma === "ok" ? "ok" : status(by[FIGMA]);
+      syncSetup();
+    }, function (e) { conn.atlassian = conn.figma = codeStatus(e); syncSetup(); });
+  }
+  function checkAtlassian() {
+    if (!mcp || conn.busy) return; conn.busy = "atlassian"; syncSetup();
+    mcp.callTool(conn.server || ATLASSIAN[0], "getAccessibleAtlassianResources", {}).then(function (r) {
+      var seen = {}, sites = [];
+      rowsOf(r && r.payload).forEach(function (x) {
+        if (!x || typeof x.id !== "string") return;
+        if (!seen[x.id]) { seen[x.id] = { id: x.id, name: String(x.name || x.url || "site").slice(0, 60), url: typeof x.url === "string" && /^https:\/\//.test(x.url) ? x.url.replace(/\/+$/, "") : "", jira: false, confluence: false }; sites.push(seen[x.id]); }
+        (Array.isArray(x.scopes) ? x.scopes : []).forEach(function (sc) { if (/jira/.test(sc)) seen[x.id].jira = true; if (/confluence/.test(sc)) seen[x.id].confluence = true; });
+      });
+      conn.busy = ""; conn.sites = sites; conn.atlassian = sites.length ? "ok" : "error";
+      if (!sites.some(function (s) { return s.id === state.site.id; })) state.site = sites.length === 1 ? copy(sites[0]) : {};
+      else state.site = copy(site());
+      save(); syncSetup(); tellConnectors();
+      if (state.site.id) loadLists();
+    }, function (e) { conn.busy = ""; conn.atlassian = codeStatus(e); syncSetup(); tellConnectors(); });
+  }
+  function loadLists() {
+    var s = site(); if (!mcp || !s || !s.id) return;
+    conn.busy = "lists"; conn.projects = []; conn.spaces = []; syncSetup();
+    var jobs = [], named = function (x) { return x && typeof x.key === "string" && x.key; }, shape = function (x) { return { key: x.key.slice(0, 40), name: String(x.name || "").slice(0, 60) }; };
+    if (s.jira) jobs.push(mcp.callTool(conn.server, "getVisibleJiraProjects", { cloudId: s.id, expandIssueTypes: false, maxResults: 50 }).then(function (r) { conn.projects = rowsOf(r && r.payload).filter(named).map(shape); }, function () { /* the row says the list could not be loaded */ }));
+    if (s.confluence) jobs.push(mcp.callTool(conn.server, "getConfluenceSpaces", { cloudId: s.id, limit: 100 }).then(function (r) { conn.spaces = rowsOf(r && r.payload).filter(named).map(shape); }, function () { /* the row says the list could not be loaded */ }));
+    Promise.all(jobs).then(function () { conn.busy = ""; syncSetup(); });
+  }
+  function checkFigma() {
+    if (!mcp || conn.busy) return; conn.busy = "figma"; syncSetup();
+    mcp.callTool(FIGMA, "whoami", {}).then(function () { conn.busy = ""; conn.figma = "ok"; syncSetup(); tellConnectors(); }, function (e) { conn.busy = ""; conn.figma = codeStatus(e); syncSetup(); tellConnectors(); });
+  }
+  function connLine() {
+    var s = site(), a = conn.atlassian, where = s && s.name ? " on " + s.name : "";
+    var jira = a === "ok" ? (s && s.id ? (s.jira ? "connected" + where : "not available" + where) : "connected, choose a site") : CONN_TEXT[a].toLowerCase();
+    var conf = a === "ok" ? (s && s.id ? (s.confluence ? "connected" + where : "not available" + where) : "connected, choose a site") : CONN_TEXT[a].toLowerCase();
+    return "Jira: " + jira + ". Confluence: " + conf + ". Figma: " + CONN_TEXT[conn.figma].toLowerCase() + ".";
+  }
+  function tellConnectors() { if (state.confirmed && !busy) { say(connLine() + (conn.atlassian === "ok" ? "" : " Without Jira and Confluence I write the documents and you download them.") + (conn.figma === "ok" ? "" : " Without Figma I review the screenshots you attach.")); save(); draw(); } }
+  function buildSetup() { /* the rows are drawn by syncSetup, from what the connectors really answer */ }
   function syncSetup() {
-    var set = 0;
-    CONNECTORS.forEach(function (c) { var sel = $("conn-" + c[0]), v = state.connectors[c[0]] || ""; if (document.activeElement !== sel) sel.value = v; sel.className = v === "connected" ? "on" : ""; if (v) set++; });
-    [["readers", 1], ["role", 2], ["system", 3]].forEach(function (r) {
-      var done = stepState(r[1]) === "done"; $("set-" + r[0]).textContent = done ? (stepResult(r[1]) || "Skipped for now") : "Not answered yet";
-      $("chg-" + r[0]).hidden = !done || state.confirmed;
+    var keep = document.activeElement && document.activeElement.id, cb = $("conn"), sb = $("sets"), s = site(), a = conn.atlassian, on = 0;
+    cb.textContent = ""; sb.textContent = "";
+    function row(box, title, value, help, cls) { var li = el("li"); li.appendChild(el("b", null, title)); var v = el("span", "v" + (cls ? " " + cls : ""), value); li.appendChild(v); if (help) li.appendChild(el("small", null, help)); box.appendChild(li); return li; }
+    function button(li, id, text, fn, off) { var b = el("button", "linkish", text); b.type = "button"; b.id = id; b.disabled = !!off; b.addEventListener("click", fn); li.appendChild(b); }
+    var siteName = s && s.name ? " · " + s.name : "";
+    var jl = row(cb, "Jira", a === "ok" ? (s && s.id && !s.jira ? "No Jira on this site" : "Connected" + siteName) : CONN_TEXT[a], a === "ok" ? "Creates the epic and the tickets, after you approve them" : connHelp("Atlassian", a), a === "ok" && !(s && s.id && !s.jira) ? "ok" : "");
+    if (a !== "off") button(jl, "checkAtlassian", conn.busy === "atlassian" ? "Checking…" : a === "ok" ? "Check again" : "Check", checkAtlassian, !!conn.busy);
+    row(cb, "Confluence", a === "ok" ? (s && s.id && !s.confluence ? "No Confluence on this site" : "Connected" + siteName) : CONN_TEXT[a], a === "ok" ? "Publishes the documents, after you approve" : "It uses the same Atlassian connector as Jira.", a === "ok" && !(s && s.id && !s.confluence) ? "ok" : "");
+    var fl = row(cb, "Figma", CONN_TEXT[conn.figma], conn.figma === "ok" ? "Reads the screens you link, for the reviews" : connHelp("Figma", conn.figma), conn.figma === "ok" ? "ok" : "");
+    if (conn.figma !== "off") button(fl, "checkFigma", conn.busy === "figma" ? "Checking…" : conn.figma === "ok" ? "Check again" : "Check", checkFigma, !!conn.busy);
+    if (a === "ok") on += 2; if (conn.figma === "ok") on++;
+    $("setupMeta").textContent = on + " of 3 connected";
+
+    [["readers", "Readers", 1], ["role", "Your role", 2], ["system", "Design system", 3]].forEach(function (r) {
+      var done = stepState(r[2]) === "done", li = row(sb, r[1], done ? (stepResult(r[2]) || "Skipped for now") : "Not answered yet");
+      if (done && !state.confirmed) button(li, "chg-" + r[0], "Change", function () { reopen(r[2]); });
     });
-    ["confluence", "jira"].forEach(function (k) { var inp = $("key-" + k); if (document.activeElement !== inp) inp.value = state.keys[k] || ""; });
-    $("setupMeta").textContent = set + " of " + CONNECTORS.length + " set";
-  }
-  function openSetup() {
-    show("board"); var sec = $("setup");
-    sec.scrollIntoView({ block: "start", behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }); sec.focus({ preventScroll: true });
+    function choose(title, id, list, value, empty, onPick, help) {
+      var li = el("li"), lab = el("label"); lab.htmlFor = id; lab.appendChild(el("b", null, title)); li.appendChild(lab); li.appendChild(el("small", null, help));
+      var sel = el("select"); sel.id = id; var o0 = el("option", null, empty); o0.value = ""; sel.appendChild(o0);
+      list.forEach(function (x) { var o = el("option", null, x[1]); o.value = x[0]; sel.appendChild(o); });
+      if (value && !list.some(function (x) { return x[0] === value; })) { var ox = el("option", null, value); ox.value = value; sel.appendChild(ox); }
+      sel.value = value || ""; sel.addEventListener("change", function () { onPick(sel.value); }); li.appendChild(sel); sb.appendChild(li);
+    }
+    if (a === "ok" && conn.sites.length > 1) choose("Atlassian site", "pick-site", conn.sites.map(function (x) { return [x.id, x.name]; }), state.site.id, "Choose a site", function (v) {
+      var hit = conn.sites.filter(function (x) { return x.id === v; })[0]; state.site = hit ? copy(hit) : {}; state.keys = {}; conn.projects = []; conn.spaces = []; save(); syncSetup(); if (hit) loadLists();
+    }, "Your Jira and Confluence live here");
+    var loading = conn.busy === "lists";
+    if (a === "ok" && s && s.id) {
+      choose("Jira project", "pick-jira", conn.projects.map(function (x) { return [x.key, x.key + " · " + x.name]; }), state.keys.jira, loading ? "Loading your projects…" : conn.projects.length ? "Choose a project" : s.jira ? "No projects could be loaded" : "No Jira on this site", function (v) { state.keys.jira = v; save(); syncSetup(); }, "Where the epic and tickets are created");
+      choose("Confluence space", "pick-confluence", conn.spaces.map(function (x) { return [x.key, x.key + " · " + x.name]; }), state.keys.confluence, loading ? "Loading your spaces…" : conn.spaces.length ? "Choose a space" : s.confluence ? "No spaces could be loaded" : "No Confluence on this site", function (v) { state.keys.confluence = v; save(); syncSetup(); }, "Where the documents are published");
+    } else {
+      row(sb, "Jira project", "Chosen from your real projects", "Connect Jira above first");
+      row(sb, "Confluence space", "Chosen from your real spaces", "Connect Confluence above first");
+    }
+    row(sb, "Ticket size", "Up to 5 points", "A Product OS rule");
+    row(sb, "Before anything is published", "I show you the plan and wait for your yes", "Always on");
+    if (keep && $(keep) && $(keep).focus) $(keep).focus();
+    drawFiles();
   }
 
+  /* ---------- real source files: their text goes to the agents ---------- */
+  var READABLE = /\.(md|markdown|txt|text|csv|tsv|json|ya?ml|html?|xml|log)$/i, FILE_CAP = 80000, FILES_CAP = 200000;
+  function filesSize() { return state.files.reduce(function (n, f) { return n + f.text.length; }, 0); }
+  function addFiles(list) {
+    var files = Array.prototype.slice.call(list || []), refused = [], added = [], left = files.length;
+    if (!files.length) return;
+    function done() {
+      if (--left > 0) return;
+      var parts = [];
+      if (added.length) parts.push("I read " + listAnd(added) + ". " + (added.length === 1 ? "Its" : "Their") + " content goes to every agent.");
+      if (refused.length) parts.push("I could not read " + listAnd(refused) + ". This page reads text files (.md, .txt, .csv, .json, .yaml, .html). For a PDF, Word, Excel or PowerPoint file, paste its text or save it as text.");
+      save();
+      if (state.confirmed) { say(parts.join(" ")); save(); } else note(parts.join(" "));
+      draw();
+    }
+    files.forEach(function (f) {
+      var isText = READABLE.test(f.name) || /^text\//.test(f.type) || f.type === "application/json";
+      if (!isText) { refused.push(f.name); return done(); }
+      if (filesSize() >= FILES_CAP) { refused.push(f.name + " (no room left: remove a file first)"); return done(); }
+      var r = new FileReader();
+      r.onload = function () {
+        var text = String(r.result || ""), cut = text.length > FILE_CAP;
+        if (/\u0000/.test(text.slice(0, 2000))) { refused.push(f.name); return done(); }
+        state.files = state.files.filter(function (x) { return x.name !== f.name; });
+        state.files.push({ name: f.name.slice(0, 120), text: cut ? text.slice(0, FILE_CAP) : text, cut: cut });
+        var lines = state.everything.split(/\n+/).map(function (l) { return l.trim(); });
+        if (lines.indexOf(f.name) < 0) state.everything = (state.everything ? state.everything + "\n" : "") + f.name;
+        state.example = false; added.push(f.name + (cut ? " (the first " + FILE_CAP / 1000 + ",000 characters)" : "")); done();
+      };
+      r.onerror = function () { refused.push(f.name); done(); };
+      r.readAsText(f);
+    });
+  }
+  function sourcesBlock(budget) {
+    var parts = [], used = 0;
+    state.files.forEach(function (f) { var room = budget - used, t = f.text; if (room < 1500) return; if (t.length > room) t = t.slice(0, room) + "\n[cut here to fit]"; parts.push("=== SOURCE FILE: " + f.name + (f.cut ? " (cut to its first part)" : "") + " ===\n" + t); used += t.length; });
+    return parts.join("\n\n");
+  }
+  function drawFiles() {
+    var box = $("filesList"); if (!box) return; box.textContent = "";
+    state.files.forEach(function (f) {
+      var li = el("li"); li.appendChild(el("b", null, f.name)); li.appendChild(el("small", null, (f.text.length < 1000 ? f.text.length + " characters" : "about " + Math.round(f.text.length / 1000) + ",000 characters") + (f.cut ? ", cut to fit" : "") + " · read by every agent"));
+      var b = el("button", "linkish", "Remove"); b.type = "button"; b.setAttribute("aria-label", "Remove " + f.name); b.addEventListener("click", function () { state.files = state.files.filter(function (x) { return x !== f; }); save(); draw(); }); li.appendChild(b); box.appendChild(li);
+    });
+    $("filesMeta").textContent = state.files.length ? state.files.length + (state.files.length === 1 ? " file" : " files") : "none yet";
+  }
+
+  /* ---------- real screens from Figma, for the reviews ---------- */
+  function figmaRef(text) {
+    var m = /figma\.com\/(?:design|file|board|slides)\/([0-9a-zA-Z]{22,128})(?:\/branch\/([0-9a-zA-Z]{22,128}))?[^\s]*?[?&]node-id=(\d+[-:]\d+)/.exec(text);
+    return m ? { fileKey: m[2] || m[1], nodeId: m[3].replace("-", ":") } : null;
+  }
+  function figmaShots(text) {
+    var id = state.active, links = text.split(/\s+/).filter(function (t) { return /figma\.com\//.test(t); }), refs = links.map(figmaRef).filter(Boolean).slice(0, canShots || 1);
+    youSay(text);
+    if (!refs.length) { say("I need a Figma link to one frame. It ends with node-id= and a number. In Figma, select the frame and copy its link."); save(); draw(); return; }
+    busy = true; waiting("Getting " + refs.length + (refs.length === 1 ? " screen" : " screens") + " from Figma…"); draw();
+    var got = [], bad = null, i = 0;
+    function next() {
+      if (i >= refs.length) return end();
+      mcp.callTool(FIGMA, "get_screenshot", { fileKey: refs[i].fileKey, nodeId: refs[i].nodeId, enableBase64Response: true, maxDimension: 1600 }).then(function (r) {
+        var img = ((r && r.content) || []).filter(function (b) { return b && b.type === "image" && typeof b.data === "string"; })[0];
+        if (img) { try { var bin = atob(img.data), arr = new Uint8Array(bin.length); for (var k = 0; k < bin.length; k++) arr[k] = bin.charCodeAt(k); got.push(new Blob([arr], { type: /^image\/(png|jpeg|webp)$/.test(img.mimeType) ? img.mimeType : "image/png" })); } catch (e) { bad = bad || { code: "no_image" }; } }
+        else bad = bad || { code: "no_image" };
+        i++; next();
+      }, function (e) { bad = bad || e; i++; next(); });
+    }
+    function end() {
+      busy = false; unwait();
+      if (bad && bad.code !== "no_image") conn.figma = codeStatus(bad);
+      if (!got.length) { say(bad && bad.code === "no_image" ? "Figma answered without an image. Attach a screenshot of the frame." : "I could not get the screens from Figma: " + CONN_TEXT[conn.figma].toLowerCase() + ". " + connHelp("Figma", conn.figma) + " Or attach screenshots."); state.stage = "shots"; save(); draw(); return; }
+      shots = got; conn.figma = "ok"; say("I have " + got.length + (got.length === 1 ? " screen" : " screens") + " from Figma" + (got.length < refs.length ? ", and " + (refs.length - got.length) + " could not be read" : "") + "."); save();
+      beginQuestions(id, false);
+    }
+    next();
+  }
+
+  /* ---------- real publishing: Confluence pages and Jira tickets, only after the PM's yes ---------- */
+  function pub() { var p = state.published; if (!p.pages) p.pages = {}; if (!Array.isArray(p.tickets)) p.tickets = []; return p; }
+  function projectName() { return state.building ? cap(state.building.split(/[,.;]/)[0]).slice(0, 60) : "Product OS project"; }
+  function pagesToPublish() { return plan().filter(function (x) { var d = state.docs[x.c.id]; return d && d.status === "done" && d.text && !x.c.html && !pub().pages[x.c.id]; }); }
+  function unsure(e) { return e && (e.code === "server_unavailable" || e.code === "upstream_error" || e.code === "cancelled"); }
+  function pubFail(e, what, where) {
+    busy = false; unwait(); state.stage = "";
+    var st = codeStatus(e), msg = e && e.code === "tool_error" ? where + " refused it (" + String(e.message || "no reason given").slice(0, 200).replace(/[.\s]+$/, "") + ")." : st === "error" ? "the connector did not answer." : CONN_TEXT[st].toLowerCase() + ". " + connHelp("Atlassian", st);
+    say("I stopped at " + what + ": " + msg + (unsure(e) ? " It may still have been created. Look in " + where + " before you publish again." : " Nothing after it was created.") + " What was created before it is saved here and is not created twice.");
+    save(); draw();
+  }
+  function startPublish() {
+    var s = site(), p = pub();
+    youSay("Publish");
+    if (!mcp || conn.atlassian !== "ok" || !s || !s.id) { say("To publish I need your Atlassian connector. " + (mcp ? "Open Connectors and settings, tap Check next to Jira" + (conn.sites.length > 1 ? ", then choose your site" : "") + "." : connHelp("Atlassian", "off"))); save(); draw(); if (mcp) openSetup(); return; }
+    var pages = pagesToPublish(), stories = state.docs.stories, canC = s.confluence && state.keys.confluence, canJ = s.jira && state.keys.jira, lines = [];
+    if (!canC && !canJ) { say("Choose a Jira project and a Confluence space under Connectors and settings. They are loaded from " + s.name + "."); save(); draw(); openSetup(); return; }
+    lines.push("Here is the plan, on " + s.name + ". Nothing is created until you tap a Publish button.");
+    lines.push(canC ? (pages.length ? "Confluence, space " + state.keys.confluence + ": " + (p.hub ? "" : "one project page, then ") + pages.length + (pages.length === 1 ? " document page" : " document pages") + " (" + pages.map(function (x) { return x.c.file; }).join(", ") + ")." : "Confluence: every accepted document is already published.") : "Confluence: " + (s.confluence ? "choose a space first." : "not available on this site."));
+    lines.push(canJ ? (p.epic && p.plan && p.tickets.length >= p.plan.stories.length ? "Jira: the epic and its tickets are already created." : stories && stories.status === "done" ? "Jira, project " + state.keys.jira + ": the epic and its tickets. I show you the ticket tree first, and you approve it." : "Jira: accept the Epic and tickets document first.") : "Jira: " + (s.jira ? "choose a project first." : "not available on this site."));
+    state.stage = "publish"; say(lines.join("\n")); save(); draw();
+  }
+  function pageUrl(p, s) {
+    if (p && typeof p.url === "string" && /^https:\/\//.test(p.url)) return p.url;
+    var l = p && p._links; if (l && typeof l.webui === "string") { var base = typeof l.base === "string" && /^https:\/\//.test(l.base) ? l.base : (s.url ? s.url + "/wiki" : ""); if (base) return base + l.webui; }
+    var id = p && (p.id || p.pageId); return s.url && id ? s.url + "/wiki/pages/viewpage.action?pageId=" + encodeURIComponent(id) : "";
+  }
+  function publishConfluence() {
+    var s = site(), p = pub(), list = pagesToPublish(), space = state.keys.confluence, i = 0, made = [];
+    if (!list.length || busy) return;
+    youSay("Publish to Confluence"); busy = true; state.stage = "publishing"; waiting("Publishing to Confluence…"); draw();
+    function create(title, body, parent) { var input = { cloudId: s.id, spaceId: space, title: title.slice(0, 250), body: body, contentFormat: "markdown" }; if (parent) input.parentId = String(parent); return mcp.callTool(conn.server, "createConfluencePage", input, { cache: false }); }
+    function step() {
+      if (i >= list.length) return finish();
+      var x = list[i], d = state.docs[x.c.id];
+      unwait(); waiting("Publishing " + (i + 1) + " of " + list.length + ": " + x.c.file + "…"); drawThread();
+      create(projectName() + ": " + x.c.title, d.text, p.hub && p.hub.id).then(function (r) {
+        var pl = (r && r.payload) || {}; if (typeof pl === "string") { try { pl = JSON.parse(pl); } catch (e) { pl = {}; } }
+        p.pages[x.c.id] = { id: String(pl.id || pl.pageId || ""), url: pageUrl(pl, s), at: new Date().toISOString() }; made.push(x.c.title + (p.pages[x.c.id].url ? " " + p.pages[x.c.id].url : "")); save(); i++; step();
+      }, function (e) { pubFail(e, x.c.file, "Confluence"); });
+    }
+    function finish() { busy = false; unwait(); state.stage = "publish"; say("Published to Confluence, space " + space + ":\n" + (p.hub && p.hub.url ? "Project page " + p.hub.url + "\n" : "") + made.join("\n")); save(); draw(); }
+    if (p.hub) return step();
+    create(projectName(), "This is the home of " + projectName() + " in Product OS. Each document is a page under this one.\n\n" + list.map(function (x) { return "- " + x.c.title; }).join("\n"), "").then(function (r) {
+      var pl = (r && r.payload) || {}; if (typeof pl === "string") { try { pl = JSON.parse(pl); } catch (e) { pl = {}; } }
+      p.hub = { id: String(pl.id || pl.pageId || ""), url: pageUrl(pl, s) }; save(); step();
+    }, function (e) { pubFail(e, "the project page", "Confluence"); });
+  }
+  function ticketPrompt() {
+    var p = pub(), links = plan().filter(function (x) { return p.pages[x.c.id] && p.pages[x.c.id].url; }).map(function (x) { return "- " + x.c.title + ": " + p.pages[x.c.id].url; });
+    var fd = state.docs["final-design"]; if (fd && fd.link) links.push("- Final design: " + fd.link);
+    return "Turn this Product OS epic and tickets document into Jira tickets. Reply with JSON only, no other text:\n" +
+      '{"epic": {"summary": string, "description": string}, "stories": [{"summary": string, "description": string, "points": number, "subtasks": [{"summary": string}]}]}\n\n' +
+      "Rules:\n1. Use only what the document says. Never add a ticket, a requirement or a number it does not have.\n2. Keep each ticket's text as the document wrote it, in Markdown: the user story, the problem, the requirements, the design link, the line about using the copy as is, and the Done when checklist.\n3. points is the document's estimate for that ticket, from 1 to 5. Use 0 when it gives none.\n4. subtasks are the steps the document lists inside a ticket. Use [] when it lists none.\n5. A summary is one line under 120 characters.\n" +
+      (links.length ? "6. End the epic description with a section named Links that lists exactly these:\n" + links.join("\n") + "\n" : "") +
+      "\n=== THE DOCUMENT: stories.md ===\n" + state.docs.stories.text;
+  }
+  function prepareJira() {
+    if (busy) return; var p = pub();
+    youSay("Prepare the Jira tickets"); busy = true; state.stage = "tickets"; waiting("Reading stories.md into tickets…"); draw();
+    sample.json(ticketPrompt(), { cache: false }).then(function (v) {
+      busy = false; unwait();
+      var str = function (x, n) { return typeof x === "string" ? x.trim().slice(0, n) : ""; };
+      var stories = (v && Array.isArray(v.stories) ? v.stories : []).filter(function (t) { return t && str(t.summary, 250); }).slice(0, 60).map(function (t) {
+        return { summary: str(t.summary, 250), description: str(t.description, 30000), points: typeof t.points === "number" && t.points > 0 && t.points <= 13 ? Math.round(t.points) : 0, subtasks: (Array.isArray(t.subtasks) ? t.subtasks : []).map(function (u) { return str(u && u.summary, 250); }).filter(Boolean).slice(0, 12) };
+      });
+      var epic = { summary: str(v && v.epic && v.epic.summary, 250) || projectName(), description: str(v && v.epic && v.epic.description, 30000) };
+      if (!stories.length) { state.stage = "publish"; say("I could not find tickets in stories.md. Open it from the board and check that it lists them."); save(); draw(); return; }
+      p.plan = { epic: epic, stories: stories }; p.tickets = []; p.subs = {};
+      var subs = stories.reduce(function (n, t) { return n + t.subtasks.length; }, 0), big = stories.filter(function (t) { return t.points > 5; }).length;
+      say("The ticket tree for Jira project " + state.keys.jira + ":\nEpic: " + epic.summary + "\n" + stories.map(function (t, i) { return (i + 1) + ". " + t.summary + (t.points ? " (" + t.points + (t.points === 1 ? " point" : " points") + ")" : " (no estimate)") + t.subtasks.map(function (u) { return "\n   – " + u; }).join(""); }).join("\n") +
+        "\n\n1 epic, " + stories.length + (stories.length === 1 ? " ticket" : " tickets") + (subs ? ", " + subs + (subs === 1 ? " sub-task" : " sub-tasks") : "") + "." + (big ? " " + big + (big === 1 ? " ticket is" : " tickets are") + " over 5 points. Split " + (big === 1 ? "it" : "them") + " in stories.md first." : "") + " Estimates go into each ticket's text. Tap Create to make them in Jira, or change stories.md first.");
+      save(); draw();
+    }, function (e) { busy = false; unwait(); state.stage = "publish"; say(errText(e)); save(); draw(); });
+  }
+  function publishJira() {
+    var s = site(), p = pub(), key = state.keys.jira, pl = p.plan;
+    if (!pl || busy) return;
+    youSay("Create the tickets in Jira"); busy = true; state.stage = "publishing"; waiting("Reading the issue types of " + key + "…"); draw();
+    function payload(r) { var x = (r && r.payload) || {}; if (typeof x === "string") { try { x = JSON.parse(x); } catch (e) { x = {}; } } return x; }
+    function issue(type, summary, description, parent) { var input = { cloudId: s.id, projectKey: key, issueTypeName: type, summary: summary, contentFormat: "markdown" }; if (description) input.description = description; if (parent) input.parent = parent; return mcp.callTool(conn.server, "createJiraIssue", input, { cache: false }).then(function (r) { var k = payload(r).key; if (typeof k !== "string" || !k) throw { code: "tool_error", message: "Jira did not return the new ticket's key" }; return k; }); }
+    function link(k) { return s.url ? s.url + "/browse/" + encodeURIComponent(k) : k; }
+    mcp.callTool(conn.server, "getJiraProjectIssueTypesMetadata", { cloudId: s.id, projectIdOrKey: key }).then(function (r) {
+      var types = rowsOf(payload(r)).filter(function (t) { return t && typeof t.name === "string"; }), find = function (re) { var h = types.filter(function (t) { return re.test(t.name); })[0]; return h ? h.name : ""; };
+      var tEpic = find(/^epic$/i), tStory = find(/^story$/i) || find(/^task$/i), tSub = (types.filter(function (t) { return t.subtask === true; })[0] || {}).name || find(/^sub-?task$/i);
+      if (!tStory) return pubFail({ code: "tool_error", message: "project " + key + " has no Story or Task issue type" }, "the issue types", "Jira");
+      var i = p.tickets.length, j = 0;
+      function sub() {
+        var t = pl.stories[i - 1], parent = p.tickets[i - 1], done = (p.subs[parent] || 0);
+        if (!tSub || !t || done >= t.subtasks.length) return story();
+        unwait(); waiting("Creating a sub-task of " + parent + "…"); drawThread();
+        issue(tSub, t.subtasks[done], "", parent).then(function () { p.subs[parent] = done + 1; save(); sub(); }, function (e) { pubFail(e, "a sub-task of " + parent, "Jira"); });
+      }
+      function story() {
+        if (i >= pl.stories.length) return finish();
+        var t = pl.stories[i];
+        unwait(); waiting("Creating ticket " + (i + 1) + " of " + pl.stories.length + "…"); drawThread();
+        issue(tStory, t.summary, (t.description || "") + (t.points ? "\n\nEstimate: " + t.points + (t.points === 1 ? " point" : " points") : ""), p.epic && tEpic ? p.epic.key : "").then(function (k) { p.tickets.push(k); i++; save(); sub(); }, function (e) { pubFail(e, "ticket " + (i + 1) + " (" + t.summary + ")", "Jira"); });
+      }
+      function finish() { busy = false; unwait(); state.stage = "publish"; say("Created in Jira project " + key + ":\n" + (p.epic ? "Epic " + p.epic.key + " " + link(p.epic.key) + "\n" : "") + p.tickets.map(function (k) { return k + " " + link(k); }).join("\n") + (tSub ? "" : "\nThis project has no sub-task type, so the steps stay in each ticket's text.") + "\nShare the epic with the team. It links to everything."); save(); draw(); }
+      if (p.epic || !tEpic) { if (i > 0 && (p.subs[p.tickets[i - 1]] || 0) < pl.stories[i - 1].subtasks.length) return sub(); return story(); }
+      unwait(); waiting("Creating the epic…"); drawThread();
+      issue(tEpic, pl.epic.summary, pl.epic.description, "").then(function (k) { p.epic = { key: k }; save(); story(); }, function (e) { pubFail(e, "the epic", "Jira"); });
+    }, function (e) { pubFail(e, "the issue types of " + key, "Jira"); });
+  }
+  function publishChips(chip) {
+    var s = site(), p = pub(), pages = pagesToPublish(), stories = state.docs.stories;
+    var canC = s && s.confluence && state.keys.confluence, canJ = s && s.jira && state.keys.jira && stories && stories.status === "done";
+    var jiraDone = p.epic && p.plan && p.tickets.length >= p.plan.stories.length, part = p.plan && (p.epic || p.tickets.length) && !jiraDone;
+    if (canC && pages.length) chip("Publish " + pages.length + (pages.length === 1 ? " page" : " pages") + " to Confluence", "go", publishConfluence);
+    if (canJ && !jiraDone) { if (p.plan) chip(part ? "Continue creating the tickets" : "Create 1 epic and " + p.plan.stories.length + (p.plan.stories.length === 1 ? " ticket" : " tickets") + " in " + state.keys.jira, "go", publishJira); if (!part) chip(p.plan ? "Read stories.md again" : "Prepare the Jira tickets", p.plan ? "" : "go", prepareJira); }
+    chip("Not now", "soft", function () { state.stage = ""; youSay("Not now"); offerNext(); save(); draw(); });
+  }
+  function openSetup() {
+    show("board"); $("setupBox").open = true; var sec = $("setup");
+    sec.scrollIntoView({ block: "start", behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }); sec.focus({ preventScroll: true });
+  }
+  function drawerMode() { return narrow.matches || !state.confirmed; }
+
   function draw() {
+    document.body.classList.toggle("drawer", drawerMode()); document.body.classList.toggle("solo", !state.confirmed);
+    if (!drawerMode() && $("work").getAttribute("data-show") === "board") show("talk");
     drawThread(); drawChips(); drawBoard(); syncSetup();
     var t = current(), typing = !busy && (t ? t.kind === "text" : (aiOn || state.stage === "link"));
     $("send").disabled = !typing; $("say").disabled = !typing;
@@ -557,7 +858,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   /* On a narrow screen the board is a panel that slides out over the conversation. */
   var narrow = window.matchMedia("(max-width: 860px)"), opener = null;
   function show(which) {
-    var was = $("work").getAttribute("data-show") === "board", open = which === "board" && narrow.matches, b = $("board");
+    var was = $("work").getAttribute("data-show") === "board", open = which === "board" && drawerMode(), b = $("board");
     $("work").setAttribute("data-show", open ? "board" : "talk");
     $("scrim").hidden = !open; $("openBoard").setAttribute("aria-expanded", String(open));
     ["bar", "where", "talk"].forEach(function (id) { $(id).inert = open; });
@@ -644,6 +945,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
       if (!ns) return; sample = ns; aiOn = true; draw();
       if (ns.limits) ns.limits().then(function (l) { canShots = l && l.images ? l.images.maxCount || 0 : 0; draw(); }, function () { /* no images in this view */ });
     }, function () { /* no Claude in this view */ });
+    window.claude.use("mcp").then(function (ns) { mcp = ns || null; readConnectors(); }, function () { /* no connectors in this view */ });
     window.claude.use("downloads").then(function (ns) { downloads = ns || null; }, function () { /* saving falls back to the browser */ });
   }
 
@@ -659,7 +961,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
     KINDS.forEach(function (k) { (s.found[k[0]] || []).forEach(function (l) { y.push("    - kind: " + k[0], "      ref: " + q(l)); }); });
     s.other.forEach(function (l) { y.push("    - kind: other", "      ref: " + q(l)); });
     y.push("  not_provided: [" + KINDS.filter(function (k) { return !s.found[k[0]]; }).map(function (k) { return k[0]; }).join(", ") + "]", "connectors:");
-    CONNECTORS.forEach(function (c) { y.push("  " + c[0] + ": " + (state.connectors[c[0]] || "not_set")); });
+    y.push("  status: " + q(connLine()));
     y.push("settings:", "  confluence_space: " + q(state.keys.confluence), "  jira_project: " + q(state.keys.jira), "",
       "Check each connector yourself before you rely on it, and tell me what you will do without the ones that are not connected.", "I will attach the files listed under sources.");
     return y.join("\n");
@@ -715,7 +1017,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   var byTitle = {}, byId = {};
   CATALOG.forEach(function (c) { byTitle[c.title] = c; byId[c.id] = c; });
   var WORDS = { prd: "PRD", ux: "UX", okr: "OKR", prfaq: "PR/FAQ", jira: "Jira", raci: "RACI", a11y: "Accessibility" };
-  var LIMIT = 190000, shots = [], canShots = 0, downloads = null, ctl = null, lastOp = null, eraseArmed = 0;
+  var LIMIT = 190000, moreChips = false, shots = [], canShots = 0, downloads = null, ctl = null, lastOp = null, eraseArmed = 0;
 
   function cat(id) { return byId[id] || (state.docs[id] && state.docs[id].meta) || null; }
   function D(id) { if (!state.docs[id]) state.docs[id] = { status: "todo", qs: [], text: "" }; return state.docs[id]; }
@@ -753,12 +1055,12 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
       "Readers of the documents: " + (state.readers.map(function (r) { return label(READERS, r); }).join(", ") || "TBD"),
       "The PM's role: " + (label(ROLES, state.role) || "TBD"), "Design system: " + (systemText() || "TBD"),
       "Existing designs to match: " + (state.designs || "none given"), "Where it came from: " + (state.origin || "TBD"));
-    y.push("Material the PM listed (named only; the files are not in this page):");
+    y.push("Material the PM listed (the text of the attached files is below, under SOURCE FILE; the rest is named only):");
     KINDS.forEach(function (k) { (s.found[k[0]] || []).forEach(function (l) { y.push("- " + k[1] + ": " + l); }); });
     s.other.forEach(function (l) { y.push("- Other: " + l); });
     if (!s.count) y.push("- none");
     y.push("Kinds of material not provided: " + (s.missing.join(", ") || "none"));
-    y.push("Connectors: " + CONNECTORS.map(function (c) { return c[1] + " " + (label(CONN_STATUS, state.connectors[c[0]] || "") || "not set").toLowerCase(); }).join("; "));
+    y.push("Connectors, checked live: " + connLine());
     if (state.keys.confluence) y.push("Confluence space: " + state.keys.confluence);
     if (state.keys.jira) y.push("Jira project: " + state.keys.jira);
     return y.join("\n");
@@ -785,7 +1087,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
       "1. Output only the document itself" + (c.html ? ", as one complete HTML file" : ", in Markdown") + ". No preface, no closing remarks, no questions.\n" +
       "2. You have no tools and no files here. Ignore what the role says about slash commands, saving files, delegating to other agents and publishing.\n" +
       "3. The guided questions were already asked. The PM's answers are at the end. Do not ask more.\n" +
-      "4. Use only facts from the project, the earlier documents and the PM's answers. Never invent a number, a name, a date or a quote. Where a fact is missing, write a named TBD: what is missing and who can provide it.\n" +
+      "4. Use only facts from the project, the source files, the earlier documents and the PM's answers. Never invent a number, a name, a date or a quote. Where a fact is missing, write a named TBD: what is missing and who can provide it.\n" +
       "5. Follow the template's sections and the document format. Show the current state only: no version notes and no change history.");
     parts.push("=== AGENT ROLE: " + roleHead(c) + " ===\n" + role);
     if (c.command && c.agent && OS.commands[c.command]) parts.push("=== COMMAND: /product-os:" + c.command + " ===\n" + OS.commands[c.command]);
@@ -802,7 +1104,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
     if (change) tail.push("=== THE CURRENT DOCUMENT ===\n" + d.text + "\n\n=== THE PM ASKS FOR THIS CHANGE ===\n" + change + "\n\nRewrite the whole document with the change applied. Keep everything else as it is.");
     else tail.push("Write " + name + " now.");
     var head = parts.join("\n\n"), end = tail.join("\n\n"), room = LIMIT - head.length - end.length;
-    return [head, room > 4000 && !d.lean ? earlier(c.id, room) : "", end].filter(Boolean).join("\n\n");
+    var src = room > 3000 ? sourcesBlock(Math.min(90000, room - 2000)) : ""; room -= src.length;
+    return [head, src, room > 4000 && !d.lean ? earlier(c.id, room) : "", end].filter(Boolean).join("\n\n");
   }
   function questionPrompt(c, d, second) {
     var name = c.file || c.title, parts = [];
@@ -810,7 +1113,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
       "Reply with JSON only, no other text:\n{\"questions\": [{\"q\": string, \"options\": [string, string, string], \"recommended\": number}]}\n\n" +
       "Rules:\n" +
       "1. Ask at most " + (second ? 3 : 5) + " questions. Ask only for the decisions and facts this document needs.\n" +
-      "2. Never ask for something the project, the earlier documents or the listed material already answers. If nothing is missing, reply {\"questions\": []}.\n" +
+      "2. Never ask for something the project, the source files or the earlier documents already answer. If nothing is missing, reply {\"questions\": []}.\n" +
       "3. Each question is one short sentence in plain words. Ask, do not demand.\n" +
       "4. Give 2 to 4 short options that are real choices for THIS project, each under 8 words. \"recommended\" is the index of the option you would pick, or -1.\n" +
       "5. Do not add an option for not knowing. The page adds it.");
@@ -819,8 +1122,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
     (c.tpl || []).forEach(function (t) { if (OS.templates[t]) parts.push("=== TEMPLATE: templates/" + t + " ===\n" + OS.templates[t]); });
     parts.push("=== PROJECT ===\n" + projectFacts());
     if (second) parts.push("=== THE DRAFT ===\n" + d.text + "\n\nAsk only about named TBDs the PM can resolve now, and about decisions the draft made without the PM.");
-    var head = parts.join("\n\n");
-    return [head, earlier(c.id, Math.max(0, 120000 - head.length))].filter(Boolean).join("\n\n");
+    var head = parts.join("\n\n"), src = sourcesBlock(60000);
+    return [head, src, earlier(c.id, Math.max(0, 150000 - head.length - src.length))].filter(Boolean).join("\n\n");
   }
   function cleanQs(v, max) {
     var a = v && Array.isArray(v.questions) ? v.questions : [];
@@ -849,6 +1152,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   function afterStart() {
     say("The start is saved. I ask before I write, and nothing is published without your yes.");
     if (!aiOn) say("This copy is not open in Claude, so I track the documents here and your chat writes them. Copy the brief to take your answers there.");
+    else if (mcp) say("I can use your Jira, Confluence and Figma when a step needs them. " + connLine() + " You can check them now under More, or when I ask.");
+    show("talk");
     offerNext();
   }
   function offerNext() {
@@ -925,7 +1230,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
     var id = state.active, c = cat(id), d = D(id);
     youSay("Accept"); d.status = "done"; d.updated = new Date().toISOString(); state.active = null; state.stage = "";
     say((c.file || c.title) + " is done. It is on the board under " + (c.phase ? PHASES[c.phase - 1][1] : "Other documents") + ", where you can open, copy or download it.");
-    if (id === "stories") say("To put the epic and tickets into Jira and the documents into Confluence, take them to your chat with the Atlassian connector: copy progress.yaml from the board and download the documents. Publishing from this page is not built.");
+    if (id === "stories") say(mcp ? "You can publish now. Tap More options, then Publish: the documents go to Confluence and the epic and tickets to Jira, after you approve the plan." : "To publish to Confluence and Jira, open this page in Claude, where it can use your Atlassian connector.");
     offerNext(); save(); draw();
   }
   function applyChange(text) { youSay(text); writeDoc(state.active, text); }
@@ -963,6 +1268,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
     if (state.stage === "asking") return answerQ(v);
     if (state.stage === "change" || state.stage === "review") return applyChange(v);
     if (state.stage === "link") return saveLink(v);
+    if (state.stage === "figma") return figmaShots(v);
     var k = v.toLowerCase().replace(/[.!?]/g, "").trim(), m = /^task (\d)$/.exec(k);
     if (/^(board|tasks|docs|documents|status)$/.test(k) || m) { youSay(v); say("The board has every task, its status and its documents."); save(); draw(); show("board"); if (m) { var dd = $("tasks").querySelectorAll("details")[+m[1]]; if (dd) { dd.open = true; dd.scrollIntoView({ block: "start" }); } } return; }
     if (/^(connectors|settings|connectors and settings)$/.test(k)) { youSay(v); say("Connectors and settings are open."); save(); draw(); openSetup(); return; }
@@ -973,7 +1279,10 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
     if (busy) { if (state.stage === "writing") { chip("Read it as it is written", "", function () { openDoc(state.active); }); chip("Stop", "", stopWriting); } return; }
     if (state.stage === "failed") { chip("Try again", "go", function () { var f = lastOp; lastOp = null; state.stage = ""; if (f) f(); else { offerNext(); draw(); } }); chip("Leave it for now", "", leave); return; }
     if (state.stage === "asking" && d && d.qs[state.qi]) { var q = d.qs[state.qi]; q.o.forEach(function (o, i) { chip(o + (i === q.r ? " (recommended)" : ""), "", function () { answerQ(o); }); }); chip("I don't know yet", "soft", function () { answerQ("I don't know yet"); }); return; }
-    if (state.stage === "shots" && d) { if (canShots) chip("Attach screens", "go", pickShots); chip("Continue without screens", "", function () { d.noShots = true; youSay("Continue without screens"); beginQuestions(id, false); }); chip("Leave it for now", "soft", leave); return; }
+    if (state.stage === "publish" || state.stage === "tickets") { publishChips(chip); return; }
+    if (state.stage === "figma") { chip("Attach screenshots instead", "", function () { state.stage = "shots"; draw(); }); return; }
+    if (state.stage === "shots" && d) { if (canShots) chip("Attach screens", "go", pickShots);
+      if (mcp && canShots && conn.figma !== "missing" && conn.figma !== "off") chip("Use a Figma link", "", function () { state.stage = "figma"; say("Paste the Figma link to each frame, one per line. A frame link ends with node-id= and a number." + (conn.figma === "ok" ? "" : " Claude asks you to allow Figma for this page, once.")); save(); draw(); $("say").focus(); }); chip("Continue without screens", "", function () { d.noShots = true; youSay("Continue without screens"); beginQuestions(id, false); }); chip("Leave it for now", "soft", leave); return; }
     if (state.stage === "link") { chip("It is not ready yet", "soft", leave); return; }
     if ((state.stage === "review" || state.stage === "change") && d) {
       chip("Accept " + (c.file || c.title), "go", accept);
@@ -985,9 +1294,13 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
       [["Open Claude", "https://claude.ai/new"], ["Open ChatGPT", "https://chatgpt.com/"]].forEach(function (l) { var a = el("a", "chip", l[0]); a.href = l[1]; a.target = "_blank"; a.rel = "noopener"; box.appendChild(a); });
       chip("Copy the brief", "", copyBrief); return;
     }
-    var n = nextDoc();
-    if (n) { chip((st(n.id) === "todo" || st(n.id) === "skipped" ? "Start: " : "Continue: ") + n.title, "go", function () { startDoc(n.id); }); chip("Skip it", "", function () { skipDoc(n.id); }); }
-    chip("Show the board", "", function () { show("board"); if (!narrow.matches) $("tasks").scrollIntoView({ block: "start" }); });
+    var n = nextDoc(), anyDone = Object.keys(state.docs).some(function (k) { return state.docs[k].status === "done" && state.docs[k].text; });
+    if (n) { chip((st(n.id) === "todo" || st(n.id) === "skipped" ? "Start: " : "Continue: ") + n.title, "go", function () { moreChips = false; startDoc(n.id); }); chip("Skip it", "", function () { moreChips = false; skipDoc(n.id); }); }
+    else if (anyDone && mcp) chip("Publish", "go", function () { moreChips = false; startPublish(); });
+    if (!moreChips) { chip("More options", "soft", function () { moreChips = true; drawChips(); }); return; }
+    if (drawerMode()) chip("Show the board", "", function () { show("board"); });
+    if (anyDone && mcp && n) chip("Publish", "", function () { moreChips = false; startPublish(); });
+    chip("Attach files", "", function () { $("files").click(); });
     chip("Copy the brief for a chat", "soft", copyBrief);
   }
   function placeholderNow() {
@@ -995,10 +1308,12 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
     if (state.stage === "asking") return "Or type your own answer";
     if (state.stage === "review" || state.stage === "change") return "Tell me what to change";
     if (state.stage === "link") return "Paste the link, starting with https://";
+    if (state.stage === "figma") return "Paste the Figma link to a frame";
     return aiOn ? "Ask the guide anything" : "Use the chips above";
   }
   function whereNow() {
     var c = state.active ? cat(state.active) : null, d = c ? D(state.active) : null;
+    if (!c && (state.stage === "publish" || state.stage === "publishing" || state.stage === "tickets")) return "Publishing to Confluence and Jira";
     if (c) {
       var part = state.stage === "asking" ? ", a question for you" : state.stage === "writing" ? ", writing" : state.stage === "review" || state.stage === "change" ? ", your review" : state.stage === "thinking" ? ", reading" : "";
       return (c.phase ? "Phase " + c.phase + " of 9 · " + PHASES[c.phase - 1][1] + (c.title === PHASES[c.phase - 1][1] ? "" : " · " + c.title) : "Extra · " + c.title) + part;
@@ -1019,6 +1334,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   function recover() {
     var id = state.active, d = id && state.docs[id];
     if (!id || !d || !cat(id)) { state.active = null; state.stage = ""; return; }
+    if (state.stage === "figma") { state.stage = "shots"; return; }
     if (state.stage === "asking" && d.qs[state.qi]) return;
     if (state.stage === "link" || state.stage === "shots") return;
     if (d.text) { d.status = "review"; state.stage = "review"; d.second = false; d.base2 = null; }
@@ -1128,7 +1444,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
     var has = Object.keys(state.docs).some(function (id) { return state.docs[id].text; });
     if (has && !eraseArmed) { eraseArmed = setTimeout(function () { eraseArmed = 0; draw(); }, 5000); note("This erases every document in this browser. Save the project file first if you want to keep it."); draw(); return; }
     clearTimeout(eraseArmed); eraseArmed = 0; if (ctl) ctl.abort(); busy = false;
-    state = norm(copy(EMPTY)); picking = []; aiNotes = null; shots = []; note(""); save(); rebuildThread(); show("talk"); draw(); $("say").focus();
+    state = norm(copy(EMPTY)); if (conn.sites.length === 1) state.site = copy(conn.sites[0]); picking = []; aiNotes = null; shots = []; moreChips = false; note(""); save(); rebuildThread(); show("talk"); draw(); $("say").focus();
   });
   $("docClose").addEventListener("click", closeDoc);
   $("docStop").addEventListener("click", stopWriting);
@@ -1149,7 +1465,9 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
     r.readAsText(f);
   });
   $("copyYaml").addEventListener("click", function () { copyText(progressYaml(), "progress.yaml copied. Paste it into your project in Claude Code or a chat."); });
-  $("openSetup").addEventListener("click", openSetup);
+  $("openMore").addEventListener("click", function () { show("board"); var h = $("moreH"); h.scrollIntoView({ block: "start" }); h.focus({ preventScroll: true }); });
+  $("addFiles").addEventListener("click", function () { $("files").click(); });
+  $("files").addEventListener("change", function () { var f = $("files").files; addFiles(f); $("files").value = ""; });
   $("openBoard").addEventListener("click", function () { show("board"); });
   $("closeBoard").addEventListener("click", function () { show("talk"); });
   $("scrim").addEventListener("click", function () { show("talk"); });

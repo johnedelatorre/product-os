@@ -57,7 +57,7 @@ Product OS is one set of content with five paths: **Claude Code**, **Cursor**, *
 | Claude Code | Plugin slash commands (`/product-os:*`, from `.claude-plugin/`) | Native Task delegation (agents in `.claude/agents/` register as subagents via frontmatter) |
 | Cursor | Role-based invocation | `.cursor/agents/` + role-based |
 | claude.ai | Plain language; the plugin's commands load as skills | All 41, one role at a time, from the plugin skill in `skills/product-os/` (built from `.claude/`), or from the files in `claude-ai/` |
-| Claude artifact | The workspace page: chips, the board and a list of every command (`artifact/product-os.html`, built from `artifact/src/`) | All 41, in the page: each asks its questions and writes its document through Claude |
+| Claude artifact | The workspace page: chips, the board and a list of every command (`artifact/product-os.html`, built from `artifact/src/`) | All 41, in the page: each asks its questions and writes its document through Claude; the page reads attached files, uses the PM's Atlassian and Figma connectors and publishes after approval |
 | ChatGPT | Plain language | One role at a time, from the 8-file pack in `chatgpt/` |
 
 Canonical content lives in `.claude/` (read by both platforms). Skills in `.claude/skills/` are reference documents read by path. See `docs/guides/platform-compatibility.md`.

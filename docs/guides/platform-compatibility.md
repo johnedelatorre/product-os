@@ -46,7 +46,7 @@ The pack is built by `python3 scripts/build-chatgpt-pack.py`. Run it after chang
 
 ## Claude Artifact: the Visual Start
 
-`artifact/product-os.html` is all of Product OS as one page: a conversation with the guide, with chips to answer, beside a board of every task. All nine phases run in it. The agent for each document asks its questions, writes the document through Claude, and waits for the PM to accept it. The page carries every agent, playbook, command and template, and is built by `scripts/build-workspace.py` from `artifact/src/workspace.html`. On a phone the board slides out over the conversation. Publishing to Confluence and Jira stays in the chat. Steps: [Product OS as a Claude artifact](../../artifact/README.md).
+`artifact/product-os.html` is all of Product OS as one page: a conversation with the guide, with chips to answer, beside a board of every task. All nine phases run in it. The agent for each document asks its questions, writes the document through Claude, and waits for the PM to accept it. The page carries every agent, playbook, command and template, and is built by `scripts/build-workspace.py` from `artifact/src/workspace.html`. It reads the text files the PM attaches, uses the PM's own Atlassian and Figma connectors, and publishes to Confluence and Jira after the PM approves the plan. It shows only what each step needs: the conversation first, the plan at the review step, the board after the PM's yes, and the rest under More. Steps: [Product OS as a Claude artifact](../../artifact/README.md).
 
 ## Installation
 

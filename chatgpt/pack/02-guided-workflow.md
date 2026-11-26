@@ -336,7 +336,7 @@ Rules for a narrow screen:
 
 ## Connectors and Settings
 
-Every interface has one place that shows what Product OS is connected to and how it is set up. In the Claude artifact it is a section of the board, opened from "Connectors and settings" at the top. In Claude chat and ChatGPT the PM replies `connectors` or `settings`. In Claude Code it is `/product-os:status --connectors` or `--settings`.
+Every interface has one place that shows what Product OS is connected to and how it is set up. In the Claude artifact it is under More on the board: the page checks the PM's own Atlassian and Figma connectors and shows the real status, and the PM picks the Jira project and Confluence space from their real lists. In Claude chat and ChatGPT the PM replies `connectors` or `settings`. In Claude Code it is `/product-os:status --connectors` or `--settings`.
 
 **Connectors**
 
