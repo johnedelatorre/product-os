@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Public+Sans:wght@400;600&display=swap" rel="stylesheet">
 <style>
-/* Layout idea: the agent's conversation on the left, the project board it fills in on the right. */
+/* Layout idea: the agent's conversation on the left, the project board it fills in on the right. On a narrow screen the board slides out over the conversation. */
 :root {
   --paper: #EDF0F4;
   --sheet: #FFFFFF;
@@ -58,9 +58,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .track li { flex: 1; height: 6px; border-radius: 3px; background: var(--line); }
 .track li.done { background: var(--found); } .track li.now { background: var(--accent); }
 .track span { font-size: 0.8125rem; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
-.tabs { display: none; gap: 6px; }
-.tabs button { flex: 1; padding: 9px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--sheet); font-weight: 600; font-size: 0.9375rem; cursor: pointer; }
-.tabs button[aria-pressed="true"] { border-color: var(--accent); background: var(--wash); }
+.open-board, .board-head, .scrim { display: none; }
 
 .work { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr); gap: 20px; align-items: start; }
 
@@ -122,6 +120,22 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .notes ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
 .notes li { border-left: 3px solid var(--found); padding: 2px 0 2px 10px; font-size: 0.9375rem; }
 .notes li.warn { border-left-color: var(--missing); }
+.setup { background: var(--sheet); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; display: flex; flex-direction: column; gap: 6px; scroll-margin-top: 72px; }
+.setup:focus { outline: none; } .setup:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.setup h2 { display: flex; justify-content: space-between; gap: 10px; }
+.setup h2 span { font: 400 0.8125rem/1.5 var(--body); color: var(--muted); }
+.setup h3 { margin: 8px 0 0; font: 600 0.8125rem/1.3 var(--body); color: var(--muted); }
+.setup ul { list-style: none; margin: 0; padding: 0; }
+.setup li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; align-items: center; padding: 7px 0; border-top: 1px dashed var(--line); font-size: 0.875rem; }
+.setup li:first-child { border-top: 0; }
+.setup li b { font-weight: 600; }
+.setup li small { grid-column: 1 / 2; font-size: 0.8125rem; color: var(--muted); }
+.setup li .v { grid-column: 1 / 2; overflow-wrap: anywhere; min-width: 0; }
+.setup li > select, .setup li > input, .setup li > button, .setup li > .fixed { grid-column: 2 / 3; grid-row: 1 / span 2; }
+.setup select, .setup input { min-height: 36px; padding: 5px 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--sheet); font-size: 0.875rem; max-width: 9.5rem; }
+.setup select.on { border-color: var(--found); color: var(--found); font-weight: 600; }
+.setup .fixed { font-size: 0.8125rem; color: var(--muted); }
+.setup p { margin: 2px 0 0; font-size: 0.8125rem; color: var(--muted); }
 .more { font-size: 0.875rem; color: var(--muted); }
 .more summary { cursor: pointer; color: var(--accent); text-decoration: underline; width: fit-content; }
 .more textarea { width: 100%; min-height: 6rem; margin: 8px 0; padding: 8px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--sheet); font-size: 0.8125rem; }
@@ -129,8 +143,17 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 
 @media (max-width: 860px) {
   .work { grid-template-columns: minmax(0, 1fr); }
-  .tabs { display: flex; }
-  .work[data-show="talk"] .board, .work[data-show="board"] .talk { display: none; }
+  .where { position: sticky; top: 8px; z-index: 5; }
+  .open-board { display: flex; flex: 1 1 100%; align-items: center; justify-content: space-between; gap: 10px; min-height: 44px; padding: 9px 12px; border: 1px solid var(--accent); border-radius: 6px; background: var(--wash); font-weight: 600; text-align: left; cursor: pointer; }
+  .open-board span { font-weight: 400; font-size: 0.875rem; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .open-board span::after { content: ""; display: inline-block; width: .5em; height: .5em; margin-left: .6em; border: solid currentColor; border-width: 2px 2px 0 0; transform: rotate(45deg) translateY(-1px); }
+  .board { position: fixed; top: 0; right: 0; bottom: 0; z-index: 20; width: min(88vw, 26rem); padding: 0 14px 28px; background: var(--paper); border-left: 1px solid var(--line); overflow-y: auto; overscroll-behavior: contain; transform: translateX(100%); visibility: hidden; }
+  .work[data-show="board"] .board { transform: none; visibility: visible; box-shadow: -14px 0 36px rgba(8, 14, 24, .28); }
+  .board-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; position: sticky; top: 0; z-index: 1; margin: 0 -14px; padding: 12px 14px 10px; background: var(--paper); border-bottom: 1px solid var(--line); }
+  .board-head h2 { font-size: 1.0625rem; }
+  .board-head h2 small { display: block; font: 400 0.8125rem/1.3 var(--body); color: var(--muted); }
+  .board-head button { min-height: 40px; padding: 7px 14px; border: 1px solid var(--ink); border-radius: 6px; background: none; font-weight: 600; cursor: pointer; }
+  .scrim:not([hidden]) { display: block; position: fixed; inset: 0; z-index: 15; width: 100%; border: 0; padding: 0; background: rgba(8, 14, 24, .5); cursor: pointer; }
   .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   #thread { max-height: 15rem; }
   .rows { padding-left: 14px; }
@@ -138,28 +161,30 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   .rows .v { grid-column: 2 / 3; grid-row: 2; }
   .brand span { display: none; }
 }
-@media (prefers-reduced-motion: no-preference) { .chip, .tabs button { transition: border-color .15s, background-color .15s; } }
+@media (prefers-reduced-motion: no-preference) {
+  .chip { transition: border-color .15s, background-color .15s; }
+  @media (max-width: 860px) {
+    .board { transition: transform .22s ease, visibility 0s linear .22s; }
+    .work[data-show="board"] .board { transition: transform .22s ease; }
+  }
+}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header class="bar">
+  <header class="bar" id="bar">
     <p class="brand">Product OS<span>Start a project</span></p>
-    <p class="meta"><span class="badge" id="badge">Guided questions</span><span id="exNote"></span><button class="linkish" id="clear" type="button">Start over</button></p>
+    <p class="meta"><span class="badge" id="badge">Guided questions</span><span id="exNote"></span><button class="linkish" id="openSetup" type="button">Connectors and settings</button><button class="linkish" id="clear" type="button">Start over</button></p>
   </header>
 
-  <section class="where" aria-label="Where you are">
+  <section class="where" id="where" aria-label="Where you are">
     <h1><span id="project">New project</span><small id="whereLine"></small></h1>
     <div class="track"><ol id="track" aria-hidden="true"></ol><span id="trackTxt"></span></div>
+    <button type="button" class="open-board" id="openBoard" aria-haspopup="dialog" aria-controls="board" aria-expanded="false">Tasks and documents<span id="openBoardMeta"></span></button>
   </section>
 
-  <div class="tabs" role="group" aria-label="Show">
-    <button type="button" id="tabTalk" aria-pressed="true">Conversation</button>
-    <button type="button" id="tabBoard" aria-pressed="false">Board</button>
-  </div>
-
   <main class="work" id="work" data-show="talk">
-    <section class="talk" aria-label="Conversation with the Product OS guide">
+    <section class="talk" id="talk" aria-label="Conversation with the Product OS guide">
       <h2>Guide<span id="talkMeta"></span></h2>
       <ol id="thread" aria-live="polite"></ol>
       <form class="reply" id="reply" novalidate>
@@ -169,9 +194,19 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
       </form>
     </section>
 
-    <aside class="board" aria-label="Project board">
+    <button type="button" class="scrim" id="scrim" tabindex="-1" aria-label="Close the board" hidden></button>
+    <aside class="board" id="board" aria-label="Project board">
+      <div class="board-head"><h2>Board<small id="boardWhere"></small></h2><button type="button" id="closeBoard">Close</button></div>
       <ul class="kpis" id="kpis"></ul>
       <section class="tasks"><h2>Tasks<span id="taskMeta"></span></h2><div id="tasks"></div></section>
+      <section class="setup" id="setup" aria-labelledby="setupH" tabindex="-1">
+        <h2 id="setupH">Connectors and settings<span id="setupMeta"></span></h2>
+        <h3>Connectors</h3>
+        <ul id="conn"></ul>
+        <p>This page cannot see your connections. Set what you know. Your chat checks each one when you paste the brief, and says what it does without it.</p>
+        <h3>Settings</h3>
+        <ul id="sets"></ul>
+      </section>
       <section class="notes"><h2>What I noticed<span id="noteSrc"></span></h2><ul id="notes"></ul></section>
       <details class="more"><summary>Update the board from progress.yaml</summary>
         <p>After you work in Claude, ChatGPT or Claude Code, paste the project's <code>progress.yaml</code> here. The board then shows what is done and what is in progress.</p>
@@ -215,12 +250,21 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   ];
   var STEPS = ["What and who", "Readers", "Your role", "Design system", "Where it came from", "What you have", "Review"];
   var EXAMPLE = { building: "Self-serve signup, so small teams can start without a sales call", users: "Small teams of 2 to 10 people", readers: ["engineers", "product-lead"], role: "pm-and-design", system: "", systemRef: "", designs: "", origin: "", everything: "", answered: { what: 1, users: 1, readers: 1, role: 1 }, confirmed: false, example: true, phases: null };
+  var CONNECTORS = [
+    ["confluence", "Confluence", "Publishes the documents, after your approval"],
+    ["jira", "Jira", "Creates the epic and the tickets, after your approval"],
+    ["figma", "Figma", "Reads the design system and the designs"],
+    ["claude_design", "Claude Design", "Reads the design system and the designs"]
+  ];
+  var CONN_STATUS = [["", "Not set"], ["connected", "Connected"], ["not_connected", "Not connected"], ["not_used", "Not used"]];
+  EXAMPLE.connectors = { confluence: "connected", jira: "connected", figma: "not_connected" }; EXAMPLE.keys = { confluence: "PROD", jira: "SIGNUP" };
   var EMPTY = { building: "", users: "", readers: [], role: "", system: "", systemRef: "", designs: "", origin: "", everything: "", answered: {}, confirmed: false, example: false, phases: null };
   var KEY = "product-os-start-2";
-  var state = load() || copy(EXAMPLE), picking = [], busy = false, sample = null, aiOn = false, aiNotes = null, thread = [];
+  var state = norm(load() || copy(EXAMPLE)), picking = [], busy = false, sample = null, aiOn = false, aiNotes = null, thread = [];
 
   function copy(o) { return JSON.parse(JSON.stringify(o)); }
   function load() { try { var v = localStorage.getItem(KEY); return v ? JSON.parse(v) : null; } catch (e) { return null; } }
+  function norm(o) { if (!o.connectors || typeof o.connectors !== "object") o.connectors = {}; if (!o.keys || typeof o.keys !== "object") o.keys = {}; return o; }
   function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { /* storage is optional */ } }
   function $(id) { return document.getElementById(id); }
   function el(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; }
@@ -356,7 +400,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
     STEPS.forEach(function (_, i) { var st = stepState(i); tr.appendChild(el("li", st === "done" ? "done" : st === "now" ? "now" : "")); });
     $("trackTxt").textContent = stepsDone + " of 7 steps";
     $("talkMeta").textContent = cur ? "Question " + cur.q + " of 7" : "Start is done";
-    $("tabBoard").textContent = "Board · " + stepsDone + " of 7";
+    $("openBoardMeta").textContent = ((startDone ? 1 : 0) + phaseDone) + " of 10 done";
+    $("boardWhere").textContent = $("whereLine").textContent;
     $("exNote").textContent = state.example ? "Example answers so far." : "Saved in this browser.";
     $("badge").textContent = aiOn ? "Agent: Claude" : "Guided questions"; $("badge").className = "badge" + (aiOn ? " ai" : "");
   }
@@ -391,13 +436,63 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
     return ({ complete: ["done", "done"], in_progress: ["now", "in progress"], skipped: ["todo", "skipped"], deferred: ["todo", "deferred"] })[hit] || ["todo", "planned"];
   }
   function phaseNow() { for (var i = 0; i < PHASES.length; i++) if (phaseStatus(PHASES[i][0]) === "now") return "Phase " + (i + 1) + " of 9 · " + PHASES[i][1]; return ""; }
+  /* ---------- connectors and settings ---------- */
+  function buildSetup() {
+    var cb = $("conn");
+    CONNECTORS.forEach(function (c) {
+      var li = el("li"); li.appendChild(el("b", null, c[1])); li.appendChild(el("small", null, c[2]));
+      var sel = el("select"); sel.id = "conn-" + c[0]; sel.setAttribute("aria-label", c[1] + " status");
+      CONN_STATUS.forEach(function (o) { var op = el("option", null, o[1]); op.value = o[0]; sel.appendChild(op); });
+      sel.addEventListener("change", function () { state.connectors[c[0]] = sel.value; state.example = false; save(); syncSetup(); });
+      li.appendChild(sel); cb.appendChild(li);
+    });
+    var sb = $("sets");
+    [["readers", "Readers", 1], ["role", "Your role", 2], ["system", "Design system", 3]].forEach(function (r) {
+      var li = el("li"); li.appendChild(el("b", null, r[1])); var v = el("span", "v"); v.id = "set-" + r[0]; li.appendChild(v);
+      var b = el("button", "linkish", "Change"); b.type = "button"; b.id = "chg-" + r[0]; b.addEventListener("click", function () { reopen(r[2]); }); li.appendChild(b); sb.appendChild(li);
+    });
+    [["confluence", "Confluence space", "Where the documents are published", "Space key"], ["jira", "Jira project", "Where the epic and tickets are created", "Project key"]].forEach(function (r) {
+      var li = el("li"), lab = el("label"); lab.htmlFor = "key-" + r[0]; lab.appendChild(el("b", null, r[1])); li.appendChild(lab); li.appendChild(el("small", null, r[2]));
+      var inp = el("input"); inp.id = "key-" + r[0]; inp.type = "text"; inp.placeholder = r[3]; inp.maxLength = 24; inp.autocomplete = "off"; inp.setAttribute("autocapitalize", "characters");
+      inp.addEventListener("input", function () { state.keys[r[0]] = inp.value.trim(); state.example = false; save(); });
+      li.appendChild(inp); sb.appendChild(li);
+    });
+    [["Ticket size", "Up to 5 points", "Team default"], ["Before anything is published", "I always ask you first", "Always on"]].forEach(function (r) {
+      var li = el("li"); li.appendChild(el("b", null, r[0])); li.appendChild(el("span", "v", r[1])); li.appendChild(el("span", "fixed", r[2])); sb.appendChild(li);
+    });
+  }
+  function syncSetup() {
+    var set = 0;
+    CONNECTORS.forEach(function (c) { var sel = $("conn-" + c[0]), v = state.connectors[c[0]] || ""; if (document.activeElement !== sel) sel.value = v; sel.className = v === "connected" ? "on" : ""; if (v) set++; });
+    [["readers", 1], ["role", 2], ["system", 3]].forEach(function (r) {
+      var done = stepState(r[1]) === "done"; $("set-" + r[0]).textContent = done ? (stepResult(r[1]) || "Skipped for now") : "Not answered yet";
+      $("chg-" + r[0]).hidden = !done || state.confirmed;
+    });
+    ["confluence", "jira"].forEach(function (k) { var inp = $("key-" + k); if (document.activeElement !== inp) inp.value = state.keys[k] || ""; });
+    $("setupMeta").textContent = set + " of " + CONNECTORS.length + " set";
+  }
+  function openSetup() {
+    show("board"); var sec = $("setup");
+    sec.scrollIntoView({ block: "start", behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }); sec.focus({ preventScroll: true });
+  }
+
   function draw() {
-    drawThread(); drawChips(); drawBoard();
+    drawThread(); drawChips(); drawBoard(); syncSetup();
     var t = current(), typing = !!t && t.kind === "text" && !busy;
     $("send").disabled = !typing; $("say").disabled = !typing;
     $("say").placeholder = t && t.kind === "text" ? "Type your answer" : (t ? "Pick an answer above" : "Start is done");
   }
-  function show(which) { $("work").setAttribute("data-show", which); $("tabTalk").setAttribute("aria-pressed", String(which === "talk")); $("tabBoard").setAttribute("aria-pressed", String(which === "board")); }
+  /* On a narrow screen the board is a panel that slides out over the conversation. */
+  var narrow = window.matchMedia("(max-width: 860px)"), opener = null;
+  function show(which) {
+    var was = $("work").getAttribute("data-show") === "board", open = which === "board" && narrow.matches, b = $("board");
+    $("work").setAttribute("data-show", open ? "board" : "talk");
+    $("scrim").hidden = !open; $("openBoard").setAttribute("aria-expanded", String(open));
+    ["bar", "where", "talk"].forEach(function (id) { $(id).inert = open; });
+    document.documentElement.style.overflow = open ? "hidden" : "";
+    if (open) { b.setAttribute("role", "dialog"); b.setAttribute("aria-modal", "true"); if (!was) opener = document.activeElement; b.scrollTop = 0; $("closeBoard").focus(); }
+    else { b.removeAttribute("role"); b.removeAttribute("aria-modal"); if (was && opener && opener.focus) opener.focus(); opener = null; }
+  }
 
   /* ---------- answering ---------- */
   function apply(t, text, fields) {
@@ -487,7 +582,10 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
     y.push("context:", "  building: " + q(state.building), "  users: " + q(state.users), "  origin: " + q(state.origin), "  sources:");
     KINDS.forEach(function (k) { (s.found[k[0]] || []).forEach(function (l) { y.push("    - kind: " + k[0], "      ref: " + q(l)); }); });
     s.other.forEach(function (l) { y.push("    - kind: other", "      ref: " + q(l)); });
-    y.push("  not_provided: [" + KINDS.filter(function (k) { return !s.found[k[0]]; }).map(function (k) { return k[0]; }).join(", ") + "]", "", "I will attach the files listed under sources.");
+    y.push("  not_provided: [" + KINDS.filter(function (k) { return !s.found[k[0]]; }).map(function (k) { return k[0]; }).join(", ") + "]", "connectors:");
+    CONNECTORS.forEach(function (c) { y.push("  " + c[0] + ": " + (state.connectors[c[0]] || "not_set")); });
+    y.push("settings:", "  confluence_space: " + q(state.keys.confluence), "  jira_project: " + q(state.keys.jira), "",
+      "Check each connector yourself before you rely on it, and tell me what you will do without the ones that are not connected.", "I will attach the files listed under sources.");
     return y.join("\n");
   }
   function copyBrief() {
@@ -513,11 +611,15 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   /* ---------- events ---------- */
   $("reply").addEventListener("submit", function (e) { e.preventDefault(); var t = current(), v = $("say").value.trim(); if (!t || t.kind !== "text" || !v || busy) return; $("say").value = ""; answer(t, v, null); });
   $("say").addEventListener("keydown", function (e) { if (e.key === "Enter" && !e.shiftKey && current() && current().key !== "material") { e.preventDefault(); $("send").click(); } });
-  $("clear").addEventListener("click", function () { state = copy(EMPTY); picking = []; aiNotes = null; save(); rebuildThread(); show("talk"); draw(); $("say").focus(); });
-  $("tabTalk").addEventListener("click", function () { show("talk"); });
-  $("tabBoard").addEventListener("click", function () { show("board"); });
-  if (!state.answered) state = copy(EXAMPLE);
-  rebuildThread(); draw();
+  $("clear").addEventListener("click", function () { state = norm(copy(EMPTY)); picking = []; aiNotes = null; save(); rebuildThread(); show("talk"); draw(); $("say").focus(); });
+  $("openSetup").addEventListener("click", openSetup);
+  $("openBoard").addEventListener("click", function () { show("board"); });
+  $("closeBoard").addEventListener("click", function () { show("talk"); });
+  $("scrim").addEventListener("click", function () { show("talk"); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && $("work").getAttribute("data-show") === "board") show("talk"); });
+  (narrow.addEventListener ? narrow.addEventListener.bind(narrow, "change") : narrow.addListener.bind(narrow))(function () { show("talk"); });
+  if (!state.answered) state = norm(copy(EXAMPLE));
+  buildSetup(); rebuildThread(); draw();
 })();
 </script>
 </body>

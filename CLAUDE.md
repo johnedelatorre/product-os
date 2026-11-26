@@ -42,7 +42,7 @@ Attribution: Adapted from [ayghri/i-have-adhd](https://github.com/ayghri/i-have-
 
 The PM never has to say "ask me guided questions". This covers every document, the design critique and the UX writing guide included.
 
-**It is a conversation with an agent, on every interface.** The question comes from the agent, never as a page title, with quick replies: chips in the Claude artifact, numbered options in Claude Code, Claude chat and ChatGPT. Every turn opens with where the PM is and the task counts, and the whole status board (Start plus the nine phases, each done, in progress or not started, with its numbers) is shown at the start of a session, when a task finishes and on request. See `.claude/skills/guided-workflow.md` → "The Status Board".
+**It is a conversation with an agent, on every interface.** The question comes from the agent, never as a page title, with quick replies: chips in the Claude artifact, numbered options in Claude Code, Claude chat and ChatGPT. Every turn opens with where the PM is and the task counts, and the whole status board (Start plus the nine phases, each done, in progress or not started, with its numbers) is shown at the start of a session, when a task finishes and on request. On a phone the board, each task and every document are one short reply away (`board`, `task <n>`, `docs`), and the artifact slides the board out over the conversation. Every interface also has Connectors and settings (`connectors`, `settings`): what is connected, what happens without it, and the saved team settings. See `.claude/skills/guided-workflow.md` → "The Status Board", "On a Phone", "Connectors and Settings".
 
 ## Owner
 
@@ -56,7 +56,7 @@ Product OS is one set of content with five paths: **Claude Code**, **Cursor**, *
 |----------|----------|--------|
 | Claude Code | Plugin slash commands (`/product-os:*`, from `.claude-plugin/`) | Native Task delegation (agents in `.claude/agents/` register as subagents via frontmatter) |
 | Cursor | Role-based invocation | `.cursor/agents/` + role-based |
-| claude.ai | Plain language | One role at a time, from the files in `claude-ai/` |
+| claude.ai | Plain language; the plugin's commands load as skills | All 41, one role at a time, from the plugin skill in `skills/product-os/` (built from `.claude/`), or from the files in `claude-ai/` |
 | Claude artifact | A guided page for the start questions (`artifact/`) | Hands a brief to claude.ai or ChatGPT |
 | ChatGPT | Plain language | One role at a time, from the 8-file pack in `chatgpt/` |
 

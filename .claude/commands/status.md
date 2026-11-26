@@ -11,6 +11,9 @@ Show current progress through guided mode.
 /product-os:status
 /product-os:status --initiative <slug> --project <slug>
 /product-os:status --verbose
+/product-os:status --compact
+/product-os:status --connectors
+/product-os:status --settings
 ```
 
 ## Arguments
@@ -20,6 +23,9 @@ Show current progress through guided mode.
 | `--initiative` | No | Initiative slug (defaults to current) |
 | `--project` | No | Project slug (defaults to current) |
 | `--verbose` | No | Show full document details |
+| `--compact` | No | The short board for a phone: one task per line, under 40 characters |
+| `--connectors` | No | Each connector, its status, and what happens without it |
+| `--settings` | No | Readers, role, design system, Confluence space, Jira project, ticket size, accessibility level |
 
 ## Output
 
@@ -64,6 +70,30 @@ Phase: Define
   · project-brief.md — not started
   · metrics-framework.md — not started
   · project-plan.md — not started
+```
+
+### Compact, connectors and settings
+
+The short views for a narrow screen, and the setup. Formats and rules: `.claude/skills/guided-workflow.md` → "On a Phone" and "Connectors and Settings".
+
+```
+Self-serve signup
+Phase 4 of 9 · Define
+3 done · 1 in progress · 6 to go
+
+✓ Start · 7 of 7
+✓ 1 Intake · 1 of 1
+– 2 Discovery · skipped
+✓ 3 Prioritize · 1 of 1
+● 4 Define · 1 of 5
+○ 5 Design · 0 of 4
+```
+
+```
+✓ Confluence · connected
+✓ Jira · connected
+○ Figma · not connected
+– Claude Design · not used
 ```
 
 ## What It Does

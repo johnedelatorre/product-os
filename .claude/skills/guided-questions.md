@@ -33,6 +33,7 @@ Product OS is a conversation with an agent. On every interface the question come
 3. **Offer real options for this project**, taken from the sources and earlier answers. Add "I don't know yet" to every question.
 4. **After each answer, say one line on what was understood**, then ask the next question.
 5. **Open each turn with where the PM is** and the task counts, from the status board (`.claude/skills/guided-workflow.md` → "The Status Board").
+6. **The board and the setup are one reply away**, on a phone too: `board`, `task <n>`, `docs`, `connectors`, `settings` (same file → "On a Phone", "Connectors and Settings").
 
 ## What to Ask
 

@@ -272,6 +272,98 @@ Rules:
 4. **The board is a status table, not a list of advice.** It is the one place where a list runs past five lines.
 5. **Never show a task as done** while a document in it is in progress or an exit criterion has failed.
 
+### On a Phone
+
+PMs also work from a phone: in the Claude and ChatGPT apps, and in Claude Code. The board, each task and every document are one short reply away on every interface.
+
+| Interface | How the PM opens it |
+|-----------|---------------------|
+| Claude artifact | "Tasks and documents" in the bar at the top. The board slides out over the conversation. "Close" returns to the question. |
+| Claude chat, ChatGPT | Reply `board`, `task 4` or `docs` |
+| Claude Code | `/product-os:status --compact`, or the same three words |
+
+Three short views:
+
+```
+board
+Self-serve signup
+Phase 4 of 9 · Define
+3 done · 1 in progress · 6 to go
+
+✓ Start · 7 of 7
+✓ 1 Intake · 1 of 1
+– 2 Discovery · skipped
+✓ 3 Prioritize · 1 of 1
+● 4 Define · 1 of 5
+○ 5 Design · 0 of 4
+○ 6 Review · 0 of 2
+○ 7 Deliver · 0 of 1
+○ 8 Launch · 0 of 2
+○ 9 Measure · 0 of 1
+```
+
+```
+task 4
+● 4 Define · 1 of 5 documents
+✓ project-brief.md
+● prd.md · 15 of 19 sections
+○ metrics-framework.md
+○ project-plan.md
+○ raci.md
+```
+
+`docs` lists every document under its phase, with its status mark and its link or file name.
+
+Rules for a narrow screen:
+1. **No tables.** One item per line, the status mark first.
+2. **Lines under 40 characters.**
+3. **Claude chat and ChatGPT always use these short views.** Claude Code uses the wide board unless the PM asks for `--compact` or says they are on a phone.
+4. **After a view, repeat the open question** with its quick replies, so the PM answers without scrolling back.
+5. **Name the three words** (`board`, `task <n>`, `docs`) at the start of a session and when a task finishes.
+
+## Connectors and Settings
+
+Every interface has one place that shows what Product OS is connected to and how it is set up. In the Claude artifact it is a section of the board, opened from "Connectors and settings" at the top. In Claude chat and ChatGPT the PM replies `connectors` or `settings`. In Claude Code it is `/product-os:status --connectors` or `--settings`.
+
+**Connectors**
+
+| Connector | Used for | Without it |
+|-----------|----------|------------|
+| Confluence | Publishing the documents, after approval | The agent gives each page to paste |
+| Jira | Creating the epic and the tickets, after approval | The agent gives the tickets to paste or import |
+| Figma | Reading the design system and the designs | The PM attaches screenshots or exports |
+| Claude Design | Reading the design system and the designs | The PM shares the link or attaches the file |
+
+Each connector is `connected`, `not connected` or `not used`.
+
+```
+connectors
+✓ Confluence · connected
+✓ Jira · connected
+○ Figma · not connected
+   I work from the screenshots
+   you attach.
+– Claude Design · not used
+```
+
+**Settings**
+
+| Setting | Where it is saved |
+|---------|-------------------|
+| Readers and the PM's role | `audience` in `progress.yaml` and `product-os.config.yaml` |
+| Design system and its source of truth | `design_system` |
+| Confluence space and Jira project | `confluence.space_key`, `jira.project_key` |
+| Ticket size (up to 5 points) | `handoff.max_points` |
+| Accessibility level (WCAG 2.2 AA) | `accessibility.wcag_level` |
+
+Rules:
+1. **Check, never assume.** A connector is `connected` only when the agent has that tool in this session. When it cannot tell, it says "not checked" and asks.
+2. **A missing connector never blocks.** Say what happens without it, from the table above.
+3. **Show the connectors in one line at the start of a session**, in full on request, and again before any step that needs one.
+4. **A setting changes through a question** with quick replies, and the answer is saved for the team.
+5. **Approval before publishing is not a setting.** It is always on.
+6. **In Claude chat and ChatGPT there is no config file.** Show the values the PM gave, and mark the others "not set".
+
 ## What Stays a Hard Stop
 
 | Rule | Why |

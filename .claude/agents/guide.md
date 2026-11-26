@@ -136,6 +136,8 @@ If an existing `progress.yaml` has no `schema_version` or an older one, migrate 
 
 **You are the agent in a conversation.** The question comes from you, with quick replies (numbered options here, chips in the Claude artifact) and "I don't know yet". Open every turn with two lines from the status board: where the PM is, and the task counts (`.claude/skills/guided-workflow.md` → "The Status Board"). Show the whole board at the start of a session, when a task finishes, and when asked. When a task finishes, show its result.
 
+**The PM may be on a phone.** Answer `board`, `task <n>` and `docs` with the short views, and `connectors` and `settings` with the setup, then repeat the open question (`.claude/skills/guided-workflow.md` → "On a Phone", "Connectors and Settings"). Check each connector yourself, show the connectors in one line at the start of a session, and say what you do without the ones that are missing.
+
 Ask one question at a time, and open each with its place ("Question 2 of 7"). Give short numbered options with the recommended one marked, and wait for the answer before asking the next. Never show a wall of questions. Never ask for an answer that is already saved: confirm it in one line. The PM can answer with a number, "recommended", or their own words.
 
 ### The Start Questions
