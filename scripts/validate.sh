@@ -306,14 +306,18 @@ log_check "Claude Code plugin manifests"
 
 if python3 - <<'PY'
 import json, os, sys
-plugin = json.load(open('.claude-plugin/plugin.json'))
 market = json.load(open('.claude-plugin/marketplace.json'))
-assert plugin['name'] == 'product-os', 'plugin name must be product-os'
-assert os.path.isdir(plugin['commands']), 'plugin commands path missing'
-assert any(p['name'] == 'product-os' and p['source'] == './' for p in market['plugins']), 'marketplace must list product-os at ./'
+assert not os.path.exists('.claude-plugin/plugin.json'), 'the repo root must not be a plugin: it holds two plugin folders'
+assert [(p['name'], p['source']) for p in market['plugins']] == [('product-os', './marketplace/product-os')], 'marketplace must list only product-os at ./marketplace/product-os'
+for folder, name in (('marketplace/product-os', 'product-os'), ('plugin', 'jdlt-product-os')):
+    plugin = json.load(open(folder + '/.claude-plugin/plugin.json'))
+    assert plugin['name'] == name, folder + ' must be named ' + name
+    assert plugin['version'] == market['metadata']['version'], folder + ' must carry the marketplace version'
+    for part in ('skills/product-os/SKILL.md', 'commands', 'agents', 'README.md', 'LICENSE'):
+        assert os.path.exists(folder + '/' + part), folder + '/' + part + ' is missing'
 PY
 then
-    log_pass "plugin.json and marketplace.json are valid"
+    log_pass "marketplace.json and both plugin folders are valid"
 else
     log_fail "Plugin manifests invalid"
 fi
@@ -363,25 +367,25 @@ else
 fi
 
 # ============================================================
-# Check 18: Plugin skill matches its source files
+# Check 18: Version and agents list are written everywhere
 # ============================================================
-log_check "Plugin skill is up to date"
+log_check "Version and agents list are up to date"
 
 if python3 scripts/build-plugin-skill.py --check >/dev/null 2>&1; then
-    log_pass "skills/product-os matches the source files"
+    log_pass "The version and the agents list match in every file that shows them"
 else
-    log_fail "skills/product-os is out of date: run python3 scripts/build-plugin-skill.py"
+    log_fail "The version or the agents list is out of date: run python3 scripts/build-plugin-skill.py"
 fi
 
 # ============================================================
-# Check 19: Directory copy of the plugin matches its source files
+# Check 19: Both plugin folders match their source files
 # ============================================================
-log_check "Directory copy of the plugin is up to date"
+log_check "Plugin folders are up to date"
 
 if python3 scripts/build-directory-plugin.py --check >/dev/null 2>&1; then
-    log_pass "plugin/ matches the source files and the directory's file rules"
+    log_pass "plugin/ and marketplace/product-os/ match the source files and the directory's file rules"
 else
-    log_fail "plugin/ is out of date or breaks a directory rule: run python3 scripts/build-directory-plugin.py"
+    log_fail "A plugin folder is out of date or breaks a directory rule: run python3 scripts/build-directory-plugin.py"
 fi
 
 # ============================================================

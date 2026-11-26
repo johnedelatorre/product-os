@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Product OS board</title>
+<style>
+/* The board is the read-only face of a Product OS project. Claude runs the project in the chat and writes its state to this page's database; the page shows it live. Layout: where you are and the next step first, then numbers, then one view at a time (tasks, documents, published). Every state is a badge with a sign and a word, so it never depends on colour alone. */
+:root {
+  --paper: #EDF0F4; --sheet: #FFFFFF; --ink: #0F1B2D; --muted: #4D596D; --line: #C8D0DB;
+  --accent: #2443E0; --accent-ink: #FFFFFF; --wash: #E3E8FF; --accent-text: #1B34B8;
+  --found: #136B49; --found-wash: #DDF3E8; --missing: #8A4B00; --missing-wash: #FBEBCF; --risk: #A32222; --risk-wash: #FBE3E3; --idle-wash: #EEF1F5;
+  --display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --body: "Public Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { color-scheme: dark; --paper: #0E141D; --sheet: #17202C; --ink: #EEF2F7; --muted: #A9B4C4; --line: #334154; --accent: #8FA2FF; --accent-ink: #0B1020; --wash: #1F2A4A; --accent-text: #B4C1FF; --found: #6FD3A6; --found-wash: #143527; --missing: #F0B455; --missing-wash: #3A2A0C; --risk: #FF9B9B; --risk-wash: #3B1717; --idle-wash: #1E2936; }
+}
+:root[data-theme="dark"] { color-scheme: dark; --paper: #0E141D; --sheet: #17202C; --ink: #EEF2F7; --muted: #A9B4C4; --line: #334154; --accent: #8FA2FF; --accent-ink: #0B1020; --wash: #1F2A4A; --accent-text: #B4C1FF; --found: #6FD3A6; --found-wash: #143527; --missing: #F0B455; --missing-wash: #3A2A0C; --risk: #FF9B9B; --risk-wash: #3B1717; --idle-wash: #1E2936; }
+:root[data-theme="light"] { color-scheme: light; }
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--paper); color: var(--ink); font: 400 1.0625rem/1.5 var(--body); }
+button { font: inherit; color: inherit; }
+a { color: var(--accent-text); }
+button:focus-visible, a:focus-visible, summary:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+[hidden] { display: none !important; }
+.wrap { max-width: 1440px; margin: 0 auto; padding: 24px 32px 64px; display: flex; flex-direction: column; gap: 20px; }
+.bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 24px; }
+.brand { margin: 0; font: 700 1.375rem/1.2 var(--display); }
+.brand span { font: 400 1.0625rem/1.2 var(--body); color: var(--muted); margin-left: 12px; }
+.tools { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; }
+.theme { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; background: var(--sheet); padding: 3px; }
+.theme button { border: 0; background: none; border-radius: 999px; padding: 6px 14px; font-size: 0.9375rem; font-weight: 600; color: var(--muted); cursor: pointer; }
+.theme button[aria-pressed="true"] { background: var(--wash); color: var(--accent-text); box-shadow: inset 0 0 0 1px var(--accent); }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border: 1px solid var(--line); border-radius: 999px; background: var(--sheet); color: var(--ink); font-size: 0.9375rem; font-weight: 600; text-decoration: none; }
+.btn:hover { border-color: var(--accent); color: var(--accent-text); }
+.ext { width: 1em; height: 1em; flex: none; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; vertical-align: -0.12em; }
+a.open { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; white-space: nowrap; }
+.credit { margin: 28px 0 0; font-size: 0.9375rem; color: var(--muted); }
+.credit a { color: inherit; }
+.live { margin: 0; font-size: 0.9375rem; color: var(--muted); display: flex; align-items: center; gap: 8px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; background: var(--line); }
+.dot.on { background: var(--found); }
+.card { background: var(--sheet); border: 1px solid var(--line); border-radius: 10px; }
+
+.badge { display: inline-flex; align-items: center; gap: 7px; padding: 4px 12px 4px 10px; border-radius: 999px; border: 1px solid transparent; font: 600 0.9375rem/1.3 var(--body); white-space: nowrap; text-decoration: none; }
+.badge i { font-style: normal; font-size: 0.875em; line-height: 1; }
+.badge.ok { background: var(--found-wash); color: var(--found); border-color: var(--found); }
+.badge.now { background: var(--wash); color: var(--accent-text); border-color: var(--accent); }
+.badge.you { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.badge.miss { background: var(--missing-wash); color: var(--missing); border-color: var(--missing); }
+.badge.risk { background: var(--risk-wash); color: var(--risk); border-color: var(--risk); }
+.badge.idle { background: var(--idle-wash); color: var(--muted); border-color: var(--line); }
+.badge.skip { background: none; color: var(--muted); border: 1px dashed var(--line); }
+.chip { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 6px; border: 1px solid var(--line); background: var(--idle-wash); color: var(--ink); font: 400 0.9375rem/1.3 var(--body); white-space: nowrap; }
+a.badge:hover { text-decoration: underline; }
+.set { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+
+.where { padding: 20px 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; }
+.where h1 { margin: 0; font: 700 1.875rem/1.15 var(--display); flex: 1 1 18rem; min-width: 0; text-wrap: balance; }
+.where h1 small { display: block; margin-top: 6px; font: 400 1.125rem/1.35 var(--body); color: var(--muted); }
+.track { flex: 1 1 18rem; display: flex; align-items: center; gap: 14px; min-width: 0; }
+.track ol { list-style: none; margin: 0; padding: 0; display: flex; gap: 5px; flex: 1; }
+.track li { flex: 1; height: 10px; border-radius: 5px; background: var(--line); }
+.track li.done { background: var(--found); } .track li.now { background: var(--accent); }
+.track span { font-size: 1rem; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+.next { padding: 18px 24px; border-left: 6px solid var(--accent); display: flex; flex-direction: column; gap: 6px; }
+.next h2 { margin: 0; font: 600 1rem/1.3 var(--body); color: var(--muted); }
+.next p { margin: 0; font-size: 1.3125rem; line-height: 1.35; overflow-wrap: anywhere; }
+.next small { color: var(--muted); font-size: 0.9375rem; }
+.next small:empty { display: none; }
+
+.kpis { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.kpis li { padding: 16px 20px; display: flex; flex-direction: column; gap: 2px; border-top-width: 5px; }
+.kpis li.ok { border-top-color: var(--found); } .kpis li.now { border-top-color: var(--accent); } .kpis li.miss { border-top-color: var(--missing); }
+.kpis b { font: 700 2.25rem/1.1 var(--display); font-variant-numeric: tabular-nums; }
+.kpis span { font-size: 1.0625rem; color: var(--muted); }
+
+.insights { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); gap: 14px; }
+.insights li { padding: 16px 20px; font-size: 1.0625rem; overflow-wrap: anywhere; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+.sec-h { margin: 8px 0 -8px; font: 600 1rem/1.3 var(--body); color: var(--muted); display: flex; justify-content: space-between; gap: 10px; }
+
+.tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.tabs button { padding: 10px 20px; border: 1px solid var(--line); border-radius: 999px; background: var(--sheet); font-weight: 600; font-size: 1.0625rem; cursor: pointer; }
+.tabs button[aria-selected="true"] { border-color: var(--accent); background: var(--wash); box-shadow: inset 0 0 0 1px var(--accent); }
+.tabs button span { font-weight: 400; color: var(--muted); margin-left: 8px; font-variant-numeric: tabular-nums; }
+
+.tasks details { border-top: 1px solid var(--line); }
+.tasks details:first-child { border-top: 0; }
+.tasks summary { list-style: none; display: grid; grid-template-columns: 2rem minmax(0, 1fr) auto auto; align-items: center; gap: 14px; padding: 14px 20px; cursor: pointer; }
+.tasks summary::-webkit-details-marker { display: none; }
+.tasks .n { font: 700 1.125rem/1 var(--display); color: var(--muted); }
+.tasks .t { font: 700 1.1875rem/1.3 var(--display); }
+.tasks .m { font-size: 1rem; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.rows { list-style: none; margin: 0; padding: 0 20px 14px 4.1rem; }
+.rows li { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.3fr) minmax(0, 1.4fr) 5.5rem; gap: 8px 20px; align-items: center; padding: 10px 0; border-top: 1px dashed var(--line); font-size: 1.0625rem; }
+.rows li:first-child { border-top: 0; }
+.rows .k { font-weight: 600; overflow-wrap: anywhere; } .rows .v { color: var(--muted); overflow-wrap: anywhere; }
+.rows a { justify-self: end; }
+
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 1.0625rem; }
+th, td { text-align: left; vertical-align: top; padding: 13px 18px; border-top: 1px solid var(--line); }
+thead th { border-top: 0; font: 600 0.9375rem/1.3 var(--body); color: var(--muted); white-space: nowrap; }
+td b { font-weight: 600; } td small { display: block; color: var(--muted); font-size: 0.9375rem; }
+td a { font-weight: 600; }
+.filters { display: flex; flex-wrap: wrap; gap: 8px; padding: 16px 18px 6px; }
+.filters button { padding: 7px 15px; border: 1px solid var(--line); border-radius: 999px; background: var(--sheet); font-size: 0.9375rem; font-weight: 600; cursor: pointer; }
+.filters button[aria-pressed="true"] { border-color: var(--accent); background: var(--wash); color: var(--accent-text); }
+.guide { padding: 20px 24px 6px; }
+.guide h2 { margin: 0 0 4px; font: 700 1.1875rem/1.3 var(--display); }
+.guide p { margin: 0; color: var(--muted); max-width: 46rem; }
+.group { margin: 0; padding: 18px 24px 8px; font: 600 1rem/1.3 var(--body); color: var(--muted); display: flex; align-items: center; gap: 10px; border-top: 1px solid var(--line); }
+.guide + div > .group:first-child { border-top: 0; }
+.agents { list-style: none; margin: 0; padding: 0 24px 12px; }
+.agents li { display: grid; grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.6fr) minmax(0, 1fr); gap: 6px 20px; align-items: baseline; padding: 11px 0; border-top: 1px dashed var(--line); }
+.agents li:first-child { border-top: 0; }
+.agents b { font-weight: 600; } .agents span { color: var(--muted); }
+.agents q { quotes: "“" "”"; font-weight: 600; color: var(--accent-text); }
+.agents q::before { content: "Say " open-quote; font-weight: 400; color: var(--muted); }
+.empty { padding: 28px 24px; color: var(--muted); }
+.empty h2 { margin: 0 0 6px; font: 700 1.375rem/1.3 var(--display); color: var(--ink); }
+.empty ol { margin: 8px 0 0; padding-left: 1.3rem; } .empty code { background: var(--paper); padding: 1px 6px; border-radius: 4px; color: var(--ink); }
+.plain { list-style: none; margin: 0; padding: 4px 20px 12px; }
+.plain li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 3px 14px; padding: 12px 0; border-top: 1px dashed var(--line); font-size: 1.0625rem; }
+.plain li:first-child { border-top: 0; }
+.plain b { font-weight: 600; overflow-wrap: anywhere; } .plain small { grid-column: 1; color: var(--muted); font-size: 0.9375rem; overflow-wrap: anywhere; }
+.plain .badge { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
+.pane > h2 { margin: 0; padding: 16px 20px; border-bottom: 1px solid var(--line); font: 700 1.1875rem/1.3 var(--display); display: flex; justify-content: space-between; gap: 10px; }
+.pane > h2 span { font: 400 0.9375rem/1.6 var(--body); color: var(--muted); }
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr)); gap: 20px; align-items: start; }
+@media (max-width: 980px) {
+  .rows li { grid-template-columns: minmax(0, 1fr) auto; }
+  .rows .set { grid-column: 1; grid-row: 2; }
+  .rows .v { grid-column: 1 / -1; grid-row: 3; }
+  .rows li > :last-child { grid-column: 2; grid-row: 1; }
+}
+@media (max-width: 720px) {
+  body { font-size: 1rem; }
+  .wrap { padding: 16px 16px 48px; gap: 16px; }
+  .where { padding: 16px; } .where h1 { font-size: 1.5rem; } .next { padding: 16px; } .next p { font-size: 1.125rem; }
+  .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; } .kpis li { padding: 12px 14px; } .kpis b { font-size: 1.75rem; }
+  .brand span { display: none; }
+  .tasks summary { grid-template-columns: 1.6rem minmax(0, 1fr) auto; row-gap: 2px; padding: 12px 14px; }
+  .tasks .m { grid-column: 2; grid-row: 2; white-space: normal; }
+  .tasks summary .badge { grid-column: 3; grid-row: 1 / span 2; }
+  .rows { padding: 0 14px 12px; }
+  thead { display: none; }
+  table, tbody, tr, td { display: block; }
+  tr { border-top: 1px solid var(--line); padding: 10px 0; } tr:first-child { border-top: 0; }
+  td { border: 0; padding: 3px 14px; } td[data-l]::before { content: attr(data-l) ": "; color: var(--muted); }
+  .plain { padding: 4px 14px 10px; } .pane > h2 { padding: 14px; }
+  .guide { padding: 16px 14px 4px; } .group { padding: 14px 14px 6px; } .agents { padding: 0 14px 10px; }
+  .agents li { grid-template-columns: minmax(0, 1fr); }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="bar">
+    <p class="brand">Product OS<span>Board</span></p>
+    <div class="tools">
+      <p class="live"><span class="dot" id="dot"></span><span id="liveTxt">Connecting…</span></p>
+      <a class="btn" id="openTab" target="_blank" rel="noopener" hidden><svg class="ext" viewBox="0 0 16 16" aria-hidden="true"><path d="M9 2.5h4.5V7M13.5 2.5 7.5 8.5M6 3.5H3.5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V10"/></svg>Open in new tab</a>
+      <div class="theme" role="group" aria-label="Colours">
+        <button type="button" data-theme-set="auto" aria-pressed="true">Auto</button>
+        <button type="button" data-theme-set="light" aria-pressed="false">Light</button>
+        <button type="button" data-theme-set="dark" aria-pressed="false">Dark</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="card empty" id="empty" hidden>
+    <h2 id="emptyH">No project on this board yet</h2>
+    <p id="emptyP">Claude runs the project in your chat and keeps this board up to date.</p>
+    <ol id="emptySteps">
+      <li>Go back to your Claude chat.</li>
+      <li>Say <code>Start Product OS</code>.</li>
+      <li>Answer the questions. This board fills in as Claude works.</li>
+    </ol>
+  </section>
+
+  <div id="main" hidden>
+    <div class="wrap" style="padding:0">
+      <section class="card where" aria-label="Where the project is">
+        <h1><span id="name"></span><small id="where"></small></h1>
+        <div class="track"><ol id="track" aria-hidden="true"></ol><span id="trackTxt"></span></div>
+      </section>
+
+      <section class="card next" id="nextBox" aria-label="The next step" hidden>
+        <h2>Claude is waiting for you, in your chat</h2>
+        <p id="nextTxt"></p>
+        <small id="note"></small>
+      </section>
+
+      <ul class="kpis" id="kpis" aria-label="The project in numbers"></ul>
+
+      <h2 class="sec-h" id="insH" hidden>How the project is doing<span>written by Claude</span></h2>
+      <ul class="insights" id="insights" hidden></ul>
+
+      <div class="tabs" role="tablist" aria-label="Views">
+        <button type="button" role="tab" id="tab-tasks" aria-selected="true" aria-controls="pane-tasks">Tasks</button>
+        <button type="button" role="tab" id="tab-docs" aria-selected="false" aria-controls="pane-docs">Documents</button>
+        <button type="button" role="tab" id="tab-pub" aria-selected="false" aria-controls="pane-pub">Published and connected</button>
+        <button type="button" role="tab" id="tab-agents" aria-selected="false" aria-controls="pane-agents">Agents</button>
+      </div>
+
+      <section class="card tasks" id="pane-tasks" role="tabpanel" aria-labelledby="tab-tasks"></section>
+
+      <section class="card" id="pane-docs" role="tabpanel" aria-labelledby="tab-docs" hidden>
+        <div class="filters" id="filters" role="group" aria-label="Show"></div>
+        <div class="scroll"><table>
+          <thead><tr><th>Document</th><th>Made as</th><th>Phase</th><th>Status</th><th>Open</th><th>Published</th></tr></thead>
+          <tbody id="docRows"></tbody>
+        </table></div>
+        <p class="empty" id="docsEmpty" hidden>No documents match this filter.</p>
+      </section>
+
+      <div class="two" id="pane-pub" role="tabpanel" aria-labelledby="tab-pub" hidden>
+        <section class="card pane"><h2>Jira<span id="jiraMeta"></span></h2><ul class="plain" id="tickets"></ul></section>
+        <section class="card pane"><h2>Confluence<span id="confMeta"></span></h2><ul class="plain" id="pages"></ul></section>
+        <section class="card pane"><h2>Connections<span id="connMeta"></span></h2><ul class="plain" id="conns"></ul></section>
+      </div>
+
+      <section class="card" id="pane-agents" role="tabpanel" aria-labelledby="tab-agents" hidden>
+        <div class="guide">
+          <h2>You do not have to call an agent</h2>
+          <p>Claude brings in the right one at each step and tells you who is working. To call one yourself, say its line in your Claude chat, in your own words if you prefer.</p>
+        </div>
+        <div id="agentList"></div>
+      </section>
+    </div>
+  </div>
+  <p class="credit">Product OS™ 1.9.1 · © 2026 John De La Torre-Ugarte · <a href="https://github.com/johnedelatorre/product-os" target="_blank" rel="noopener">open source on GitHub</a></p>
+</div>
+
+<script type="application/json" id="agents">[{"name":"Intake Analyst","does":"Transform raw, unstructured requirements into clear problem/opportunity statements.","phase":1,"say":"Run intake on this request"},{"name":"Opportunity Solution Tree","does":"Creates and maintains opportunity solution trees for structured discovery and problem exploration.","phase":2,"say":"Build the opportunity tree"},{"name":"Hypothesis Logger","does":"Tracks product hypotheses from formation through validation with structured outcomes.","phase":2,"say":"Log our hypotheses"},{"name":"Market Analyst","does":"Creates market analysis briefs covering market size, trends, segments, and strategic positioning.","phase":2,"say":"Write the market analysis"},{"name":"Competitive Analyst","does":"Analyze competitive landscape and create comparison matrices.","phase":2,"say":"Compare us with the competitors"},{"name":"UX Researcher","does":"Create user research plans and synthesize interview findings.","phase":2,"say":"Plan the user research"},{"name":"Strategist","does":"Score and prioritize features using RICE, WSJF, MoSCoW, and Kano frameworks.","phase":3,"say":"Score this with RICE"},{"name":"Roadmap","does":"Create Now/Next/Later roadmaps that communicate product direction.","phase":3,"say":"Place it on the roadmap"},{"name":"OKR","does":"Define OKRs and metric trees that connect product work to business outcomes.","phase":3,"say":"Write the OKRs"},{"name":"PRD Author","does":"Write comprehensive Product Requirements Documents with full strategic context, business rationale, and measurable outcomes.","phase":4,"say":"Write the PRD"},{"name":"PR/FAQ Author","does":"Write Amazon-style Press Release and FAQ documents.","phase":4,"say":"Write the PR/FAQ"},{"name":"Project Brief Author","does":"Create one-page executive project briefs for stakeholder alignment.","phase":4,"say":"Write the project brief"},{"name":"Metrics Designer","does":"Defines north-star metrics, guardrails, and success criteria for product initiatives.","phase":4,"say":"Write the metrics framework"},{"name":"Project Planner","does":"Create RACI matrices, Gantt charts, and project timelines.","phase":4,"say":"Write the project plan"},{"name":"Risk Manager","does":"Identify, assess, and track product and project risks.","phase":4,"say":"List the risks"},{"name":"Dependency Tracker","does":"Maintains a risk and dependency register integrated with RACI and project planning.","phase":4,"say":"List the dependencies"},{"name":"Experiment Designer","does":"Design A/B tests with proper hypothesis, sample size, and success criteria.","phase":4,"say":"Design an A/B test"},{"name":"Event Tracker","does":"Creates event tracking plans for analytics platforms (Pendo, Amplitude, Mixpanel, Segment, etc.).","phase":4,"say":"Write the tracking plan"},{"name":"Product Designer","does":"Create design briefs that translate PRD requirements into design direction.","phase":5,"say":"Write the design brief"},{"name":"Flow Designer","does":"Create comprehensive user flows, journey maps, sitemaps, and system flows from PRD and design brief.","phase":5,"say":"Draw the user flows"},{"name":"Wireframer","does":"Create low-fidelity wireframes that structure screens defined by user flows.","phase":5,"say":"Make the wireframes"},{"name":"Prototyper","does":"Create clickable, self-contained HTML/React prototypes from wireframes and flows, including the end-to-end handoff prototype for the team.","phase":5,"say":"Build the clickable prototype"},{"name":"Figma","does":"Integrate with Figma via MCP to sync designs, extract tokens, and audit against PRD.","phase":5,"say":"Sync the designs with Figma"},{"name":"Design Critique","does":"Structured critique of visual designs with severity-rated findings and concrete fixes.","phase":6,"say":"Run the design critique"},{"name":"UX Writer","does":"Run the UX writing pass on the real designs, paired with the design critique, and write the UX writing guide with the final copy for every screen.","phase":6,"say":"Run the UX writing pass"},{"name":"UX Reviewer","does":"Evaluate designs against Nielsen's heuristics, Laws of UX, and established patterns.","phase":6,"say":"Run the UX review"},{"name":"Accessibility Auditor","does":"Comprehensive WCAG 2.2 AA accessibility audit with automated and manual testing.","phase":6,"say":"Run the accessibility audit"},{"name":"Delivery","does":"Turn the PRD and designs into a short engineering handoff: one epic that links to everything, lean tickets with estimates, and a ticket tree the PM approves.","phase":7,"say":"Write the epic and tickets"},{"name":"Gate Keeper","does":"Enforces Definition of Ready (DoR) and Definition of Done (DoD) gates for stories before sprint.","phase":7,"say":"Check the tickets are ready"},{"name":"Confluence Publisher","does":"Publish all project artifacts to Confluence with proper hierarchy and backlog tables.","phase":7,"say":"Show me the Confluence publish plan"},{"name":"Jira Sync","does":"Create and sync epics and stories to Jira with story points, labels, dates, and dependencies.","phase":7,"say":"Show me the Jira ticket tree"},{"name":"Launch Manager","does":"Coordinates go-to-market activities including release notes, enablement materials, and changelog updates.","phase":8,"say":"Prepare the launch"},{"name":"Stakeholder Comms","does":"Generate stakeholder updates, executive summaries, release notes, and launch communications.","phase":8,"say":"Write the stakeholder update"},{"name":"Post-Launch Reviewer","does":"Conducts post-launch reviews comparing actual results against PRD goals and feeding insights back to intake.","phase":9,"say":"Run the post-launch review"},{"name":"Retro Facilitator","does":"Facilitate retrospectives and document learnings.","phase":9,"say":"Run a retro"},{"name":"Guide","does":"Walk PMs through the complete product lifecycle, phase by phase, tracking progress and adapting to their needs.","phase":0,"say":"Start Product OS"},{"name":"Orchestrator","does":"Coordinate the Product OS pipeline by routing work between specialist agents with defined inputs, outputs, and human checkpoints.","phase":0,"say":"Run the whole pipeline"},{"name":"Decision Logger","does":"Document product decisions in ADR (Architecture Decision Record) style.","phase":0,"say":"Log this decision"},{"name":"Artifact Registry","does":"Maintains a centralized manifest of all design and product artifacts with status tracking and link validation.","phase":0,"say":"List every document and design"},{"name":"Debt Tracker","does":"Maintains a unified tracker for technical debt and design debt with prioritization.","phase":0,"say":"Track this debt"},{"name":"Doc Cleaner","does":"Clean version history out of project docs, Confluence pages, epics and Jira tickets so they show the current state only.","phase":0,"say":"Clean the history out of the documents"}]</script>
+<script type="application/json" id="capabilities">{"db":{},"user":{}}</script>
+<script>
+(function () {
+  var PHASES = ["Intake", "Discovery", "Prioritize", "Define", "Design", "Review", "Deliver", "Launch", "Measure"];
+  var KINDS = { doc: "Claude doc", design: "Claude Design", whiteboard: "Whiteboard", figma: "Figma", figjam: "FigJam", prototype: "Prototype", file: "File", page: "Page" };
+  var STATUS = { planned: ["Not started", "", "idle"], asking: ["Questions for you", "now", "you"], writing: ["Being written", "now", "now"], review: ["Ready for your review", "now", "you"], done: ["Done", "done", "ok"], skipped: ["Skipped", "", "skip"] };
+  var SIGN = { ok: "✓", now: "●", you: "●", miss: "!", risk: "▲", idle: "○", skip: "–" };
+  var state = null, links = null, docs = [], tickets = [], filter = "all", view = "tasks", opened = {}, gotState = false, gotDocs = false, timer = 0;
+  function $(id) { return document.getElementById(id); }
+  function el(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; }
+  function str(v, n) { return typeof v === "string" ? v.slice(0, n || 400) : ""; }
+  function num(v) { return typeof v === "number" && isFinite(v) ? v : 0; }
+  function link(url, text) { if (typeof url !== "string" || !/^https:\/\//.test(url)) return null; var a = el("a", null, text); a.href = url; a.target = "_blank"; a.rel = "noopener"; return a; }
+  function ext() {
+    var NS = "http://www.w3.org/2000/svg", svg = document.createElementNS(NS, "svg"), p = document.createElementNS(NS, "path");
+    svg.setAttribute("class", "ext"); svg.setAttribute("viewBox", "0 0 16 16"); svg.setAttribute("aria-hidden", "true");
+    p.setAttribute("d", "M9 2.5h4.5V7M13.5 2.5 7.5 8.5M6 3.5H3.5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V10"); svg.appendChild(p); return svg;
+  }
+  function openLink(url, title) { var a = link(url, "Open"); if (!a) return null; a.className = "open"; a.appendChild(ext()); a.setAttribute("aria-label", "Open " + title + " in a new tab"); a.title = "Opens in a new tab"; return a; }
+  function ago(iso) {
+    var t = Date.parse(iso); if (!t) return "";
+    var m = Math.max(0, Math.round((Date.now() - t) / 60000));
+    return m < 1 ? "just now" : m < 60 ? m + (m === 1 ? " minute ago" : " minutes ago") : m < 1440 ? Math.round(m / 60) + (Math.round(m / 60) === 1 ? " hour ago" : " hours ago") : Math.round(m / 1440) + (Math.round(m / 1440) === 1 ? " day ago" : " days ago");
+  }
+  function st(d) { return STATUS[d.status] ? d.status : "planned"; }
+  function phaseState(n) {
+    var forced = state && state.phases && typeof state.phases === "object" ? str(state.phases[String(n)], 20) : "";
+    if (forced === "skipped" || forced === "done") return forced;
+    var ds = docs.filter(function (d) { return d.phase === n; }), touched = ds.filter(function (d) { return st(d) !== "planned"; });
+    if (!ds.length || !touched.length) return "";
+    if (ds.every(function (d) { return st(d) === "done" || st(d) === "skipped"; })) return ds.some(function (d) { return st(d) === "done"; }) ? "done" : "skipped";
+    return "now";
+  }
+  function badge(kind, text, url) {
+    var a = url ? link(url, "") : null, b = a || el("span"); b.className = "badge " + kind;
+    var i = el("i", null, SIGN[kind] || ""); i.setAttribute("aria-hidden", "true"); b.appendChild(i); b.appendChild(document.createTextNode(text)); return b;
+  }
+  function phaseBadge(p) { return p === "done" ? badge("ok", "Done") : p === "now" ? badge("now", "In progress") : p === "skipped" ? badge("skip", "Skipped") : badge("idle", "Not started"); }
+  function tbdBadge(n) { return badge("miss", n + (n === 1 ? " TBD" : " TBDs")); }
+
+  function draw() {
+    var has = !!(state && str(state.name, 120)) || docs.length > 0;
+    $("empty").hidden = has || !(gotState && gotDocs); $("main").hidden = !has;
+    if (!has) return;
+    $("name").textContent = str(state && state.name, 120) || "Product OS project";
+    $("where").textContent = str(state && state.where, 200);
+    var done = docs.filter(function (d) { return st(d) === "done"; }).length, open = docs.filter(function (d) { return STATUS[st(d)][1] === "now"; }).length;
+    var tbd = docs.reduce(function (n, d) { return n + num(d.tbd); }, 0), ph = PHASES.map(function (_, i) { return phaseState(i + 1); }), phDone = ph.filter(function (p) { return p === "done"; }).length;
+    var tr = $("track"); tr.textContent = ""; ph.forEach(function (p) { tr.appendChild(el("li", p === "done" ? "done" : p === "now" ? "now" : "")); });
+    $("trackTxt").textContent = phDone + " of 9 phases";
+
+    var own = str(state && state.board, 300) || str(links && links.board, 300), ot = $("openTab");
+    if (/^https:\/\/claude\.ai\//.test(own)) { ot.href = own; ot.hidden = false; } else ot.hidden = true;
+    var nx = str(state && state.next, 400);
+    $("nextBox").hidden = !nx; $("nextTxt").textContent = nx;
+    $("note").textContent = "You answer in the Claude chat. This board only shows the project, and it updates by itself.";
+
+    var kb = $("kpis"); kb.textContent = "";
+    [[done + " of " + docs.length, "documents done", "ok"], [open, "in progress", "now"], [tbd, "named TBDs, still missing", tbd ? "miss" : ""], [phDone + " of 9", "phases done", "ok"]].forEach(function (k) { var li = el("li", "card " + k[2]); li.appendChild(el("b", null, String(k[0]))); li.appendChild(el("span", null, k[1])); kb.appendChild(li); });
+
+    var ins = (state && Array.isArray(state.insights) ? state.insights : []).filter(function (x) { return x && str(x.text, 400); }).slice(0, 6), ib = $("insights");
+    ib.textContent = ""; $("insH").hidden = ib.hidden = !ins.length;
+    ins.forEach(function (x) { var k = x.kind === "risk" ? "risk" : x.kind === "gap" ? "gap" : "ok", li = el("li", "card"); li.appendChild(k === "risk" ? badge("risk", "Risk") : k === "gap" ? badge("miss", "Gap") : badge("ok", "Going well")); li.appendChild(el("span", null, str(x.text, 400))); ib.appendChild(li); });
+
+    drawTasks(ph); drawDocs(); drawPublished();
+    $("tab-docs").textContent = "Documents"; $("tab-docs").appendChild(el("span", null, String(docs.length)));
+  }
+  function drawTasks(ph) {
+    var box = $("pane-tasks"); box.textContent = "";
+    var sp = state && state.start && typeof state.start === "object" ? state.start : null;
+    if (sp) {
+      var total = num(sp.total) || 7, got = Math.min(num(sp.done), total), ans = (Array.isArray(sp.answers) ? sp.answers : []).filter(function (x) { return x && str(x.q, 120); }).slice(0, 12);
+      var d0 = el("details"), s0 = el("summary"), fin = got >= total;
+      d0.open = opened.start != null ? opened.start : !fin; s0.addEventListener("click", function () { opened.start = !d0.open; });
+      s0.appendChild(el("span", "n", "S")); s0.appendChild(el("span", "t", "Start"));
+      s0.appendChild(el("span", "m", got + " of " + total + " questions answered"));
+      s0.appendChild(fin ? badge("ok", "Done") : badge("now", "In progress"));
+      d0.appendChild(s0);
+      var u0 = el("ul", "rows");
+      ans.forEach(function (x) { var li = el("li"), g = el("span", "set"); g.appendChild(badge("ok", "Answered")); li.appendChild(el("span", "k", str(x.q, 120))); li.appendChild(g); li.appendChild(el("span", "v", str(x.a, 300))); li.appendChild(el("span")); u0.appendChild(li); });
+      if (!fin) { var lw = el("li"), gw = el("span", "set"); gw.appendChild(badge("you", "Waiting for you")); lw.appendChild(el("span", "k", "Question " + (got + 1) + " of " + total)); lw.appendChild(gw); lw.appendChild(el("span", "v", "Answer it in the Claude chat")); lw.appendChild(el("span")); u0.appendChild(lw); }
+      d0.appendChild(u0); box.appendChild(d0);
+    }
+    PHASES.forEach(function (name, i) {
+      var mine = docs.filter(function (d) { return d.phase === i + 1; }), p = ph[i], d = el("details"), sm = el("summary");
+      d.open = opened[i] != null ? opened[i] : p === "now"; sm.addEventListener("click", function () { opened[i] = !d.open; });
+      sm.appendChild(el("span", "n", String(i + 1))); sm.appendChild(el("span", "t", name));
+      sm.appendChild(el("span", "m", mine.length ? mine.filter(function (x) { return st(x) === "done"; }).length + " of " + mine.length + (mine.length === 1 ? " document" : " documents") : "no documents yet"));
+      sm.appendChild(phaseBadge(p));
+      d.appendChild(sm);
+      var ul = el("ul", "rows");
+      mine.forEach(function (x) {
+        var s = st(x), li = el("li"), g = el("span", "set");
+        li.appendChild(el("span", "k", str(x.title, 120)));
+        g.appendChild(badge(STATUS[s][2], STATUS[s][0])); if (num(x.tbd)) g.appendChild(tbdBadge(num(x.tbd))); if (str(x.agent, 60)) g.appendChild(el("span", "chip", str(x.agent, 60)));
+        li.appendChild(g); li.appendChild(el("span", "v", str(x.note, 200)));
+        var a = openLink(x.url, str(x.title, 120)); if (a) li.appendChild(a); else li.appendChild(el("span"));
+        ul.appendChild(li);
+      });
+      if (!mine.length) { var li = el("li"); li.appendChild(el("span", "v", "Claude lists the documents here when it shows you the plan.")); ul.appendChild(li); }
+      d.appendChild(ul); box.appendChild(d);
+    });
+  }
+  function drawDocs() {
+    var fb = $("filters"); fb.textContent = "";
+    [["all", "All"], ["now", "In progress"], ["done", "Done"], ["planned", "Not started"]].forEach(function (f) {
+      var b = el("button", null, f[1]); b.type = "button"; b.setAttribute("aria-pressed", String(filter === f[0])); b.addEventListener("click", function () { filter = f[0]; drawDocs(); }); fb.appendChild(b);
+    });
+    var rows = docs.filter(function (d) { var s = st(d); return filter === "all" || (filter === "now" ? STATUS[s][1] === "now" : filter === "done" ? s === "done" : s === "planned" || s === "skipped"); }), tb = $("docRows");
+    tb.textContent = ""; $("docsEmpty").hidden = rows.length > 0;
+    rows.forEach(function (x) {
+      var s = st(x), tr = el("tr");
+      var c1 = el("td"); c1.appendChild(el("b", null, str(x.title, 120))); if (str(x.note, 200)) c1.appendChild(el("small", null, str(x.note, 200))); tr.appendChild(c1);
+      var c2 = el("td", null, KINDS[x.kind] || "Document"); c2.setAttribute("data-l", "Made as"); tr.appendChild(c2);
+      var c3 = el("td", null, x.phase >= 1 && x.phase <= 9 ? x.phase + " · " + PHASES[x.phase - 1] : "Extra"); c3.setAttribute("data-l", "Phase"); tr.appendChild(c3);
+      var c4 = el("td"), g4 = el("span", "set"); c4.setAttribute("data-l", "Status"); g4.appendChild(badge(STATUS[s][2], STATUS[s][0])); if (num(x.tbd)) g4.appendChild(tbdBadge(num(x.tbd))); c4.appendChild(g4); tr.appendChild(c4);
+      var c5 = el("td"); c5.setAttribute("data-l", "Open"); var a = openLink(x.url, str(x.title, 120)); if (a) c5.appendChild(a); else c5.appendChild(badge(s === "done" ? "miss" : "idle", s === "done" ? "Link missing" : "Not made yet")); tr.appendChild(c5);
+      var c6 = el("td"), g6 = el("span", "set"); c6.setAttribute("data-l", "Published"); var pubs = (Array.isArray(x.published) ? x.published : []).filter(function (p) { return p && typeof p.url === "string" && /^https:\/\//.test(p.url); });
+      if (pubs.length) pubs.forEach(function (p) { g6.appendChild(badge("ok", str(p.where, 40) || "Published", p.url)); }); else g6.appendChild(badge("idle", "Not published")); c6.appendChild(g6); tr.appendChild(c6);
+      tb.appendChild(tr);
+    });
+  }
+  function drawPublished() {
+    var tb = $("tickets"); tb.textContent = "";
+    tickets.forEach(function (t) { var li = el("li"), b = el("b"), a = link(t.url, str(t.key, 40)); if (a) b.appendChild(a); else b.textContent = str(t.key, 40); b.appendChild(document.createTextNode(" " + str(t.summary, 200))); li.appendChild(b); li.appendChild(el("small", null, [str(t.type, 30), str(t.parent, 40) ? "under " + str(t.parent, 40) : "", num(t.points) ? num(t.points) + (num(t.points) === 1 ? " point" : " points") : ""].filter(Boolean).join(" · "))); tb.appendChild(li); });
+    if (!tickets.length) { var e = el("li"); e.appendChild(el("small", null, "Nothing in Jira yet. Claude creates the epic and tickets after you approve the ticket tree.")); tb.appendChild(e); }
+    var epics = tickets.filter(function (t) { return /^epic$/i.test(str(t.type, 30)); }).length;
+    $("jiraMeta").textContent = tickets.length ? epics + (epics === 1 ? " epic · " : " epics · ") + (tickets.length - epics) + (tickets.length - epics === 1 ? " ticket" : " tickets") : "";
+    var pb = $("pages"), n = 0; pb.textContent = "";
+    docs.forEach(function (x) { (Array.isArray(x.published) ? x.published : []).forEach(function (p) { if (!p || !/confluence/i.test(str(p.where, 40))) return; var a = link(p.url, str(x.title, 120)); if (!a) return; var li = el("li"), b = el("b"); b.appendChild(a); li.appendChild(b); pb.appendChild(li); n++; }); });
+    if (!n) { var e2 = el("li"); e2.appendChild(el("small", null, "Nothing in Confluence yet. Claude publishes after you approve the plan.")); pb.appendChild(e2); }
+    $("confMeta").textContent = n ? n + (n === 1 ? " page" : " pages") : "";
+    var cb = $("conns"), cs = (state && Array.isArray(state.connectors) ? state.connectors : []).filter(function (c) { return c && str(c.name, 60); }); cb.textContent = "";
+    cs.forEach(function (c) { var li = el("li"), t = str(c.status, 30) || "Not checked", k = /^connected$/i.test(t) ? "ok" : /^not connected$/i.test(t) ? "miss" : "idle"; li.appendChild(el("b", null, str(c.name, 60))); li.appendChild(el("small", null, str(c.detail, 200))); li.appendChild(badge(k, t)); cb.appendChild(li); });
+    if (!cs.length) { var e3 = el("li"); e3.appendChild(el("small", null, "Claude checks your connectors at the start and lists them here.")); cb.appendChild(e3); }
+    $("connMeta").textContent = cs.length ? "checked by Claude" : "";
+  }
+  function show(v) {
+    view = v;
+    [["tasks", "pane-tasks"], ["docs", "pane-docs"], ["pub", "pane-pub"], ["agents", "pane-agents"]].forEach(function (p) { $("tab-" + p[0]).setAttribute("aria-selected", String(p[0] === v)); $(p[1]).hidden = p[0] !== v; });
+  }
+  function live(on, text) { $("dot").className = "dot" + (on ? " on" : ""); $("liveTxt").textContent = text; }
+  function stamp() { if (state && str(state.updated, 40)) live(true, "Live · updated by Claude " + ago(state.updated)); else if (gotState) live(true, "Live"); }
+
+  ["tasks", "docs", "pub", "agents"].forEach(function (v) { $("tab-" + v).addEventListener("click", function () { show(v); }); });
+
+  // The agents list is written into this page when Product OS is built, so it always matches the plugin.
+  (function () {
+    var list = []; try { list = JSON.parse($("agents").textContent) || []; } catch (e) { list = []; }
+    var box = $("agentList"); $("tab-agents").appendChild(el("span", null, String(list.length))); $("tab-agents").hidden = !list.length;
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 0].forEach(function (p) {
+      var mine = list.filter(function (a) { return a && a.phase === p; }); if (!mine.length) return;
+      var h = el("h3", "group", p ? "Phase " + p + " · " + PHASES[p - 1] : "Any time"), ul = el("ul", "agents");
+      mine.forEach(function (a) { var li = el("li"); li.appendChild(el("b", null, str(a.name, 80))); li.appendChild(el("span", null, str(a.does, 300))); li.appendChild(el("q", null, str(a.say, 120))); ul.appendChild(li); });
+      box.appendChild(h); box.appendChild(ul);
+    });
+  })();
+
+  // Colours: follow the device, or the reader's own choice. The choice is kept in this browser only.
+  var KEY = "product-os-board-theme", themeButtons = document.querySelectorAll("[data-theme-set]");
+  function theme(t, keep) {
+    if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t); else { t = "auto"; document.documentElement.removeAttribute("data-theme"); }
+    Array.prototype.forEach.call(themeButtons, function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-theme-set") === t)); });
+    if (keep) { try { window.localStorage.setItem(KEY, t); } catch (e) { /* the choice lasts for this visit only */ } }
+  }
+  Array.prototype.forEach.call(themeButtons, function (b) { b.addEventListener("click", function () { theme(b.getAttribute("data-theme-set"), true); }); });
+  try { theme(window.localStorage.getItem(KEY) || "auto", false); } catch (e) { theme("auto", false); }
+  setInterval(stamp, 60000);
+
+  function offline(title, text) {
+    gotState = gotDocs = true; state = null; docs = [];
+    $("emptyH").textContent = title; $("emptyP").textContent = text; $("emptySteps").hidden = true; live(false, "Not connected"); draw();
+  }
+  function start(db) {
+    var dead = function (e) { clearTimeout(timer); if (e && (e.code === "revoked" || e.code === "not_granted" || e.code === "capability_disabled")) offline("This board cannot read its data here", "Open it in Claude, signed in as the person it belongs to."); else live(false, "The data cannot be reached right now"); };
+    timer = setTimeout(function () { if (!gotState || !gotDocs) live(false, "Still connecting. The data cannot be reached yet."); }, 10000);
+    function seen(snap) { if (!snap.metadata || !snap.metadata.fromCache) { clearTimeout(timer); } }
+    db.doc("project/state").onSnapshot(function (snap) { gotState = true; state = snap.exists ? snap.data() : null; seen(snap); stamp(); draw(); }, dead);
+    db.doc("project/links").onSnapshot(function (snap) { links = snap.exists ? snap.data() : null; draw(); }, function () { /* the button stays hidden */ });
+    db.collection("documents").limit(200).onSnapshot(function (snap) {
+      gotDocs = true; seen(snap);
+      docs = snap.docs.map(function (d) { var x = d.data() || {}; return { id: d.id, title: x.title, phase: num(x.phase), kind: x.kind, status: x.status, agent: x.agent, url: x.url, published: x.published, tbd: x.tbd, note: x.note, order: num(x.order) }; })
+        .filter(function (x) { return str(x.title, 120); }).sort(function (a, b) { return ((a.phase || 10) - (b.phase || 10)) || (a.order - b.order) || (a.id < b.id ? -1 : 1); });
+      draw();
+    }, dead);
+    db.collection("tickets").limit(300).onSnapshot(function (snap) {
+      tickets = snap.docs.map(function (d) { var x = d.data() || {}; return { key: x.key || d.id, type: x.type, summary: x.summary, url: x.url, parent: x.parent, points: x.points, order: num(x.order) }; }).sort(function (a, b) { return a.order - b.order; });
+      draw();
+    }, function () { /* the tickets list stays as it was */ });
+  }
+  if (window.claude && typeof window.claude.use === "function") {
+    window.claude.use("db").then(function (db) { if (db) start(db); else offline("This board cannot read its data here", "Open it in Claude, signed in as the person it belongs to."); }, function () { offline("This board cannot read its data here", "Open it in Claude, signed in as the person it belongs to."); });
+  } else offline("Open this board in Claude", "This is the Product OS board. It shows a project that Claude runs in your chat, so it needs to be opened as a Claude artifact.");
+})();
+</script>
+</body>
+</html>

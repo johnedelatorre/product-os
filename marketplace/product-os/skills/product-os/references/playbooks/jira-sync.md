@@ -1,0 +1,178 @@
+# Skill: Jira Sync
+
+Create and sync epics/stories to Jira with dates and dependencies.
+
+## When to Use
+
+- After Confluence publishing (to link docs)
+- Before sprint planning
+- Keeping Jira in sync with Product OS artifacts
+
+## Quick Start
+
+```
+/product-os:jira-sync --project initiatives/onboarding/signup/
+```
+
+## Ground Rules
+
+1. **Approval first** — Show the proposed creates, updates, and links; write nothing until the human explicitly approves.
+2. **Atlassian MCP preferred** — Use the connected MCP tools (no credentials needed).
+3. **Search before create** — Match existing issues (manifest keys, then labels/summary) and update in place.
+4. **Read field IDs from the instance** — Don't assume default custom field IDs.
+5. **Team-managed (next-gen) projects** link stories to epics via the `parent` field (no Epic Link field), and story points are often "Story point estimate". Company-managed projects may use an Epic Link custom field and "Story Points".
+6. **Record IDs** in `jira-sync-manifest.json`.
+7. **Standard format** — Epics follow `docs/reference/document-format.md` §3 and stories §4 (full formats: `.claude/agents/jira-sync.md`). Gaps are named TBDs, never invented.
+8. **The epic is the hub** — It links to every handoff output, in its description and as Jira web links. The team is given one link: the epic (`.claude/skills/engineering-handoff.md`).
+9. **Tree approved first** — No sync before the PM has accepted the ticket tree. PM notes are never sent.
+
+## What Gets Created
+
+### Epics
+- Summary: `[Project] — [Outcome in plain words]`
+- Description (§3, the complete epic body): Subtitle, What and why, Who it is for, Handoff table (PRD, project brief, user flows, final design, end-to-end prototype, extras, links page), Tickets with one estimate line, Dependencies when there are any
+- Each handoff output also added as a web link on the epic
+- Labels: `product-os`, initiative, project
+- Start/Due dates from Gantt
+
+### Stories
+- Summary: `[Verb] [thing] [for whom]` (a local-ID prefix such as `[E1] ST-110:` is kept where the project uses one)
+- Description (§4, the complete story body, each part once): user story, Problem, Requirements, UX and design requirements, Design (this ticket's own Figma page or frame, prototype step, flow step), Done when (checklist), Estimate (points, discipline, PRD requirement, dependencies)
+- Backend tickets: high level, with an empty **Engineering to complete** section that a re-sync never overwrites
+- Parent epic (`parent` field in team-managed projects; Epic Link where the instance uses it)
+- Story points ("Story point estimate" or "Story Points", per project type)
+- Discipline labels (`frontend`, `backend`, or both)
+- Start/Due dates from Gantt
+- Dependencies as issue links
+
+### Sub-tasks
+- One Jira sub-task per line under a story's `## Sub-tasks`, created under that story
+- Summary keeps the kind prefix (`[frontend]`, `[backend]`, `[design]`, `[testing]`, `[tracking]`); no points
+
+## Discipline Labels
+
+| Source | Jira |
+|--------|------|
+| `frontend` | `frontend` label |
+| `backend` | `backend` label |
+| `fullstack` | Both `frontend` and `backend` labels |
+
+**Optional: Map to components instead:**
+
+```yaml
+# product-os.config.yaml
+jira:
+  discipline_mapping: "components"
+  components:
+    frontend: "Frontend"
+    backend: "Backend"
+```
+
+## Gantt Integration
+
+Dates from `gantt.md` populate Jira fields:
+
+| Gantt | Jira |
+|-------|------|
+| Task start | Start Date |
+| Task end | Due Date |
+| Dependency | Issue Link (blocks) |
+
+This enables **Jira Plans/Timeline** to show:
+- Timeline bars for each issue
+- Dependency arrows
+- Critical path highlighting
+
+## Configuration
+
+```yaml
+# product-os.config.yaml
+jira:
+  base_url: "https://company.atlassian.net"
+  project_key: "PROJ"
+  
+  # EXAMPLE IDs only: read the real ones from your instance
+  custom_fields:
+    story_points: "customfield_10016"
+    epic_link: "customfield_10014"   # not used in team-managed projects (use parent)
+    start_date: "customfield_10015"
+```
+
+**Finding custom field IDs:** with MCP, use the issue-type field-metadata tool for your project.
+
+## Idempotent Sync
+
+Re-running updates existing issues:
+
+1. Matches by label + summary (or custom `product-os-id` field)
+2. Updates changed fields
+3. Never creates duplicates
+4. Records in `jira-sync-manifest.json`
+
+## Manifest Output
+
+```json
+{
+  "project": "initiatives/onboarding/signup",
+  "synced_at": "2026-11-06T16:00:00Z",
+  "epics": {
+    "EPIC-001": {
+      "jira_key": "PROJ-101",
+      "url": "https://company.atlassian.net/browse/PROJ-101"
+    }
+  },
+  "stories": {
+    "STORY-001": {
+      "jira_key": "PROJ-111",
+      "epic_key": "PROJ-101",
+      "story_points": 3,
+      "discipline": "frontend"
+    }
+  }
+}
+```
+
+## Dependency Links
+
+Dependencies create issue links:
+
+```
+STORY-002 is blocked by STORY-001
+STORY-001 blocks STORY-002
+```
+
+In Jira Plans, these show as connecting arrows.
+
+## Post-Sync
+
+After successful sync:
+
+1. Update Confluence backlog with Jira links (after separate approval)
+2. Verify Jira Plans timeline
+3. Issues ready for sprint planning
+
+## Quality Checklist
+
+- [ ] All epics and stories defined
+- [ ] Story points assigned
+- [ ] Every epic and story has Description, Problem Statement, Solution and Success Metrics / Validation
+- [ ] Discipline labels assigned
+- [ ] Gantt dates available
+- [ ] Dependencies mapped
+- [ ] Confluence manifest available
+- [ ] Field IDs confirmed against the instance
+- [ ] Human approved the proposed change set
+
+## Troubleshooting
+
+| Issue | Cause | Fix |
+|-------|-------|-----|
+| Epic link fails | Team-managed project or wrong field ID | Use `parent`; otherwise read the Epic Link field ID from the instance |
+| Points empty | Wrong field ("Story Points" vs "Story point estimate") | Read the field ID from field metadata |
+| Dates not in Timeline | Field not enabled | Enable in project settings |
+
+## Related
+
+- `/product-os:jira-sync` — Run sync
+- `/product-os:publish` — Publish to Confluence first
+- `.claude/agents/jira-sync.md` — Full agent specification

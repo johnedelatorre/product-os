@@ -1,26 +1,28 @@
 #!/usr/bin/env python3
-"""Build the copy of Product OS that is submitted to Claude's plugin directory: plugin/.
+"""Build the two plugin folders of Product OS from the same sources.
 
-The directory accepts only Markdown, text, JSON, YAML and images from an
-organization that is not Verified, in a folder laid out as a plugin:
-.claude-plugin/, skills/, commands/, agents/, a README and a license. The repo
-root holds more than that (scripts, tests, the Cursor rules, the ChatGPT pack),
-so the directory reads this folder instead.
+marketplace/product-os/  what people get when they add this repo by its address
+                         (Add marketplace), and what Claude Code installs as
+                         product-os@product-os. Title: Product OS.
+plugin/                  the copy submitted to Claude's plugin directory.
+                         Name: jdlt-product-os. Title: Product OS by JDLT.
 
-Everything here is generated from the same sources as the rest of Product OS:
-the skill from scripts/build-plugin-skill.py, the agents from .claude/agents/
-and the commands from .claude/commands/. The text is changed in four ways:
+The repo root is a marketplace, not a plugin: a plugin cannot hold a second
+plugin, and the directory accepts only Markdown, text, JSON, YAML and images
+from an organization that is not Verified. So both folders hold only the
+skill (from scripts/build-plugin-skill.py), the agents (.claude/agents/), the
+commands (.claude/commands/), a README, the license, the notices, the privacy
+page and the icon. The text is changed in four ways:
 
-1. The plugin's name in the directory is jdlt-product-os, so /product-os:<name>
-   becomes /jdlt-product-os:<name>.
+1. In plugin/, /product-os:<name> becomes /jdlt-product-os:<name>.
 2. The parts about the REST fallback script and its credentials are left out.
-   This copy has no scripts: it publishes through the PM's own connectors.
+   The plugin has no scripts: it publishes through the PM's own connectors.
 3. Install commands for outside tools are replaced with a pointer to the tool.
 4. The board page is carried as a text file, assets/product-os-board.txt.
 
 Usage:
-    python3 scripts/build-directory-plugin.py           # write plugin/
-    python3 scripts/build-directory-plugin.py --check   # exit 1 if it is out of date
+    python3 scripts/build-directory-plugin.py           # write both folders
+    python3 scripts/build-directory-plugin.py --check   # exit 1 if one is out of date
 """
 
 import importlib.util
@@ -32,16 +34,23 @@ import shutil
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-OUT = os.path.join(ROOT, "plugin")
-NAME = "jdlt-product-os"
-TITLE = "Product OS by JDLT"
+# Each copy: (folder, the plugin's name, its title, whether it carries the directory's listing links).
+# plugin/ is read by Claude's plugin directory. marketplace/product-os/ is what people get when they
+# add this repo by its address (Add marketplace), and what Claude Code installs as product-os@product-os.
+COPIES = [
+    ("plugin", "jdlt-product-os", "Product OS by JDLT", True),
+    ("marketplace/product-os", "product-os", "Product OS", False),
+]
+DESCRIPTION = 'Product management and design operating system. Claude leads a PM through a guided 9-phase workflow with 41 agents, 48 commands (/product-os:*), 44 playbooks and templates, makes each output in its real form, publishes to Confluence and Jira, and keeps a live board. Works in Claude chat, Cowork and Claude Code.'
+AUTHOR = {"name": "John De La Torre-Ugarte", "url": "https://github.com/johnedelatorre"}
+REPOSITORY = "https://github.com/johnedelatorre/product-os"
 ALLOWED = (".md", ".txt", ".json", ".yaml", ".yml", ".png", ".jpg", ".jpeg")
 
 spec = importlib.util.spec_from_file_location("skill_builder", os.path.join(ROOT, "scripts", "build-plugin-skill.py"))
 skill_builder = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(skill_builder)
 
-README = """# Product OS by JDLT
+README = """# {title}
 
 Product OS turns Claude into the agent that runs a product project with you, from the first request to the handoff your engineers read. It is for product managers and designers. You do not need a terminal.
 
@@ -103,10 +112,10 @@ RULES = [
 FORBIDDEN = ("atlassian-fallback", "ATLASSIAN_", ".env", "REST fallback", "npm install", "pip install", "curl ", "wget ")
 
 
-def clean(text):
+def clean(text, name):
     for pattern, replacement in RULES:
         text = re.sub(pattern, replacement, text)
-    return text.replace("/product-os:", "/%s:" % NAME)
+    return text.replace("/product-os:", "/%s:" % name)
 
 
 def after_frontmatter(text, extra):
@@ -117,8 +126,8 @@ def after_frontmatter(text, extra):
     return extra.lstrip("\n") + "\n" + text
 
 
-def build():
-    """Return {relative path: text or bytes} for every file in plugin/."""
+def build(name, title, listing):
+    """Return {relative path: text or bytes} for every file in one copy of the plugin."""
     files = {}
     version = skill_builder.version()
 
@@ -126,7 +135,7 @@ def build():
         if rel == "assets/product-os-board.html":
             rel = "assets/product-os-board.txt"
         else:
-            content = clean(content)
+            content = clean(content, name)
         if rel == "SKILL.md":
             old = ("publish `assets/product-os-board.html` as an artifact in the PM's own account, titled \"Product OS board: <short project name>\". "
                    "Publish the file as it is.")
@@ -138,33 +147,34 @@ def build():
         files["skills/product-os/" + rel] = content
 
     for folder, target in ((".claude/agents", "agents"), (".claude/commands", "commands")):
-        for name in sorted(os.listdir(os.path.join(ROOT, folder))):
-            if name.endswith(".md"):
-                text = io.open(os.path.join(ROOT, folder, name), encoding="utf-8").read()
-                files["%s/%s" % (target, name)] = after_frontmatter(clean(text), FIRST)
+        for fname in sorted(os.listdir(os.path.join(ROOT, folder))):
+            if fname.endswith(".md"):
+                text = io.open(os.path.join(ROOT, folder, fname), encoding="utf-8").read()
+                files["%s/%s" % (target, fname)] = after_frontmatter(clean(text, name), FIRST)
 
-    with io.open(skill_builder.MANIFEST, encoding="utf-8") as fh:
-        root = json.load(fh)
     manifest = {
-        "name": NAME,
-        "displayName": TITLE,
+        "name": name,
+        "displayName": title,
         "version": version,
-        "description": skill_builder.with_version(root["description"].replace("/product-os:", "/%s:" % NAME)),
-        "author": root["author"],
-        "homepage": root["homepage"],
-        "repository": root["repository"],
-        "license": root["license"],
-        "keywords": ["product management", "product design", "prd", "user flows", "ux writing", "jira", "confluence", "figma"],
-        "privacyPolicyUrl": root["repository"] + "/blob/main/PRIVACY.md",
-        "supportUrl": root["repository"] + "/issues",
-        "documentationUrl": root["repository"] + "#readme",
+        "description": skill_builder.with_version(DESCRIPTION.replace("/product-os:", "/%s:" % name)),
+        "author": AUTHOR,
+        "homepage": REPOSITORY,
+        "repository": REPOSITORY,
+        "license": "MIT",
     }
+    if listing:
+        manifest.update({
+            "keywords": ["product management", "product design", "prd", "user flows", "ux writing", "jira", "confluence", "figma"],
+            "privacyPolicyUrl": REPOSITORY + "/blob/main/PRIVACY.md",
+            "supportUrl": REPOSITORY + "/issues",
+            "documentationUrl": REPOSITORY + "#readme",
+        })
     files[".claude-plugin/plugin.json"] = json.dumps(manifest, indent=2, ensure_ascii=False) + "\n"
     with io.open(os.path.join(ROOT, ".claude-plugin", "icon.png"), "rb") as fh:
         files[".claude-plugin/icon.png"] = fh.read()
-    files["README.md"] = README.format(name=NAME, version=version)
+    files["README.md"] = README.format(name=name, title=title, version=version)
     files["LICENSE"] = io.open(os.path.join(ROOT, "LICENSE"), encoding="utf-8").read()
-    files["NOTICE.md"] = clean(io.open(os.path.join(ROOT, "NOTICE.md"), encoding="utf-8").read())
+    files["NOTICE.md"] = clean(io.open(os.path.join(ROOT, "NOTICE.md"), encoding="utf-8").read(), name)
     files["PRIVACY.md"] = io.open(os.path.join(ROOT, "PRIVACY.md"), encoding="utf-8").read()
 
     problems = []
@@ -188,11 +198,11 @@ def build():
     return files
 
 
-def on_disk():
+def on_disk(out):
     found = set()
-    for folder, _, names in os.walk(OUT):
-        for name in names:
-            found.add(os.path.relpath(os.path.join(folder, name), OUT).replace(os.sep, "/"))
+    for folder, _, names in os.walk(out):
+        for fname in names:
+            found.add(os.path.relpath(os.path.join(folder, fname), out).replace(os.sep, "/"))
     return found
 
 
@@ -205,28 +215,31 @@ def same(path, content):
 
 
 def main():
-    files = build()
-    if "--check" in sys.argv:
-        stale = [rel for rel, content in files.items() if not same(os.path.join(OUT, rel), content)]
-        extra = sorted(on_disk() - set(files))
-        if stale or extra:
-            print("plugin/ is out of date: %s" % ", ".join((stale + extra)[:8]))
-            print("Run: python3 scripts/build-directory-plugin.py")
-            return 1
-        print("plugin/ is up to date (%d files)." % len(files))
-        return 0
-    if os.path.isdir(OUT):
-        shutil.rmtree(OUT)
-    for rel, content in files.items():
-        path = os.path.join(OUT, rel)
-        os.makedirs(os.path.dirname(path), exist_ok=True)
-        if isinstance(content, bytes):
-            with open(path, "wb") as fh:
-                fh.write(content)
-        else:
-            with io.open(path, "w", encoding="utf-8") as fh:
-                fh.write(content)
-    print("Wrote %d files to plugin/ (%s %s)" % (len(files), NAME, skill_builder.version()))
+    check = "--check" in sys.argv
+    for folder, name, title, listing in COPIES:
+        out = os.path.join(ROOT, *folder.split("/"))
+        files = build(name, title, listing)
+        if check:
+            stale = [rel for rel, content in files.items() if not same(os.path.join(out, rel), content)]
+            extra = sorted(on_disk(out) - set(files))
+            if stale or extra:
+                print("%s/ is out of date: %s" % (folder, ", ".join((stale + extra)[:8])))
+                print("Run: python3 scripts/build-directory-plugin.py")
+                return 1
+            print("%s/ is up to date (%d files)." % (folder, len(files)))
+            continue
+        if os.path.isdir(out):
+            shutil.rmtree(out)
+        for rel, content in files.items():
+            path = os.path.join(out, rel)
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            if isinstance(content, bytes):
+                with open(path, "wb") as fh:
+                    fh.write(content)
+            else:
+                with io.open(path, "w", encoding="utf-8") as fh:
+                    fh.write(content)
+        print("Wrote %d files to %s/ (%s %s)" % (len(files), folder, name, skill_builder.version()))
     return 0
 
 

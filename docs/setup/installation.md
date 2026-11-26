@@ -205,8 +205,11 @@ product-os/
 ├── .env.example              # Credentials template (REST fallback only)
 │
 ├── .claude-plugin/
-│   ├── plugin.json           # Claude Code plugin manifest (name: product-os)
-│   └── marketplace.json      # Marketplace "product-os" (plugin source ./)
+│   ├── marketplace.json      # Marketplace "product-os" (plugin source ./marketplace/product-os) and the version
+│   └── icon.png              # The plugin's icon
+│
+├── marketplace/product-os/   # The plugin people add from this repo (generated)
+├── plugin/                   # The copy for Claude's plugin directory (generated)
 │
 ├── .claude/
 │   ├── agents/               # Specialist agents (subagents, with frontmatter)

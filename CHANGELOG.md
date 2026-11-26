@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.9.1] - 2026-11-26
+
+### Changed
+- **The repo root is a marketplace, not a plugin** — the plugin people add from this repo is now the folder `marketplace/product-os/`, a clean copy with the skill, the agents, the commands, a README and the license. Accounts that had added the repo stopped receiving updates once the repo also held `plugin/`, the copy for Claude's directory: a plugin cannot hold a second plugin. The root `.claude-plugin/plugin.json` and the root `skills/` folder are removed. The version is now set under `metadata` in `.claude-plugin/marketplace.json`.
+
 ## [1.9.0] - 2026-11-26
 
 ### Added

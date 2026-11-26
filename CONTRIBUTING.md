@@ -85,9 +85,9 @@ Every agent must include:
 
 ## Releasing a Version
 
-1. Change `"version"` in `.claude-plugin/plugin.json`. It is the only place the version is set.
-2. Run `python3 scripts/build-plugin-skill.py`. It writes the version into the plugin's description, the marketplace entry, the skill, the board and the README.
-3. Run `python3 scripts/build-directory-plugin.py`. It rebuilds `plugin/`, the copy that Claude's plugin directory reads.
+1. Change `"version"` under `"metadata"` in `.claude-plugin/marketplace.json`. It is the only place the version is set.
+2. Run `python3 scripts/build-plugin-skill.py`. It writes the version into the marketplace entry, the board and the README.
+3. Run `python3 scripts/build-directory-plugin.py`. It rebuilds the two plugin folders: `marketplace/product-os/`, which people add from this repo, and `plugin/`, which Claude's plugin directory reads.
 4. Add the version and date as a heading in `CHANGELOG.md`.
 5. Run `bash scripts/validate.sh`.
 
