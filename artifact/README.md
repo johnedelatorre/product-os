@@ -6,13 +6,14 @@
 
 ![The Product OS board on a desktop screen and on a phone: where the project is, the next step, four numbers, three insights, and the nine phases with their status](../docs/images/hero.jpg)
 
-1. **How Product OS works**: a one-minute guide, shown on your first visit. Four steps, with what each badge means and what you can say in your chat one click away. "Got it" hides it, and the Guide button at the top brings it back.
-2. **Where the project is**: the phase, the document in hand, and a bar of the nine phases.
-3. **The next step**: what Claude is waiting for from you, in your chat.
-4. **Four numbers**: documents done, in progress, named TBDs, phases done.
-5. **How the project is doing**: up to six notes written by Claude. What is going well, a gap in the material, a risk.
-6. **Four views, one at a time**: Tasks (the start questions, the nine phases and their documents), Documents (a table of every document, what it was made as, its status, its link, and where it is published), Published and connected (the Jira epic and tickets, the Confluence pages, and your connectors), and Agents (all 41 roles by phase, what each one does, and what to say in your chat to call it).
-7. **Badges for every state**: Done, In progress, Questions for you, Ready for your review, Not started, Skipped, and the number of TBDs still missing. Each badge has a sign and a word, so it does not depend on colour.
+1. **Working on now**: the file in hand, first on the board. What it is, what it is for, the step it is at, what is happening and what is left. A green dot marks a file in progress; the card also shows Paused, Blocked and Just finished.
+2. **How Product OS works**: a one-minute guide, shown on your first visit. Four steps, with three sections that open: how to get started, what the badges mean, and what you can say in your chat. "Got it" hides it, and the Guide button at the top brings it back.
+3. **Where the project is**: the phase, the document in hand, and a bar of the nine phases.
+4. **The next step**: what Claude is waiting for from you, in your chat.
+5. **Four numbers**: documents done, in progress, named TBDs, phases done.
+6. **How the project is doing**: up to six notes written by Claude. What is going well, a gap in the material, a risk.
+7. **Four views, one at a time**: Tasks (the start questions, the nine phases and their documents), Documents (a table of every document, what it was made as, its status, its link, and where it is published), Published and connected (the Jira epic and tickets, the Confluence pages, and your connectors), and Agents (all 41 roles by phase, what each one does, and what to say in your chat to call it).
+8. **Badges for every state**: Done, In progress, Questions for you, Ready for your review, Paused, Blocked, Not started, Skipped, and the number of TBDs still missing. Each badge has a sign and a word, so it does not depend on colour.
 
 The board is read-only. You answer Claude in the chat, and the board changes by itself. It follows your device's light or dark setting, or your own choice with the Auto, Light and Dark switch at the top. It fits a phone. The "Open in new tab" button at the top opens the board in its own browser tab, and every document link opens in a new tab too.
 

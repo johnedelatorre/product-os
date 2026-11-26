@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.10.0] - 2026-11-26
+
+### Added
+- **A "Working on now" card, first on the board** — the file in hand, what it is, what it is for, the step it is at (your answers, draft, your review), what is happening and what is left. A green dot marks a file in progress. The card also shows Paused, Blocked, Just finished, the start questions, and the next file when nothing is in progress.
+- **Two statuses, Paused and Blocked** — for documents, with the reason and the step where the work stopped.
+- **"How to get started" in the guide** — five steps, from a new chat and "Start Product OS" to the yes to the plan. The guide's three sections open one under the other.
+
+### Changed
+- **In progress is green everywhere on the board** — the badge is solid green with a dot; Done stays outlined with a check mark.
+- **The guide sits under the "Working on now" card** once a project exists.
+
 ## [1.9.3] - 2026-11-26
 
 ### Changed
