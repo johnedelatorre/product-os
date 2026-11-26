@@ -4,7 +4,7 @@
 
 ## What It Shows
 
-![The Product OS board on a desktop screen and on a phone: where the project is, the next step, four numbers, three insights, and the nine phases with their status](../docs/images/hero.jpg)
+![The Product OS board on a desktop screen and on a phone: the file being worked on now, where the project is, the next step, four numbers, three insights, and the start of the task list](../docs/images/hero.jpg)
 
 1. **Working on now**: the file in hand, first on the board. What it is, what it is for, the step it is at, what is happening and what is left. A green dot marks a file in progress; the card also shows Paused, Blocked and Just finished.
 2. **How Product OS works**: a one-minute guide that opens from the Guide button at the top. Four steps, with three sections that open: how to get started, what the badges mean, and what you can say in your chat. It sits above the board until you press "Hide the guide".

@@ -6,7 +6,7 @@
 
 Product OS™ 1.10.1 · Copyright © 2026 John De La Torre-Ugarte · Code and documents under the [MIT License](LICENSE) · [Name and brand](TRADEMARKS.md)
 
-![The Product OS board on a desktop screen and on a phone: where the project is, the next step, four numbers, three insights, and the nine phases with their status](docs/images/hero.jpg)
+![The Product OS board on a desktop screen and on a phone: the file being worked on now, where the project is, the next step, four numbers, three insights, and the start of the task list](docs/images/hero.jpg)
 
 *The Product OS board, on a computer and on a phone, with an example project. Claude runs the project in your chat and keeps this board up to date. Screenshots of `artifact/product-os-board.html`.*
 
@@ -136,7 +136,7 @@ The plugin is saved to your own account, with all 41 agents, 48 commands, 44 pla
 
 **The board**
 
-![The Product OS board: where the project is, the next step, four numbers, insights, and the Documents table with a link for every document](docs/images/visual-start.png)
+![The Product OS board with the Documents view open: the next step, four numbers, three insights, and the table of every document with its status, a link to open it, and where it is published](docs/images/visual-start.png)
 
 When the project has a name, Claude opens a board and keeps it up to date: where you are, the next step, the numbers, how the project is doing, every task, a table of every document with its link, what is published and what is connected. You only open it. More: [The Product OS board](artifact/README.md).
 
