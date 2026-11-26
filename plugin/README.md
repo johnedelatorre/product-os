@@ -1,4 +1,4 @@
-# Product OS
+# Product OS by JDLT
 
 Product OS turns Claude into the agent that runs a product project with you, from the first request to the handoff your engineers read. It is for product managers and designers. You do not need a terminal.
 
@@ -30,4 +30,4 @@ Product OS is a set of instructions, templates and one board page. It has no ser
 
 Product OS is open source under the MIT License: https://github.com/johnedelatorre/product-os
 
-Product OS 1.8.0. Copyright 2026 John De La Torre-Ugarte.
+Product OS 1.8.1. Copyright 2026 John De La Torre-Ugarte.
