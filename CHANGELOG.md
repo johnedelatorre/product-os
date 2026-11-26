@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.7.1] - 2026-11-26
+
+### Added
+- **The version is visible** — the plugin's overview (its description in Claude), the first line of a new project in Claude, the bottom of the board and the line under the README title all show the version. It is set in one place, `"version"` in `.claude-plugin/plugin.json`; `scripts/build-plugin-skill.py` writes it everywhere else, and `scripts/validate.sh` fails when a place is out of date.
+
 ## [1.7.0] - 2026-11-26
 
 ### Added
