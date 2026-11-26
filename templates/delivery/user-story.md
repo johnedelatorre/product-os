@@ -18,6 +18,8 @@
 
 ## Design
 [Figma: link to this ticket's own page or frame in the main design file] · Prototype: [link to its step, `#scr-###`] · Flow: [FLOW-### step]
+**Copy:** use the copy in the design as is. It has been through the UX writing pass. [UX writing guide](link)
+<!-- Copy line: only on tickets with a screen, and only when the screen is marked applied in ux-writing.md. Leave it out of backend-only tickets. -->
 
 ## Done when
 - [ ] [A plain sentence a tester can check]

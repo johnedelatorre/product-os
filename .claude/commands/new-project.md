@@ -28,11 +28,11 @@ Run the full Product OS pipeline from intake to publication.
 2. **PM** → `prd.md`, `project-brief.md`, `project-plan.md`, `raci.md`, `gantt.md`
 3. **Design** → `design-brief.md`, `flows.yaml`, `flows.md`, `wireframes.md`
 4. **Prototype** → `prototype.html`, `prototype-react.tsx`, `prototype-handoff.html`
-5. **Review** → `design-critique.md`, `ux-review.md`, `accessibility-audit.md`
+5. **Review** → `design-critique.md` paired with the UX writing pass (`ux-writing.md` and the final designs), `ux-review.md`, `accessibility-audit.md`
 6. **Delivery** → the outputs question, then `epics.md`, `stories.md` and the proposed ticket tree
 7. **Publish** → Confluence pages, Jira issues, and the final output list
 
-Before stage 1, the pipeline asks the six start questions in `.claude/skills/engineering-handoff.md`, one at a time: what you are building and who will use it, who will read what it writes, your role, where the initiative came from, and everything you have (the request, proposals, emails, existing PRDs, the tech stack, backend schemas, existing designs) in one step. It then plays back what it understood and what it will make, and waits for your yes. In stage 2, `project-plan.md`, `raci.md` and `gantt.md` are written only if they are in that list; the same goes for `design-brief.md`, `wireframes.md` and the reviews in stages 3 and 5. After the handoff it asks what the team said, and saves it for your next project.
+Before stage 1, the pipeline asks the seven start questions in `.claude/skills/engineering-handoff.md`, one at a time: what you are building and who will use it, who will read what it writes, your role, the design system to follow (a Figma library, a Claude design system, both, or none yet), where the initiative came from, and everything you have (the request, proposals, emails, existing PRDs, the tech stack, backend schemas, existing designs) in one step. It then plays back what it understood and what it will make, and waits for your yes. In stage 2, `project-plan.md`, `raci.md` and `gantt.md` are written only if they are in that list; the same goes for `design-brief.md`, `wireframes.md` and the reviews in stages 3 and 5. After the handoff it asks what the team said, and saves it for your next project.
 
 ## Human Checkpoints
 

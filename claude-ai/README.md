@@ -1,6 +1,6 @@
 # Product OS in claude.ai
 
-> **TL;DR:** Create a Claude Project, paste [`project-instructions.md`](project-instructions.md) into its Instructions, upload the 23 starter files listed below as Knowledge, then say "Start Product OS guided mode for initiative X, project Y." Add more agent files later as you need them.
+> **TL;DR:** Create a Claude Project, paste [`project-instructions.md`](project-instructions.md) into its Instructions, upload the 27 starter files listed below as Knowledge, then say "Start Product OS guided mode for initiative X, project Y." Add more agent files later as you need them.
 
 ## Setup
 
@@ -31,6 +31,7 @@ These files cover guided mode and the core path: intake, PRD, metrics, design, r
 | `.claude/agents/wireframer.md` | Wireframer: low-fi wireframes |
 | `.claude/agents/prototyper.md` | Prototyper: clickable prototype |
 | `.claude/agents/design-critic.md` | Design Critic: visual design critique |
+| `.claude/agents/ux-writer.md` | UX Writer: the UX writing pass and the UX writing guide |
 | `.claude/agents/ux-reviewer.md` | UX Reviewer: usability review |
 | `.claude/agents/accessibility-auditor.md` | Accessibility Auditor: WCAG 2.2 AA audit |
 | `.claude/agents/delivery-agent.md` | Delivery Agent: the engineering handoff, the epic as hub, short tickets, the ticket tree |
@@ -42,7 +43,9 @@ These files cover guided mode and the core path: intake, PRD, metrics, design, r
 | `.claude/skills/clear-output.md` | How every reply and document is written |
 | `.claude/skills/doc-hygiene.md` | Current state only, no version history |
 | `.claude/skills/guided-workflow.md` | Phases, `progress.yaml` and open items |
-| `.claude/skills/engineering-handoff.md` | The guided questions, what the team gets, and what stays with you |
+| `.claude/skills/guided-questions.md` | Always on: every role asks before it writes |
+| `.claude/skills/engineering-handoff.md` | The start questions, what each reader group gets, and what stays with you |
+| `.claude/skills/ux-writing.md` | The UX writing pass, paired with the design critique |
 | `docs/reference/document-format.md` | The standard header, Confluence page tree, Jira epic and story formats |
 
 **Templates** (`templates/`)
@@ -53,6 +56,7 @@ These files cover guided mode and the core path: intake, PRD, metrics, design, r
 | `templates/pm/metrics-framework.md` | Metrics framework |
 | `templates/design/design-brief.md` | Design brief |
 | `templates/design/design-critique.md` | Design critique |
+| `templates/design/ux-writing-guide.md` | UX writing guide |
 | `templates/delivery/epic.md` | Jira epic |
 | `templates/delivery/user-story.md` | Jira story |
 

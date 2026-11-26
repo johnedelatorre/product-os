@@ -67,6 +67,7 @@ Enterprise admins wait 16.4 s (p95) at a blank dashboard, and one failed widget 
 | Project brief | Dashboard Performance — Project Brief |
 | User flows | Dashboard Performance — User Flows (FLOW-001 to FLOW-003) |
 | Final design (Claude design) | Dashboard Performance — design screens SCR-001 to SCR-005 |
+| UX writing guide | Dashboard Performance — UX Writing Guide (the copy for every screen; the designs already use it) |
 | End-to-end prototype | Dashboard Performance — handoff prototype (one path per user) |
 | Low-fidelity wireframes | Dashboard Performance — Wireframes |
 | Links page | Dashboard Performance (Confluence) |

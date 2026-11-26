@@ -1,6 +1,6 @@
 # Platform Compatibility Guide
 
-> Product OS works in claude.ai, Claude Code and Cursor. This guide explains setup, capabilities, and differences.
+> Product OS works in claude.ai, ChatGPT, Claude Code and Cursor. This guide explains setup, capabilities, and differences.
 
 ## TL;DR
 
@@ -25,6 +25,12 @@
 | Session handover | Ask for `HANDOVER.md`; re-upload to resume | ✅ | ✅ | Shared `HANDOVER.md` |
 
 claude.ai setup steps: [Product OS in claude.ai](../../claude-ai/README.md). Flags such as `--targets claude-artifact,figjam` are Claude Code only; in claude.ai, ask Claude to show a flow as an artifact or diagram if it doesn't render.
+
+## ChatGPT
+
+ChatGPT runs Product OS the way claude.ai does: plain language, one role at a time, documents as files in the chat. Setup is a ChatGPT Project (or a custom GPT) with `chatgpt/project-instructions.md` as its instructions and the 8 files in `chatgpt/pack/` as its files. The pack bundles the core agents, skills, formats and templates so it fits a Go or Plus project (25 files) and a custom GPT (20 files). Steps, plan limits and differences: [Product OS in ChatGPT](../../chatgpt/README.md).
+
+The pack is built by `python3 scripts/build-chatgpt-pack.py`. Run it after changing any bundled file; `scripts/validate.sh` fails when the pack is out of date.
 
 ## Installation
 
@@ -96,7 +102,7 @@ Upgrading from ≤1.4: delete the old Product OS files from `.claude/commands/` 
 
 ### Full Command List
 
-See [`docs/reference/commands.md`](../reference/commands.md) (all 47 commands).
+See [`docs/reference/commands.md`](../reference/commands.md) (all 48 commands).
 
 ## Cursor Usage
 

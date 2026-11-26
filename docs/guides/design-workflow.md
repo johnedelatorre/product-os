@@ -127,6 +127,7 @@ All three reviews run on the files from steps 3 to 5, never on a described or im
 | Review | Command | Reviews | File | Agent |
 |--------|---------|---------|------|-------|
 | Design critique | `/product-os:critique --designs wireframes.md --prd prd.md` (or `--figma-url <url>`) | Hierarchy, layout, typography, colour, spacing, consistency, content, PRD and brand alignment | `design-critique.md` | `design-critic` |
+| UX writing pass (paired with the design critique) | `/product-os:ux-writing --designs prototype.html --prd prd.md --prior <screenshots>` | The copy on every screen, against how the product already writes: voice, terms, buttons, errors, empty states | `ux-writing.md`, and the designs with the copy in them | `ux-writer` |
 | UX review | `/product-os:ux-review --designs prototype.html --flows flows.md` | Nielsen's 10 heuristics, Laws of UX, pattern best practices | `ux-review.md` | `ux-reviewer` |
 | Accessibility audit | `/product-os:a11y --target prototype.html` | WCAG 2.2 AA; automated scans, keyboard and screen reader need the prototype in a browser or a live URL | `accessibility-audit.md`, `a11y-issues.csv` | `accessibility-auditor` |
 

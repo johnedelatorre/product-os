@@ -59,6 +59,7 @@ After Kenji Mori closes design critique C-001 and M-001 to M-004 (due 2026-11-14
 
 ## Design
 Final design: SCR-001 Dashboard, loading · Prototype: `prototype-handoff.html#scr-001` · Flow: FLOW-001 steps 2–3
+**Copy:** use the copy in the design as is. It has been through the UX writing pass. UX writing guide: Dashboard Performance — UX Writing Guide, SCR-001.
 
 ## Done when
 - [ ] DASH-101.AC1 A skeleton in the dashboard layout is visible within 1 second on a typical connection.
@@ -99,6 +100,7 @@ Final design: SCR-001 Dashboard, loading · Prototype: `prototype-handoff.html#s
 
 ## Design
 Final design: SCR-001 and SCR-002 Dashboard, loaded · Prototype: `prototype-handoff.html#scr-002` · Flow: FLOW-001 steps 3–5
+**Copy:** use the copy in the design as is. It has been through the UX writing pass. UX writing guide: Dashboard Performance — UX Writing Guide, SCR-001 and SCR-002.
 
 ## Done when
 - [ ] DASH-102.AC1 A widget renders as soon as its own data returns, while slower widgets still show their skeleton block.
@@ -150,6 +152,7 @@ Final design: SCR-001 and SCR-002 Dashboard, loaded · Prototype: `prototype-han
 
 ## Design
 Final design: SCR-003 Dashboard, widget problems · Prototype: `prototype-handoff.html#scr-003` · Flow: FLOW-002 steps 1–5
+**Copy:** use the copy in the design as is. It has been through the UX writing pass. UX writing guide: Dashboard Performance — UX Writing Guide, SCR-003.
 
 ## Done when
 - [ ] DASH-103.AC1 A widget that returns a server error shows the error variant with Retry, and every other widget stays usable.
@@ -191,6 +194,7 @@ Final design: SCR-003 Dashboard, widget problems · Prototype: `prototype-handof
 
 ## Design
 Final design: SCR-004 Dashboard, large dataset · Prototype: `prototype-handoff.html#scr-004` · Flow: FLOW-003 steps 1b–3a
+**Copy:** use the copy in the design as is. It has been through the UX writing pass. UX writing guide: Dashboard Performance — UX Writing Guide, SCR-004.
 
 ## Done when
 - [ ] DASH-104.AC1 The Orders widget with 2.3M rows opens on the last 30 days with the notice.

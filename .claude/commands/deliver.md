@@ -52,6 +52,7 @@ Each story includes, in this order:
 - Problem: one or two sentences
 - Requirements: 3–5 short lines, naming labels, components and rules
 - UX and design requirements
+- Copy: on every ticket with a screen, "use the copy in the design as is", with a link to the UX writing guide
 - Design: a link to this ticket's own page or frame in the main Figma file, and its step in the prototype
 - Done when: a checklist of 3–5 testable lines
 - Estimate: points, **discipline label** (`frontend`, `backend`, or `fullstack`), PRD requirement, dependencies

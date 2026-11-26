@@ -1,6 +1,6 @@
 # Agent Guide Index
 
-Complete documentation for all 40 Product OS agents.
+Complete documentation for all 41 Product OS agents.
 
 ## Pipeline Agents (7)
 
@@ -35,12 +35,13 @@ Complete documentation for all 40 Product OS agents.
 | [Prototyper](prototyper.md) | Prototypes | Clickable HTML/React |
 | [Figma Agent](figma-agent.md) | Figma integration | MCP sync, tokens, audit |
 
-## Review & Gate Agents (4)
+## Review & Gate Agents (5)
 
 | Agent | Guide | What It Does |
 |-------|-------|--------------|
 | [Design Critic](design-critic.md) | Visual critique | Severity-rated findings |
 | [UX Reviewer](ux-reviewer.md) | UX evaluation | Heuristics, Laws of UX |
+| [UX Writer](ux-writer.md) | UX writing pass | The UX writing guide and the final copy for every screen |
 | [Accessibility Auditor](accessibility-auditor.md) | Accessibility | WCAG 2.2 AA audit |
 | [Gate Keeper](gate-keeper.md) | Quality gates | DoR/DoD validation |
 

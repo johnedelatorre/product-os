@@ -1,10 +1,10 @@
 # Guided Questions and Engineering Handoff Skill
 
-> **TL;DR:** Product OS asks before it writes, and it asks little: six questions at the start, two at the handoff, one after it. The first answers say who will read the work and what the PM's role is, and those answers decide what is made. The PM hands over everything they have in one step, sees what Product OS understood, and confirms it before a document is written. The handoff is the short set the readers get: PRD, project brief, user flows, the final design, an end-to-end clickable prototype, and the epic with its tickets. The epic links to all of it. The PM's own documents stay in the PM workspace. After the handoff, Product OS asks what the readers said and saves it for the next project.
+> **TL;DR:** Product OS asks before it writes, and it asks little: seven questions at the start, two at the handoff, one after it. The first answers say who will read the work, what the PM's role is and which design system to follow, and those answers decide what is made and how it looks. The PM hands over everything they have in one step, sees what Product OS understood, and confirms it before a document is written. The handoff is the short set the readers get: PRD, project brief, user flows, the final design, an end-to-end clickable prototype, and the epic with its tickets. The epic links to all of it. The PM's own documents stay in the PM workspace. After the handoff, Product OS asks what the readers said and saves it for the next project.
 
 ## When to Use
 
-- At the start of a project, to ask the six start questions
+- At the start of a project, to ask the seven start questions
 - Before writing epics and tickets (Phase 7, Deliver)
 - Before publishing to Confluence or Jira
 - When building the prototype the team will click through
@@ -23,15 +23,15 @@ The team's pages and tickets never link into the PM workspace. Documents that al
 
 ## Guided Questions: One at a Time
 
-Product OS asks, it does not assume.
+Product OS asks, it does not assume. This skill covers the questions at the start of a project, at the handoff and after it. Between them the questions do not stop: every agent asks the decisions its own document needs, until that document is finished (`.claude/skills/guided-questions.md`).
 
 1. **One question at a time.** Wait for the answer before asking the next. Never show a wall of questions.
-2. **Say where the PM is.** Every question opens with its place: "Question 2 of 6".
+2. **Say where the PM is.** Every question opens with its place: "Question 2 of 7".
 3. **Short numbered options, the recommended one marked.** The PM can answer with a number, "recommended", or their own words.
 4. **Never ask for what is saved.** A saved answer is confirmed in one line, not asked again.
-5. **Confirm before writing.** Nothing is written until the PM accepts the playback (question 6).
+5. **Confirm before writing.** Nothing is written until the PM accepts the playback (question 7).
 
-**The budget:** six questions at the start (four for a team whose readers are saved), two at Deliver (three on a team's first project), one after the handoff.
+**The budget:** seven questions at the start (four for a team whose readers, role and design system are saved), two at Deliver (three on a team's first project), one after the handoff.
 
 ## The Start Questions
 
@@ -42,9 +42,10 @@ Ask at the start of a project, before intake and before any document is written.
 | 1 | **What are you building, and who will use it?** One or two sentences. | The frame for everything else, and the users |
 | 2 | **Who will read what I write?** Pick any: engineers · a head of product or another product leader · designers · executives or investors · a client · only me. | Which outputs are made, how they are written, and where each reader starts |
 | 3 | **What is your role on this project?** Product manager · design lead · both · founder · something else. | The documents recommended for the PM |
-| 4 | **Where did this come from?** Who asked, when, and why now: a customer, an executive, a data signal, a competitor move. | Intake: the origin of the initiative, stated plainly |
-| 5 | **Give me everything you have.** One step, any order (below). | The evidence everything else is written from |
-| 6 | **Is this right?** The playback (below). | The PM confirms what was understood and what will be made |
+| 4 | **Is there a design system to follow?** A Figma library · a Claude design system · both · a coded component library · none yet (below). | Every design Product OS or the PM makes: the design brief, wireframes, prototype and final design, and the components named in tickets |
+| 5 | **Where did this come from?** Who asked, when, and why now: a customer, an executive, a data signal, a competitor move. | Intake: the origin of the initiative, stated plainly |
+| 6 | **Give me everything you have.** One step, any order (below). | The evidence everything else is written from |
+| 7 | **Is this right?** The playback (below). | The PM confirms what was understood and what will be made |
 
 "Who will use it" is the product's users. "Who will read what I write" is the people who receive the documents. Keep the two apart in every question and every document.
 
@@ -54,9 +55,9 @@ The answers pick the defaults. The PM changes any of them at the playback.
 
 | Readers | What they get | Where they start |
 |---------|---------------|------------------|
-| **Engineers** | The standard handoff: PRD, project brief, user flows, final design, end-to-end prototype, epic and tickets | The end-to-end prototype, then the first ticket |
+| **Engineers** | The standard handoff: PRD, project brief, user flows, final design, UX writing guide, end-to-end prototype, epic and tickets | The end-to-end prototype, then the first ticket |
 | **Head of product** (or another product leader) | Project brief, PRD and the epic, plus the project plan and Gantt chart linked from the epic | The project brief |
-| **Designers** | Design brief, user flows, low-fidelity wireframes, final design | The design brief |
+| **Designers** | Design brief, user flows, low-fidelity wireframes, final design, UX writing guide | The design brief |
 | **Executives or investors** | The project brief, and nothing else | The project brief |
 | **A client** | Project brief and the end-to-end prototype | The end-to-end prototype |
 | **Only me** | Nothing is published for a team. Everything stays in the project folder. | — |
@@ -65,15 +66,50 @@ The answers pick the defaults. The PM changes any of them at the playback.
 |---------------|------------------------|
 | **Product manager** | Project plan, Gantt chart, metrics framework |
 | **Design lead** | Design brief, low-fidelity wireframes, design critique |
-| **Both** | Project plan, Gantt chart, design brief, metrics framework |
+| **Both** | Project plan, Gantt chart, design brief, design critique, metrics framework |
 | **Founder** | Project plan, metrics framework |
 | **Something else** | Nothing else. Only what the readers need. |
 
 A document a reader group gets is not repeated in the PM's list.
 
-**Saved for the team.** Readers and role are saved under `audience` in `product-os.config.yaml`. On the next project the two questions become one line: "Same readers as on the last project, engineers and a head of product, with you as PM and design lead?" With a yes, that project has four start questions.
+**Saved for the team.** Readers and role are saved under `audience` in `product-os.config.yaml`, and the design system under `design_system`. On the next project the three questions become one line: "Same as on the last project: engineers and a head of product as readers, you as PM and design lead, and the Acme Figma library?" With a yes, that project has four start questions.
 
-### Question 5: Give Me Everything
+### Question 4: The Design System
+
+Ask at the very start, before any design is made, whether Product OS or the PM makes the designs.
+
+| Option | What Product OS does with it |
+|--------|------------------------------|
+| **A · A Figma library** | Ask for the link. The Figma Agent reads its components, variables and styles through the Figma MCP. |
+| **B · A Claude design system** | List the design systems available to the PM and ask which one. Read its colors, type, spacing and components. |
+| **C · Both** | Take both, and ask which one wins when they disagree. Record it as the source of truth. |
+| **D · A coded component library** | Ask for the link (Storybook, a repo, documentation). Read the component names and props. |
+| **E · None yet** | Record it. Designs use plain, accessible defaults, and the playback says so. Offer to start a design system from the existing designs the PM gives in question 6. |
+
+What it is used for:
+
+1. **Design brief, wireframes, prototype and final design** use the system's components, tokens and names. Nothing is invented that the system already has.
+2. **Tickets** name the system's real components in "UX and design requirements".
+3. **The design critique** checks the design against the system and cites any place it departs from it.
+4. **The UX writing pass** follows the system's content guidelines when it has them.
+5. **A gap** (a component the project needs and the system lacks) is named in the design brief with who decides, never filled in silently.
+
+Save it in `product-os.config.yaml` and in the project's `progress.yaml`:
+
+```yaml
+design_system:
+  sources:
+    - kind: figma            # figma | claude | code
+      ref: "https://www.figma.com/design/abc123/Acme-Design-System"
+      note: "Components, variables and text styles"
+    - kind: claude
+      ref: "Acme Design System"
+      note: "Colors, type, spacing, components"
+  source_of_truth: figma     # which source wins when two disagree
+  status: provided           # provided | none
+```
+
+### Question 6: Give Me Everything
 
 One step, not one question per kind of document. The PM drops files, links and pasted text in any order. Product OS reads all of it, sorts it into the kinds below, and answers with one list:
 
@@ -110,25 +146,26 @@ Rules:
 4. **Never invent what a source does not say.** A gap is a named TBD: what is missing and who provides it.
 5. **Do not ask twice.** On resume, list as missing only the kinds that are neither in `sources` nor in `not_provided`.
 
-### Question 6: The Playback
+### Question 7: The Playback
 
 One screen, before anything is written. It is the PM's chance to catch a wrong assumption before ten documents carry it.
 
 ```
-Question 6 of 6 · Here is what I understood
+Question 7 of 7 · Here is what I understood
 1. Building: self-serve signup, so small teams can start without a sales call
 2. Users: small teams of 2 to 10 people
 3. Readers: engineers and a head of product. Your role: PM and design lead.
+   Design system: the Acme Figma library.
 4. Came from: the CEO, 2 November, after three lost deals
 5. I have the request, the signup funnel data and the accounts schema.
    Missing: customer feedback, market, design context.
 
 Here is what I will make
-1. For the engineers: PRD, project brief, user flows, final design,
+1. For the engineers: PRD, project brief, user flows, final design, UX writing guide,
    end-to-end prototype, epic and tickets
 2. For the head of product: the same epic, plus the project plan and Gantt chart
-3. For you: design brief, metrics framework
-4. Not made: RACI chart, risk register, design reviews. Ask for any of them, any time.
+3. For you: design brief, design critique, metrics framework
+4. Not made: RACI chart, risk register, UX review. Ask for any of them, any time.
 
 Is this right? Say yes, or tell me what to change.
 ```
@@ -151,7 +188,7 @@ The PM can change what is made in four ways:
 
 Rules:
 1. **Nothing is written before the yes.** Set `context.confirmed: true` when the PM accepts.
-2. **Always created, never asked:** intake, PRD, project brief, user flows, the end-to-end prototype, the epic and its tickets.
+2. **Always created, never asked:** intake, PRD, project brief, user flows, the UX writing guide (for a project with screens), the end-to-end prototype, the epic and its tickets.
 3. **Not listed means not created.** Mark the document `skipped` with `skip_reason: "not requested"`, and mark exit criteria that depend on it `na`. If the PM skips a design review, say in one line what is not being checked, then continue.
 4. **The PM can add a document any time** by asking for it or running its command. Add it to `pm_documents`.
 5. **Resumed projects** with no `audience` or `pm_documents` entry are shown the playback once on resume. Documents that already exist are never removed.
@@ -185,7 +222,7 @@ context:
   not_provided: [feedback, market, design]   # kinds the PM does not have
   confirmed: true            # the PM accepted the playback
 
-pm_documents: [design-brief, metrics-framework]
+pm_documents: [design-brief, design-critique, metrics-framework]
 ```
 
 ### Sources in the PRD
@@ -203,7 +240,7 @@ Ask once per project, at the start of Deliver, before any epic or ticket is writ
 
 ```
 Question 1 of 2 · Here is what goes to the team
-1. Engineers: PRD, project brief, user flows, final design (Figma),
+1. Engineers: PRD, project brief, user flows, final design (Figma), UX writing guide,
    end-to-end prototype, epic and tickets
 2. Head of product: the same epic, plus the project plan and Gantt chart
 3. Also attached: the accounts schema you gave me at the start
@@ -256,9 +293,10 @@ No `handoff` block means the question has not been asked. Projects that skip gui
 | 2 | **Project brief** | One page. |
 | 3 | **User flows** | The diagrams, one per user journey. |
 | 4 | **Final design** | One link: the Figma file, or the Claude design when there is no Figma. |
-| 5 | **End-to-end prototype** | Clickable, one straight path per user (see below). The Figma prototype when the final design is in Figma, otherwise `prototype-handoff.html`. |
-| 6 | **Epic and tickets** | The epic links to 1–5. Each ticket links to its own design page. |
-| 7 | **Links page** | The project page in Confluence: the same links as the epic, in one table. |
+| 5 | **UX writing guide** | The voice, the words and the final copy for every screen, from the UX writing pass (`.claude/skills/ux-writing.md`). The final design already carries this copy. |
+| 6 | **End-to-end prototype** | Clickable, one straight path per user (see below). The Figma prototype when the final design is in Figma, otherwise `prototype-handoff.html`. |
+| 7 | **Epic and tickets** | The epic links to 1–6. Each ticket links to its own design page and says to use the copy as is. |
+| 8 | **Links page** | The project page in Confluence: the same links as the epic, in one table. |
 
 Low-fidelity wireframes and a schema are optional. Attach them when the PM keeps or adds them in step 1 of the outputs question.
 
@@ -269,7 +307,7 @@ An engineer opens the epic and finds everything. Layout: `docs/reference/documen
 1. **Start here**: one line per reader group, from the readers answer. Engineers: open the end-to-end prototype, then pick up the first ticket. Head of product: read the project brief, then the Gantt chart. With one reader group it is a single line.
 2. **What and why**: 2–4 sentences.
 3. **Who it is for**: each user in one line.
-4. **Handoff**: one table of links to the PRD, project brief, user flows, final design, end-to-end prototype, any extras, and the links page.
+4. **Handoff**: one table of links to the PRD, project brief, user flows, final design, UX writing guide, end-to-end prototype, any extras, and the links page.
 5. **Tickets**: the list in build order, with discipline and points, and one estimate line.
 6. **Dependencies**: only when there are any.
 7. **Feedback**: one closing line asking the readers what was missing and what was too much (see "After the Handoff").
@@ -297,6 +335,7 @@ A ticket is short enough to read without help. Layout: `docs/reference/document-
 | **Requirements** | 3–5 short lines: what to build. Name the labels, components, rules and data an engineer needs. |
 | **UX and design requirements** | Design-system components, copy, the states to show, accessibility. "None: no UI" for backend-only work. |
 | **Design** | A link to this ticket's own page or frame in the main Figma file, and its step in the prototype. |
+| **Copy** | One line under Design, on every ticket with a screen: "use the copy in the design as is. It has been through the UX writing pass", with a link to the UX writing guide. Written only when the ticket's screens are marked applied in the guide; otherwise a named TBD. Left out of backend-only tickets. |
 | **Done when** | 3–5 checklist lines a tester can check. Plain sentences, not Given/When/Then. |
 | **Estimate** | Points, discipline, PRD requirement, dependencies. One line. |
 | **Sub-tasks** | Optional. One line each. |
@@ -438,15 +477,17 @@ For the team · share this one link: [epic URL]
 2. Project brief: [link]
 3. User flows: [link]
 4. Final design (Figma): [link]
-5. End-to-end prototype: [link]
-6. Project plan and Gantt chart (for the head of product): [link]
-7. Epic and 6 tickets: [link]
+5. UX writing guide: [link]
+6. End-to-end prototype: [link]
+7. Project plan and Gantt chart (for the head of product): [link]
+8. Epic and 6 tickets: [link]
 
 For you
 1. Design brief: [link or file path]
-2. Metrics framework: [link or file path]
+2. Design critique: [link or file path]
+3. Metrics framework: [link or file path]
 
-Not created (you did not ask for them): RACI chart, risk register, design critique
+Not created (you did not ask for them): RACI chart, risk register, UX review
 
 Next: after the team has used it, tell me what they said about the handoff.
 ```
@@ -455,8 +496,9 @@ Before publishing, show file paths. After publishing, show the Confluence and Ji
 
 ## Quality Checklist
 
-- [ ] The start questions were asked one at a time, each with its place ("Question 2 of 6"), and no saved answer was asked again
-- [ ] The readers and the PM's role are saved, for the project and as the team default
+- [ ] The start questions were asked one at a time, each with its place ("Question 2 of 7"), and no saved answer was asked again
+- [ ] The readers, the PM's role and the design system are saved, for the project and as the team default
+- [ ] Every design uses the saved design system; a gap in it is named with who decides
 - [ ] The PM's material was taken in one step and played back as Found and Missing; every source was read, and nothing was invented beyond them
 - [ ] The PM accepted the playback before any document was written; only the documents listed in it were created
 - [ ] The outputs question was asked as two confirmations and the answers are in `progress.yaml`
@@ -466,6 +508,7 @@ Before publishing, show file paths. After publishing, show the Confluence and Ji
 - [ ] The PM was given one link to share: the epic
 - [ ] The team gets one final design, not two
 - [ ] Every ticket has a user story, a problem line, requirements, a design link (or "No UI"), a Done when list and an estimate
+- [ ] The epic links to the UX writing guide, and every ticket with a screen has the Copy line
 - [ ] Backend tickets are high level, with "Engineering to complete" left empty and the estimate marked as proposed
 - [ ] Every ticket line is specific to this project; nothing generic, no filler, no analysis
 - [ ] The Clear Output pass was run on the epic and every ticket: action first, lists of 5 or fewer, no preamble

@@ -105,7 +105,17 @@ context:
       in_prd: boolean        # cited in the PRD; true by default, the PM can turn it off at PRD review
   not_provided: list[string] # kinds the PM said they do not have
 
-# Optional. The documents made for the PM, as accepted in the playback (start question 6).
+# Optional. The design system to follow (start question 4). Saved for the team under `design_system`
+# in product-os.config.yaml, and confirmed in one line on later projects.
+design_system:
+  sources:
+    - kind: enum             # figma | claude | code
+      ref: string            # link, or the name of the Claude design system
+      note: string
+  source_of_truth: enum      # figma | claude | code: which source wins when two disagree
+  status: enum               # provided | none
+
+# Optional. The documents made for the PM, as accepted in the playback (start question 7).
 # Absent means the playback has not been accepted yet.
 pm_documents: list[string]   # e.g. project-plan, gantt, raci, design-brief, metrics-framework
 
@@ -125,7 +135,7 @@ handoff:
       saved_as_default: boolean    # true once the PM saved it as the team's default
 ```
 
-`audience`, `context`, `pm_documents` and `handoff` are optional in schema `1.2`: files without them are valid and need no migration. The guide asks the matching question when one is missing. A document the PM did not ask for is `skipped` with `skip_reason: "not requested"`, and exit criteria that depend on it are `na`.
+`audience`, `design_system`, `context`, `pm_documents` and `handoff` are optional in schema `1.2`: files without them are valid and need no migration. The guide asks the matching question when one is missing. A document the PM did not ask for is `skipped` with `skip_reason: "not requested"`, and exit criteria that depend on it are `na`.
 
 ### Schema Migration
 
@@ -272,6 +282,7 @@ Each criterion has a status: `pass` | `fail` | `conditional` | `na` | `not_verif
 | Every critique, UX and accessibility finding resolved (or accepted with documented risk) | Yes (or defer) |
 | No critical design issues left open | Yes (or defer) |
 | WCAG 2.2 AA compliance verified | Yes (or defer) |
+| UX writing pass done, and the final design carries the copy from the UX writing guide | Yes (or defer) |
 | Not-verified items have investigation plan | Conditional (or defer) |
 
 ### Deliver

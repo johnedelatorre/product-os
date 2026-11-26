@@ -30,18 +30,32 @@ Documents include a TL;DR block at top, use scannable headings, numbered steps, 
 
 Attribution: Adapted from [ayghri/i-have-adhd](https://github.com/ayghri/i-have-adhd) (MIT License). See NOTICE.md.
 
+## Guided Questions (Always On)
+
+**Every agent asks before it writes, and keeps asking until its document is finished.** See `.claude/skills/guided-questions.md`.
+
+1. One question at a time, each with its place ("Question 2 of 4")
+2. Short numbered options, the recommended one marked
+3. At most 5 questions before a document, and a second round after the first draft
+4. Never ask for what a source or `progress.yaml` already answers
+5. No decision in a document is made by the agent alone; an undecided item is a named TBD
+
+The PM never has to say "ask me guided questions". This covers every document, the design critique and the UX writing guide included.
+
 ## Owner
 
 John De La Torre-Ugarte — Head of Product / Product Design Lead with 25+ years of experience (ex-frontend engineer). This system reflects his dual PM/PD practice and high standards for artifact quality.
 
 ## Platform Compatibility
 
-Product OS works in both **Claude Code** and **Cursor**:
+Product OS works in **Claude Code**, **Cursor**, **claude.ai** and **ChatGPT**:
 
 | Platform | Commands | Agents |
 |----------|----------|--------|
 | Claude Code | Plugin slash commands (`/product-os:*`, from `.claude-plugin/`) | Native Task delegation (agents in `.claude/agents/` register as subagents via frontmatter) |
 | Cursor | Role-based invocation | `.cursor/agents/` + role-based |
+| claude.ai | Plain language | One role at a time, from the files in `claude-ai/` |
+| ChatGPT | Plain language | One role at a time, from the 8-file pack in `chatgpt/` |
 
 Canonical content lives in `.claude/` (read by both platforms). Skills in `.claude/skills/` are reference documents read by path. See `docs/guides/platform-compatibility.md`.
 
@@ -52,7 +66,7 @@ Product OS provides a complete pipeline from raw requirement to shipped, measure
 1. **Intake** — Structure any input (executive ask, customer feedback, analytics signal) into a problem/opportunity statement
 2. **Proposal** — For new ideas: research, propose solution, interface first (see `.claude/skills/proposal.md`)
 3. **PM Agent** — Deep PRD, project brief, project plan, RACI, Gantt chart with full strategic and delivery context
-4. **Design Agents** — Design brief, user flows, wireframes, clickable prototypes, Figma sync, then design critique, UX review, and accessibility audit
+4. **Design Agents** — Design brief, user flows, wireframes, clickable prototypes, Figma sync, then the design critique paired with the UX writing pass (final designs and the UX writing guide), UX review, and accessibility audit
 5. **Delivery Agent** — The engineering handoff: one epic that links to everything the team needs, lean tickets with estimates, and a ticket tree the PM approves (see `.claude/skills/engineering-handoff.md`)
 6. **Publisher** — After human approval, write to Confluence, create or update Jira epics/stories, link everything together
 7. **Tools** — RICE/WSJF prioritization, OKRs, roadmaps, competitive analysis, experiments, and more
@@ -86,10 +100,10 @@ Runs the complete pipeline with human checkpoints at each stage. You review and 
 
 Product OS asks guided questions, one at a time, instead of producing everything:
 
-1. **What are you building, and what do you already have?** The request, proposals, emails, existing PRDs, the tech stack, backend schemas, existing designs. "I don't have that" is always a valid answer.
-2. **Which documents do you want for yourself?** A RACI chart, a Gantt chart, a design brief and so on. Only what you pick is created.
-3. **What goes to the team?** The standard handoff, plus anything you attach to the epic.
-4. **Is this ticket tree right?** You accept it or move items before anything reaches Jira.
+1. **Seven questions at the start.** What you are building and who will use it; who will read what it writes; your role; the design system to follow (a Figma library, a Claude design system, both, or none yet); where it came from; everything you have, in one step, sorted into Found and Missing; and the playback, which you accept before anything is written. "That is all" is always a valid answer.
+2. **Questions before every document.** The decisions that document needs, until it is finished (above).
+3. **Two confirmations at the handoff.** What each reader group gets, and the ticket tree. You accept it or move items before anything reaches Jira.
+4. **One question after the handoff.** What the team said was missing or too much. It becomes your team's default.
 
 Every run ends with one list: for the team (share the epic), for you, and what was not created. Rules: `.claude/skills/engineering-handoff.md`.
 
@@ -102,6 +116,8 @@ Run any stage independently:
 /product-os:propose         # Research idea, propose solution (new ideas only)
 /product-os:prd             # Generate full PRD
 /product-os:design-brief    # Create design brief from PRD
+/product-os:critique        # Design critique, paired with the UX writing pass
+/product-os:ux-writing      # UX writing pass and the UX writing guide
 /product-os:deliver         # Generate Jira-ready epics + stories
 /product-os:publish         # Publish to Confluence + Jira (after approval)
 ```
@@ -156,11 +172,12 @@ Every artifact must meet these bars:
 - [ ] User flows cover happy path + edge cases + errors
 - [ ] Accessibility (WCAG 2.2 AA minimum) addressed
 - [ ] Heuristic evaluation performed
+- [ ] UX writing pass done with the design critique; the final design carries the copy from the UX writing guide
 - [ ] Hand-off spec complete for implementation
 
 ### Delivery Artifacts
-- [ ] The epic links to every handoff output: PRD, project brief, user flows, final design, end-to-end prototype
-- [ ] Tickets are short: user story, problem, requirements, design link, a testable "Done when" checklist, estimate
+- [ ] The epic links to every handoff output: PRD, project brief, user flows, final design, UX writing guide, end-to-end prototype
+- [ ] Tickets are short: user story, problem, requirements, design link, the "use the copy as is" line, a testable "Done when" checklist, estimate
 - [ ] Tickets are 1–5 points; steps inside a ticket are sub-tasks; the PM accepted the ticket tree
 - [ ] Backend tickets are high level and left for the engineers to complete
 - [ ] Dependencies and blockers identified
@@ -185,6 +202,7 @@ initiatives/
         ├── wireframes.md
         ├── prototype.html
         ├── design-critique.md
+        ├── ux-writing.md
         ├── epics.md
         ├── stories.md
         ├── progress.yaml          # Guided-mode state

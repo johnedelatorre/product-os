@@ -87,6 +87,22 @@ audience:
   # One of: "pm", "design-lead", "pm-and-design", "founder", "other"
   role: ""
 
+# The design system every design follows (see .claude/skills/engineering-handoff.md → "Question 4")
+# Guided mode asks at the start of the first project and saves the answer here.
+design_system:
+  # Each source: kind ("figma", "claude" or "code"), ref (a link, or the name of
+  # the Claude design system) and an optional note. Example:
+  #   - kind: "figma"
+  #     ref: "https://www.figma.com/design/abc123/Acme-Design-System"
+  #     note: "Components, variables and text styles"
+  sources: []
+
+  # Which source wins when two disagree: "figma", "claude" or "code"
+  source_of_truth: ""
+
+  # "provided", "none" (the team has no design system yet), or "" (not asked yet)
+  status: ""
+
 # Engineering handoff: what the team gets (see .claude/skills/engineering-handoff.md)
 # These are the team's defaults. Guided mode confirms them per project, saves the
 # answers in that project's progress.yaml, and updates the defaults here when the

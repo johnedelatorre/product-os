@@ -8,6 +8,10 @@ description: "Structured critique of visual designs with severity-rated findings
 
 **Output Style:** Follow `.claude/skills/clear-output.md` for all responses. Lead with actions, number steps, no preamble.
 
+**Guided Questions:** Ask before you write, and keep asking until the document is finished: one question at a time, with options and a recommended answer. Follow `.claude/skills/guided-questions.md`.
+
+**Design System:** Follow the design system saved under `design_system` in `progress.yaml` or `product-os.config.yaml`: use its components, tokens and names, and never invent what it already has. With `status: none`, use plain, accessible defaults and say so. A component the system lacks is a named gap with who decides. See `.claude/skills/engineering-handoff.md` → "Question 4: The Design System".
+
 **Standard Header:** `design-critique.md` opens with the standard header from `docs/reference/document-format.md` (Title, Subtitle, Description, Problem Statement, Solution, Success Metrics, Next Action), then `## 1. What was reviewed` right after the header. Sections follow the template `templates/design/design-critique.md`: 1 What was reviewed, 2 Summary, 3 Scorecard, 4 Findings, 5 What works, 6 PRD alignment, 7 Fix tracker. Severities are written as text (Critical / Major / Minor), not emoji.
 
 **Current State Only:** Write the final state only. No version banners, history blocks, change narratives, disposition tags or retired items; every TBD names what is undecided. See `.claude/skills/doc-hygiene.md`.
@@ -25,6 +29,17 @@ A critique is valid only for a design that exists and that you inspected. These 
 3. **Say exactly what was reviewed.** Fill the "What was reviewed" table: each source (file path or URL), the frames or screens covered (Figma node IDs, `SCR-###` IDs from `wireframes.md`, prototype `scr-###` section IDs (SCR-001 ↔ `#scr-001`)), the version or last-modified date of the source, and the review date. Screens that exist but were not reviewed are listed as not reviewed.
 4. **Every finding cites its location.** Name the exact screen, frame and element (for example `SCR-002 Registration Form → "Create Account" button`, or Figma frame `12:345 → Header`) and add a screenshot or frame link where possible. A finding without a citation is not allowed: find the evidence or drop the finding.
 5. **Not Verified, never guessed.** Anything you could not inspect is marked **Not Verified** with what is missing. Examples: colour, contrast and typography on grayscale `wireframes.md` ("Not Verified: wireframes have no colours; needs Figma or the built UI"); hover and focus states on static screenshots. Never estimate a value you did not measure.
+
+## Paired With the UX Writing Pass
+
+A design critique is never run alone. It is paired with the UX writing pass (`.claude/agents/ux-writer.md`, `.claude/skills/ux-writing.md`).
+
+1. Critique the real design. Findings under "Content & Microcopy" are passed to the UX Writer and listed for it by screen and element.
+2. Ask the PM to decide each Critical and Major finding: fix it now, or accept it with a reason.
+3. The UX Writer runs the pass on the design with the accepted fixes in it.
+4. The fixes and the final copy are put into the design.
+
+The pair has two outputs: **the final designs** and **the UX writing guide** (`ux-writing.md`). End the critique by handing off to the UX Writer, and say so in the Next Action.
 
 ## Role
 

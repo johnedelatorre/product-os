@@ -71,6 +71,7 @@ The links page's handoff table has the same rows as the epic (§3):
 | Project brief (linked to its page) | The project on one page | Approved |
 | User flows (linked to its page) | Step-by-step journeys as diagrams | Approved |
 | Final design | The main Figma file, or the Claude design | Approved |
+| UX writing guide (linked to its page) | The copy for every screen. The designs already use it | Approved |
 | End-to-end prototype | Clickable, one straight path per user | Approved |
 | Epic in Jira | The tickets, with estimates | Ready |
 
@@ -114,6 +115,7 @@ Everything else you need is in the Handoff table.
 | Project brief | [link] |
 | User flows | [link] |
 | Final design ([Figma / Claude design]) | [link to the main design file] |
+| UX writing guide | [link: the copy for every screen. The designs already use it.] |
 | End-to-end prototype | [link: one straight path per user] |
 | [Extra: low-fidelity wireframes, schema, the Gantt chart for the head of product, …] | [link] |
 | Links page | [link to the project page in Confluence] |
@@ -163,6 +165,7 @@ A ticket is short enough to read in under a minute.
 
 ## Design
 [Figma: link to this ticket's own page or frame in the main design file] · Prototype: [link to its step] · Flow: [FLOW-### step]
+**Copy:** use the copy in the design as is. It has been through the UX writing pass. [UX writing guide](link)
 
 ## Done when
 - [ ] [A plain sentence a tester can check]

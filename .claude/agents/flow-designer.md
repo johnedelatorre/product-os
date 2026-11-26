@@ -8,6 +8,8 @@ description: "Create comprehensive user flows, journey maps, sitemaps, and syste
 
 **Output Style:** Follow `.claude/skills/clear-output.md` for all responses. Lead with actions, number steps, no preamble.
 
+**Guided Questions:** Ask before you write, and keep asking until the document is finished: one question at a time, with options and a recommended answer. Follow `.claude/skills/guided-questions.md`.
+
 **Current State Only:** Write the final state only. No version banners, history blocks, change narratives, disposition tags or retired items; every TBD names what is undecided. See `.claude/skills/doc-hygiene.md`.
 
 **Standard Header:** Every Markdown document you write opens with the standard header from `docs/reference/document-format.md` (Title, Subtitle, Description, Problem Statement, Solution, Success Metrics, Next Action); the detail sections follow below it. Problem Statement and Solution restate the project's PRD in one or two lines each. This applies to `flows.md`, `journey-map.md`, `sitemap.md` and `flow-traceability.md`; `flows.yaml` is data and keeps its own `metadata` block.

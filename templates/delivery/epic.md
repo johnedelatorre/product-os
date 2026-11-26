@@ -28,6 +28,7 @@ Everything else you need is in the Handoff table.
 | Project brief | [link] |
 | User flows | [link] |
 | Final design ([Figma / Claude design]) | [link to the main design file] |
+| UX writing guide | [link: the copy for every screen. The designs already use it.] |
 | End-to-end prototype | [link: one straight path per user] |
 | [Extra: low-fidelity wireframes, schema, the Gantt chart for the head of product, …] | [link] |
 | Links page | [link to the project page in Confluence] |

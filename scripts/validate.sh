@@ -76,7 +76,7 @@ SKILLS=$(ls .claude/skills/*.md 2>/dev/null | wc -l)
 echo "  Skills: $SKILLS"
 
 # Check key skills exist
-REQUIRED_SKILLS=("clear-output.md" "estimation.md" "guided-workflow.md" "context-freshness.md")
+REQUIRED_SKILLS=("clear-output.md" "guided-questions.md" "estimation.md" "guided-workflow.md" "context-freshness.md" "engineering-handoff.md" "ux-writing.md")
 MISSING_SKILLS=0
 
 for skill in "${REQUIRED_SKILLS[@]}"; do
@@ -333,6 +333,33 @@ for ref in $(grep -rhoE "/product-os:[a-z0-9-]+" README.md CLAUDE.md AGENTS.md d
 done
 if [[ $MISSING_CMDS -eq 0 ]]; then
     log_pass "All /product-os: command references resolve"
+fi
+
+# ============================================================
+# Check 16: Guided questions skill referenced in agents
+# ============================================================
+log_check "Guided questions referenced"
+
+AGENTS_WITH_QUESTIONS=$(grep -rl "guided-questions.md" .claude/agents/ 2>/dev/null | wc -l || echo "0")
+TOTAL_AGENTS=$(ls .claude/agents/*.md 2>/dev/null | wc -l)
+
+echo "  Agents referencing guided-questions: $AGENTS_WITH_QUESTIONS / $TOTAL_AGENTS"
+
+if [[ $AGENTS_WITH_QUESTIONS -eq $TOTAL_AGENTS ]]; then
+    log_pass "All agents reference guided questions"
+else
+    log_fail "Agents missing the guided-questions reference"
+fi
+
+# ============================================================
+# Check 17: ChatGPT pack matches its source files
+# ============================================================
+log_check "ChatGPT pack is up to date"
+
+if python3 scripts/build-chatgpt-pack.py --check >/dev/null 2>&1; then
+    log_pass "chatgpt/pack matches the source files"
+else
+    log_fail "chatgpt/pack is out of date: run python3 scripts/build-chatgpt-pack.py"
 fi
 
 # ============================================================

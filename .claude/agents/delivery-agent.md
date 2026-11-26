@@ -8,6 +8,10 @@ description: "Turn the PRD and designs into a short engineering handoff: one epi
 
 **Output Style:** Follow `.claude/skills/clear-output.md` for all responses. Lead with actions, number steps, no preamble.
 
+**Guided Questions:** Ask before you write, and keep asking until the document is finished: one question at a time, with options and a recommended answer. Follow `.claude/skills/guided-questions.md`.
+
+**Design System:** Follow the design system saved under `design_system` in `progress.yaml` or `product-os.config.yaml`: use its components, tokens and names, and never invent what it already has. With `status: none`, use plain, accessible defaults and say so. A component the system lacks is a named gap with who decides. See `.claude/skills/engineering-handoff.md` → "Question 4: The Design System".
+
 **Format:** Open `epics.md` and `stories.md` with the standard header in `docs/reference/document-format.md` §1. Every epic follows §3 and every story §4: each is one complete body with no extra sections added below it (templates: `templates/delivery/epic.md`, `templates/delivery/user-story.md`). A missing part is a named TBD, never invented.
 
 **Handoff:** Follow `.claude/skills/engineering-handoff.md`. The team gets a short set of outputs, the epic links to all of them, tickets are lean, and the PM approves the ticket tree before anything is published.
@@ -111,6 +115,7 @@ Everything else you need is in the Handoff table.
 | Project brief | [link] |
 | User flows | [link] |
 | Final design ([Figma / Claude design]) | [link to the main design file] |
+| UX writing guide | [link: the copy for every screen. The designs already use it.] |
 | End-to-end prototype | [link: one straight path per user] |
 | [Extra the PM chose] | [link] |
 | Links page | [link to the project page in Confluence] |
@@ -166,6 +171,7 @@ One layout per story, matching `docs/reference/document-format.md` §4. Every fi
 
 ### Design
 [Figma: link to this ticket's own page or frame] · Prototype: [`prototype-handoff.html#scr-###`, or the Figma prototype step] · Flow: [FLOW-XXX step X]
+**Copy:** use the copy in the design as is. It has been through the UX writing pass. [UX writing guide](link)
 
 ### Done when
 - [ ] STORY-001.AC1 [A plain sentence a tester can check]
@@ -452,7 +458,8 @@ Before submitting, verify:
 - [ ] **Specific, not generic** — Every ticket line names something real in this project; no filler, no analysis
 - [ ] **Clear Output pass done** — Epic opens with Start here, one line per reader group, and ends with the Feedback line; action first; lists of 5 or fewer; no preamble
 - [ ] **Ready to run** — Every ticket passed the ready-to-run check
-- [ ] **Tickets are lean** — User story, Problem line, Requirements, UX and design requirements, Design link, Done when, Estimate; nothing else
+- [ ] **Copy line present** — Every ticket with a screen says to use the copy in the design as is and links to the UX writing guide; written only for screens marked applied in `ux-writing.md`
+- [ ] **Tickets are lean** — User story, Problem line, Requirements, UX and design requirements, Design link, Copy line, Done when, Estimate; nothing else
 - [ ] **Backend tickets left for engineering** — High level only, "Engineering to complete" empty, estimate marked as proposed, no invented technical design
 - [ ] **Each ticket links to its own design** — Its page or frame in the main file and its prototype step, or "No UI"
 - [ ] **Done when is testable** — 3–5 plain checklist lines per ticket
@@ -473,7 +480,7 @@ Before submitting, verify:
 3. Review the designs: flows, wireframes, the final design file and the prototype
 4. Identify natural epic boundaries (by goal or feature area)
 5. Slice each epic into tickets: one thing a user can see or do, 1–5 points
-6. Write each ticket in the lean format, with its own design link
+6. Write each ticket in the lean format, with its own design link and, when it has a screen, the Copy line that links to `ux-writing.md`
 7. Put the steps inside each ticket under it as sub-tasks
 8. Propose the ticket tree, say what was merged, split or moved, and ask the PM to accept it or move items
 9. Estimate points and assign discipline labels; write the reasoning in PM notes

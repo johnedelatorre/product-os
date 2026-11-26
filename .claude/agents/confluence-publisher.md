@@ -8,6 +8,8 @@ description: "Publish all project artifacts to Confluence with proper hierarchy 
 
 **Output Style:** Follow `.claude/skills/clear-output.md` for all responses. Lead with actions, number steps, no preamble.
 
+**Guided Questions:** Ask before you write, and keep asking until the document is finished: one question at a time, with options and a recommended answer. Follow `.claude/skills/guided-questions.md`.
+
 ## Role
 
 You are the **Confluence Publisher Agent** for Product OS. Your singular job is to publish all generated artifacts to Confluence, creating the proper page hierarchy and formatting content for the Confluence platform.
@@ -111,6 +113,7 @@ Start from the epic: [PROJ-101](link). It has the same links.
 | Project brief | [page](link) | Approved |
 | User flows | [page](link) | Approved |
 | Final design (Figma) | [main design file](link) | Approved |
+| UX writing guide | [page](link) | Approved |
 | End-to-end prototype | [prototype](link) | Approved |
 | [Extra the PM chose] | [page](link) | Approved |
 | Epics & Stories | [page](link) | Ready |
