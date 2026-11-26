@@ -2,15 +2,142 @@
 
 > AI agents that write the documents of product management and design, so your PMs spend their time on strategy, decisions and alignment.
 
-**PM rigor leads; design serves product strategy.**
-
-**New PM? Read three sections:** [Key Terms](#key-terms) → [Pick Your Path](#pick-your-path), then its [Quick Start](#quick-start) steps → [Your First Project](#your-first-project-step-by-step). Everything from [Guided Mode](#guided-mode) down is reference.
-
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Works in **Claude chat**, as a **Claude artifact**, in **ChatGPT**, **Claude Code** and **Cursor**. [Pick your path](#pick-your-path).
+## Start Here
 
-**On this page:** [What it is](#what-is-product-os) · [Key terms](#key-terms) · [Design critique and UX writing](#design-critique-and-the-ux-writing-pass) · [Pick your path](#pick-your-path) · [Quick Start](#quick-start) · [Your first project](#your-first-project-step-by-step) · [Workflow](#how-it-works) · [Success and metrics](#what-success-looks-like-validation-and-metrics) · [Document format](#what-every-document-and-page-looks-like) · [Examples](#examples-you-can-copy) · [Guided Mode](#guided-mode) · [Commands](#commands) · [Agents](#agents) · [Skills](#skills) · [Documents](#documents) · [Rolling it out](#rolling-it-out-to-a-team) · [Configuration](#configuration)
+Three steps. Everything below "Reference" is there when you need it; you do not have to read it first.
+
+### 1. Pick your path
+
+Where do you work? Pick one row and follow its steps.
+
+| Where you work | Pick this path | Setup | Go to |
+|----------------|----------------|-------|-------|
+| In the Claude app, not in a code editor | **A · Claude chat** | About 10 minutes | [Path A steps](#path-a--claude-chat) |
+| You want a page, not a chat, for the first questions | **B · Claude artifact** | About 2 minutes | [Path B steps](#path-b--claude-artifact-the-visual-start) |
+| In ChatGPT | **C · ChatGPT** | About 10 minutes | [Path C steps](#path-c--chatgpt) |
+| In a repo, with Claude Code | **D · Claude Code** | About 5 minutes | [Path D steps](#path-d--claude-code) |
+| In Cursor | **E · Cursor** | About 5 minutes | [Path E steps](#path-e--cursor) |
+
+Not sure? A PM who does not use a terminal picks A or C. The questions, the documents and the handoff are the same on every path.
+
+### 2. Have these ready
+
+1. **The request**: the email, message or note that started this.
+2. **Anything you already have**: a PRD, customer feedback, analytics, a schema, screenshots. All optional.
+3. **Your design system and existing designs**, in Figma or in Claude Design, if there are any.
+4. **Who will read the output**: engineers, a head of product, designers, a client.
+5. **Your Confluence space and Jira project**, if you want Product OS to publish there.
+
+"I don't have that" is always a valid answer.
+
+### 3. Follow the flow
+
+1. **You say:** "Start Product OS guided mode."
+2. **It asks seven questions**, one at a time, then plays back what it understood. Nothing is written before your yes.
+3. **It writes each document**, asking the decisions that document needs: the intake, the PRD, the project brief, the user flows, the wireframes and the prototype.
+4. **It reviews the real design**: a design critique paired with a UX writing pass. You get the final designs and the UX writing guide.
+5. **It hands off**: one link to share with your team, the epic, with short tickets under it. Then it asks what the team said.
+
+You approve every step, and nothing reaches Confluence or Jira without your OK.
+
+<details>
+<summary><b>How the paths compare</b> (click to expand)</summary>
+
+| | **A · Claude chat** | **C · ChatGPT** | **D · Claude Code** | **E · Cursor** |
+|---|---|---|---|---|
+| **Setup** | A Claude Project with the instructions and starter files in `claude-ai/` | A ChatGPT Project or custom GPT with the instructions and 8-file pack in `chatgpt/` | Installer + `product-os` plugin | Installer (adds Cursor rules and agents) |
+| **How you start work** | "Start guided mode for project X" | "Start guided mode for project X" | `/product-os:guide` and the other slash commands | "Read `.claude/agents/guide.md` and start project X" |
+| **Slash commands** | No (plain language) | No (plain language) | Yes, `/product-os:*` | No (role-based) |
+| **Agents** | One role at a time, from the project files | One role at a time, from the pack | Each agent is a registered subagent | Native adapters + any agent by file |
+| **Where documents live** | Files in the chat; download or copy them | Files in the chat or canvas; download them | `initiatives/<initiative>/<project>/` in your repo | `initiatives/<initiative>/<project>/` in your repo |
+| **Confluence and Jira** | Atlassian connector, if your workspace enables it (approval first) | Atlassian Rovo app, if your workspace and region have it (approval first) | Atlassian MCP or REST fallback (approval first) | Atlassian MCP or REST fallback (approval first) |
+
+Path B is the visual start for paths A and C: it asks the start questions on a page and hands a brief to the chat, where the documents are written. Progress (`progress.yaml`) and session handovers (`HANDOVER.md`) are plain files, so you can start on one path and continue on another.
+
+</details>
+
+---
+
+## Quick Start
+
+The steps for the path you picked in [Start Here](#start-here).
+
+### Path A · Claude chat
+
+1. Download this repo (Code → Download ZIP) and unzip it. On a Mac, press **Cmd+Shift+.** in Finder to show the hidden `.claude` folder.
+2. In claude.ai, create a **Project** (for example "Product OS").
+3. Paste [`claude-ai/project-instructions.md`](claude-ai/project-instructions.md) (everything below its line) into the project's **Instructions**.
+4. Upload the starter knowledge set listed in [`claude-ai/README.md`](claude-ai/README.md#starter-knowledge-set) to the project's **Knowledge**. Add more agents later as you need them.
+5. Optional: turn on the Atlassian connector so Claude can publish to Confluence and Jira after you approve.
+6. Start a chat in the project: *"Start Product OS guided mode for initiative customer-onboarding, project self-serve-signup."*
+
+Full steps and tips: [Product OS in claude.ai](claude-ai/README.md).
+
+### Path B · Claude artifact, the visual start
+
+For PMs who want a page, not a chat, for the first questions.
+
+1. Download [`artifact/product-os-start.html`](artifact/product-os-start.html).
+2. In Claude, attach the file and say: *"Publish this page as an artifact."*
+3. Open the artifact and answer the seven questions. The brief fills in beside you.
+4. Press **Yes, copy the brief**.
+5. Paste the brief into your Product OS project in Claude chat (path A) or ChatGPT (path C), and attach the files you listed. The chat shows the playback and waits for your yes.
+
+The page covers the start questions. The documents are written in the chat. What it does and does not do: [Product OS as a Claude artifact](artifact/README.md).
+
+### Path C · ChatGPT
+
+For PMs who work in ChatGPT and not in a code editor.
+
+1. Download this repo (Code → Download ZIP), unzip it and open the `chatgpt` folder.
+2. In ChatGPT, create a **Project** (for example "Product OS").
+3. Paste [`chatgpt/project-instructions.md`](chatgpt/project-instructions.md) (everything below its line) into the project's **Instructions**.
+4. Upload the 8 files in [`chatgpt/pack/`](chatgpt/pack/). They bundle the core agents, skills, formats and templates, and fit a Go or Plus project (25 files) and a custom GPT (20 files).
+5. Optional: connect the Atlassian Rovo app so ChatGPT can publish to Confluence and Jira after you approve.
+6. Start a chat in the project: *"Start Product OS guided mode for initiative customer-onboarding, project self-serve-signup."*
+
+A head of product can also build it once as a custom GPT and share one link with every PM. Full steps, plan limits and what differs from Claude Code: [Product OS in ChatGPT](chatgpt/README.md).
+
+### Path D · Claude Code
+
+1. Install into your project:
+
+   ```bash
+   git clone https://github.com/johnedelatorre/product-os.git
+   cd product-os
+   ./scripts/install.sh /path/to/your/project --register-plugin
+   ```
+
+   Or, inside Claude Code: `/plugin marketplace add johnedelatorre/product-os`, then `/plugin install product-os@product-os`
+
+2. Point it at Confluence and Jira: edit `product-os.config.yaml` (see [Configuration](#configuration)).
+3. Start guided mode:
+
+   ```bash
+   /product-os:guide --initiative customer-onboarding --project self-serve-signup
+   ```
+
+### Path E · Cursor
+
+1. Run the installer: `./scripts/install.sh /path/to/your/project --platform cursor`
+2. Restart Cursor so it loads `.cursor/rules/product-os.mdc`.
+3. In chat: *"Read `.claude/agents/guide.md` and help me start a project called self-serve-signup in initiative customer-onboarding."*
+
+In Cursor you get 3 native Cursor agent adapters (Guide, PRD Author, Intake Analyst) in the agent picker; every other agent works by asking Cursor to read its file.
+
+**Then, on any path:** follow [Your First Project, Step by Step](#your-first-project-step-by-step). When you're ready to publish, Product OS shows the exact Confluence pages and Jira issues it will write and waits for your OK.
+
+---
+
+## Reference
+
+Everything from here down explains how Product OS works. Read a section when you need it.
+
+**PM rigor leads; design serves product strategy.**
+
+**In this reference:** [What it is](#what-is-product-os) · [Key terms](#key-terms) · [Design critique and UX writing](#design-critique-and-the-ux-writing-pass) · [Your first project](#your-first-project-step-by-step) · [Workflow](#how-it-works) · [Success and metrics](#what-success-looks-like-validation-and-metrics) · [Document format](#what-every-document-and-page-looks-like) · [Examples](#examples-you-can-copy) · [Guided Mode](#guided-mode) · [Commands](#commands) · [Agents](#agents) · [Skills](#skills) · [Documents](#documents) · [Rolling it out](#rolling-it-out-to-a-team) · [Configuration](#configuration)
 
 ---
 
@@ -170,108 +297,6 @@ Plain-language definitions of every term used on this page.
 | **JTBD** | Jobs to Be Done: the progress a user is trying to make, written as the "job" they hire the product for. |
 | **TAM / SAM / SOM** | Market size: total addressable, serviceable addressable, and serviceable obtainable (the share you can realistically win). |
 | **ADR** | Architecture Decision Record: a short record of a decision, why it was made and what was traded off. |
-
----
-
-## Pick Your Path
-
-Product OS is one set of content with five ways to run it. The questions, the documents, the formats and the handoff are the same on every path. Pick by how you like to work.
-
-| Path | Pick it when | What it feels like | Setup | Steps |
-|------|--------------|--------------------|-------|-------|
-| **A · Claude chat** | You work in the Claude app, not in a code editor | You ask in plain sentences. Claude asks the guided questions in the chat and gives you each document as a file. | About 10 minutes | [Path A](#path-a--claude-chat) |
-| **B · Claude artifact** | You want a page, not a chat, for the first questions | A guided page: seven questions, the brief filling in beside you, then a brief to paste into path A or C | About 2 minutes | [Path B](#path-b--claude-artifact-the-visual-start) |
-| **C · ChatGPT** | Your team works in ChatGPT | The same as path A, in a ChatGPT Project or a custom GPT your whole team opens from one link | About 10 minutes | [Path C](#path-c--chatgpt) |
-| **D · Claude Code** | You keep documents in a repo and want everything automated | Slash commands, 41 specialist agents, every document saved in your project folder | About 5 minutes | [Path D](#path-d--claude-code) |
-| **E · Cursor** | Your team already works in Cursor | You ask Cursor to take on a role by name | About 5 minutes | [Path E](#path-e--cursor) |
-
-**Not sure?** A PM who does not use a terminal picks A or C. A PM who wants a visual start adds B. A PM who lives in a repo picks D.
-
-**How the paths compare**
-
-| | **A · Claude chat** | **C · ChatGPT** | **D · Claude Code** | **E · Cursor** |
-|---|---|---|---|---|
-| **Setup** | A Claude Project with the instructions and starter files in `claude-ai/` | A ChatGPT Project or custom GPT with the instructions and 8-file pack in `chatgpt/` | Installer + `product-os` plugin | Installer (adds Cursor rules and agents) |
-| **How you start work** | "Start guided mode for project X" | "Start guided mode for project X" | `/product-os:guide` and the other slash commands | "Read `.claude/agents/guide.md` and start project X" |
-| **Slash commands** | No (plain language) | No (plain language) | Yes, `/product-os:*` | No (role-based) |
-| **Agents** | One role at a time, from the project files | One role at a time, from the pack | Each agent is a registered subagent | Native adapters + any agent by file |
-| **Where documents live** | Files in the chat; download or copy them | Files in the chat or canvas; download them | `initiatives/<initiative>/<project>/` in your repo | `initiatives/<initiative>/<project>/` in your repo |
-| **Confluence and Jira** | Atlassian connector, if your workspace enables it (approval first) | Atlassian Rovo app, if your workspace and region have it (approval first) | Atlassian MCP or REST fallback (approval first) | Atlassian MCP or REST fallback (approval first) |
-
-Path B is the visual start for paths A and C: it asks the start questions on a page and hands a brief to the chat, where the documents are written.
-
-Progress (`progress.yaml`) and session handovers (`HANDOVER.md`) are plain files, so you can start on one path and continue on another.
-
----
-
-## Quick Start
-
-The steps for each path in [Pick Your Path](#pick-your-path).
-
-### Path A · Claude chat
-
-1. Download this repo (Code → Download ZIP) and unzip it. On a Mac, press **Cmd+Shift+.** in Finder to show the hidden `.claude` folder.
-2. In claude.ai, create a **Project** (for example "Product OS").
-3. Paste [`claude-ai/project-instructions.md`](claude-ai/project-instructions.md) (everything below its line) into the project's **Instructions**.
-4. Upload the starter knowledge set listed in [`claude-ai/README.md`](claude-ai/README.md#starter-knowledge-set) to the project's **Knowledge**. Add more agents later as you need them.
-5. Optional: turn on the Atlassian connector so Claude can publish to Confluence and Jira after you approve.
-6. Start a chat in the project: *"Start Product OS guided mode for initiative customer-onboarding, project self-serve-signup."*
-
-Full steps and tips: [Product OS in claude.ai](claude-ai/README.md).
-
-### Path B · Claude artifact, the visual start
-
-For PMs who want a page, not a chat, for the first questions.
-
-1. Download [`artifact/product-os-start.html`](artifact/product-os-start.html).
-2. In Claude, attach the file and say: *"Publish this page as an artifact."*
-3. Open the artifact and answer the seven questions. The brief fills in beside you.
-4. Press **Yes, copy the brief**.
-5. Paste the brief into your Product OS project in Claude chat (path A) or ChatGPT (path C), and attach the files you listed. The chat shows the playback and waits for your yes.
-
-The page covers the start questions. The documents are written in the chat. What it does and does not do: [Product OS as a Claude artifact](artifact/README.md).
-
-### Path C · ChatGPT
-
-For PMs who work in ChatGPT and not in a code editor.
-
-1. Download this repo (Code → Download ZIP), unzip it and open the `chatgpt` folder.
-2. In ChatGPT, create a **Project** (for example "Product OS").
-3. Paste [`chatgpt/project-instructions.md`](chatgpt/project-instructions.md) (everything below its line) into the project's **Instructions**.
-4. Upload the 8 files in [`chatgpt/pack/`](chatgpt/pack/). They bundle the core agents, skills, formats and templates, and fit a Go or Plus project (25 files) and a custom GPT (20 files).
-5. Optional: connect the Atlassian Rovo app so ChatGPT can publish to Confluence and Jira after you approve.
-6. Start a chat in the project: *"Start Product OS guided mode for initiative customer-onboarding, project self-serve-signup."*
-
-A head of product can also build it once as a custom GPT and share one link with every PM. Full steps, plan limits and what differs from Claude Code: [Product OS in ChatGPT](chatgpt/README.md).
-
-### Path D · Claude Code
-
-1. Install into your project:
-
-   ```bash
-   git clone https://github.com/johnedelatorre/product-os.git
-   cd product-os
-   ./scripts/install.sh /path/to/your/project --register-plugin
-   ```
-
-   Or, inside Claude Code: `/plugin marketplace add johnedelatorre/product-os`, then `/plugin install product-os@product-os`
-
-2. Point it at Confluence and Jira: edit `product-os.config.yaml` (see [Configuration](#configuration)).
-3. Start guided mode:
-
-   ```bash
-   /product-os:guide --initiative customer-onboarding --project self-serve-signup
-   ```
-
-### Path E · Cursor
-
-1. Run the installer: `./scripts/install.sh /path/to/your/project --platform cursor`
-2. Restart Cursor so it loads `.cursor/rules/product-os.mdc`.
-3. In chat: *"Read `.claude/agents/guide.md` and help me start a project called self-serve-signup in initiative customer-onboarding."*
-
-In Cursor you get 3 native Cursor agent adapters (Guide, PRD Author, Intake Analyst) in the agent picker; every other agent works by asking Cursor to read its file.
-
-**Then, on any path:** follow [Your First Project, Step by Step](#your-first-project-step-by-step). When you're ready to publish, Product OS shows the exact Confluence pages and Jira issues it will write and waits for your OK.
 
 ---
 

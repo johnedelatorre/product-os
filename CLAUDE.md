@@ -48,7 +48,7 @@ John De La Torre-Ugarte — Head of Product / Product Design Lead with 25+ years
 
 ## Platform Compatibility
 
-Product OS is one set of content with five paths: **Claude Code**, **Cursor**, **claude.ai**, a **Claude artifact** for the start, and **ChatGPT**. README → "Pick Your Path" has the steps for each.
+Product OS is one set of content with five paths: **Claude Code**, **Cursor**, **claude.ai**, a **Claude artifact** for the start, and **ChatGPT**. README → "Start Here" asks where you work and has the steps for each.
 
 | Platform | Commands | Agents |
 |----------|----------|--------|
