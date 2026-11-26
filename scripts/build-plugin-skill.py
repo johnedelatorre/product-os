@@ -143,12 +143,12 @@ Only after the PM's yes to the plan. The Confluence Publisher and Jira Sync role
 
 The board is a page that shows the project at a glance: where it is, the next step, the numbers, every task, a table of every document with its link, what is published, and what is connected. You make it and keep it current. The PM only opens it.
 
-1. **Make it once per project**, when the project has a name: publish `assets/product-os-board.html` as an artifact in the PM's own account, titled "Product OS board: <short project name>". Publish the file as it is. Then declare the capabilities in the page's `<script type="application/json" id="capabilities">` block. Give the PM the link once and say it updates by itself.
+1. **Make it once per project**, when the project has a name: publish `assets/product-os-board.html` as an artifact in the PM's own account, titled "Product OS board: <short project name>". Publish the file as it is. Then declare the capabilities in the page's `<script type="application/json" id="capabilities">` block. Give the PM the link once. Say that it updates by itself, that it opens in its own browser tab, and that its Agents view lists every role with what to say to call it.
 2. **Write to its database every time something changes**, in one call: after each answer to a start question, at the playback, when a document changes status, when a link exists, and after publishing. The PM watches the board while they answer, so a board that does not move looks broken. The page reads these documents:
 
 | Path | Fields |
 |------|--------|
-| `project/state` | `name`, `where` (one line: phase, document, what is happening), `next` (what you are waiting for from the PM), `start` (`{{"done": 3, "total": 7, "answers": [{{"q": "a short label for the question", "a": "the PM's answer in a few words"}}]}}`, updated after each start answer), `insights` (up to 6 of `{{"kind": "ok" or "gap" or "risk", "text"}}`), `connectors` (each `{{"name", "status": "Connected" or "Not connected" or "Not used", "detail"}}`), `phases` (only to mark one skipped: `{{"2": "skipped"}}`), `updated` (the time now, ISO 8601) |
+| `project/state` | `name`, `board` (the board's own `https://claude.ai/...` link, so the board can offer "Open in new tab"), `where` (one line: phase, document, what is happening), `next` (what you are waiting for from the PM), `start` (`{{"done": 3, "total": 7, "answers": [{{"q": "a short label for the question", "a": "the PM's answer in a few words"}}]}}`, updated after each start answer), `insights` (up to 6 of `{{"kind": "ok" or "gap" or "risk", "text"}}`), `connectors` (each `{{"name", "status": "Connected" or "Not connected" or "Not used", "detail"}}`), `phases` (only to mark one skipped: `{{"2": "skipped"}}`), `updated` (the time now, ISO 8601) |
 | `documents/<id>` | `title`, `phase` (1 to 9), `order` (its place in the phase), `kind` (`doc`, `design`, `whiteboard`, `figma`, `figjam`, `prototype` or `file`), `status` (`planned`, `asking`, `writing`, `review`, `done` or `skipped`), `agent` (the role's name), `url` (its https link, once it exists), `tbd` (the number of named TBDs), `note` (one line on what it decided), `published` (each `{{"where": "Confluence", "url"}}`) |
 | `tickets/<key>` | `key`, `type` (Epic, Story, Task or Sub-task), `summary`, `url`, `parent`, `points`, `order` |
 
@@ -269,6 +269,69 @@ def manifest_text():
     return json.dumps(data, indent=2, ensure_ascii=False) + "\n"
 
 
+# Where each agent sits on the board's Agents view, and what a PM says in the chat to call it.
+# Group 0 is "Any time". Every file in .claude/agents/ must be listed here.
+AGENT_GUIDE = [
+    ("intake-analyst", 1, "Run intake on this request"),
+    ("opportunity-tree", 2, "Build the opportunity tree"),
+    ("hypothesis-logger", 2, "Log our hypotheses"),
+    ("market-analyst", 2, "Write the market analysis"),
+    ("competitive-analyst", 2, "Compare us with the competitors"),
+    ("ux-researcher", 2, "Plan the user research"),
+    ("strategist", 3, "Score this with RICE"),
+    ("roadmap-agent", 3, "Place it on the roadmap"),
+    ("okr-agent", 3, "Write the OKRs"),
+    ("prd-author", 4, "Write the PRD"),
+    ("prfaq-author", 4, "Write the PR/FAQ"),
+    ("project-brief", 4, "Write the project brief"),
+    ("metrics-designer", 4, "Write the metrics framework"),
+    ("project-planner", 4, "Write the project plan"),
+    ("risk-manager", 4, "List the risks"),
+    ("dependency-tracker", 4, "List the dependencies"),
+    ("experiment-designer", 4, "Design an A/B test"),
+    ("event-tracker", 4, "Write the tracking plan"),
+    ("product-designer", 5, "Write the design brief"),
+    ("flow-designer", 5, "Draw the user flows"),
+    ("wireframer", 5, "Make the wireframes"),
+    ("prototyper", 5, "Build the clickable prototype"),
+    ("figma-agent", 5, "Sync the designs with Figma"),
+    ("design-critic", 6, "Run the design critique"),
+    ("ux-writer", 6, "Run the UX writing pass"),
+    ("ux-reviewer", 6, "Run the UX review"),
+    ("accessibility-auditor", 6, "Run the accessibility audit"),
+    ("delivery-agent", 7, "Write the epic and tickets"),
+    ("gate-keeper", 7, "Check the tickets are ready"),
+    ("confluence-publisher", 7, "Show me the Confluence publish plan"),
+    ("jira-sync", 7, "Show me the Jira ticket tree"),
+    ("launch-manager", 8, "Prepare the launch"),
+    ("stakeholder-comms", 8, "Write the stakeholder update"),
+    ("post-launch-reviewer", 9, "Run the post-launch review"),
+    ("retro-facilitator", 9, "Run a retro"),
+    ("guide", 0, "Start Product OS"),
+    ("orchestrator", 0, "Run the whole pipeline"),
+    ("decision-logger", 0, "Log this decision"),
+    ("artifact-registry", 0, "List every document and design"),
+    ("debt-tracker", 0, "Track this debt"),
+    ("doc-cleaner", 0, "Clean the history out of the documents"),
+]
+
+
+def agent_guide():
+    """The agents as the board lists them: name, what each does, its phase, and what to say."""
+    folder = os.path.join(ROOT, ".claude", "agents")
+    on_disk = sorted(n[:-3] for n in os.listdir(folder) if n.endswith(".md"))
+    listed = sorted(a[0] for a in AGENT_GUIDE)
+    if on_disk != listed:
+        raise SystemExit("build-plugin-skill: AGENT_GUIDE and .claude/agents/ differ: %s" % ", ".join(sorted(set(on_disk) ^ set(listed))))
+    out = []
+    for slug, phase, say in AGENT_GUIDE:
+        text = io.open(os.path.join(folder, slug + ".md"), encoding="utf-8").read()
+        title = re.search(r"(?m)^# (.+)$", text).group(1).strip()
+        title = re.sub(r"^Product OS ", "", re.sub(r" Agent$", "", title))
+        out.append({"name": title, "does": frontmatter_description(text), "phase": phase, "say": say})
+    return out
+
+
 def stamped():
     """Every other file that shows the version, with the current version written in: {path: text}."""
     out = {}
@@ -285,6 +348,10 @@ def stamped():
         if n != 1:
             raise SystemExit("build-plugin-skill: %s must show the version line exactly once" % os.path.relpath(path, ROOT))
         out[path] = new
+    listing = json.dumps(agent_guide(), ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+    out[BOARD], n = re.subn(r'(?s)(<script type="application/json" id="agents">).*?(</script>)', lambda m: m.group(1) + listing + m.group(2), out[BOARD])
+    if n != 1:
+        raise SystemExit("build-plugin-skill: the board must hold the agents list exactly once")
     return out
 
 

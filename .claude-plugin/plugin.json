@@ -1,8 +1,8 @@
 {
   "name": "product-os",
   "displayName": "Product OS",
-  "version": "1.8.2",
-  "description": "Product management and design operating system. Claude leads a PM through a guided 9-phase workflow with 41 agents, 48 commands (/product-os:*), 44 playbooks and templates, makes each output in its real form, publishes to Confluence and Jira, and keeps a live board. Works in Claude chat, Cowork and Claude Code. Version 1.8.2.",
+  "version": "1.9.0",
+  "description": "Product management and design operating system. Claude leads a PM through a guided 9-phase workflow with 41 agents, 48 commands (/product-os:*), 44 playbooks and templates, makes each output in its real form, publishes to Confluence and Jira, and keeps a live board. Works in Claude chat, Cowork and Claude Code. Version 1.9.0.",
   "author": {
     "name": "John De La Torre-Ugarte",
     "url": "https://github.com/johnedelatorre"
