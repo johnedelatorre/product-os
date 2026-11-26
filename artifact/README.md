@@ -1,25 +1,38 @@
 # Product OS as a Claude Artifact: the Visual Start
 
-> **TL;DR:** `product-os-start.html` is a guided page for the seven start questions. You answer on the left, and the brief fills in on the right. At the end it copies a brief that you paste into your Product OS project in Claude or ChatGPT, where the documents are written. Use it when you want a page, not a chat, for the first questions.
+> **TL;DR:** `product-os-start.html` is the start of a project as a visual workspace. A guide asks the seven start questions in a conversation, with chips to answer. A board beside it shows every task: Start and the nine phases, each done, in progress or not started, with its numbers. Opened in Claude, the guide is Claude. At the end it copies a brief you paste into your Product OS project in Claude, ChatGPT or Claude Code, where the documents are written.
 
 ## What It Looks Like
 
-![The review screen on a desktop screen and on a phone: four numbers, what it noticed, a table of the documents it will make, and what it understood](../docs/images/hero.jpg)
+![Product OS on a desktop screen and on a phone: a conversation with the guide and its answer chips, beside a board of ten tasks with their status](../docs/images/hero.jpg)
 
-1. **Seven questions, one per screen**, each with its place ("Question 2 of 7"): what and who, readers, your role, the design system, where it came from, what you already have, and "Does this look right?"
-2. **The brief on the right fills in as you answer.** It is the playback, built live.
-3. **"What do you already have?" sorts what you list** into Found and Missing.
-4. **The last screen is a review of the project**: four numbers (questions answered, kinds of material found, documents to be made, reader groups), what it noticed, a table of every document with who it is for and its phase, and what it understood.
-5. **One button copies the brief**, and two links open Claude and ChatGPT.
+1. **Where you are**, at the top: the project, the question you are on, and a bar of the seven steps.
+2. **The conversation.** The guide asks one question at a time ("Question 4 of 7"). You tap a chip or type. It asks as an invitation: "What do you already have?", "Does this look right?".
+3. **The board.** Four numbers (questions answered, kinds of material found, documents planned, phases done), then ten tasks. Start lists its seven steps with your answers. Each phase opens to its documents and who each is for.
+4. **What I noticed.** Short notes on gaps, readers and the design system.
+5. **The end.** You say yes, it copies the brief, and two chips open Claude and ChatGPT.
 
-The page opens with example answers so you can see a finished run. "Clear all answers" starts yours.
+The page opens with example answers, part way through, so you can see a project in progress. "Start over" clears it.
+
+## The Agent
+
+| Where you open it | Who asks | What it adds |
+|-------------------|----------|--------------|
+| **As a Claude artifact** | Claude. The badge reads "Agent: Claude". The first answer asks for your consent. | It reads typed answers into the right fields, reflects each answer in one line, and writes "What I noticed". |
+| **As a plain file in a browser** | Fixed questions. The badge reads "Guided questions". | Nothing is sent anywhere. The notes come from fixed rules. |
+
+The seven questions and their order are fixed in both. Claude never invents an answer: it only restates what you typed.
+
+## The Board After the Start
+
+Paste a project's `progress.yaml` under "Update the board from progress.yaml". The board then shows which phases and documents are done, in progress or skipped, and where you are. Claude Code saves that file in the project folder; Claude chat and ChatGPT give it to you when you ask.
 
 ## Setup (about 2 minutes)
 
 1. Download [`product-os-start.html`](product-os-start.html) from this folder.
 2. In Claude (claude.ai or the desktop app), attach the file and say: *"Publish this page as an artifact."*
-3. Open the artifact and answer the seven questions.
-4. Press **Yes, copy the brief**.
+3. Open the artifact and answer the guide's seven questions.
+4. Tap **Yes, copy the brief**.
 5. Paste the brief into your Product OS project: [Claude chat](../claude-ai/README.md) or [ChatGPT](../chatgpt/README.md). Attach the files you listed.
 
 **For a team:** one person publishes the artifact and shares it from its page. Every PM then starts from the same link.
@@ -32,11 +45,13 @@ The page opens with example answers so you can see a finished run. "Clear all an
 
 | It does | It does not |
 |---------|-------------|
-| Ask the seven start questions | Ask the questions before each document. Those depend on your sources, and they happen in the chat. |
+| Run the start conversation, with Claude as the guide when opened in Claude | Ask the questions before each document. Those depend on your sources, and they happen in the chat. |
 | Sort what you list into Found and Missing, by name | Read your files. You attach them in the chat. |
-| Show what will be made for each reader group and for you | Write the documents. The chat does. |
-| Keep your answers in your own browser | Share answers between people or devices |
+| Show every task, its status and its numbers | Write the documents. The chat does. |
+| Update the board from a `progress.yaml` you paste | Follow a project live. You paste the file again to refresh it. |
 | Copy a brief in the `progress.yaml` format | Write to Confluence or Jira |
+
+Your answers stay in your own browser.
 
 ## How It Fits the Other Paths
 

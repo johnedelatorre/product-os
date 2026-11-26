@@ -42,6 +42,8 @@ Attribution: Adapted from [ayghri/i-have-adhd](https://github.com/ayghri/i-have-
 
 The PM never has to say "ask me guided questions". This covers every document, the design critique and the UX writing guide included.
 
+**It is a conversation with an agent, on every interface.** The question comes from the agent, never as a page title, with quick replies: chips in the Claude artifact, numbered options in Claude Code, Claude chat and ChatGPT. Every turn opens with where the PM is and the task counts, and the whole status board (Start plus the nine phases, each done, in progress or not started, with its numbers) is shown at the start of a session, when a task finishes and on request. See `.claude/skills/guided-workflow.md` → "The Status Board".
+
 ## Owner
 
 John De La Torre-Ugarte — Head of Product / Product Design Lead with 25+ years of experience (ex-frontend engineer). This system reflects his dual PM/PD practice and high standards for artifact quality.

@@ -209,6 +209,16 @@ FILE: `.claude/skills/guided-questions.md`
 5. **Never ask twice.** An answer in `progress.yaml`, in a source the PM gave, or in an approved document is used, not asked again.
 6. **Ask, do not demand.** Word each question as an invitation: "What do you already have?", not "Give me everything you have."
 
+## The Agent Asks, the PM Answers
+
+Product OS is a conversation with an agent. On every interface the question comes from the agent, in the conversation.
+
+1. **A question is never a page title or a document heading.** The title says where the PM is: the project, the phase, the task.
+2. **Every question comes with quick replies.** In the Claude artifact they are chips to tap. In Claude Code, Claude chat and ChatGPT they are numbered options. The PM can always type their own answer.
+3. **Offer real options for this project**, taken from the sources and earlier answers. Add "I don't know yet" to every question.
+4. **After each answer, say one line on what was understood**, then ask the next question.
+5. **Open each turn with where the PM is** and the task counts, from the status board (`.claude/skills/guided-workflow.md` → "The Status Board").
+
 ## What to Ask
 
 | Ask | Do not ask |
@@ -249,6 +259,8 @@ Write the document, then end with one list: every decision the agent made alone,
 
 ## Quality Checklist
 
+- [ ] Each turn opened with where the PM is and the task counts
+- [ ] Every question came from the agent in the conversation, with quick replies and "I don't know yet"
 - [ ] The agent said how many questions it had, and asked them one at a time with their place
 - [ ] Every question had short options and a recommended answer
 - [ ] No question asked for something a source or `progress.yaml` already answered

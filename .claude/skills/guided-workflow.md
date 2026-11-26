@@ -226,6 +226,52 @@ When the PM enters Launch, the guide lists every open item. For each, the PM cho
 
 This is a decision point, not a block.
 
+## The Status Board
+
+Product OS is driven by a conversation with an agent. The agent asks, the PM answers, and the board shows where the project stands. Every interface shows the same board: as a panel in the Claude artifact, and as text in Claude Code, Claude chat and ChatGPT.
+
+**Tasks.** The board has ten tasks: **Start** (the seven start questions) and the nine phases. Each task has a status and its own numbers.
+
+| Status | Mark | Meaning |
+|--------|------|---------|
+| Done | ✓ | Every document is complete, or the phase passed its exit check |
+| In progress | ● | The agent is asking about it or writing it now |
+| Next | → | The task that follows the one in progress |
+| Not started | ○ | Nothing asked or written yet |
+| Skipped | – | Skipped, with the reason recorded |
+
+**On every turn, open with two lines:** where the PM is, and the task counts.
+
+```
+Self-serve signup · Phase 4 of 9 · Define · PRD, question 2 of 3
+Tasks: 3 done · 1 in progress · 6 not started · Open items: 2
+```
+
+**Show the whole board** when the PM asks ("show the board", `/product-os:status`), when a task finishes, and at the start of a session:
+
+```
+Self-serve signup · Phase 4 of 9 · Define
+Tasks: 3 done · 1 in progress · 6 not started · Open items: 2
+
+✓ Start          7 of 7 steps
+✓ 1 Intake       1 of 1 document
+– 2 Discovery    skipped: time-sensitive
+✓ 3 Prioritize   1 of 1 document
+● 4 Define       1 of 5 documents · PRD in progress
+○ 5 Design       0 of 4 documents
+○ 6 Review       0 of 2 documents
+○ 7 Deliver      0 of 1 document
+○ 8 Launch       0 of 2 documents
+○ 9 Measure      0 of 1 document
+```
+
+Rules:
+1. **The numbers come from `progress.yaml`**, never from memory. Documents counted are the ones in the PM's accepted playback.
+2. **When a task finishes, show its result**: each document with its link or file name, and one line on what it decided.
+3. **One task is in progress at a time.** Say which, and which question of how many.
+4. **The board is a status table, not a list of advice.** It is the one place where a list runs past five lines.
+5. **Never show a task as done** while a document in it is in progress or an exit criterion has failed.
+
 ## What Stays a Hard Stop
 
 | Rule | Why |

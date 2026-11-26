@@ -4,9 +4,9 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-![Product OS on a desktop screen and on a phone, both on the review screen "Does this look right?": four numbers, what it noticed, a table of the documents it will make, and what it understood](docs/images/hero.jpg)
+![Product OS on a desktop screen and on a phone: a conversation with the guide and its answer chips, beside a board of ten tasks with their status](docs/images/hero.jpg)
 
-*The review screen of the visual start (path B), on a computer and on a phone. Screenshots of `artifact/product-os-start.html`.*
+*The visual start (path B), on a computer and on a phone: the guide asks, you answer with chips, and the board shows every task. Screenshots of `artifact/product-os-start.html`.*
 
 ## What is Product OS?
 
@@ -47,7 +47,7 @@ Where do you work? Pick one row and follow its steps.
 | Where you work | Pick this path | Setup | Go to |
 |----------------|----------------|-------|-------|
 | In the Claude app, not in a code editor | **A · Claude chat** | About 10 minutes | [Path A steps](#path-a--claude-chat) |
-| You want a page, not a chat, for the first questions | **B · Claude artifact** | About 2 minutes | [Path B steps](#path-b--claude-artifact-the-visual-start) |
+| You want the conversation and a board of every task on one screen | **B · Claude artifact** | About 2 minutes | [Path B steps](#path-b--claude-artifact-the-visual-start) |
 | In ChatGPT | **C · ChatGPT** | About 10 minutes | [Path C steps](#path-c--chatgpt) |
 | In a repo, with Claude Code | **D · Claude Code** | About 5 minutes | [Path D steps](#path-d--claude-code) |
 | In Cursor | **E · Cursor** | About 5 minutes | [Path E steps](#path-e--cursor) |
@@ -115,17 +115,17 @@ Full steps and tips: [Product OS in claude.ai](claude-ai/README.md).
 
 ### Path B · Claude artifact, the visual start
 
-For PMs who want a page, not a chat, for the first questions.
+For PMs who want the conversation and a board of every task on one screen.
 
-![The visual start page at question 6 of 7, "What do you already have?": the items sorted into Found and Missing on the left, and the brief filling in on the right](docs/images/visual-start.png)
+![The visual start page: the guide's conversation with answer chips on the left, and the board of tasks on the right](docs/images/visual-start.png)
 
 1. Download [`artifact/product-os-start.html`](artifact/product-os-start.html).
 2. In Claude, attach the file and say: *"Publish this page as an artifact."*
-3. Open the artifact and answer the seven questions. The brief fills in beside you, and the last screen is a review of the whole project: four numbers, what it noticed, and a table of every document it will make.
-4. Press **Yes, copy the brief**.
+3. Open the artifact. The guide asks seven questions in a conversation, and you answer with chips or by typing. Opened in Claude, the guide is Claude. The board beside it shows every task, what is done and where you are.
+4. Tap **Yes, copy the brief**.
 5. Paste the brief into your Product OS project in Claude chat (path A) or ChatGPT (path C), and attach the files you listed. The chat shows the playback and waits for your yes.
 
-The page covers the start questions. The documents are written in the chat. What it does and does not do: [Product OS as a Claude artifact](artifact/README.md).
+The page covers the start. The documents are written in the chat, and the board updates when you paste the project's `progress.yaml`. What it does and does not do: [Product OS as a Claude artifact](artifact/README.md).
 
 ### Path C · ChatGPT
 
@@ -206,6 +206,8 @@ Product OS does not produce every document it can. It asks guided questions, one
 | 7 | **Does this look right?** The playback: what it understood and what it will make | Nothing is written before your yes |
 
 Questions 2, 3 and 4 are saved for your team. On the next project they become one line to confirm, and you answer four questions.
+
+**It is a conversation with an agent.** On every path the question comes from the agent, with quick replies: chips in the Claude artifact, numbered options in Claude Code, Claude chat and ChatGPT. Every turn opens with where you are and the task counts, and the whole status board (Start plus the nine phases, each done, in progress or not started, with its numbers) is shown when a task finishes or when you ask.
 
 **In every phase: the questions keep coming.** Before each document, the agent says how many questions it has (at most 5), asks the decisions that document needs, and confirms what was decided before the document is finished. You never have to say "ask me guided questions". Rules: [`.claude/skills/guided-questions.md`](.claude/skills/guided-questions.md).
 
