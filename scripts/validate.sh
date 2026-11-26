@@ -363,17 +363,6 @@ else
 fi
 
 # ============================================================
-# Check 19: Workspace page matches its source files
-# ============================================================
-log_check "Workspace page is up to date"
-
-if python3 scripts/build-workspace.py --check >/dev/null 2>&1; then
-    log_pass "artifact/product-os.html matches the source files"
-else
-    log_fail "artifact/product-os.html is out of date: run python3 scripts/build-workspace.py"
-fi
-
-# ============================================================
 # Check 18: Plugin skill matches its source files
 # ============================================================
 log_check "Plugin skill is up to date"

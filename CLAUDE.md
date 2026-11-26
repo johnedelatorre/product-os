@@ -42,7 +42,7 @@ Attribution: Adapted from [ayghri/i-have-adhd](https://github.com/ayghri/i-have-
 
 The PM never has to say "ask me guided questions". This covers every document, the design critique and the UX writing guide included.
 
-**It is a conversation with an agent, on every interface.** The question comes from the agent, never as a page title, with quick replies: chips in the Claude artifact, numbered options in Claude Code, Claude chat and ChatGPT. Every turn opens with where the PM is and the task counts, and the whole status board (Start plus the nine phases, each done, in progress or not started, with its numbers) is shown at the start of a session, when a task finishes and on request. On a phone the board, each task and every document are one short reply away (`board`, `task <n>`, `docs`), and the artifact slides the board out over the conversation. Every interface also has Connectors and settings (`connectors`, `settings`): what is connected, what happens without it, and the saved team settings. See `.claude/skills/guided-workflow.md` → "The Status Board", "On a Phone", "Connectors and Settings".
+**It is a conversation with an agent, on every interface.** The question comes from the agent, never as a page title, with quick replies: choices to tap in Claude, numbered options in Claude Code and ChatGPT. Every turn opens with where the PM is and the task counts, and the whole status board (Start plus the nine phases, each done, in progress or not started, with its numbers) is shown at the start of a session, when a task finishes and on request. On a phone the board, each task and every document are one short reply away (`board`, `task <n>`, `docs`), and in Claude the board is a page that Claude keeps up to date. Every interface also has Connectors and settings (`connectors`, `settings`): what is connected, what happens without it, and the saved team settings. See `.claude/skills/guided-workflow.md` → "The Status Board", "On a Phone", "Connectors and Settings".
 
 ## Owner
 
@@ -50,14 +50,13 @@ John De La Torre-Ugarte — Head of Product / Product Design Lead with 25+ years
 
 ## Platform Compatibility
 
-Product OS is one set of content with five paths: **Claude Code**, **Cursor**, **claude.ai**, a **Claude artifact** with a UI, and **ChatGPT**. README → "Start Here" asks where you work and has the steps for each.
+Product OS is one set of content with four paths: **Claude Code**, **Cursor**, **Claude** (with a live board) and **ChatGPT**. README → "Start Here" asks where you work and has the steps for each.
 
 | Platform | Commands | Agents |
 |----------|----------|--------|
 | Claude Code | Plugin slash commands (`/product-os:*`, from `.claude-plugin/`) | Native Task delegation (agents in `.claude/agents/` register as subagents via frontmatter) |
 | Cursor | Role-based invocation | `.cursor/agents/` + role-based |
-| claude.ai | Plain language; the plugin's commands load as skills | All 41, one role at a time, from the plugin skill in `skills/product-os/` (built from `.claude/`), or from the files in `claude-ai/` |
-| Claude artifact | The workspace page: chips, the board and a list of every command (`artifact/product-os.html`, built from `artifact/src/`) | All 41, in the page: each asks its questions and writes its document through Claude; the page reads attached files, uses the PM's Atlassian and Figma connectors and publishes after approval |
+| Claude (claude.ai, the desktop and mobile apps) | Plain language. Claude is the agent: it leads, asks with choices to tap, and offers each next step. The plugin's commands load as skills. | All 41, from the plugin skill in `skills/product-os/` (built from `.claude/`): one role at a time in a chat, as subagents in a Cowork task. Outputs are Claude docs, Claude Design files, whiteboards and Figma; Claude publishes to Confluence and Jira and keeps the board (`artifact/product-os-board.html`) up to date. |
 | ChatGPT | Plain language | One role at a time, from the 8-file pack in `chatgpt/` |
 
 Canonical content lives in `.claude/` (read by both platforms). Skills in `.claude/skills/` are reference documents read by path. See `docs/guides/platform-compatibility.md`.

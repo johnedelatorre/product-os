@@ -278,7 +278,7 @@ PMs also work from a phone: in the Claude and ChatGPT apps, and in Claude Code. 
 
 | Interface | How the PM opens it |
 |-----------|---------------------|
-| Claude artifact | "Tasks and documents" in the bar at the top. The board slides out over the conversation. "Close" returns to the question. |
+| Claude, with the board | The board page that Claude keeps up to date. It fits a phone: Tasks, Documents, and Published and connected, one view at a time. |
 | Claude chat, ChatGPT | Reply `board`, `task 4` or `docs` |
 | Claude Code | `/product-os:status --compact`, or the same three words |
 
@@ -323,7 +323,7 @@ Rules for a narrow screen:
 
 ## Connectors and Settings
 
-Every interface has one place that shows what Product OS is connected to and how it is set up. In the Claude artifact it is under More on the board: the page checks the PM's own Atlassian and Figma connectors and shows the real status, and the PM picks the Jira project and Confluence space from their real lists. In Claude chat and ChatGPT the PM replies `connectors` or `settings`. In Claude Code it is `/product-os:status --connectors` or `--settings`.
+Every interface has one place that shows what Product OS is connected to and how it is set up. In Claude the board lists them, as Claude checked them. In Claude chat and ChatGPT the PM replies `connectors` or `settings`. In Claude Code it is `/product-os:status --connectors` or `--settings`.
 
 **Connectors**
 
