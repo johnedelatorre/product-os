@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.7.2] - 2026-11-26
+
+### Changed
+- **Choices to tap, first** — in Claude, every question goes through the tool that shows tappable choices. Claude looks for that tool before the first question and writes a numbered list only when there is none (`skills/product-os/SKILL.md`, "How you work, on every turn").
+
 ## [1.7.1] - 2026-11-26
 
 ### Added
