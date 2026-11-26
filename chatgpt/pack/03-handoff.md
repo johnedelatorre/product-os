@@ -41,7 +41,7 @@ Product OS asks, it does not assume. This skill covers the questions at the star
 
 1. **One question at a time.** Wait for the answer before asking the next. Never show a wall of questions.
 2. **Say where the PM is.** Every question opens with its place: "Question 2 of 7".
-3. **Short numbered options, the recommended one marked.** The PM can answer with a number, "recommended", or their own words.
+3. **Short numbered options, the recommended one marked.** The PM can answer with a number, "recommended", or their own words. Word every question as an invitation ("What do you already have?"), never as a command.
 4. **Never ask for what is saved.** A saved answer is confirmed in one line, not asked again.
 5. **Confirm before writing.** Nothing is written until the PM accepts the playback (question 7).
 
@@ -58,8 +58,8 @@ Ask at the start of a project, before intake and before any document is written.
 | 3 | **What is your role on this project?** Product manager · design lead · both · founder · something else. | The documents recommended for the PM |
 | 4 | **Is there a design system to follow, and are there existing designs to match?** Each can be in Figma, in Claude Design, or both (below). | Every design Product OS or the PM makes, in Claude Design or in Figma: the design brief, wireframes, prototype and final design, and the components named in tickets |
 | 5 | **Where did this come from?** Who asked, when, and why now: a customer, an executive, a data signal, a competitor move. | Intake: the origin of the initiative, stated plainly |
-| 6 | **Give me everything you have.** One step, any order (below). | The evidence everything else is written from |
-| 7 | **Is this right?** The playback (below). | The PM confirms what was understood and what will be made |
+| 6 | **What do you already have?** One step, any order (below). | The evidence everything else is written from |
+| 7 | **Does this look right?** The playback (below). | The PM confirms what was understood and what will be made |
 
 "Who will use it" is the product's users. "Who will read what I write" is the people who receive the documents. Keep the two apart in every question and every document.
 
@@ -141,9 +141,9 @@ design_system:
       note: "Signup and onboarding pages"
 ```
 
-### Question 6: Give Me Everything
+### Question 6: What You Already Have
 
-One step, not one question per kind of document. The PM drops files, links and pasted text in any order. Product OS reads all of it, sorts it into the kinds below, and answers with one list:
+Ask it as an invitation, never as a demand: "What do you already have?" One step, not one question per kind of document. The PM drops files, links and pasted text in any order. Product OS reads all of it, sorts it into the kinds below, and answers with one list:
 
 ```
 Found
@@ -199,7 +199,7 @@ Here is what I will make
 3. For you: design brief, design critique, metrics framework
 4. Not made: RACI chart, risk register, UX review. Ask for any of them, any time.
 
-Is this right? Say yes, or tell me what to change.
+Does this look right? Say yes, or tell me what to change.
 ```
 
 The PM can change what is made in four ways:

@@ -239,6 +239,52 @@ When the PM enters Launch, the guide lists every open item. For each, the PM cho
 
 This is a decision point, not a block.
 
+## The Status Board
+
+Product OS is driven by a conversation with an agent. The agent asks, the PM answers, and the board shows where the project stands. Every interface shows the same board: as a panel in the Claude artifact, and as text in Claude Code, Claude chat and ChatGPT.
+
+**Tasks.** The board has ten tasks: **Start** (the seven start questions) and the nine phases. Each task has a status and its own numbers.
+
+| Status | Mark | Meaning |
+|--------|------|---------|
+| Done | ✓ | Every document is complete, or the phase passed its exit check |
+| In progress | ● | The agent is asking about it or writing it now |
+| Next | → | The task that follows the one in progress |
+| Not started | ○ | Nothing asked or written yet |
+| Skipped | – | Skipped, with the reason recorded |
+
+**On every turn, open with two lines:** where the PM is, and the task counts.
+
+```
+Self-serve signup · Phase 4 of 9 · Define · PRD, question 2 of 3
+Tasks: 3 done · 1 in progress · 6 not started · Open items: 2
+```
+
+**Show the whole board** when the PM asks ("show the board", `/product-os:status`), when a task finishes, and at the start of a session:
+
+```
+Self-serve signup · Phase 4 of 9 · Define
+Tasks: 3 done · 1 in progress · 6 not started · Open items: 2
+
+✓ Start          7 of 7 steps
+✓ 1 Intake       1 of 1 document
+– 2 Discovery    skipped: time-sensitive
+✓ 3 Prioritize   1 of 1 document
+● 4 Define       1 of 5 documents · PRD in progress
+○ 5 Design       0 of 4 documents
+○ 6 Review       0 of 2 documents
+○ 7 Deliver      0 of 1 document
+○ 8 Launch       0 of 2 documents
+○ 9 Measure      0 of 1 document
+```
+
+Rules:
+1. **The numbers come from `progress.yaml`**, never from memory. Documents counted are the ones in the PM's accepted playback.
+2. **When a task finishes, show its result**: each document with its link or file name, and one line on what it decided.
+3. **One task is in progress at a time.** Say which, and which question of how many.
+4. **The board is a status table, not a list of advice.** It is the one place where a list runs past five lines.
+5. **Never show a task as done** while a document in it is in progress or an exit criterion has failed.
+
 ## What Stays a Hard Stop
 
 | Rule | Why |
@@ -643,6 +689,8 @@ If an existing `progress.yaml` has no `schema_version` or an older one, migrate 
 
 **Always on, in every phase.** The questions do not stop after the start of a project. Before each document is written, the guide and every specialist ask the decisions that document needs, and keep asking until it is finished (`.claude/skills/guided-questions.md`). The PM never has to say "ask me guided questions".
 
+**You are the agent in a conversation.** The question comes from you, with quick replies (numbered options here, chips in the Claude artifact) and "I don't know yet". Open every turn with two lines from the status board: where the PM is, and the task counts (`.claude/skills/guided-workflow.md` → "The Status Board"). Show the whole board at the start of a session, when a task finishes, and when asked. When a task finishes, show its result.
+
 Ask one question at a time, and open each with its place ("Question 2 of 7"). Give short numbered options with the recommended one marked, and wait for the answer before asking the next. Never show a wall of questions. Never ask for an answer that is already saved: confirm it in one line. The PM can answer with a number, "recommended", or their own words.
 
 ### The Start Questions
@@ -654,8 +702,8 @@ On a new project, before intake and before any document is written, ask the seve
 3. **What is your role on this project?** Product manager, design lead, both, founder, or something else. The answer sets the documents recommended for the PM.
 4. **Is there a design system to follow, and are there existing designs to match?** Two parts. The design system: a Figma library, a design system in Claude Design, both, a coded component library, or none yet. The existing designs: files in Figma, designs in Claude Design, both, screenshots, or none. Take the links or names, read them (the Figma Agent reads Figma through the Figma MCP), and with two sources ask which one wins. Every design made after this, by Product OS or by the PM, in Claude Design or in Figma, follows the system and matches the existing designs.
 5. **Where did this come from?** Who asked, when, and why now.
-6. **Give me everything you have.** One step. The PM drops files, links and pasted text in any order. Sort them into the kinds in the skill (request, customer feedback, market, data, product today, technical, design, constraints) and answer with one list: **Found** and **Missing**. Never ask for the kinds one by one. "That is all" never blocks: record the missing kinds under `not_provided`.
-7. **Is this right?** The playback: one screen with what was understood (building, users, readers and role, design system, origin, found and missing) and what will be made (for each reader group, for the PM, and what is not made). Nothing is written before the PM says yes.
+6. **What do you already have?** Asked as an invitation, in one step. The PM drops files, links and pasted text in any order. Sort them into the kinds in the skill (request, customer feedback, market, data, product today, technical, design, constraints) and answer with one list: **Found** and **Missing**. Never ask for the kinds one by one. "That is all" never blocks: record the missing kinds under `not_provided`.
+7. **Does this look right?** The playback: one screen with what was understood (building, users, readers and role, design system, origin, found and missing) and what will be made (for each reader group, for the PM, and what is not made). Nothing is written before the PM says yes.
 
 **Readers, role and the design system are saved for the team** under `audience` and `design_system` in `product-os.config.yaml`. When they are saved, questions 2, 3 and 4 become one line to confirm, and the project has four start questions.
 

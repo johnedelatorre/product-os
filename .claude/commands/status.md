@@ -25,25 +25,26 @@ Show current progress through guided mode.
 
 ### Standard
 
-```
-Initiative: customer-onboarding
-Project: self-serve-signup
-Phase: Define (4 of 9)
+The status board (`.claude/skills/guided-workflow.md` → "The Status Board"): where you are, the task counts, then every task with its status and numbers.
 
-Open items: 2
+```
+Self-serve signup · Phase 4 of 9 · Define · PRD in progress
+Tasks: 3 done · 1 in progress · 6 not started · Open items: 2
+
+Open items:
   OI-1 prioritize · Sales sign-off on Q1 placement · owner TBD · revisit by Define (due now)
   OI-2 define · Activation-rate baseline · owner Data team · revisit by Design
 
-Progress:
-  ✓ Intake — complete
-  ○ Discovery — skipped (time-sensitive)
-  ◐ Prioritize — complete with open items (1)
-  ▶ Define — in progress (PRD: in progress)
-  · Design — not started
-  · Review — not started
-  · Deliver — not started
-  · Launch — not started
-  · Measure — not started
+✓ Start          7 of 7 steps
+✓ 1 Intake       1 of 1 document
+– 2 Discovery    skipped: time-sensitive
+✓ 3 Prioritize   1 of 1 document · 1 open item
+● 4 Define       1 of 5 documents · PRD in progress
+○ 5 Design       0 of 4 documents
+○ 6 Review       0 of 2 documents
+○ 7 Deliver      0 of 1 document
+○ 8 Launch       0 of 2 documents
+○ 9 Measure      0 of 1 document
 
 Documents: 3 complete | 1 in progress | 12 remaining
 Gates passed: intake_approved, priority_confirmed

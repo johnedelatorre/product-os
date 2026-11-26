@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Public+Sans:wght@400;600&display=swap" rel="stylesheet">
 <style>
-/* Layout idea: the question on the left, and on the right a brief that writes itself as you answer. */
+/* Layout idea: the agent's conversation on the left, the project board it fills in on the right. */
 :root {
   --paper: #EDF0F4;
   --sheet: #FFFFFF;
@@ -37,109 +37,155 @@
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; }
-body { background: var(--paper); color: var(--ink); font: 400 1rem/1.55 var(--body); }
-.wrap { max-width: 1120px; margin: 0 auto; padding: 24px 20px 56px; display: flex; flex-direction: column; gap: 24px; }
-.top { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; }
-.brand { font: 700 1.125rem/1.2 var(--display); margin: 0; }
-.brand span { color: var(--muted); font: 400 0.9375rem/1.2 var(--body); margin-left: 10px; }
-.example { margin: 0; font-size: 0.875rem; color: var(--muted); display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
-.linkish { background: none; border: 0; padding: 0; color: var(--accent); font: inherit; text-decoration: underline; cursor: pointer; }
+body { background: var(--paper); color: var(--ink); font: 400 1rem/1.5 var(--body); }
+button, input, textarea { font: inherit; color: inherit; }
+button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, summary:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.wrap { max-width: 1180px; margin: 0 auto; padding: 18px 20px 48px; display: flex; flex-direction: column; gap: 16px; }
 
-.steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
-.steps button { width: 100%; text-align: left; background: none; border: 0; border-top: 3px solid var(--line); padding: 8px 2px 0; color: var(--muted); font: 600 0.8125rem/1.3 var(--body); cursor: pointer; }
-.steps button b { display: block; font: 700 0.9375rem/1.2 var(--display); font-variant-numeric: tabular-nums; }
-.steps .done button { border-top-color: var(--found); }
-.steps .on button { border-top-color: var(--accent); color: var(--ink); }
-.steps span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 20px; }
+.brand { margin: 0; font: 700 1.125rem/1.2 var(--display); }
+.brand span { font: 400 0.9375rem/1.2 var(--body); color: var(--muted); margin-left: 10px; }
+.meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; font-size: 0.875rem; color: var(--muted); margin: 0; }
+.badge { border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px; background: var(--sheet); color: var(--ink); font-weight: 600; font-size: 0.8125rem; }
+.badge.ai { border-color: var(--accent); color: var(--accent); }
+.linkish { background: none; border: 0; padding: 0; color: var(--accent); text-decoration: underline; cursor: pointer; }
 
-.main { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: 28px; align-items: start; }
-.ask { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
-.place { margin: 0; font: 600 0.875rem/1.2 var(--body); color: var(--accent); font-variant-numeric: tabular-nums; }
-.ask h1 { margin: 0; font: 700 clamp(1.75rem, 1.2rem + 2.2vw, 2.625rem)/1.1 var(--display); letter-spacing: -0.015em; text-wrap: balance; }
-.why { margin: 0; color: var(--muted); max-width: 34rem; }
-.fields { display: flex; flex-direction: column; gap: 14px; }
-label.f { display: flex; flex-direction: column; gap: 6px; font-weight: 600; font-size: 0.9375rem; }
-input[type="text"], textarea { width: 100%; font: 400 1rem/1.45 var(--body); color: var(--ink); background: var(--sheet); border: 1px solid var(--line); border-radius: 6px; padding: 11px 12px; }
-textarea { min-height: 9.5rem; resize: vertical; }
-.opts { display: flex; flex-wrap: wrap; gap: 8px; border: 0; padding: 0; margin: 0; }
-.opts legend { padding: 0; margin-bottom: 8px; font-weight: 600; font-size: 0.9375rem; }
-.opt { position: relative; }
-.opt input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
-.opt span { display: block; padding: 10px 14px; border: 1px solid var(--line); border-radius: 6px; background: var(--sheet); font-weight: 600; font-size: 0.9375rem; }
-.opt em { font-style: normal; font-weight: 400; color: var(--muted); }
-.opt input:checked + span { background: var(--wash); border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
-.opt input:focus-visible + span, button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
-.nav { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding-top: 4px; }
-.btn { font: 600 1rem/1 var(--body); padding: 13px 18px; border-radius: 6px; border: 1px solid var(--ink); background: none; color: var(--ink); cursor: pointer; text-decoration: none; display: inline-block; }
-.btn.go { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
-.btn[disabled] { opacity: 0.4; cursor: default; }
-.hint { margin: 0; font-size: 0.875rem; color: var(--muted); }
-.sorted { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
-.sorted h2 { margin: 0 0 6px; font: 700 0.9375rem/1.2 var(--display); }
-.sorted ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; font-size: 0.9375rem; }
-.sorted .f h2 { color: var(--found); } .sorted .m h2 { color: var(--missing); }
-.sorted li b { font-weight: 600; }
-.make { display: flex; flex-direction: column; gap: 12px; }
-.make div { border-left: 3px solid var(--accent); padding-left: 12px; }
-.make h2 { margin: 0 0 2px; font: 700 1rem/1.3 var(--display); }
-.make p { margin: 0; }
-.copied { margin: 0; font-weight: 600; color: var(--found); min-height: 1.5em; }
+.where { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; background: var(--sheet); border: 1px solid var(--line); border-radius: 8px; padding: 10px 14px; }
+.where h1 { margin: 0; font: 700 1.0625rem/1.25 var(--display); flex: 1 1 14rem; min-width: 0; }
+.where h1 small { display: block; font: 400 0.8125rem/1.3 var(--body); color: var(--muted); }
+.track { flex: 2 1 16rem; display: flex; align-items: center; gap: 10px; min-width: 0; }
+.track ol { list-style: none; margin: 0; padding: 0; display: flex; gap: 4px; flex: 1; }
+.track li { flex: 1; height: 6px; border-radius: 3px; background: var(--line); }
+.track li.done { background: var(--found); } .track li.now { background: var(--accent); }
+.track span { font-size: 0.8125rem; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.tabs { display: none; gap: 6px; }
+.tabs button { flex: 1; padding: 9px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--sheet); font-weight: 600; font-size: 0.9375rem; cursor: pointer; }
+.tabs button[aria-pressed="true"] { border-color: var(--accent); background: var(--wash); }
 
-.brief { background: var(--sheet); border: 1px solid var(--line); border-radius: 4px; padding: 22px 22px 18px; position: sticky; top: 16px; min-width: 0; }
-.brief h2 { margin: 0 0 2px; font: 700 1.125rem/1.2 var(--display); }
-.brief .sub { margin: 0 0 14px; font-size: 0.875rem; color: var(--muted); }
-.brief dl { margin: 0; display: flex; flex-direction: column; }
-.brief .row { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); gap: 10px; padding: 9px 0; border-top: 1px solid var(--line); font-size: 0.9375rem; }
-.brief dt { color: var(--muted); }
-.brief dd { margin: 0; overflow-wrap: anywhere; }
-.brief dd.empty { color: var(--muted); font-style: italic; }
-.brief .row.now dt { color: var(--accent); font-weight: 600; }
-@media (max-width: 820px) {
-  .main { grid-template-columns: minmax(0, 1fr); }
-  .brief { position: static; }
-  .steps span { display: none; }
+.work { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr); gap: 20px; align-items: start; }
+
+.talk { background: var(--sheet); border: 1px solid var(--line); border-radius: 8px; display: flex; flex-direction: column; min-width: 0; }
+.talk h2, .board h2 { margin: 0; font: 700 0.9375rem/1.3 var(--display); }
+.talk > h2 { padding: 12px 16px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; gap: 10px; }
+.talk > h2 span { font: 400 0.8125rem/1.5 var(--body); color: var(--muted); }
+#thread { list-style: none; margin: 0; padding: 16px; display: flex; flex-direction: column; gap: 12px; max-height: 27rem; overflow-y: auto; }
+#thread li { max-width: 88%; display: flex; flex-direction: column; gap: 3px; }
+#thread .who { font-size: 0.75rem; color: var(--muted); font-weight: 600; }
+#thread .txt { margin: 0; padding: 9px 13px; border-radius: 4px 12px 12px 12px; background: var(--paper); white-space: pre-line; overflow-wrap: anywhere; }
+#thread .txt b { display: block; font-weight: 600; font-size: 0.8125rem; color: var(--accent); margin-bottom: 2px; font-variant-numeric: tabular-nums; }
+#thread li.you { align-self: flex-end; align-items: flex-end; }
+#thread li.you .txt { background: var(--wash); border-radius: 12px 4px 12px 12px; }
+#thread li.wait .txt { color: var(--muted); font-style: italic; }
+.reply { border-top: 1px solid var(--line); padding: 12px 16px 14px; display: flex; flex-direction: column; gap: 10px; }
+.chips { display: flex; flex-wrap: wrap; gap: 7px; }
+.chip { border: 1px solid var(--line); background: var(--sheet); border-radius: 999px; padding: 7px 13px; font-weight: 600; font-size: 0.9375rem; cursor: pointer; text-decoration: none; color: var(--ink); }
+.chip[aria-pressed="true"] { border-color: var(--accent); background: var(--wash); box-shadow: inset 0 0 0 1px var(--accent); }
+.chip.go { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.chip.soft { font-weight: 400; color: var(--muted); }
+.say { display: flex; gap: 8px; align-items: flex-end; }
+.say textarea { flex: 1; min-width: 0; resize: none; height: 2.75rem; max-height: 8rem; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); }
+.say button { padding: 11px 16px; border-radius: 8px; border: 1px solid var(--accent); background: var(--accent); color: var(--accent-ink); font-weight: 600; cursor: pointer; }
+.say button[disabled] { opacity: .45; cursor: default; }
+.note { margin: 0; font-size: 0.8125rem; color: var(--muted); min-height: 1.2em; }
+
+.board { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.kpis { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.kpis li { background: var(--sheet); border: 1px solid var(--line); border-radius: 8px; padding: 11px 13px; display: flex; flex-direction: column; gap: 1px; }
+.kpis b { font: 700 1.5rem/1.1 var(--display); font-variant-numeric: tabular-nums; }
+.kpis span { font-size: 0.8125rem; color: var(--muted); }
+.tasks { background: var(--sheet); border: 1px solid var(--line); border-radius: 8px; }
+.tasks > h2 { padding: 12px 14px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; gap: 10px; }
+.tasks > h2 span { font: 400 0.8125rem/1.5 var(--body); color: var(--muted); }
+.tasks details { border-top: 1px solid var(--line); }
+.tasks details:first-of-type { border-top: 0; }
+.tasks summary { list-style: none; display: grid; grid-template-columns: 1.6rem minmax(0, 1fr) auto auto; align-items: center; gap: 10px; padding: 9px 14px; cursor: pointer; }
+.tasks summary::-webkit-details-marker { display: none; }
+.tasks .n { font: 700 0.9375rem/1 var(--display); color: var(--muted); font-variant-numeric: tabular-nums; }
+.tasks .t { font-weight: 600; min-width: 0; }
+.tasks .m { font-size: 0.8125rem; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.pill { font-size: 0.75rem; font-weight: 600; border-radius: 999px; padding: 2px 9px; border: 1px solid var(--line); color: var(--muted); white-space: nowrap; }
+.pill.done { border-color: var(--found); color: var(--found); }
+.pill.now { border-color: var(--accent); color: var(--accent-ink); background: var(--accent); }
+.pill.next { border-color: var(--accent); color: var(--accent); }
+.rows { list-style: none; margin: 0; padding: 0 14px 10px 3.1rem; display: flex; flex-direction: column; }
+.rows li { display: grid; grid-template-columns: 1.1rem 8.2rem minmax(0, 1fr) auto; gap: 8px; align-items: baseline; padding: 5px 0; border-top: 1px dashed var(--line); font-size: 0.875rem; }
+.rows li:first-child { border-top: 0; }
+.rows .s { font-weight: 700; color: var(--muted); }
+.rows li.done .s { color: var(--found); } .rows li.now .s { color: var(--accent); }
+.rows .k { font-weight: 600; }
+.rows .v { color: var(--muted); overflow-wrap: anywhere; min-width: 0; }
+.rows li.done .v { color: var(--ink); }
+.rows .linkish { font-size: 0.8125rem; }
+.notes { background: var(--sheet); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; }
+.notes h2 { display: flex; justify-content: space-between; gap: 10px; }
+.notes h2 span { font: 400 0.8125rem/1.5 var(--body); color: var(--muted); }
+.notes ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.notes li { border-left: 3px solid var(--found); padding: 2px 0 2px 10px; font-size: 0.9375rem; }
+.notes li.warn { border-left-color: var(--missing); }
+.more { font-size: 0.875rem; color: var(--muted); }
+.more summary { cursor: pointer; color: var(--accent); text-decoration: underline; width: fit-content; }
+.more textarea { width: 100%; min-height: 6rem; margin: 8px 0; padding: 8px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--sheet); font-size: 0.8125rem; }
+.more button { padding: 7px 12px; border: 1px solid var(--ink); border-radius: 6px; background: none; font-weight: 600; cursor: pointer; }
+
+@media (max-width: 860px) {
+  .work { grid-template-columns: minmax(0, 1fr); }
+  .tabs { display: flex; }
+  .work[data-show="talk"] .board, .work[data-show="board"] .talk { display: none; }
+  .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #thread { max-height: 15rem; }
+  .rows { padding-left: 14px; }
+  .rows li { grid-template-columns: 1.1rem minmax(0, 1fr) auto; }
+  .rows .v { grid-column: 2 / 3; grid-row: 2; }
+  .brand span { display: none; }
 }
-@media (max-width: 480px) { .sorted { grid-template-columns: minmax(0, 1fr); } .brief .row { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
-@media (prefers-reduced-motion: no-preference) { .opt span, .steps button { transition: border-color .15s, background-color .15s; } }
+@media (prefers-reduced-motion: no-preference) { .chip, .tabs button { transition: border-color .15s, background-color .15s; } }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header class="top">
+  <header class="bar">
     <p class="brand">Product OS<span>Start a project</span></p>
-    <p class="example"><span id="exNote">Filled in with example answers. Change any of them.</span><button class="linkish" id="clear" type="button">Clear all answers</button></p>
+    <p class="meta"><span class="badge" id="badge">Guided questions</span><span id="exNote"></span><button class="linkish" id="clear" type="button">Start over</button></p>
   </header>
 
-  <ol class="steps" id="steps" aria-label="The seven start questions"></ol>
+  <section class="where" aria-label="Where you are">
+    <h1><span id="project">New project</span><small id="whereLine"></small></h1>
+    <div class="track"><ol id="track" aria-hidden="true"></ol><span id="trackTxt"></span></div>
+  </section>
 
-  <div class="main">
-    <form class="ask" id="ask" novalidate>
-      <p class="place" id="place"></p>
-      <h1 id="q"></h1>
-      <p class="why" id="why"></p>
-      <div class="fields" id="fields"></div>
-      <div class="nav">
-        <button class="btn" type="button" id="back">Back</button>
-        <button class="btn go" type="submit" id="next">Next question</button>
-        <p class="hint" id="hint"></p>
-      </div>
-      <p class="copied" id="copied" role="status" aria-live="polite"></p>
-    </form>
-
-    <aside class="brief" aria-label="What Product OS understood so far">
-      <h2>What I understood</h2>
-      <p class="sub">This fills in as you answer. Nothing is written until you say it is right.</p>
-      <dl id="brief"></dl>
-    </aside>
+  <div class="tabs" role="group" aria-label="Show">
+    <button type="button" id="tabTalk" aria-pressed="true">Conversation</button>
+    <button type="button" id="tabBoard" aria-pressed="false">Board</button>
   </div>
+
+  <main class="work" id="work" data-show="talk">
+    <section class="talk" aria-label="Conversation with the Product OS guide">
+      <h2>Guide<span id="talkMeta"></span></h2>
+      <ol id="thread" aria-live="polite"></ol>
+      <form class="reply" id="reply" novalidate>
+        <div class="chips" id="chips"></div>
+        <div class="say"><label for="say" hidden>Your answer</label><textarea id="say" name="say" rows="1" placeholder="Type your answer"></textarea><button type="submit" id="send">Send</button></div>
+        <p class="note" id="note" role="status"></p>
+      </form>
+    </section>
+
+    <aside class="board" aria-label="Project board">
+      <ul class="kpis" id="kpis"></ul>
+      <section class="tasks"><h2>Tasks<span id="taskMeta"></span></h2><div id="tasks"></div></section>
+      <section class="notes"><h2>What I noticed<span id="noteSrc"></span></h2><ul id="notes"></ul></section>
+      <details class="more"><summary>Update the board from progress.yaml</summary>
+        <p>After you work in Claude, ChatGPT or Claude Code, paste the project's <code>progress.yaml</code> here. The board then shows what is done and what is in progress.</p>
+        <label for="yaml" hidden>progress.yaml</label><textarea id="yaml" spellcheck="false"></textarea>
+        <button type="button" id="applyYaml">Update the board</button> <span id="yamlMsg" role="status"></span>
+      </details>
+    </aside>
+  </main>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
 <script>
 (function () {
-  var READERS = [
-    ["engineers", "Engineers"], ["product-lead", "A head of product"], ["designers", "Designers"],
-    ["executives", "Executives or investors"], ["client", "A client"], ["self", "Only me"]
-  ];
+  var READERS = [["engineers", "Engineers"], ["product-lead", "A head of product"], ["designers", "Designers"], ["executives", "Executives or investors"], ["client", "A client"], ["self", "Only me"]];
   var ROLES = [["pm", "Product manager"], ["design-lead", "Design lead"], ["pm-and-design", "Both: PM and design lead"], ["founder", "Founder"], ["other", "Something else"]];
   var SYSTEMS = [["figma", "A Figma library"], ["claude", "A design system in Claude Design"], ["both", "Both"], ["code", "A coded component library"], ["none", "None yet"]];
   var KINDS = [
@@ -152,218 +198,326 @@ textarea { min-height: 9.5rem; resize: vertical; }
     ["design", "Design", /figma|design|screenshot|wireframe|mock|prototype|brand|style guide/i],
     ["constraints", "Constraints", /deadline|due|engineers|compliance|legal|budget|launch date/i]
   ];
-  var TEAM = {
-    "engineers": "Engineers: PRD, project brief, user flows, final design, UX writing guide, end-to-end prototype, epic and tickets",
-    "product-lead": "Head of product: project brief, PRD and the epic, plus the project plan and Gantt chart",
-    "designers": "Designers: design brief, user flows, wireframes, final design, UX writing guide",
-    "executives": "Executives or investors: the project brief, and nothing else",
-    "client": "Client: project brief and the end-to-end prototype"
-  };
-  var MINE = {
-    "pm": ["Project plan", "Gantt chart", "Metrics framework"],
-    "design-lead": ["Design brief", "Low-fidelity wireframes", "Design critique"],
-    "pm-and-design": ["Project plan", "Gantt chart", "Design brief", "Design critique", "Metrics framework"],
-    "founder": ["Project plan", "Metrics framework"],
-    "other": []
-  };
-  var EXAMPLE = {
-    building: "Self-serve signup, so small teams can start without a sales call",
-    users: "Small teams of 2 to 10 people",
-    readers: ["engineers", "product-lead"],
-    role: "pm-and-design",
-    system: "figma",
-    systemRef: "Acme Design System (Figma library)",
-    designs: "Acme app, signup and onboarding pages (Figma)",
-    origin: "The CEO, 2 November, after three lost deals",
-    everything: "CEO email, 2 Nov\nSignup funnel export from Pendo, last 30 days\nAccounts schema (wiki link)\nScreenshots of the current signup",
-    example: true
-  };
-  var EMPTY = { building: "", users: "", readers: [], role: "", system: "", systemRef: "", designs: "", origin: "", everything: "", example: false };
-  var KEY = "product-os-start";
-  var state = load() || copy(EXAMPLE);
-  var step = 0;
+  var PHASES = [["intake", "Intake"], ["discovery", "Discovery"], ["prioritize", "Prioritize"], ["define", "Define"], ["design", "Design"], ["review", "Review"], ["deliver", "Deliver"], ["launch", "Launch"], ["measure", "Measure"]];
+  var FILES = { "intake.md": "Intake", "prioritization.md": "Prioritization", "prd.md": "PRD", "project-brief.md": "Project brief", "project-plan.md": "Project plan", "gantt.md": "Gantt chart", "metrics-framework.md": "Metrics framework", "design-brief.md": "Design brief", "flows.yaml": "User flows", "flows.md": "User flows", "wireframes.md": "Low-fidelity wireframes", "prototype.html": "End-to-end prototype", "design-critique.md": "Design critique", "ux-writing.md": "UX writing guide", "epics.md": "Epic and tickets", "stories.md": "Epic and tickets", "release-notes.md": "Release notes", "launch-checklist.md": "Launch checklist", "post-launch-review.md": "Post-launch review" };
+  var MINE = { "pm": ["Project plan", "Gantt chart", "Metrics framework"], "design-lead": ["Design brief", "Low-fidelity wireframes", "Design critique"], "pm-and-design": ["Project plan", "Gantt chart", "Design brief", "Design critique", "Metrics framework"], "founder": ["Project plan", "Metrics framework"], "other": [] };
+  var TURNS = [
+    { key: "what", q: 1, step: 0, ask: "What are you building?", kind: "text" },
+    { key: "users", q: 1, step: 0, ask: "And who will use it?", kind: "text" },
+    { key: "readers", q: 2, step: 1, ask: "Who will read what I write? Pick any, then tap Done.", kind: "multi", opts: READERS },
+    { key: "role", q: 3, step: 2, ask: "What is your role on this project?", kind: "single", opts: ROLES },
+    { key: "system", q: 4, step: 3, ask: "Is there a design system to follow?", kind: "single", opts: SYSTEMS },
+    { key: "systemRef", q: 4, step: 3, ask: "What is its link or name?", kind: "text" },
+    { key: "designs", q: 4, step: 3, ask: "Are there existing designs to match? Figma files, Claude Design files or screenshots.", kind: "text", quick: ["None yet"] },
+    { key: "origin", q: 5, step: 4, ask: "Where did this come from? Who asked, when, and why now.", kind: "text" },
+    { key: "material", q: 6, step: 5, ask: "What do you already have? Emails, documents, exports, links. One item per line. I sort it and show you what is still missing.", kind: "text", quick: ["That is all"] },
+    { key: "review", q: 7, step: 6, ask: "Does this look right? The board has what I understood and every document I will make. Nothing is written before your yes.", kind: "review" }
+  ];
+  var STEPS = ["What and who", "Readers", "Your role", "Design system", "Where it came from", "What you have", "Review"];
+  var EXAMPLE = { building: "Self-serve signup, so small teams can start without a sales call", users: "Small teams of 2 to 10 people", readers: ["engineers", "product-lead"], role: "pm-and-design", system: "", systemRef: "", designs: "", origin: "", everything: "", answered: { what: 1, users: 1, readers: 1, role: 1 }, confirmed: false, example: true, phases: null };
+  var EMPTY = { building: "", users: "", readers: [], role: "", system: "", systemRef: "", designs: "", origin: "", everything: "", answered: {}, confirmed: false, example: false, phases: null };
+  var KEY = "product-os-start-2";
+  var state = load() || copy(EXAMPLE), picking = [], busy = false, sample = null, aiOn = false, aiNotes = null, thread = [];
 
   function copy(o) { return JSON.parse(JSON.stringify(o)); }
   function load() { try { var v = localStorage.getItem(KEY); return v ? JSON.parse(v) : null; } catch (e) { return null; } }
   function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { /* storage is optional */ } }
-  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
-  function cap(t) { return t ? t.charAt(0).toUpperCase() + t.slice(1) : t; }
+  function $(id) { return document.getElementById(id); }
+  function el(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; }
   function label(list, id) { for (var i = 0; i < list.length; i++) if (list[i][0] === id) return list[i][1]; return ""; }
+  function cap(t) { return t ? t.charAt(0).toUpperCase() + t.slice(1) : t; }
+  function listAnd(a) { return a.length < 2 ? a.join("") : a.slice(0, -1).join(", ") + " and " + a[a.length - 1]; }
 
-  function sortEverything() {
-    var lines = state.everything.split(/\n+/).map(function (l) { return l.trim(); }).filter(Boolean);
-    var found = {}, other = [];
-    lines.forEach(function (line) {
-      var hit = null;
-      for (var i = 0; i < KINDS.length; i++) if (KINDS[i][2].test(line)) { hit = KINDS[i][0]; break; }
-      if (hit) (found[hit] = found[hit] || []).push(line); else other.push(line);
-    });
-    var missing = KINDS.filter(function (k) { return !found[k[0]]; }).map(function (k) { return k[1]; });
-    return { found: found, other: other, missing: missing, count: lines.length };
-  }
-  function teamLines() {
-    var r = state.readers.filter(function (x) { return x !== "self"; });
-    if (!r.length) return ["Nothing is published for a team. Everything stays in your project folder."];
-    return r.map(function (x) { return TEAM[x]; });
+  function sorted() {
+    var lines = state.everything.split(/\n+/).map(function (l) { return l.trim(); }).filter(Boolean), found = {}, other = [];
+    lines.forEach(function (line) { var hit = null; for (var i = 0; i < KINDS.length; i++) if (KINDS[i][2].test(line)) { hit = KINDS[i][0]; break; } if (hit) (found[hit] = found[hit] || []).push(line); else other.push(line); });
+    return { found: found, other: other, count: lines.length, missing: KINDS.filter(function (k) { return !found[k[0]]; }).map(function (k) { return k[1]; }) };
   }
   function mineList() {
-    var docs = (MINE[state.role] || []).slice();
-    if (state.readers.indexOf("product-lead") > -1) docs = docs.filter(function (d) { return d !== "Project plan" && d !== "Gantt chart"; });
-    if (state.readers.indexOf("designers") > -1) docs = docs.filter(function (d) { return d !== "Design brief" && d !== "Low-fidelity wireframes"; });
-    return docs;
+    var d = (MINE[state.role] || []).slice();
+    if (state.readers.indexOf("product-lead") > -1) d = d.filter(function (x) { return x !== "Project plan" && x !== "Gantt chart"; });
+    if (state.readers.indexOf("designers") > -1) d = d.filter(function (x) { return x !== "Design brief" && x !== "Low-fidelity wireframes"; });
+    return d;
+  }
+  function docList() {
+    var r = state.readers, eng = r.indexOf("engineers") > -1, team = eng ? "Engineers" : "You", out = [];
+    var also = r.filter(function (x) { return x === "executives" || x === "client" || x === "product-lead"; }).map(function (x) { return x === "executives" ? "executives" : x === "client" ? "client" : "head of product"; });
+    out.push(["Intake", "You", 1], ["Prioritization", "You", 3], ["PRD", team, 4], ["Project brief", eng ? "Engineers" + (also.length ? ", " + also.join(", ") : "") : (cap(also.join(", ")) || "You"), 4]);
+    out.push(["User flows", team, 5], ["Final design", team, 5], ["End-to-end prototype", r.indexOf("client") > -1 && !eng ? "Client" : team, 5], ["UX writing guide", team, 6], ["Epic and tickets", team, 7]);
+    out.push(["Release notes", "You", 8], ["Launch checklist", "You", 8], ["Post-launch review", "You", 9]);
+    if (r.indexOf("product-lead") > -1) out.push(["Project plan", "Head of product", 4], ["Gantt chart", "Head of product", 4]);
+    if (r.indexOf("designers") > -1) out.push(["Design brief", "Designers", 5], ["Low-fidelity wireframes", "Designers", 5]);
+    var ph = { "Project plan": 4, "Gantt chart": 4, "Metrics framework": 4, "Design brief": 5, "Low-fidelity wireframes": 5, "Design critique": 6 };
+    mineList().forEach(function (d) { out.push([d, "You", ph[d] || 4]); });
+    return out;
   }
   function systemText() {
     if (!state.system) return "";
-    if (state.system === "none") return "None yet. Designs use plain, accessible defaults.";
+    if (state.system === "none") return "None yet";
     return label(SYSTEMS, state.system) + (state.systemRef ? ": " + state.systemRef : "");
   }
-
-  var STEPS = [
-    { short: "What and who", q: "What are you building, and who will use it?", why: "One or two sentences. This is the frame for everything else.",
-      done: function () { return state.building && state.users; },
-      fields: function () { return text("building", "What you are building", state.building) + text("users", "Who will use it", state.users); } },
-    { short: "Readers", q: "Who will read what I write?", why: "Pick any. This decides which documents are made, and where each reader starts.",
-      done: function () { return state.readers.length; },
-      fields: function () { return group("readers", "checkbox", READERS, state.readers, "Readers"); } },
-    { short: "Your role", q: "What is your role on this project?", why: "This sets the documents recommended for you. You can change them at the end.",
-      done: function () { return state.role; },
-      fields: function () { return group("role", "radio", ROLES, [state.role], "Your role"); } },
-    { short: "Design system", q: "Is there a design system to follow, and are there existing designs to match?", why: "Every design follows them, whether Product OS or you make it, in Claude Design or in Figma. Tickets name the real components.",
-      done: function () { return state.system; },
-      fields: function () { return group("system", "radio", SYSTEMS, [state.system], "Design system") + (state.system && state.system !== "none" ? text("systemRef", "Its link or name", state.systemRef) : "") + text("designs", "Existing designs to match: Figma files, Claude Design files or screenshots", state.designs || ""); } },
-    { short: "Where from", q: "Where did this come from?", why: "Who asked, when, and why now: a customer, an executive, a data signal, a competitor move.",
-      done: function () { return state.origin; },
-      fields: function () { return text("origin", "Who asked, when, and why now", state.origin); } },
-    { short: "Everything", q: "Give me everything you have.", why: "One step, any order. List each email, document, export or link on its own line. I sort it, and you see what is missing.",
-      done: function () { return true; },
-      fields: function () {
-        var s = sortEverything();
-        var f = KINDS.filter(function (k) { return s.found[k[0]]; }).map(function (k) { return "<li><b>" + k[1] + ":</b> " + esc(s.found[k[0]].join("; ")) + "</li>"; });
-        if (s.other.length) f.push("<li><b>Other:</b> " + esc(s.other.join("; ")) + "</li>");
-        return '<label class="f" for="everything">What you have, one item per line<textarea id="everything" name="everything">' + esc(state.everything) + "</textarea></label>" +
-          '<div class="sorted" id="sorted"><div class="f"><h2>Found</h2><ul>' + (f.join("") || "<li>Nothing yet.</li>") + '</ul></div><div class="m"><h2>Missing</h2><ul>' +
-          (s.missing.map(function (m) { return "<li>" + m + "</li>"; }).join("") || "<li>Nothing.</li>") + "</ul></div></div>" +
-          '<p class="hint">Here I sort by name. In Claude or ChatGPT you attach the files themselves. "That is all" is always a valid answer.</p>';
-      } },
-    { short: "Is this right?", q: "Is this right?", why: "Read what I understood on the right. Below is what I will make from it. Nothing is written before your yes.",
-      done: function () { return false; },
-      fields: function () {
-        var mine = mineList();
-        return '<div class="make"><div><h2>For the team</h2>' + teamLines().map(function (l) { return "<p>" + esc(l) + "</p>"; }).join("") + "</div>" +
-          "<div><h2>For you</h2><p>" + (mine.length ? esc(mine.join(", ")) : "Nothing else. Only what the readers need.") + "</p></div>" +
-          "<div><h2>Not made</h2><p>RACI chart, risk register, UX review. Ask for any of them, any time.</p></div></div>" +
-          '<p class="hint">Copy the brief, then paste it into your Product OS project in Claude or ChatGPT. It starts at intake, with these answers already saved.</p>' +
-          '<div class="nav"><a class="btn" href="https://claude.ai/new" target="_blank" rel="noopener">Open Claude</a><a class="btn" href="https://chatgpt.com/" target="_blank" rel="noopener">Open ChatGPT</a></div>';
-      } }
-  ];
-
-  function text(id, lab, val) { return '<label class="f" for="' + id + '">' + lab + '<input type="text" id="' + id + '" name="' + id + '" value="' + esc(val) + '" autocomplete="off"></label>'; }
-  function group(name, type, list, chosen, legend) {
-    return '<fieldset class="opts"><legend>' + legend + "</legend>" + list.map(function (o) {
-      var id = name + "-" + o[0];
-      return '<label class="opt" for="' + id + '"><input type="' + type + '" id="' + id + '" name="' + name + '" value="' + o[0] + '"' + (chosen.indexOf(o[0]) > -1 ? " checked" : "") + "><span>" + o[1] + "</span></label>";
-    }).join("") + "</fieldset>";
+  function turnDone(t) {
+    if (t.key === "systemRef") return state.system === "none" || !state.system ? !!state.answered.system : !!state.answered.systemRef;
+    if (t.key === "review") return state.confirmed;
+    return !!state.answered[t.key];
   }
-
-  function brief() {
-    var s = sortEverything();
-    var have = KINDS.filter(function (k) { return s.found[k[0]]; }).map(function (k) { return k[1].toLowerCase(); });
-    var rows = [
-      ["Building", state.building, 0], ["Users", state.users, 0],
-      ["Readers", cap(state.readers.map(function (r) { return label(READERS, r).toLowerCase(); }).join(", ")), 1],
-      ["Your role", label(ROLES, state.role), 2], ["Design system", systemText(), 3], ["Designs to match", state.designs || "", 3],
-      ["Came from", state.origin, 4],
-      ["I have", s.count ? (have.join(", ") || "other material") : "", 5],
-      ["Missing", s.count ? (s.missing.join(", ").toLowerCase() || "nothing") : "", 5]
-    ];
-    document.getElementById("brief").innerHTML = rows.map(function (r) {
-      return '<div class="row' + (r[2] === step ? " now" : "") + '"><dt>' + r[0] + "</dt><dd" + (r[1] ? "" : ' class="empty"') + ">" + (r[1] ? esc(r[1]) : "Not answered yet") + "</dd></div>";
-    }).join("");
+  function current() { for (var i = 0; i < TURNS.length; i++) if (!turnDone(TURNS[i])) return TURNS[i]; return null; }
+  function stepState(i) {
+    var ts = TURNS.filter(function (t) { return t.step === i; }), done = ts.every(turnDone), cur = current();
+    return done ? "done" : (cur && cur.step === i ? "now" : "todo");
   }
-  function steps() {
-    document.getElementById("steps").innerHTML = STEPS.map(function (s, i) {
-      var cls = i === step ? "on" : (s.done() ? "done" : "");
-      return '<li class="' + cls + '"><button type="button" data-step="' + i + '"' + (i === step ? ' aria-current="step"' : "") + "><b>" + (i + 1) + "</b><span>" + s.short + "</span></button></li>";
-    }).join("");
+  function stepResult(i) {
+    var s = sorted();
+    return [
+      [state.building, state.users].filter(Boolean).join(" · For: "),
+      cap(state.readers.map(function (r) { return label(READERS, r).toLowerCase(); }).join(", ")),
+      label(ROLES, state.role),
+      [systemText(), state.designs ? "Match: " + state.designs : ""].filter(Boolean).join(" · "),
+      state.origin,
+      state.answered.material ? (s.count ? (8 - s.missing.length) + " of 8 kinds found" : "Nothing yet") : "",
+      state.confirmed ? "Confirmed. Brief copied." : ""
+    ][i];
   }
-  function render() {
-    var s = STEPS[step], last = step === STEPS.length - 1;
-    document.getElementById("place").textContent = "Question " + (step + 1) + " of " + STEPS.length;
-    document.getElementById("q").textContent = s.q;
-    document.getElementById("why").textContent = s.why;
-    document.getElementById("fields").innerHTML = s.fields();
-    document.getElementById("back").disabled = step === 0;
-    document.getElementById("next").textContent = last ? "Yes, copy the brief" : "Next question";
-    document.getElementById("hint").textContent = last ? "" : "\"I don't know yet\" is a valid answer. Leave it empty and go on.";
-    document.getElementById("copied").textContent = "";
-    document.getElementById("exNote").textContent = state.example ? "Filled in with example answers. Change any of them." : "Your answers stay in this browser.";
-    steps(); brief();
+  function answerText(t) {
+    return ({ what: state.building, users: state.users, readers: cap(state.readers.map(function (r) { return label(READERS, r).toLowerCase(); }).join(", ")), role: label(ROLES, state.role), system: label(SYSTEMS, state.system), systemRef: state.systemRef, designs: state.designs, origin: state.origin, material: state.everything })[t.key] || "I don't know yet";
   }
-  function read(e) {
-    var t = e.target;
-    if (!t.name) return;
-    state.example = false;
-    if (t.type === "checkbox") {
-      var i = state.readers.indexOf(t.value);
-      if (t.checked && i < 0) state.readers.push(t.value);
-      if (!t.checked && i > -1) state.readers.splice(i, 1);
-    } else { state[t.name] = t.value; }
-    save();
-    if (t.name === "system") { render(); var f = document.getElementById("system-" + state.system); if (f) f.focus(); return; }
-    if (t.name === "everything") {
-      var s = STEPS[5].fields(), box = document.createElement("div"); box.innerHTML = s;
-      document.getElementById("sorted").innerHTML = box.querySelector("#sorted").innerHTML;
+  function rebuildThread() {
+    thread = [];
+    for (var i = 0; i < TURNS.length; i++) {
+      var t = TURNS[i];
+      if (t.key === "systemRef" && (state.system === "none" || !state.system) && state.answered.system) continue;
+      if (!turnDone(t)) { thread.push({ who: "agent", q: t.q, text: t.ask }); return; }
+      if (t.key === "review") { thread.push({ who: "agent", q: 7, text: t.ask }, { who: "you", text: "Yes" }, { who: "agent", text: "The brief is ready. Paste it into your Product OS project in Claude, ChatGPT or Claude Code. Next on the board: phase 1, Intake." }); return; }
+      thread.push({ who: "agent", q: t.q, text: t.ask }, { who: "you", text: answerText(t) });
     }
-    steps(); brief();
-    document.getElementById("exNote").textContent = "Your answers stay in this browser.";
   }
-  function dsLines() {
-    if (!state.system || state.system === "none") return [];
-    var kinds = state.system === "both" ? ["figma", "claude"] : [state.system], out = ["  sources:"];
-    kinds.forEach(function (k) { out.push("    - kind: " + k, "      ref: " + JSON.stringify(state.systemRef || "")); });
+
+  /* ---------- drawing ---------- */
+  function drawThread() {
+    var box = $("thread"); box.textContent = "";
+    thread.forEach(function (m) {
+      var li = el("li", m.who === "you" ? "you" : (m.wait ? "wait" : ""));
+      li.appendChild(el("span", "who", m.who === "you" ? "You" : "Guide"));
+      var p = el("p", "txt"); if (m.q) p.appendChild(el("b", null, "Question " + m.q + " of 7")); p.appendChild(document.createTextNode(m.text)); li.appendChild(p); box.appendChild(li);
+    });
+    box.scrollTop = box.scrollHeight;
+  }
+  function drawChips() {
+    var box = $("chips"), t = current(); box.textContent = "";
+    function chip(text, cls, fn, pressed) { var b = el("button", "chip" + (cls ? " " + cls : ""), text); b.type = "button"; if (pressed != null) b.setAttribute("aria-pressed", pressed ? "true" : "false"); b.addEventListener("click", fn); box.appendChild(b); return b; }
+    if (!t) {
+      [["Open Claude", "https://claude.ai/new"], ["Open ChatGPT", "https://chatgpt.com/"]].forEach(function (l) { var a = el("a", "chip", l[0]); a.href = l[1]; a.target = "_blank"; a.rel = "noopener"; box.appendChild(a); });
+      chip("Copy the brief again", "", copyBrief); return;
+    }
+    if (t.kind === "multi") {
+      t.opts.forEach(function (o) { chip(o[1], "", function () { var i = picking.indexOf(o[0]); if (i > -1) picking.splice(i, 1); else picking.push(o[0]); drawChips(); }, picking.indexOf(o[0]) > -1); });
+      chip("Done", "go", function () { if (picking.length) answer(t, picking.map(function (id) { return label(READERS, id); }).join(", "), { readers: picking.slice() }); });
+    } else if (t.kind === "single") {
+      t.opts.forEach(function (o) { chip(o[1], "", function () { var f = {}; f[t.key] = o[0]; answer(t, o[1], f); }); });
+    } else if (t.kind === "review") {
+      chip("Yes, copy the brief", "go", function () { answer(t, "Yes", {}); });
+      chip("I want to change something", "", function () { $("note").textContent = "Tap Change next to any finished step on the board."; show("board"); });
+    } else {
+      (t.quick || []).forEach(function (qk) { chip(qk, "", function () { answer(t, qk, emptyFor(t)); }); });
+      chip("I don't know yet", "soft", function () { answer(t, "I don't know yet", emptyFor(t)); });
+    }
+  }
+  function emptyFor(t) { var f = {}; if (t.key === "material") f.everything = state.everything; return f; }
+  function drawBoard() {
+    var s = sorted(), docs = docList(), cur = current();
+    var answeredQ = STEPS.filter(function (_, i) { return i < 6 && stepState(i) === "done"; }).length;
+    var phaseDone = PHASES.filter(function (p) { return phaseStatus(p[0]) === "done"; }).length;
+    var k = [[answeredQ + " of 6", "questions answered"], [(state.answered.material ? 8 - s.missing.length : 0) + " of 8", "kinds of material found"], [docs.length, "documents planned"], [phaseDone + " of 9", "phases done"]];
+    var kb = $("kpis"); kb.textContent = "";
+    k.forEach(function (t) { var li = el("li"); li.appendChild(el("b", null, String(t[0]))); li.appendChild(el("span", null, t[1])); kb.appendChild(li); });
+
+    var box = $("tasks"); box.textContent = "";
+    var startDone = state.confirmed, stepsDone = STEPS.filter(function (_, i) { return stepState(i) === "done"; }).length;
+    box.appendChild(task("0", "Start", startDone ? "done" : "now", stepsDone + " of 7 steps", STEPS.map(function (name, i) {
+      var st = stepState(i); return { st: st, k: name, v: st === "todo" ? "Not started" : (stepResult(i) || (st === "now" ? "Answering now" : "Skipped for now")), change: st === "done" && !state.confirmed ? i : null };
+    }), true));
+    PHASES.forEach(function (p, i) {
+      var mine = docs.filter(function (d) { return d[2] === i + 1; }), ps = phaseStatus(p[0]);
+      var st = ps || (startDone && i === 0 ? "next" : "todo");
+      var rows = mine.map(function (d) { var ds = docStatus(p[0], d[0]); return { st: ds[0], k: d[0], v: "For: " + d[1].toLowerCase() + " · " + ds[1] }; });
+      if (!rows.length) rows = [{ st: "todo", k: "Optional", v: "Ask for a market analysis, a research plan or an opportunity tree." }];
+      var doneN = rows.filter(function (r) { return r.st === "done"; }).length;
+      box.appendChild(task(String(i + 1), p[1], st, mine.length ? doneN + " of " + mine.length + (mine.length === 1 ? " document" : " documents") : "optional", rows, st === "now" || st === "next"));
+    });
+    $("taskMeta").textContent = "10 tasks · " + ((startDone ? 1 : 0) + phaseDone) + " done";
+
+    var nb = $("notes"); nb.textContent = "";
+    (aiNotes || ruleNotes(s)).forEach(function (n) { nb.appendChild(el("li", n[0] === "warn" ? "warn" : "", n[1])); });
+    $("noteSrc").textContent = aiNotes ? "written by Claude" : "from fixed rules";
+
+    $("project").textContent = state.building ? cap(state.building.split(/[,.;]/)[0]).slice(0, 60) : "New project";
+    $("whereLine").textContent = startDone ? (phaseNow() || "Next: phase 1 of 9 · Intake") : "Start · question " + (cur ? cur.q : 7) + " of 7";
+    var tr = $("track"); tr.textContent = "";
+    STEPS.forEach(function (_, i) { var st = stepState(i); tr.appendChild(el("li", st === "done" ? "done" : st === "now" ? "now" : "")); });
+    $("trackTxt").textContent = stepsDone + " of 7 steps";
+    $("talkMeta").textContent = cur ? "Question " + cur.q + " of 7" : "Start is done";
+    $("tabBoard").textContent = "Board · " + stepsDone + " of 7";
+    $("exNote").textContent = state.example ? "Example answers so far." : "Saved in this browser.";
+    $("badge").textContent = aiOn ? "Agent: Claude" : "Guided questions"; $("badge").className = "badge" + (aiOn ? " ai" : "");
+  }
+  function task(n, title, st, meta, rows, open) {
+    var d = el("details"); d.open = !!open;
+    var sm = el("summary"); sm.appendChild(el("span", "n", n)); sm.appendChild(el("span", "t", title)); sm.appendChild(el("span", "m", meta));
+    sm.appendChild(el("span", "pill " + (st === "done" ? "done" : st === "now" ? "now" : st === "next" ? "next" : ""), st === "done" ? "Done" : st === "now" ? "In progress" : st === "next" ? "Next" : st === "skipped" ? "Skipped" : "Not started"));
+    d.appendChild(sm);
+    var ul = el("ul", "rows");
+    rows.forEach(function (r) {
+      var li = el("li", r.st === "done" ? "done" : r.st === "now" ? "now" : "");
+      li.appendChild(el("span", "s", r.st === "done" ? "✓" : r.st === "now" ? "●" : "○")); li.appendChild(el("span", "k", r.k)); li.appendChild(el("span", "v", r.v));
+      if (r.change != null) { var b = el("button", "linkish", "Change"); b.type = "button"; b.addEventListener("click", function () { reopen(r.change); }); li.appendChild(b); }
+      ul.appendChild(li);
+    });
+    d.appendChild(ul); return d;
+  }
+  function ruleNotes(s) {
+    var out = [], r = state.readers;
+    if (!state.readers.length) return [["ok", "Answer the first questions and I will note what stands out."]];
+    if (r.indexOf("product-lead") > -1) out.push(["ok", "A head of product reads this. The project plan and Gantt chart are linked from the epic."]);
+    else if (r.indexOf("engineers") > -1) out.push(["ok", "Engineers read this. They get one link: the epic."]);
+    else out.push(["ok", "No engineers read this yet. The epic and tickets are still written at Deliver."]);
+    if (state.answered.system) out.push(state.system && state.system !== "none" ? ["ok", "Every design follows " + (state.systemRef || label(SYSTEMS, state.system).toLowerCase()) + "."] : ["warn", "No design system yet. Designs use plain, accessible defaults."]);
+    if (state.answered.material) out.push(s.missing.length ? ["warn", cap(listAnd(s.missing).toLowerCase()) + (s.missing.length === 1 ? " is" : " are") + " missing. Each gap becomes a named TBD, never a guess."] : ["ok", "You shared material of every kind."]);
     return out;
   }
-  function designLines() {
-    if (!state.designs) return [];
-    return ["  existing_designs:", "    - ref: " + JSON.stringify(state.designs)];
+  function phaseStatus(name) { var p = state.phases && state.phases[name]; if (!p) return ""; return ({ complete: "done", complete_with_open_items: "done", in_progress: "now", skipped: "skipped" })[p.status] || ""; }
+  function docStatus(phase, doc) {
+    var p = state.phases && state.phases[phase], hit = "";
+    if (p && p.documents) Object.keys(p.documents).forEach(function (f) { if (FILES[f] === doc) hit = (p.documents[f] || {}).status || ""; });
+    return ({ complete: ["done", "done"], in_progress: ["now", "in progress"], skipped: ["todo", "skipped"], deferred: ["todo", "deferred"] })[hit] || ["todo", "planned"];
   }
-  function briefText() {
-    var s = sortEverything(), q = function (v) { return JSON.stringify(v || ""); };
-    var y = [
-      "Start Product OS guided mode. I answered the start questions already. Save these answers, show me the playback, and wait for my yes before writing anything.",
-      "",
-      "audience:",
-      "  readers: [" + state.readers.join(", ") + "]",
-      "  role: " + (state.role || "other"),
-      "design_system:",
-      "  status: " + (state.system && state.system !== "none" ? "provided" : "none")
-    ].concat(dsLines()).concat(designLines()).concat([
-      "context:",
-      "  building: " + q(state.building),
-      "  users: " + q(state.users),
-      "  origin: " + q(state.origin),
-      "  sources:"
-    ]);
-    KINDS.forEach(function (k) { (s.found[k[0]] || []).forEach(function (l) { y.push("    - kind: " + k[0], "      ref: " + q(l)); }); });
-    s.other.forEach(function (l) { y.push("    - kind: other", "      ref: " + q(l)); });
-    y.push("  not_provided: [" + KINDS.filter(function (k) { return !s.found[k[0]]; }).map(function (k) { return k[0]; }).join(", ") + "]");
-    y.push("", "I will attach the files listed under sources.");
-    return y.join("\n");
+  function phaseNow() { for (var i = 0; i < PHASES.length; i++) if (phaseStatus(PHASES[i][0]) === "now") return "Phase " + (i + 1) + " of 9 · " + PHASES[i][1]; return ""; }
+  function draw() {
+    drawThread(); drawChips(); drawBoard();
+    var t = current(), typing = !!t && t.kind === "text" && !busy;
+    $("send").disabled = !typing; $("say").disabled = !typing;
+    $("say").placeholder = t && t.kind === "text" ? "Type your answer" : (t ? "Pick an answer above" : "Start is done");
+  }
+  function show(which) { $("work").setAttribute("data-show", which); $("tabTalk").setAttribute("aria-pressed", String(which === "talk")); $("tabBoard").setAttribute("aria-pressed", String(which === "board")); }
+
+  /* ---------- answering ---------- */
+  function apply(t, text, fields) {
+    var f = fields || {}, unknown = /^i don't know yet$/i.test(text);
+    if (t.key === "what") { state.building = unknown ? "" : (f.building || text); if (f.users) { state.users = f.users; state.answered.users = 1; } }
+    else if (t.key === "users") state.users = unknown ? "" : (f.users || text);
+    else if (t.key === "readers") state.readers = (f.readers || []).filter(function (x) { return label(READERS, x); });
+    else if (t.key === "role") state.role = label(ROLES, f.role) ? f.role : "other";
+    else if (t.key === "system") { state.system = label(SYSTEMS, f.system) ? f.system : "none"; if (f.systemRef) { state.systemRef = f.systemRef; state.answered.systemRef = 1; } }
+    else if (t.key === "systemRef") state.systemRef = unknown ? "" : (f.systemRef || text);
+    else if (t.key === "designs") state.designs = unknown || /^none/i.test(text) ? "" : (f.designs || text);
+    else if (t.key === "origin") state.origin = unknown ? "" : (f.origin || text);
+    else if (t.key === "material") state.everything = "everything" in f ? f.everything : (state.everything ? state.everything + "\n" : "") + text;
+    else if (t.key === "review") state.confirmed = true;
+    state.answered[t.key] = 1; state.example = false; picking = []; save();
+  }
+  function answer(t, text, fields) {
+    if (busy) return;
+    var typed = fields == null;
+    thread.push({ who: "you", text: text });
+    $("note").textContent = "";
+    if (aiOn && sample && t.key !== "review") {
+      busy = true; thread.push({ who: "agent", text: "Thinking…", wait: true }); draw();
+      askClaude(t, text).then(function (r) { finish(t, text, typed ? r.fields : fields, r.ack); }, function (err) { if (err && (err.code === "not_granted" || err.code === "rate_limited")) aiOn = false; finish(t, text, typed ? null : fields, ""); });
+    } else finish(t, text, typed ? null : fields, "");
+  }
+  function finish(t, text, fields, ack) {
+    busy = false; thread = thread.filter(function (m) { return !m.wait; });
+    apply(t, text, fields);
+    if (t.key === "review") { copyBrief(); thread.push({ who: "agent", text: "The brief is ready. Paste it into your Product OS project in Claude, ChatGPT or Claude Code. Next on the board: phase 1, Intake." }); }
+    else {
+      var nx = current(), s = sorted(), extra = "";
+      if (t.key === "material" && s.count) extra = "Found: " + (KINDS.filter(function (k) { return s.found[k[0]]; }).map(function (k) { return k[1].toLowerCase(); }).join(", ") || "other material") + ". Still missing: " + (s.missing.join(", ").toLowerCase() || "nothing") + ".";
+      var lead = [ack, extra].filter(Boolean).join(" ");
+      if (lead) thread.push({ who: "agent", text: lead });
+      if (nx) thread.push({ who: "agent", q: nx.q, text: nx.ask });
+      if (nx && nx.key === "review" && aiOn && sample) writeNotes();
+    }
+    draw(); if (current() && current().kind === "text") $("say").focus();
+  }
+  function reopen(step) {
+    TURNS.forEach(function (t) { if (t.step === step) delete state.answered[t.key]; });
+    if (step === 1) picking = state.readers.slice();
+    if (step === 5) state.everything = "";
+    state.confirmed = false; save(); rebuildThread(); show("talk"); draw();
   }
 
-  document.getElementById("ask").addEventListener("input", read);
-  document.getElementById("ask").addEventListener("submit", function (e) {
-    e.preventDefault();
-    if (step < STEPS.length - 1) { step++; render(); document.getElementById("q").scrollIntoView({ block: "nearest" }); return; }
-    var out = document.getElementById("copied"), t = briefText();
-    var ok = function () { out.textContent = "Copied. Paste it into your Product OS project."; };
-    var no = function () { out.textContent = "Copy did not work here. Select the text below and copy it."; var ta = document.createElement("textarea"); ta.id = "manual"; ta.value = t; ta.setAttribute("aria-label", "The brief to copy"); document.getElementById("fields").appendChild(ta); ta.select(); };
-    try { navigator.clipboard.writeText(t).then(ok, no); } catch (err) { no(); }
+  /* ---------- Claude, when this view has it ---------- */
+  var SPEC = { what: '{"building": string, "users": string or ""}', users: '{"users": string}', systemRef: '{"systemRef": string}', designs: '{"designs": string or ""}', origin: '{"origin": string}', material: '{"everything": string, one item per line}' };
+  function askClaude(t, text) {
+    var known = { building: state.building, users: state.users, readers: state.readers, role: state.role, design_system: state.system };
+    var prompt = "You are the Product OS guide. You help a product manager start a project by asking short questions.\n" +
+      "They just answered one question. Reply with JSON only, no other text: {\"ack\": string, \"fields\": object}.\n" +
+      "ack: one plain sentence, at most 18 words, that reflects their answer specifically. Do not ask a question. No exclamation marks. No praise.\n" +
+      "fields: their answer parsed into exactly this shape: " + (SPEC[t.key] || "{}") + ". Use their own words. Never invent facts they did not give.\n" +
+      "Question: " + t.ask + "\nAnswer: " + text + "\nKnown so far: " + JSON.stringify(known);
+    return withTimeout(sample.json(prompt, { modelTier: "quick", cache: false }), 15000).then(function (v) {
+      var f = v && typeof v.fields === "object" && v.fields ? v.fields : {}, clean = {};
+      Object.keys(f).forEach(function (k) { if (typeof f[k] === "string") clean[k] = f[k].slice(0, 600); });
+      return { ack: v && typeof v.ack === "string" ? v.ack.slice(0, 220) : "", fields: clean };
+    });
+  }
+  function writeNotes() {
+    var s = sorted(), data = { building: state.building, users: state.users, readers: state.readers, role: state.role, design_system: systemText(), existing_designs: state.designs, origin: state.origin, material_found: Object.keys(s.found), material_missing: s.missing };
+    var prompt = "You are the Product OS guide. From this project start, write up to 3 short notes for the product manager.\n" +
+      "Reply with JSON only: {\"notes\": [{\"kind\": \"gap\" or \"ok\", \"text\": string}]}. Each text is one sentence of at most 22 words.\n" +
+      "Use only the data given. Never invent a fact, a number or a name. A gap is something missing that the documents will need.\nData: " + JSON.stringify(data);
+    withTimeout(sample.json(prompt, { modelTier: "quick", cache: false }), 20000).then(function (v) {
+      var n = v && Array.isArray(v.notes) ? v.notes : [];
+      n = n.filter(function (x) { return x && typeof x.text === "string" && x.text; }).slice(0, 3).map(function (x) { return [x.kind === "gap" ? "warn" : "ok", x.text.slice(0, 240)]; });
+      if (n.length) { aiNotes = n; drawBoard(); }
+    }, function () { /* keep the rule-based notes */ });
+  }
+  function withTimeout(p, ms) { return new Promise(function (res, rej) { var t = setTimeout(function () { rej({ code: "timeout" }); }, ms); Promise.resolve(p).then(function (v) { clearTimeout(t); res(v); }, function (e) { clearTimeout(t); rej(e); }); }); }
+  if (window.claude && typeof window.claude.use === "function") {
+    window.claude.use("sample").then(function (ns) { if (ns) { sample = ns; aiOn = true; drawBoard(); } }, function () { /* no Claude in this view */ });
+  }
+
+  /* ---------- the brief ---------- */
+  function briefText() {
+    var s = sorted(), q = function (v) { return JSON.stringify(v || ""); };
+    var y = ["Start Product OS guided mode. I answered the start questions already. Save these answers, show me the playback, and wait for my yes before writing anything.", "",
+      "audience:", "  readers: [" + state.readers.join(", ") + "]", "  role: " + (state.role || "other"),
+      "design_system:", "  status: " + (state.system && state.system !== "none" ? "provided" : "none")];
+    if (state.system && state.system !== "none") { y.push("  sources:"); (state.system === "both" ? ["figma", "claude"] : [state.system]).forEach(function (k) { y.push("    - kind: " + k, "      ref: " + q(state.systemRef)); }); }
+    if (state.designs) y.push("  existing_designs:", "    - ref: " + q(state.designs));
+    y.push("context:", "  building: " + q(state.building), "  users: " + q(state.users), "  origin: " + q(state.origin), "  sources:");
+    KINDS.forEach(function (k) { (s.found[k[0]] || []).forEach(function (l) { y.push("    - kind: " + k[0], "      ref: " + q(l)); }); });
+    s.other.forEach(function (l) { y.push("    - kind: other", "      ref: " + q(l)); });
+    y.push("  not_provided: [" + KINDS.filter(function (k) { return !s.found[k[0]]; }).map(function (k) { return k[0]; }).join(", ") + "]", "", "I will attach the files listed under sources.");
+    return y.join("\n");
+  }
+  function copyBrief() {
+    var t = briefText(), ok = function () { $("note").textContent = "Brief copied. Paste it into your Product OS project."; };
+    var no = function () { $("note").textContent = "Copy did not work here. The brief is in the box. Select it and copy."; $("say").disabled = false; $("say").value = t; $("say").style.height = "8rem"; $("say").select(); };
+    try { navigator.clipboard.writeText(t).then(ok, no); } catch (e) { no(); }
+  }
+
+  /* ---------- progress.yaml ---------- */
+  $("applyYaml").addEventListener("click", function () {
+    var msg = $("yamlMsg");
+    try {
+      var d = window.jsyaml ? window.jsyaml.load($("yaml").value) : null;
+      if (!d || typeof d !== "object" || !d.phases) { msg.textContent = "I could not find a phases block. Paste the whole progress.yaml."; return; }
+      state.phases = d.phases; if (d.audience && Array.isArray(d.audience.readers)) state.readers = d.audience.readers.filter(function (x) { return label(READERS, x); });
+      if (d.audience && label(ROLES, d.audience.role)) state.role = d.audience.role;
+      if (d.context && typeof d.context.building === "string") state.building = d.context.building;
+      state.confirmed = true; TURNS.forEach(function (t) { state.answered[t.key] = 1; }); state.example = false; save(); rebuildThread(); draw();
+      msg.textContent = "Board updated.";
+    } catch (e) { msg.textContent = "That is not valid YAML. Check the indentation and paste again."; }
   });
-  document.getElementById("back").addEventListener("click", function () { if (step > 0) { step--; render(); } });
-  document.getElementById("steps").addEventListener("click", function (e) { var b = e.target.closest("button"); if (b) { step = +b.getAttribute("data-step"); render(); } });
-  document.getElementById("clear").addEventListener("click", function () { state = copy(EMPTY); step = 0; save(); render(); document.getElementById("building").focus(); });
-  render();
+
+  /* ---------- events ---------- */
+  $("reply").addEventListener("submit", function (e) { e.preventDefault(); var t = current(), v = $("say").value.trim(); if (!t || t.kind !== "text" || !v || busy) return; $("say").value = ""; answer(t, v, null); });
+  $("say").addEventListener("keydown", function (e) { if (e.key === "Enter" && !e.shiftKey && current() && current().key !== "material") { e.preventDefault(); $("send").click(); } });
+  $("clear").addEventListener("click", function () { state = copy(EMPTY); picking = []; aiNotes = null; save(); rebuildThread(); show("talk"); draw(); $("say").focus(); });
+  $("tabTalk").addEventListener("click", function () { show("talk"); });
+  $("tabBoard").addEventListener("click", function () { show("board"); });
+  if (!state.answered) state = copy(EXAMPLE);
+  rebuildThread(); draw();
 })();
 </script>
 </body>

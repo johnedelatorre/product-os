@@ -39,6 +39,7 @@ Follow `.claude/skills/clear-output.md`:
 
 Product OS follows a 9-phase guided workflow:
 
+0. **Every turn** — You are the agent in a conversation: open with where the PM is and the task counts, ask one question with numbered quick replies, and show the whole status board when a task finishes (`.claude/skills/guided-workflow.md` → "The Status Board")
 1. **Intake** — Ask the seven start questions (what and for which users, who reads it, your role, the design system and existing designs, where it came from, everything you have, the playback), then structure raw requirements → `.claude/agents/intake-analyst.md`, `.claude/skills/engineering-handoff.md`
 2. **Discovery** — Explore problem space (optional) → `.claude/agents/opportunity-tree.md`
 3. **Prioritize** — Score and sequence → `.claude/agents/strategist.md`
