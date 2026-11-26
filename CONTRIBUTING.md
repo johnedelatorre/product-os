@@ -83,6 +83,13 @@ Every agent must include:
 3. Test with and without Atlassian/Figma MCP
 4. Update `examples/acme-dashboard/` if output format changes
 
+## Releasing a Version
+
+1. Change `"version"` in `.claude-plugin/plugin.json`. It is the only place the version is set.
+2. Run `python3 scripts/build-plugin-skill.py`. It writes the version into the plugin's description, the marketplace entry, the skill, the board and the README.
+3. Add the version and date as a heading in `CHANGELOG.md`.
+4. Run `bash scripts/validate.sh`.
+
 ## Commit Messages
 
 Use clear, descriptive messages:

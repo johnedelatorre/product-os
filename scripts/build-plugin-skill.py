@@ -25,6 +25,9 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "skills", "product-os")
 MANIFEST = os.path.join(ROOT, ".claude-plugin", "plugin.json")
+MARKETPLACE = os.path.join(ROOT, ".claude-plugin", "marketplace.json")
+BOARD = os.path.join(ROOT, "artifact", "product-os-board.html")
+README = os.path.join(ROOT, "README.md")
 
 # (source folder, folder inside the skill, extensions)
 TREES = [
@@ -53,6 +56,8 @@ PREFACE = """# Product OS
 You are the Product OS agent. You run a product project for a PM from the first request to the published handoff: you lead, you ask, they decide, you make the work. This skill holds all of Product OS: {agents} agent roles, {playbooks} playbooks, {commands} commands, the templates and the board.
 
 The PM may never have used a terminal, a slash command or an artifact. They should not need to. They talk to you, and you do the rest.
+
+This is Product OS version {version}. Say the version when the PM asks which one they have.
 
 ## How you work, on every turn
 
@@ -95,7 +100,7 @@ Before the first document, read these two:
 
 Do these in order, one message at a time. Do not show the PM this list.
 
-1. **Welcome in two sentences**, then ask the first of the seven start questions.
+1. **Welcome in two sentences**, the first one naming the version ("Product OS {version} is running"), then ask the first of the seven start questions.
 2. **Open the board** as soon as the project has a name (see "The board").
 3. **Check the connections yourself.** Look at the tools you have in this session. Tell the PM plainly which of these are connected: Jira and Confluence (the Atlassian connector), Figma. Never say a tool is connected because the PM said so.
 4. **Guide the PM to connect what the project needs.** For each one that is missing and needed: say what it is for, then "In Claude, open Customize, then Connectors, add <name>, sign in, and tell me when it is done." Wait for their answer. Offer the route without it ("or I make the files and you upload them").
@@ -237,19 +242,50 @@ def build():
     body = body.replace(KNOWLEDGE_OLD, KNOWLEDGE_NEW)
     body = body.replace("in the project knowledge", "in this skill").replace("the project knowledge", "this skill")
     preface = PREFACE.format(
-        agents=counts["references/agents"], playbooks=counts["references/playbooks"], commands=counts["references/commands"]
+        agents=counts["references/agents"], playbooks=counts["references/playbooks"], commands=counts["references/commands"], version=version()
     )
     assert '"' not in DESCRIPTION and len(DESCRIPTION) <= 1024
     files["SKILL.md"] = '---\nname: product-os\ndescription: "%s"\n---\n\n%s%s' % (DESCRIPTION, preface, body)
     return files
 
 
+def version():
+    """The one place the version is set: "version" in .claude-plugin/plugin.json."""
+    with io.open(MANIFEST, encoding="utf-8") as fh:
+        return json.load(fh)["version"]
+
+
+def with_version(description):
+    """A description that ends with the version, so the plugin's overview shows it."""
+    return re.sub(r"\s*Version \d+\.\d+\.\d+\.$", "", description.strip()) + " Version %s." % version()
+
+
 def manifest_text():
     """plugin.json with every agent file listed, so Cowork and Claude Code register all of them."""
     with io.open(MANIFEST, encoding="utf-8") as fh:
         data = json.load(fh)
+    data["description"] = with_version(data["description"])
     data["agents"] = ["./.claude/agents/" + n for n in sorted(os.listdir(os.path.join(ROOT, ".claude", "agents"))) if n.endswith(".md")]
     return json.dumps(data, indent=2, ensure_ascii=False) + "\n"
+
+
+def stamped():
+    """Every other file that shows the version, with the current version written in: {path: text}."""
+    out = {}
+    with io.open(MARKETPLACE, encoding="utf-8") as fh:
+        market = json.load(fh)
+    for plugin in market["plugins"]:
+        if plugin["name"] == "product-os":
+            plugin["version"] = version()
+            plugin["description"] = with_version(plugin["description"])
+    out[MARKETPLACE] = json.dumps(market, indent=2, ensure_ascii=True) + "\n"
+    for path, pattern in ((BOARD, r"Product OS™(?: \d+\.\d+\.\d+)? · ©"), (README, r"(?m)^Product OS™(?: \d+\.\d+\.\d+)? · Copyright")):
+        text = io.open(path, encoding="utf-8").read()
+        new, n = re.subn(pattern, lambda m: m.group(0).replace("Product OS™", "Product OS™ " + version(), 1) if not re.search(r"\d", m.group(0)) else re.sub(r"\d+\.\d+\.\d+", version(), m.group(0)), text)
+        if n != 1:
+            raise SystemExit("build-plugin-skill: %s must show the version line exactly once" % os.path.relpath(path, ROOT))
+        out[path] = new
+    return out
 
 
 def on_disk():
@@ -261,16 +297,20 @@ def on_disk():
 
 
 def main():
+    if "--check" not in sys.argv:
+        for path, text in stamped().items():
+            with io.open(path, "w", encoding="utf-8") as fh:
+                fh.write(text)
     files = build()
     if "--check" in sys.argv:
-        stale = []
+        stale = [os.path.relpath(p, ROOT) + " (version)" for p, t in stamped().items() if io.open(p, encoding="utf-8").read() != t]
         for rel, content in files.items():
             path = os.path.join(OUT, rel)
             if not os.path.isfile(path) or io.open(path, encoding="utf-8").read() != content:
                 stale.append(rel)
         extra = sorted(on_disk() - set(files))
         if io.open(MANIFEST, encoding="utf-8").read() != manifest_text():
-            stale.append(".claude-plugin/plugin.json (agents list)")
+            stale.append(".claude-plugin/plugin.json (agents list or version in the description)")
         if stale or extra:
             print("skills/product-os is out of date: %s" % ", ".join((stale + extra)[:8]))
             print("Run: python3 scripts/build-plugin-skill.py")
