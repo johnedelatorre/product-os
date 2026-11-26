@@ -1,0 +1,36 @@
+---
+description: "Create a market analysis brief."
+argument-hint: "--market <market> [--depth <level>]"
+---
+# /jdlt-product-os:market
+
+Create a market analysis brief.
+
+## Usage
+
+```
+/jdlt-product-os:market --market <market> [--depth <level>]
+```
+
+## Arguments
+
+| Argument | Required | Description |
+|----------|----------|-------------|
+| `--market` | Yes | Market or category to analyze |
+| `--context` | No | Existing research, company info |
+| `--depth` | No | `brief`, `standard`, `deep` (default: `standard`) |
+
+## Examples
+
+```bash
+# Standard market analysis
+/jdlt-product-os:market --market "B2B SaaS Customer Onboarding"
+
+# Deep analysis with context
+/jdlt-product-os:market --market "B2B SaaS Customer Onboarding" \
+  --depth deep --context company-strategy.md
+```
+
+## Agent
+
+Uses `.claude/agents/market-analyst.md`

@@ -374,6 +374,17 @@ else
 fi
 
 # ============================================================
+# Check 19: Directory copy of the plugin matches its source files
+# ============================================================
+log_check "Directory copy of the plugin is up to date"
+
+if python3 scripts/build-directory-plugin.py --check >/dev/null 2>&1; then
+    log_pass "plugin/ matches the source files and the directory's file rules"
+else
+    log_fail "plugin/ is out of date or breaks a directory rule: run python3 scripts/build-directory-plugin.py"
+fi
+
+# ============================================================
 # Summary
 # ============================================================
 echo ""
