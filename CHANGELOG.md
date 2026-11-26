@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.10.1] - 2026-11-26
+
+### Changed
+- **The guide opens only from the Guide button** — it is closed when the board loads. Open, it sits above the "Working on now" card and pushes the board down until "Hide the guide".
+
 ## [1.10.0] - 2026-11-26
 
 ### Added
