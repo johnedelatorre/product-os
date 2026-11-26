@@ -27,10 +27,12 @@ Run the full Product OS pipeline from intake to publication.
 1. **Intake** → `intake.md`
 2. **PM** → `prd.md`, `project-brief.md`, `project-plan.md`, `raci.md`, `gantt.md`
 3. **Design** → `design-brief.md`, `flows.yaml`, `flows.md`, `wireframes.md`
-4. **Prototype** → `prototype.html`, `prototype-react.tsx`
+4. **Prototype** → `prototype.html`, `prototype-react.tsx`, `prototype-handoff.html`
 5. **Review** → `design-critique.md`, `ux-review.md`, `accessibility-audit.md`
-6. **Delivery** → `epics.md`, `stories.md`
-7. **Publish** → Confluence pages, Jira issues
+6. **Delivery** → the outputs question, then `epics.md`, `stories.md` and the proposed ticket tree
+7. **Publish** → Confluence pages, Jira issues, and the final output list
+
+Before stage 1, the pipeline asks what you are building and what you already have (the request, proposals, emails, existing PRDs, the tech stack, backend schemas, existing designs). Before stage 2, it asks which documents you want for yourself (the PM documents question in `.claude/skills/engineering-handoff.md`), one question at a time. In stage 2, `project-plan.md`, `raci.md` and `gantt.md` are written only if you asked for them; the same goes for `design-brief.md`, `wireframes.md` and the reviews in stages 3 and 5.
 
 ## Human Checkpoints
 
@@ -39,7 +41,7 @@ The pipeline pauses at each checkpoint for approval:
 - After PM: Approve PRD and plan
 - After Design: Approve design direction
 - After Review: Address critical findings
-- After Delivery: Approve stories
+- After Delivery: Accept the ticket tree, then approve stories
 - After Publish: Confirm publication
 
 ## Example

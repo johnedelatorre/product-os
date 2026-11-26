@@ -22,12 +22,14 @@ Enforce quality gates for stories before sprint.
 | Criterion | Check |
 |-----------|-------|
 | User story format | "As a... I want... So that..." |
-| Acceptance criteria | At least 3 testable ACs |
-| Story points | Estimated (1-13) |
+| Problem line | One or two sentences under the user story |
+| Acceptance criteria | A "Done when" checklist of at least 3 testable lines |
+| Story points | Estimated, 1–5; an 8 has a written reason; no 13. Backend estimates may be "proposed; engineering confirms" |
 | Discipline label | frontend/backend/fullstack |
 | Dependencies | Documented and tracked |
-| Designs | Linked for UI stories |
-| Technical approach | Discussed with eng |
+| Designs | Each UI story links to its own page or frame in the main design file |
+| Organization | The PM accepted the ticket tree; steps inside a ticket are sub-tasks |
+| Technical approach | Discussed with eng. On backend tickets, "Engineering to complete" is filled in by the engineers before the sprint starts |
 
 **Recommended:**
 - Edge cases documented

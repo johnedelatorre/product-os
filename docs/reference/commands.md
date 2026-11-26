@@ -473,7 +473,7 @@ Check Definition of Ready or Definition of Done for stories.
 
 ### /product-os:deliver
 
-Generate epics and user stories with acceptance criteria.
+Generate the engineering handoff: an epic that links to everything, lean tickets with estimates, and a ticket tree you approve. Asks the outputs question first.
 
 ```
 /product-os:deliver --from <prd.md> --designs <design-brief.md,wireframes.md>
@@ -485,7 +485,7 @@ Generate epics and user stories with acceptance criteria.
 
 ### /product-os:publish
 
-Publish all project artifacts to Confluence.
+Publish to Confluence: a links page and the team's pages, with the documents you asked for under one PM workspace page.
 
 ```
 /product-os:publish --project <path> [--config <config.yaml>]
@@ -497,7 +497,7 @@ Publish all project artifacts to Confluence.
 
 ### /product-os:jira-sync
 
-Create and sync epics/stories to Jira.
+Create and sync the epic (with its handoff links), stories and sub-tasks to Jira. Ends with the one link to share with the team: the epic.
 
 ```
 /product-os:jira-sync --project <path> [--config <config.yaml>]

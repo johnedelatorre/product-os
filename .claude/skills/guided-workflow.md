@@ -85,7 +85,33 @@ artifacts_registered: list
     type: string
     url: string
     freshness: ISO 8601 datetime  # when last verified current
+
+# Optional. What the PM is building and the material they provided (the context question, asked first).
+context:
+  building: string           # one or two sentences: what, and for whom
+  sources:
+    - kind: enum             # origin | request | feedback | market | data | product | technical | design | constraints | other
+      ref: string            # file path or link
+      note: string
+      in_prd: boolean        # the PM wants this cited in the PRD
+  not_provided: list[string] # kinds the PM said they do not have
+
+# Optional. The documents the PM asked for, for themselves (the PM documents question, asked at project start).
+# Absent means the question has not been asked yet.
+pm_documents: list[string]   # e.g. project-plan, gantt, raci, design-brief, metrics-framework
+
+# Optional. What goes to the team (the outputs question, asked at the start of Deliver).
+# Absent means the question has not been asked yet. See .claude/skills/engineering-handoff.md.
+handoff:
+  outputs: enum              # standard | everything
+  extras: list[string]       # documents attached to the epic besides the standard set
+  final_design: enum         # figma | claude
+  organization: enum         # subtasks | flat
+  subtask_kinds: list[string]      # frontend | backend | design | testing | tracking
+  organization_approved: boolean   # true once the PM accepts the proposed ticket tree
 ```
+
+`context`, `pm_documents` and `handoff` are optional in schema `1.2`: files without them are valid and need no migration. The guide asks the matching question when one is missing. A document the PM did not ask for is `skipped` with `skip_reason: "not requested"`, and exit criteria that depend on it are `na`.
 
 ### Schema Migration
 
@@ -237,11 +263,13 @@ Each criterion has a status: `pass` | `fail` | `conditional` | `na` | `not_verif
 ### Deliver
 | Criterion | Required |
 |-----------|----------|
-| Stories have testable AC (Gherkin) | Yes (or defer) |
-| Stories have points with rationale | Yes (or defer) |
+| Outputs question answered and saved in `handoff` | Yes |
+| The epic links to every handoff output; one final design | Yes (or defer) |
+| Stories have a testable "Done when" checklist | Yes (or defer) |
+| Stories have points; backend estimates marked as proposed | Yes (or defer) |
+| PM accepted the proposed ticket tree | Yes (before Jira sync) |
 | Spikes created for unknown scope | Conditional (or defer) |
-| Testing requirements specified | Yes (or defer) |
-| Observability requirements specified | Yes (or defer) |
+| Testing, tracking and rollout recorded in the PRD and PM notes | Yes (or defer) |
 | Traceability matrix complete | Yes (or defer) |
 | Definition of Ready gate report complete with evidence | Yes (or defer) |
 | Human approved publish | Yes (or defer; nothing publishes until approved) |

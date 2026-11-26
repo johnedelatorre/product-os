@@ -18,6 +18,7 @@ Structure a raw requirement into a problem/opportunity statement.
 |----------|----------|-------------|
 | `--input` | Yes | Raw requirement text or file path |
 | `--source` | No | Source attribution (who, when, context) |
+| `--context` | No | Files or links with background: proposals, emails, tickets, existing PRDs, tech stack and schema documents, existing designs. Comma-separated |
 | `--output` | No | Output path (default: `intake.md`) |
 
 ## Output

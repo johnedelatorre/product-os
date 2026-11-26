@@ -17,7 +17,7 @@ Every initiative starts with a clear problem statement backed by evidence. Every
 
 Product OS canonical content lives in `.claude/`:
 - **Agents:** `.claude/agents/*.md` — 40 specialist agents
-- **Skills:** `.claude/skills/*.md` — 41 reusable skills
+- **Skills:** `.claude/skills/*.md` — 42 reusable skills
 - **Commands:** `.claude/commands/*.md` in the Product OS repo (installed targets keep a reference copy in `.claude/product-os/commands/`; Claude Code runs them as `/product-os:<command>` via the plugin)
 
 Also read:
@@ -45,7 +45,7 @@ Product OS follows a 9-phase guided workflow:
 4. **Define** — PRD, brief, plan, metrics → `.claude/agents/prd-author.md`
 5. **Design** — Brief, flows, wireframes → `.claude/agents/product-designer.md`
 6. **Review** — Gates and critique → `.claude/agents/gate-keeper.md`
-7. **Deliver** — Epics, stories, traceability → `.claude/agents/delivery-agent.md`
+7. **Deliver** — Ask the outputs question, then the epic (the team's hub), lean tickets, the ticket tree, traceability → `.claude/agents/delivery-agent.md`, `.claude/skills/engineering-handoff.md`
 8. **Launch** — Release notes, enablement → `.claude/agents/launch-manager.md`
 9. **Measure** — Post-launch review → `.claude/agents/post-launch-reviewer.md`
 
@@ -80,6 +80,7 @@ Read .claude/skills/proposal.md and research this idea: [idea]
 | Session Handover | Cross-session state | `.claude/skills/session-handover.md` |
 | Estimation | T-shirt → Fibonacci staging | `.claude/skills/estimation.md` |
 | Doc Hygiene | Current-state-only docs, cleanup procedure | `.claude/skills/doc-hygiene.md` |
+| Engineering Handoff | Guided questions, what the team gets, the epic as hub, lean tickets, the ticket tree | `.claude/skills/engineering-handoff.md` |
 
 ## Progress Tracking
 

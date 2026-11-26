@@ -9,6 +9,7 @@ Coaches a PM through all 9 phases (Intake → Discovery → Prioritize → Defin
 ## When to Use
 
 - You're new to Product OS and want step-by-step guidance
+- You want to be asked what you need instead of getting every document: the guide asks one question at a time what you are building and what you already have, which documents you want for yourself, what goes to the team, and whether the proposed ticket tree is right
 - An initiative spans several phases and sessions
 - You already have some artifacts (e.g. a PRD) and want to continue from there
 

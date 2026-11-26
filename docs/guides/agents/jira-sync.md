@@ -33,8 +33,9 @@ Syncs project backlog to Jira with story points, discipline labels, dates, and d
 
 | Artifact | Jira Issue |
 |----------|------------|
-| Epic | Epic with dates, labels. Summary `[Project] — [Outcome in plain words]`; description: Subtitle, Description, Problem Statement, Solution, Success Metrics, Stories, Dependencies, Links |
-| Story | Story with points, discipline, dates. Summary `[Verb] [thing] [for whom]`; description: User story line, Description, Problem Statement, Solution, Acceptance Criteria, Design, Validation, Details, Links |
+| Epic | Epic with dates, labels. Summary `[Project] — [Outcome in plain words]`; description: Subtitle, What and why, Who it is for, the Handoff table (PRD, project brief, user flows, final design, end-to-end prototype, extras), the ticket list. Each handoff output is also a web link on the epic |
+| Story | Story with points, discipline, dates. Summary `[Verb] [thing] [for whom]`; description: User story line, Problem, Requirements, UX and design requirements, Design (this ticket's own page or frame), Done when, Estimate. Backend tickets add an empty "Engineering to complete" section |
+| Sub-task | One Jira sub-task per step inside a story, created under that story, no points |
 | Dependencies | Issue links (blocks/blocked by) |
 
 ## Jira Plans Integration

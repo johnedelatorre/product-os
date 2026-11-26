@@ -50,8 +50,9 @@ Phase 6 ends with the **review exit check**: every critique, UX and accessibilit
 Follow `docs/reference/document-format.md`, `.claude/skills/clear-output.md` and `.claude/skills/doc-hygiene.md`.
 
 1. **Documents and Confluence pages** open with the standard header: Title, a one-line Subtitle, a table (Initiative, Project, Owner, Status, Last updated), then Description, Problem Statement, Solution, Success Metrics and Next Action. Document-specific sections follow.
-2. **Jira epics** use the trimmed format: Subtitle, Description, Problem Statement, Solution, Success Metrics, Stories, Links.
-3. **Jira stories** use the trimmed format: "As a / I want / so that", Description, Problem Statement, Solution, Acceptance Criteria (Gherkin), Design, Validation, Details.
+2. **The Jira epic is the team's hub:** Subtitle, What and why, Who it is for, a Handoff table of links (PRD, project brief, user flows, final design, end-to-end prototype, any extras), the ticket list and one estimate line. It does not repeat the PRD.
+3. **Jira stories are short:** "As a / I want / so that", a one- or two-sentence Problem, Requirements (3–5 lines), UX and design requirements, Design (a link to that ticket's own Figma page or frame), a "Done when" checklist, Estimate, and optional Sub-tasks. Backend tickets stay high level and end with an empty "Engineering to complete" section.
+3a. **Ask before you write** (`.claude/skills/engineering-handoff.md`), one question at a time: what the PM is building and what they already have (the request, proposals, emails, existing PRDs, tech stack, backend schemas, existing designs), which documents the PM wants for themselves, what goes to the team, and whether the proposed ticket tree is right. End with the final output list: for the team (share the epic), for the PM, not created.
 4. **Current state only:** no version banners, change history, "updated" tags or retired items in any document, page or ticket.
 5. **Never invent facts.** A missing number, owner or date is written as a named TBD: what is missing and who provides it ("Baseline: TBD, Maya pulls it from the dashboard").
 6. Lead with the next action, number multi-step tasks, keep lists short, put a TL;DR at the top of every document.

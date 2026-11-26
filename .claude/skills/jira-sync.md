@@ -23,23 +23,31 @@ Create and sync epics/stories to Jira with dates and dependencies.
 5. **Team-managed (next-gen) projects** link stories to epics via the `parent` field (no Epic Link field), and story points are often "Story point estimate". Company-managed projects may use an Epic Link custom field and "Story Points".
 6. **Record IDs** in `jira-sync-manifest.json`.
 7. **Standard format** — Epics follow `docs/reference/document-format.md` §3 and stories §4 (full formats: `.claude/agents/jira-sync.md`). Gaps are named TBDs, never invented.
+8. **The epic is the hub** — It links to every handoff output, in its description and as Jira web links. The team is given one link: the epic (`.claude/skills/engineering-handoff.md`).
+9. **Tree approved first** — No sync before the PM has accepted the ticket tree. PM notes are never sent.
 
 ## What Gets Created
 
 ### Epics
 - Summary: `[Project] — [Outcome in plain words]`
-- Description (§3, the complete epic body): Subtitle, Description, Problem Statement, Solution (in / out of scope), Success Metrics, Stories (1–3 line summary + estimation), Dependencies, Links (PRD, design, Confluence hub page)
+- Description (§3, the complete epic body): Subtitle, What and why, Who it is for, Handoff table (PRD, project brief, user flows, final design, end-to-end prototype, extras, links page), Tickets with one estimate line, Dependencies when there are any
+- Each handoff output also added as a web link on the epic
 - Labels: `product-os`, initiative, project
 - Start/Due dates from Gantt
 
 ### Stories
 - Summary: `[Verb] [thing] [for whom]` (a local-ID prefix such as `[E1] ST-110:` is kept where the project uses one)
-- Description (§4, the complete story body, each field once): user story, Description, Problem Statement, Solution, Acceptance Criteria (Gherkin), Design (use cases, flow and screens, states, UX requirements), Validation (tests, observability, rollout / rollback, success metric), Details (discipline, points, confidence, dependencies, estimate rationale, out of scope), Links
+- Description (§4, the complete story body, each part once): user story, Problem, Requirements, UX and design requirements, Design (this ticket's own Figma page or frame, prototype step, flow step), Done when (checklist), Estimate (points, discipline, PRD requirement, dependencies)
+- Backend tickets: high level, with an empty **Engineering to complete** section that a re-sync never overwrites
 - Parent epic (`parent` field in team-managed projects; Epic Link where the instance uses it)
 - Story points ("Story point estimate" or "Story Points", per project type)
 - Discipline labels (`frontend`, `backend`, or both)
 - Start/Due dates from Gantt
 - Dependencies as issue links
+
+### Sub-tasks
+- One Jira sub-task per line under a story's `## Sub-tasks`, created under that story
+- Summary keeps the kind prefix (`[frontend]`, `[backend]`, `[design]`, `[testing]`, `[tracking]`); no points
 
 ## Discipline Labels
 

@@ -30,6 +30,7 @@ You are the **Intake Analyst Agent** for Product OS. Your singular job is to tak
 | Raw requirement text | Yes | Original input in any form |
 | Source attribution | Yes | Who requested, when, context |
 | Supporting data | No | Screenshots, links, analytics |
+| `progress.yaml` → `context` | No | What the PM is building and the material they provided: the request, proposals, emails, tickets, product and technical documents, existing designs. Read every `request` source first. See `.claude/skills/engineering-handoff.md` → "The Context Question" |
 
 ## Output
 

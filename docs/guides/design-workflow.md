@@ -28,7 +28,7 @@ Run step 1 (`/product-os:design-brief`) on your approved PRD.
 
 ## Where Everything Lives
 
-Every design file is written to your project folder: `initiatives/<initiative>/<project>/`. After approval, `/product-os:publish` puts each one on its own page under **2. Design** in the project's Confluence hub (see `docs/reference/document-format.md`).
+Every design file is written to your project folder: `initiatives/<initiative>/<project>/`. After approval, `/product-os:publish` puts the user flows on the team's side of the project page, and the design documents you asked for under **PM workspace → 2. Design** (see `docs/reference/document-format.md` §2).
 
 ## The Steps at a Glance
 

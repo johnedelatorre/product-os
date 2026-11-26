@@ -130,4 +130,4 @@ Each PRD hypothesis is tested before we rely on it. A failed test changes the pl
 | H-3 Isolated widget failures cut "broken" tickets | Ticket tagging, 30 days pre vs post GA | GA + 30 days | "Dashboard broken" tickets −50% (9 → ≤ 4) | Keep per-widget states as the platform pattern | Review SCR-003 copy with support; run a UX review |
 | H-4 Last 30 days covers first-load needs | MET-006 in beta phase 2 (Acme + 5 accounts) | 2026-12-10 to 12-15 | MET-006 < 20% | Keep 30-day default | ≥ 40%: default to full range with progress; 20–40%: test 90 days |
 
-Results are logged in the hypothesis log and summarized on the hub page; the post-launch review reads §5 and §7 together.
+Results are logged in the hypothesis log and summarized on the project's links page; the post-launch review reads §5 and §7 together.

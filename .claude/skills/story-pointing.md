@@ -1,6 +1,6 @@
 # Skill: Story Pointing
 
-Estimate stories using Fibonacci scale with documented rationale.
+Estimate stories using the Fibonacci scale. The ticket carries the points on one line; the reasoning goes in PM notes at the end of `stories.md` (`.claude/skills/engineering-handoff.md`). Aim for 1–5 points per ticket.
 
 ## When to Use
 

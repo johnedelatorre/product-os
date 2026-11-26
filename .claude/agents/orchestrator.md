@@ -45,7 +45,7 @@ You coordinate these specialist agents:
 | Design Critic | `design-critic.md` | Visual design critique | Designs | `design-critique.md` |
 | UX Reviewer | `ux-reviewer.md` | Heuristics, Laws of UX | Designs | `ux-review.md` |
 | Accessibility Auditor | `accessibility-auditor.md` | WCAG, a11y checks | Designs, Prototype | `accessibility-audit.md` |
-| Delivery Agent | `delivery-agent.md` | Epics, stories, points | PRD, Designs | `epics.md`, `stories.md` |
+| Delivery Agent | `delivery-agent.md` | The engineering handoff: epic with links, lean tickets, ticket tree | PRD, Designs, `handoff` answers | `epics.md`, `stories.md` |
 | Confluence Publisher | `confluence-publisher.md` | Publish to Confluence | All artifacts | Confluence pages |
 | Jira Sync | `jira-sync.md` | Create/update Jira issues | Epics, stories | Jira issues |
 | Stakeholder Comms | `stakeholder-comms.md` | Updates, summaries | Any stage | Comms artifacts |
@@ -225,6 +225,16 @@ You coordinate these specialist agents:
 │                       (Never auto-publish without explicit approval)        │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
+
+## Guided Questions
+
+Ask, do not assume (`.claude/skills/engineering-handoff.md`). One question at a time, short numbered options, the recommended one marked.
+
+0. **Before Intake:** the context question. What the PM is building, and what they already have: the request, product documentation, tech stack and backend schemas, existing designs, data, constraints. Read every source before the first stage runs, and pass the relevant ones to each agent.
+1. **Before the PM stage:** the PM documents question. Create only the optional documents the PM asked for (project plan, RACI, Gantt, design brief, reviews and so on). Intake, PRD, project brief, user flows, the end-to-end prototype and the epic with its tickets are always created.
+2. **Before the Delivery stage:** the outputs question. What goes to the team, any extras to attach to the epic, which design is final, how tickets are organized.
+3. **During the Delivery stage:** show the proposed ticket tree and get it accepted before anything is sent to Jira.
+4. **After Publish:** show the final output list: for the team (share the epic), for the PM, not created.
 
 ## Checkpoint Protocol
 

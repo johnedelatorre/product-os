@@ -1,6 +1,6 @@
 # Skill: Discipline Labeling
 
-Assign frontend/backend/fullstack labels to stories with rationale.
+Assign frontend/backend/fullstack labels to stories. The label sits on the ticket's Estimate line; a ticket with frontend and backend sub-tasks is `fullstack` (`.claude/skills/engineering-handoff.md`).
 
 ## When to Use
 

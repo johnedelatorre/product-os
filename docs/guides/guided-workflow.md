@@ -249,6 +249,8 @@ Reviews run on the real designs and cite the screen for every finding: see [From
 
 ### Phase 7: Deliver
 
+The guide asks the **outputs question** first, one question at a time: what goes to the team (the standard handoff is recommended), any other outputs to attach to the epic, which design is final when you have both Figma and a Claude design, and how tickets are organized. After the tickets are drafted it shows the proposed **ticket tree** and asks you to accept it or move items. See [`.claude/skills/engineering-handoff.md`](../../.claude/skills/engineering-handoff.md).
+
 | Document | Agent | Template |
 |----------|-------|----------|
 | `epics.md` | delivery-agent | `templates/delivery/epic.md` |
@@ -276,11 +278,14 @@ Reviews run on the real designs and cite the screen for every finding: see [From
 | Unknown | Spike first | Team |
 
 **Exit Criteria:**
-- [ ] Stories have testable acceptance criteria (Gherkin)
+- [ ] Outputs question answered and saved
+- [ ] The epic links to every handoff output, and the team gets one final design
+- [ ] Stories have a testable "Done when" checklist
 - [ ] Definition of Ready gate report complete with evidence for each criterion
-- [ ] Stories have points with rationale
-- [ ] Spikes created for unknown scope (no fabricated AC)
-- [ ] Testing and observability requirements specified
+- [ ] Stories have points; backend estimates marked as proposed
+- [ ] You accepted the proposed ticket tree
+- [ ] Spikes created for unknown scope (no invented "Done when" list)
+- [ ] Testing, tracking and rollout recorded in the PRD and in PM notes
 - [ ] Traceability matrix complete (gaps have reasons)
 - [ ] **Human approved** Confluence/Jira publish (can be deferred; nothing is published until approved)
 

@@ -148,13 +148,17 @@ Three agents run in parallel:
 
 **Input:** `prd.md`, design artifacts
 **Output:** `epics.md`, `stories.md`
-**Checkpoint:** Human approves stories
+**Checkpoint:** Human accepts the ticket tree, then approves stories
 
 The Delivery Agent:
-- Creates epics mapped to PRD goals
-- Writes stories with Given/When/Then acceptance criteria
-- Assigns story points with rationale
+- Asks the outputs question: what goes to the team, any extras, which design is final, how tickets are organized
+- Writes the epic as the team's hub: a short summary and a table of links to the PRD, project brief, user flows, final design and end-to-end prototype
+- Writes short tickets: user story, problem, requirements, design link, a "Done when" checklist and an estimate
+- Leaves backend tickets high level, for the engineers to complete
+- Proposes the ticket tree (parents and sub-tasks) for the PM to accept
 - **Assigns discipline labels** (frontend/backend/fullstack)
+
+See `.claude/skills/engineering-handoff.md`.
 
 ---
 
@@ -165,8 +169,10 @@ The Delivery Agent:
 **Checkpoint:** Human confirms publication
 
 Two agents work in sequence:
-1. **Confluence Publisher** — Creates full page hierarchy
-2. **Jira Sync** — Creates epics/stories with dates and dependencies
+1. **Confluence Publisher** — Creates the links page and the team's pages, and puts the documents the PM asked for under one PM workspace page
+2. **Jira Sync** — Creates the epic with its handoff links, the stories and their sub-tasks, with dates and dependencies
+
+The run ends with the final output list: for the team (one link to share, the epic), for the PM, and what was not created.
 
 ---
 

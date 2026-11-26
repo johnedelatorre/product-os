@@ -35,6 +35,8 @@ jira:
     story: "Story"
     # Use "Task" if your project doesn't have Story type
     # story: "Task"
+    # Sub-tasks hold the steps inside a ticket (frontend, backend, design...)
+    subtask: "Sub-task"
   
   # How stories link to epics:
   # "parent"       - the parent field (team-managed and current company-managed projects)
@@ -74,6 +76,34 @@ jira:
   # Labels applied to all Product OS issues
   default_labels:
     - "product-os"
+
+# Engineering handoff: what the team gets (see .claude/skills/engineering-handoff.md)
+# These are defaults. Guided mode asks the outputs question per project and
+# saves the answers in that project's progress.yaml.
+handoff:
+  # "standard"   - PRD, project brief, user flows, final design,
+  #                end-to-end prototype, epic and tickets
+  # "everything" - the standard set plus every other approved document
+  outputs: "standard"
+
+  # Extra documents attached to the epic, e.g. ["wireframes", "schema"]
+  extras: []
+
+  # The one design the team gets when both exist: "figma" or "claude"
+  final_design: "figma"
+
+  # "subtasks" - parent tickets with sub-tasks (recommended)
+  # "flat"     - every piece of work is its own ticket
+  organization: "subtasks"
+
+  # Kinds of work that go under a parent ticket as sub-tasks
+  subtask_kinds:
+    - "frontend"
+    - "backend"
+    - "design"
+
+  # Largest ticket size without a written reason (story points)
+  max_points: 5
 
 # Flow rendering settings
 flows:
