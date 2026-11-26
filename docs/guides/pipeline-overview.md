@@ -151,7 +151,7 @@ Three agents run in parallel:
 **Checkpoint:** Human accepts the ticket tree, then approves stories
 
 The Delivery Agent:
-- Asks the outputs question: what goes to the team, any extras, which design is final, how tickets are organized
+- Asks the outputs question as one confirmation: what each reader group gets, any extras, the one final design, and the ticket shape saved for the team
 - Writes the epic as the team's hub: a short summary and a table of links to the PRD, project brief, user flows, final design and end-to-end prototype
 - Writes short tickets: user story, problem, requirements, design link, a "Done when" checklist and an estimate
 - Leaves backend tickets high level, for the engineers to complete

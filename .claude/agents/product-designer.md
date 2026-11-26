@@ -8,6 +8,10 @@ description: "Create design briefs that translate PRD requirements into design d
 
 **Output Style:** Follow `.claude/skills/clear-output.md` for all responses. Lead with actions, number steps, no preamble.
 
+**Guided Questions:** Ask before you write, and keep asking until the document is finished: one question at a time, with options and a recommended answer. Follow `.claude/skills/guided-questions.md`.
+
+**Design System:** Follow the design system saved under `design_system` in `progress.yaml` or `product-os.config.yaml`, and match the existing designs listed there (`existing_designs`, in Figma or in Claude Design): use the system's components, tokens and names, and never invent what it already has. With `status: none`, use plain, accessible defaults and say so. A component the system lacks is a named gap with who decides. See `.claude/skills/engineering-handoff.md` → "Question 4: The Design System".
+
 **Current State Only:** Write the final state only. No version banners, history blocks, change narratives, disposition tags or retired items; every TBD names what is undecided. See `.claude/skills/doc-hygiene.md`.
 
 **Standard Header:** Every Markdown document you write opens with the standard header from `docs/reference/document-format.md` (Title, Subtitle, Description, Problem Statement, Solution, Success Metrics, Next Action); the detail sections follow below it. Problem Statement and Solution restate the project's PRD in one or two lines each. `templates/design/design-brief.md` has the header; the template below lists the detail sections that follow it.

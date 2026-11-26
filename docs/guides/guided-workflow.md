@@ -234,16 +234,18 @@ Step-by-step guide to this phase (where flows, wireframes and the clickable prot
 | `design-critique.md` | design-critic | `templates/design/design-critique.md` |
 | `ux-review.md` | ux-reviewer | `templates/design/ux-review.md` |
 | `accessibility-audit.md` | accessibility-auditor | `templates/design/accessibility-audit.md` |
+| `ux-writing.md` | ux-writer | `templates/design/ux-writing-guide.md` |
 
 **Exit Criteria (review exit check):**
 - [ ] Every critique, UX and accessibility finding resolved, or accepted with documented risk
 - [ ] No critical design issues left open
 - [ ] WCAG 2.2 AA compliance verified
+- [ ] UX writing pass done, and the final design carries the copy from the UX writing guide
 - [ ] Not-verified items have investigation plan
 
 The Definition of Ready gate (`gate-report.md`) runs in Phase 7, on the stories, once they exist.
 
-Reviews run on the real designs and cite the screen for every finding: see [From PRD to Reviewed Designs, Step 6](design-workflow.md#step-6-reviews-on-the-real-designs) and the [example design critique](../../examples/acme-dashboard/design/design-critique.md).
+The design critique and the UX writing pass run as a pair: the critique first, then the pass on the design with your accepted fixes in it. Their outputs are the final designs and the UX writing guide, which the epic links to. Reviews run on the real designs and cite the screen for every finding: see [From PRD to Reviewed Designs, Step 6](design-workflow.md#step-6-reviews-on-the-real-designs) and the [example design critique](../../examples/acme-dashboard/design/design-critique.md).
 
 ---
 

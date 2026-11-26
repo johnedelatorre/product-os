@@ -4,13 +4,13 @@
 
 **PM rigor leads; design serves product strategy.**
 
-**New PM? Read three sections:** [Key Terms](#key-terms) → [Quick Start](#quick-start) for your tool → [Your First Project](#your-first-project-step-by-step). Everything from [Guided Mode](#guided-mode) down is reference.
+**New PM? Read three sections:** [Key Terms](#key-terms) → [Pick Your Path](#pick-your-path), then its [Quick Start](#quick-start) steps → [Your First Project](#your-first-project-step-by-step). Everything from [Guided Mode](#guided-mode) down is reference.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Works in **claude.ai**, **Claude Code** and **Cursor**.
+Works in **Claude chat**, as a **Claude artifact**, in **ChatGPT**, **Claude Code** and **Cursor**. [Pick your path](#pick-your-path).
 
-**On this page:** [What it is](#what-is-product-os) · [Key terms](#key-terms) · [Where it runs](#where-it-runs) · [Quick Start](#quick-start) · [Your first project](#your-first-project-step-by-step) · [Workflow](#how-it-works) · [Success and metrics](#what-success-looks-like-validation-and-metrics) · [Document format](#what-every-document-and-page-looks-like) · [Examples](#examples-you-can-copy) · [Guided Mode](#guided-mode) · [Commands](#commands) · [Agents](#agents) · [Skills](#skills) · [Documents](#documents) · [Rolling it out](#rolling-it-out-to-a-team) · [Configuration](#configuration)
+**On this page:** [What it is](#what-is-product-os) · [Key terms](#key-terms) · [Pick your path](#pick-your-path) · [Quick Start](#quick-start) · [Your first project](#your-first-project-step-by-step) · [Workflow](#how-it-works) · [Success and metrics](#what-success-looks-like-validation-and-metrics) · [Document format](#what-every-document-and-page-looks-like) · [Examples](#examples-you-can-copy) · [Guided Mode](#guided-mode) · [Commands](#commands) · [Agents](#agents) · [Skills](#skills) · [Documents](#documents) · [Rolling it out](#rolling-it-out-to-a-team) · [Configuration](#configuration)
 
 ---
 
@@ -18,9 +18,9 @@ Works in **claude.ai**, **Claude Code** and **Cursor**.
 
 PMs and designers lose hours to document work: writing PRDs from scratch, formatting Confluence pages, copying stories into Jira, redrawing the same flow diagrams. The strategic work (prioritization, trade-offs, alignment) gets squeezed.
 
-Product OS gives you **40 specialist AI agents**, each owning one document or job, plus playbooks (skills) and templates they follow. You tell an agent what you need, review what it writes, approve or revise, and move on. Nothing reaches Confluence or Jira until you approve it.
+Product OS gives you **41 specialist AI agents**, each owning one document or job, plus playbooks (skills) and templates they follow. You tell an agent what you need, review what it writes, approve or revise, and move on. Nothing reaches Confluence or Jira until you approve it.
 
-In Claude Code you drive it with 47 commands, all named `/product-os:<command>`.
+In Claude Code you drive it with 48 commands, all named `/product-os:<command>`.
 In claude.ai and Cursor you ask for the same work in plain language ("Run the PRD Author on this intake").
 
 ### Who it's for
@@ -37,15 +37,27 @@ The agents do the writing; **you make the decisions**: what problem to solve, wh
 
 ### It asks before it writes
 
-Product OS does not produce every document it can. It asks guided questions, one at a time, with short numbered options and a recommended answer:
+Product OS does not produce every document it can. It asks guided questions, one at a time, each with its place ("Question 2 of 7"), short numbered options and a recommended answer.
 
-| Question | When | What it decides |
-|----------|------|-----------------|
-| **What are you building, and what do you already have?** | First, before anything is written | The context every agent works from: where the initiative came from, the request, proposals and emails, customer feedback, competitive analysis, product analytics such as Pendo, existing PRDs and platform docs, the tech stack and backend schemas, existing designs, and constraints. It then asks which of these you want to see in the PRD. "I don't have that" is always a valid answer. |
-| **Which documents do you want for yourself?** | Start of a project | Whether you get a RACI chart, a Gantt chart, a project plan, a design brief, the design reviews and so on. Only what you pick is created. |
-| **What goes to the team?** | Start of Deliver | The standard handoff (recommended) or everything, plus any other output you want attached to the epic, such as wireframes, a schema or your Gantt chart. |
-| **Which design is final?** | Start of Deliver, when you have both | The team gets one: the Figma file or the Claude design. |
-| **Is this ticket tree right?** | After the tickets are drafted | Which work sits under which ticket. You accept it or move items before anything reaches Jira. |
+**At the start of a project: seven questions**
+
+| # | Question | What it decides |
+|---|----------|-----------------|
+| 1 | **What are you building, and who will use it?** | The frame for everything, and the product's users |
+| 2 | **Who will read what I write?** Engineers, a head of product, designers, executives or investors, a client, or only you | Which outputs are made, how they are written, and where each reader starts |
+| 3 | **What is your role on this project?** PM, design lead, both, founder | The documents recommended for you |
+| 4 | **Is there a design system to follow, and are there existing designs to match?** Each can be in Figma, in Claude Design, or both | Every design Product OS or you make, in Claude Design or in Figma, follows the system and matches the existing pages: the design brief, wireframes, prototype and final design, and the components named in tickets |
+| 5 | **Where did this come from?** | The origin of the initiative, stated plainly in the intake |
+| 6 | **Give me everything you have.** One step: emails, proposals, customer feedback, analytics, existing PRDs, the tech stack, schemas, existing designs | Product OS sorts it and answers with **Found** and **Missing**. "That is all" is always a valid answer. |
+| 7 | **Is this right?** The playback: what it understood and what it will make | Nothing is written before your yes |
+
+Questions 2, 3 and 4 are saved for your team. On the next project they become one line to confirm, and you answer four questions.
+
+**In every phase: the questions keep coming.** Before each document, the agent says how many questions it has (at most 5), asks the decisions that document needs, and confirms what was decided before the document is finished. You never have to say "ask me guided questions". Rules: [`.claude/skills/guided-questions.md`](.claude/skills/guided-questions.md).
+
+**At the handoff: two confirmations.** What each reader group gets, built from your earlier answers, and the ticket tree: which work sits under which ticket. You accept it or move items before anything reaches Jira.
+
+**After the handoff: one question.** What did the team say was missing, and what was too much? The answer is saved as your team's default for the next project.
 
 Every run ends with one list: **for the team** (one link to share, the epic), **for you**, and what was **not created**.
 
@@ -59,11 +71,14 @@ Engineers and heads of product told us the full document set was too much to rea
 | 2 | **Project brief** | One page |
 | 3 | **User flows** | The diagrams |
 | 4 | **Final design** | One link: the main Figma file, or the Claude design |
-| 5 | **End-to-end prototype** | Clickable: pick a user, then one straight path, first screen to last |
-| 6 | **The epic** | Where the team starts. Links to 1–5, in its description and as Jira links |
-| 7 | **Short tickets** | User story, problem, requirements, a link to that ticket's own design page, a "Done when" checklist, an estimate, sub-tasks |
+| 5 | **UX writing guide** | The voice, the words and the final copy for every screen. The final design already carries this copy |
+| 6 | **End-to-end prototype** | Clickable: pick a user, then one straight path, first screen to last |
+| 7 | **The epic** | Where the team starts. A "Start here" line for each reader group, links to 1–6 in its description and as Jira links, and a closing line asking for feedback |
+| 8 | **Short tickets** | User story, problem, requirements, a link to that ticket's own design page, a line saying "use the copy in the design as is", a "Done when" checklist, an estimate, sub-tasks |
 
 **Specific, not generic.** Every ticket line names a real screen, component, field or rule in the project. Filler such as "handle errors gracefully" is not allowed, lists stop at 5 lines, and the epic and every ticket get a final Clear Output pass and a ready-to-run check, so the team can start from the tickets as they are.
+
+**Design critique and UX writing run as a pair.** The critique runs on the real design and you decide its findings. The UX writing pass then asks for prior designs, screenshots or a style guide that show how your product already writes, and with none it works from the designs alone. The pair gives you the final designs and the UX writing guide. Rules: [`.claude/skills/ux-writing.md`](.claude/skills/ux-writing.md).
 
 Low-fidelity wireframes and a schema are optional extras. **Backend tickets stay high level**: Product OS says what the backend must do and leaves an "Engineering to complete" section for the engineers. Everything else you asked for lives under one **PM workspace** page in Confluence, for you. Rules: [`.claude/skills/engineering-handoff.md`](.claude/skills/engineering-handoff.md).
 
@@ -129,27 +144,42 @@ Plain-language definitions of every term used on this page.
 
 ---
 
-## Where It Runs
+## Pick Your Path
 
-The same agents, skills and templates power all three. Pick the one your team already uses.
+Product OS is one set of content with five ways to run it. The questions, the documents, the formats and the handoff are the same on every path. Pick by how you like to work.
 
-| | **claude.ai** | **Claude Code** | **Cursor** |
-|---|---|---|---|
-| **Best for** | PMs and designers who work in the browser or desktop app | PMs who keep docs in a repo; full automation | Teams already working in Cursor |
-| **Setup** | A Claude Project with the instructions and starter files in `claude-ai/` | Installer + `product-os` plugin | Installer (adds Cursor rules and agents) |
-| **How you start work** | Ask by name: "Start guided mode for project X" | `/product-os:guide` and the other slash commands | "Read `.claude/agents/guide.md` and start project X" |
-| **Slash commands** | No (ask in plain language) | Yes, `/product-os:*` | No (role-based) |
-| **Agents** | Claude takes on one agent role at a time from the project files | Each agent is a registered subagent | Native adapters + any agent by file |
-| **Where documents live** | In the chat and project; download or copy into your repo | `initiatives/<initiative>/<project>/` in your repo | `initiatives/<initiative>/<project>/` in your repo |
-| **Confluence and Jira** | Atlassian connector, if your workspace enables it (approval first) | Atlassian MCP or REST fallback (approval first) | Atlassian MCP or REST fallback (approval first) |
+| Path | Pick it when | What it feels like | Setup | Steps |
+|------|--------------|--------------------|-------|-------|
+| **A · Claude chat** | You work in the Claude app, not in a code editor | You ask in plain sentences. Claude asks the guided questions in the chat and gives you each document as a file. | About 10 minutes | [Path A](#path-a--claude-chat) |
+| **B · Claude artifact** | You want a page, not a chat, for the first questions | A guided page: seven questions, the brief filling in beside you, then a brief to paste into path A or C | About 2 minutes | [Path B](#path-b--claude-artifact-the-visual-start) |
+| **C · ChatGPT** | Your team works in ChatGPT | The same as path A, in a ChatGPT Project or a custom GPT your whole team opens from one link | About 10 minutes | [Path C](#path-c--chatgpt) |
+| **D · Claude Code** | You keep documents in a repo and want everything automated | Slash commands, 41 specialist agents, every document saved in your project folder | About 5 minutes | [Path D](#path-d--claude-code) |
+| **E · Cursor** | Your team already works in Cursor | You ask Cursor to take on a role by name | About 5 minutes | [Path E](#path-e--cursor) |
 
-Progress (`progress.yaml`) and session handovers (`HANDOVER.md`) are plain files, so you can start in one tool and continue in another.
+**Not sure?** A PM who does not use a terminal picks A or C. A PM who wants a visual start adds B. A PM who lives in a repo picks D.
+
+**How the paths compare**
+
+| | **A · Claude chat** | **C · ChatGPT** | **D · Claude Code** | **E · Cursor** |
+|---|---|---|---|---|
+| **Setup** | A Claude Project with the instructions and starter files in `claude-ai/` | A ChatGPT Project or custom GPT with the instructions and 8-file pack in `chatgpt/` | Installer + `product-os` plugin | Installer (adds Cursor rules and agents) |
+| **How you start work** | "Start guided mode for project X" | "Start guided mode for project X" | `/product-os:guide` and the other slash commands | "Read `.claude/agents/guide.md` and start project X" |
+| **Slash commands** | No (plain language) | No (plain language) | Yes, `/product-os:*` | No (role-based) |
+| **Agents** | One role at a time, from the project files | One role at a time, from the pack | Each agent is a registered subagent | Native adapters + any agent by file |
+| **Where documents live** | Files in the chat; download or copy them | Files in the chat or canvas; download them | `initiatives/<initiative>/<project>/` in your repo | `initiatives/<initiative>/<project>/` in your repo |
+| **Confluence and Jira** | Atlassian connector, if your workspace enables it (approval first) | Atlassian Rovo app, if your workspace and region have it (approval first) | Atlassian MCP or REST fallback (approval first) | Atlassian MCP or REST fallback (approval first) |
+
+Path B is the visual start for paths A and C: it asks the start questions on a page and hands a brief to the chat, where the documents are written.
+
+Progress (`progress.yaml`) and session handovers (`HANDOVER.md`) are plain files, so you can start on one path and continue on another.
 
 ---
 
 ## Quick Start
 
-### claude.ai
+The steps for each path in [Pick Your Path](#pick-your-path).
+
+### Path A · Claude chat
 
 1. Download this repo (Code → Download ZIP) and unzip it. On a Mac, press **Cmd+Shift+.** in Finder to show the hidden `.claude` folder.
 2. In claude.ai, create a **Project** (for example "Product OS").
@@ -160,7 +190,32 @@ Progress (`progress.yaml`) and session handovers (`HANDOVER.md`) are plain files
 
 Full steps and tips: [Product OS in claude.ai](claude-ai/README.md).
 
-### Claude Code
+### Path B · Claude artifact, the visual start
+
+For PMs who want a page, not a chat, for the first questions.
+
+1. Download [`artifact/product-os-start.html`](artifact/product-os-start.html).
+2. In Claude, attach the file and say: *"Publish this page as an artifact."*
+3. Open the artifact and answer the seven questions. The brief fills in beside you.
+4. Press **Yes, copy the brief**.
+5. Paste the brief into your Product OS project in Claude chat (path A) or ChatGPT (path C), and attach the files you listed. The chat shows the playback and waits for your yes.
+
+The page covers the start questions. The documents are written in the chat. What it does and does not do: [Product OS as a Claude artifact](artifact/README.md).
+
+### Path C · ChatGPT
+
+For PMs who work in ChatGPT and not in a code editor.
+
+1. Download this repo (Code → Download ZIP), unzip it and open the `chatgpt` folder.
+2. In ChatGPT, create a **Project** (for example "Product OS").
+3. Paste [`chatgpt/project-instructions.md`](chatgpt/project-instructions.md) (everything below its line) into the project's **Instructions**.
+4. Upload the 8 files in [`chatgpt/pack/`](chatgpt/pack/). They bundle the core agents, skills, formats and templates, and fit a Go or Plus project (25 files) and a custom GPT (20 files).
+5. Optional: connect the Atlassian Rovo app so ChatGPT can publish to Confluence and Jira after you approve.
+6. Start a chat in the project: *"Start Product OS guided mode for initiative customer-onboarding, project self-serve-signup."*
+
+A head of product can also build it once as a custom GPT and share one link with every PM. Full steps, plan limits and what differs from Claude Code: [Product OS in ChatGPT](chatgpt/README.md).
+
+### Path D · Claude Code
 
 1. Install into your project:
 
@@ -179,7 +234,7 @@ Full steps and tips: [Product OS in claude.ai](claude-ai/README.md).
    /product-os:guide --initiative customer-onboarding --project self-serve-signup
    ```
 
-### Cursor
+### Path E · Cursor
 
 1. Run the installer: `./scripts/install.sh /path/to/your/project --platform cursor`
 2. Restart Cursor so it loads `.cursor/rules/product-os.mdc`.
@@ -187,7 +242,7 @@ Full steps and tips: [Product OS in claude.ai](claude-ai/README.md).
 
 In Cursor you get 3 native Cursor agent adapters (Guide, PRD Author, Intake Analyst) in the agent picker; every other agent works by asking Cursor to read its file.
 
-**Then, on any platform:** follow [Your First Project, Step by Step](#your-first-project-step-by-step). When you're ready to publish, Product OS shows the exact Confluence pages and Jira issues it will write and waits for your OK.
+**Then, on any path:** follow [Your First Project, Step by Step](#your-first-project-step-by-step). When you're ready to publish, Product OS shows the exact Confluence pages and Jira issues it will write and waits for your OK.
 
 ---
 
@@ -215,7 +270,7 @@ This is the whole workflow, in order. Guided mode walks you through it and asks 
 |---|---|
 | **Claude Code** | `/product-os:guide --initiative <initiative> --project <project>` (starts here), or `/product-os:intake --input "<the request>"` |
 | **claude.ai or Cursor** | "Start Product OS guided mode for initiative X, project Y. Here is the request: ..." |
-| **Product OS asks you** | What was asked and by whom? Who has the problem? What evidence do you have (tickets, data, quotes)? Who are the stakeholders? |
+| **Product OS asks you** | The seven start questions: what you are building and who will use it · who will read what it writes · your role · the design system to follow and the existing designs to match · where it came from · everything you have, in one step · whether its playback is right. Then, for the intake: which problem matters most, which evidence is strongest, who else has a say |
 | **You get** | `intake.md`: the request rewritten as a problem statement with evidence, affected users and stakeholders. No solution yet. |
 | **Where it lives** | `intake.md` · Confluence: **PM workspace → 1. Strategy & Definition** |
 | **Check before moving on** | The problem is stated without a solution baked in · evidence is listed · stakeholders are named · you approve the framing |
@@ -285,12 +340,12 @@ Full walkthrough with what to check at each sub-step: [From PRD to Reviewed Desi
 
 | | |
 |---|---|
-| **Claude Code** | `/product-os:critique --designs prototype.html --prd prd.md` (or `--figma-url <url>`) · `/product-os:ux-review --designs prototype.html --flows flows.md` · `/product-os:a11y --target prototype.html` |
-| **claude.ai or Cursor** | "Run a design critique, a UX review and an accessibility audit on prototype.html" (attach screenshots or share the Figma link) |
-| **Product OS asks you** | Which design to review: a Figma link, screenshots, `prototype.html` (or a hosted URL) or `wireframes.md` |
-| **You get** | `design-critique.md` (severity-rated visual findings), `ux-review.md` (usability findings by heuristic), `accessibility-audit.md` plus `a11y-issues.csv` (WCAG 2.2 AA issues) |
+| **Claude Code** | `/product-os:critique --designs prototype.html --prd prd.md` (or `--figma-url <url>`) · `/product-os:ux-writing --designs prototype.html --prd prd.md --prior <screenshots>` · `/product-os:ux-review --designs prototype.html --flows flows.md` · `/product-os:a11y --target prototype.html` |
+| **claude.ai or Cursor** | "Run a design critique with the UX writing pass, a UX review and an accessibility audit on prototype.html" (attach screenshots or share the Figma link) |
+| **Product OS asks you** | Which design to review: a Figma link, screenshots, `prototype.html` (or a hosted URL) or `wireframes.md` · for each Critical and Major finding: fix it now or accept it · prior designs, screenshots or a style guide that show how the product already writes |
+| **You get** | `design-critique.md` (severity-rated visual findings), `ux-writing.md` (the UX writing guide: voice, words and the final copy for every screen) and the designs with that copy in them, `ux-review.md` (usability findings by heuristic), `accessibility-audit.md` plus `a11y-issues.csv` (WCAG 2.2 AA issues) |
 | **Where it lives** | Project folder · Confluence: **PM workspace → 2. Design** |
-| **Check before moving on (review exit check)** | Every critique, UX and accessibility finding is resolved or accepted with a written risk · no critical issue left open · WCAG 2.2 AA verified · every Not Verified item has an owner |
+| **Check before moving on (review exit check)** | Every critique, UX and accessibility finding is resolved or accepted with a written risk · no critical issue left open · the UX writing pass is done and the final design carries its copy · WCAG 2.2 AA verified · every Not Verified item has an owner |
 | **Example** | [design/design-critique.md](examples/acme-dashboard/design/design-critique.md) |
 
 **Reviews run on the actual designs, never on a description.**
@@ -396,12 +451,14 @@ flowchart TD
     subgraph REVIEW["6. Review"]
         CRIT[Design Critic]
         UX[UX Reviewer]
+        UXW[UX Writer]
         A11Y[Accessibility]
         EXIT{{Review exit check:<br/>findings resolved<br/>or accepted}}
         PROTO --> CRIT
         PROTO --> UX
         PROTO --> A11Y
-        CRIT --> EXIT
+        CRIT --> UXW
+        UXW --> EXIT
         UX --> EXIT
         A11Y --> EXIT
     end
@@ -560,8 +617,8 @@ Documents and Confluence pages open with the full standard header below, so a re
 
 | Item | Summary format | Description holds |
 |------|----------------|-------------------|
-| **Epic** | `[Project] — [Outcome in plain words]` | Subtitle, What and why, Who it is for, the Handoff table (PRD, project brief, user flows, final design, end-to-end prototype, extras), the ticket list and one estimate line. Each handoff output is also a Jira link on the epic |
-| **Story** | `[Verb] [thing] [for whom]` | "As a / I want / so that", a short Problem, Requirements, UX and design requirements, a link to that ticket's own design page, a "Done when" checklist and an Estimate. Backend tickets add an empty "Engineering to complete" section |
+| **Epic** | `[Project] — [Outcome in plain words]` | Subtitle, What and why, Who it is for, a Start here line per reader group, the Handoff table (PRD, project brief, user flows, final design, UX writing guide, end-to-end prototype, extras), the ticket list, one estimate line and a closing Feedback line. Each handoff output is also a Jira link on the epic |
+| **Story** | `[Verb] [thing] [for whom]` | "As a / I want / so that", a short Problem, Requirements, UX and design requirements, a link to that ticket's own design page, the Copy line ("use the copy in the design as is", with a link to the UX writing guide), a "Done when" checklist and an Estimate. Backend tickets add an empty "Engineering to complete" section |
 | **Sub-task** | `[frontend] [step]` | Nothing: the parent story has the detail |
 
 Full rules: [Document Format Standard](docs/reference/document-format.md). Docs, pages and tickets show the current state only, with no version history.
@@ -656,7 +713,7 @@ Full playbook: [Guided Workflow](docs/guides/guided-workflow.md).
 Every command is a Claude Code slash command. In claude.ai or Cursor, ask for the same thing in plain language ("write the PRD from this intake", "run a UX review on the wireframes").
 
 <details>
-<summary><b>All 47 commands, by phase</b> (click to expand)</summary>
+<summary><b>All 48 commands, by phase</b> (click to expand)</summary>
 
 **Guided mode and sessions**
 
@@ -719,6 +776,7 @@ Every command is a Claude Code slash command. In claude.ai or Cursor, ask for th
 | Command | What it does |
 |---------|--------------|
 | `/product-os:critique` | Severity-rated visual design critique |
+| `/product-os:ux-writing` | The UX writing pass, paired with the critique: the UX writing guide and the final copy for every screen |
 | `/product-os:ux-review` | Nielsen's heuristics evaluation |
 | `/product-os:a11y` | WCAG 2.2 AA accessibility audit |
 | `/product-os:gate` | Definition of Ready / Done check |
@@ -763,10 +821,10 @@ Arguments and examples for each: [Command Reference](docs/reference/commands.md)
 
 ## Agents
 
-Product OS includes **40 specialist agents**, each with one responsibility. The guide and the commands pick the right one; you can also call any agent directly by name.
+Product OS includes **41 specialist agents**, each with one responsibility. The guide and the commands pick the right one; you can also call any agent directly by name.
 
 <details>
-<summary><b>All 40 agents, by group, with their commands</b> (click to expand)</summary>
+<summary><b>All 41 agents, by group, with their commands</b> (click to expand)</summary>
 
 | Group | Agent | Command | What it does |
 |-------|-------|---------|--------------|
@@ -790,6 +848,7 @@ Product OS includes **40 specialist agents**, each with one responsibility. The 
 | | Prototyper | `/product-os:prototype` | Clickable HTML/React |
 | | Figma Agent | `/product-os:figma` | Figma MCP integration |
 | **Review & gates** | Design Critic | `/product-os:critique` | Severity-rated visual feedback |
+| | UX Writer | `/product-os:ux-writing` | The UX writing pass and the UX writing guide |
 | | UX Reviewer | `/product-os:ux-review` | Nielsen's heuristics evaluation |
 | | Accessibility Auditor | `/product-os:a11y` | WCAG 2.2 AA audit |
 | | Gate Keeper | `/product-os:gate` | DoR/DoD validation |
@@ -824,14 +883,15 @@ Each agent's inputs, outputs and examples: [Agent Guide Index](docs/guides/agent
 
 ## Skills
 
-Skills are the playbooks agents follow: frameworks, best practices and quality checklists. Product OS ships 42 reusable skills in `.claude/skills/`. Agents read them automatically; you can also point Claude at one ("use the prioritization skill to score these features").
+Skills are the playbooks agents follow: frameworks, best practices and quality checklists. Product OS ships 44 reusable skills in `.claude/skills/`. Agents read them automatically; you can also point Claude at one ("use the prioritization skill to score these features").
 
 <details>
-<summary><b>All 42 skills, by area, with the agents that use them</b> (click to expand)</summary>
+<summary><b>All 44 skills, by area, with the agents that use them</b> (click to expand)</summary>
 
 | Area | Skill | What it teaches | Used by |
 |------|-------|-----------------|---------|
 | **How work is written** | Clear Output | 10 rules for actionable output, TL;DR blocks | All agents |
+| | Guided Questions | Always on: every agent asks before it writes and keeps asking until its document is finished | All agents |
 | | Doc Hygiene | Current-state-only docs; cleanup of version history; lint and invention guard | Doc Cleaner, all artifact-writing agents |
 | **Workflow** | Guided Workflow | 9-phase `progress.yaml` state tracking | Guide |
 | | Session Handover | State, evidence, next action for the next session | Guide, `/product-os:handover` |
@@ -858,10 +918,11 @@ Skills are the playbooks agents follow: frameworks, best practices and quality c
 | | Prototype Generation | Self-contained HTML, React artifacts | Prototyper |
 | | Artifact Registry | Design artifact tracking, link validation | Artifact Registry |
 | **Quality** | Design Critique | Visual hierarchy, Gestalt, severity ratings | Design Critic |
+| | UX Writing | The UX writing pass, voice and terms, copy patterns, the UX writing guide | UX Writer, Design Critic, Delivery Agent |
 | | UX Heuristics | Nielsen's 10 heuristics, Laws of UX | UX Reviewer |
 | | Accessibility Audit | WCAG 2.2 AA criteria, axe-core | Accessibility Auditor |
 | | DoR/DoD Gates | Definition of Ready/Done criteria | Gate Keeper |
-| **Delivery** | Engineering Handoff | Guided questions, what the team gets, the epic as hub, short tickets, the ticket tree, PM workspace | Guide, Delivery Agent, Prototyper, Confluence Publisher, Jira Sync |
+| **Delivery** | Engineering Handoff | The start questions, readers and role, what each reader group gets, the epic as hub, short tickets, the ticket tree, feedback after the handoff, PM workspace | Guide, Delivery Agent, Prototyper, Confluence Publisher, Jira Sync |
 | | Story Pointing | Fibonacci scale, complexity factors | Delivery Agent |
 | | Discipline Labeling | Frontend/backend/fullstack assignment | Delivery Agent |
 | | Confluence Publishing | Page hierarchy, backlog tables, approval before writes | Confluence Publisher |
@@ -912,6 +973,7 @@ Every document Product OS can write, with where it ends up. In Claude Code and C
 | **Prototype** | Clickable HTML/React demo | User testing | Prototyper | Confluence: PM workspace · 2. Design (Wireframes & Prototype page, prototype attached or linked) |
 | **Artifact Registry** | Links to all design assets | Throughout project | Artifact Registry | Confluence: outside the groups* |
 | **Design Critique** | Severity-rated visual feedback | Before handoff | Design Critic | Confluence: PM workspace · 2. Design |
+| **UX Writing Guide** | Voice, words and the final copy for every screen | With the design critique, before handoff | UX Writer | Confluence: under the project page, for the team; linked from the epic |
 | **UX Review** | Nielsen's heuristics evaluation | Quality gate | UX Reviewer | Confluence: PM workspace · 2. Design |
 | **Accessibility Audit** | WCAG 2.2 AA compliance | Before launch | Accessibility Auditor | Confluence: PM workspace · 2. Design |
 | **Gate Report** | DoR/DoD compliance | Sprint planning | Gate Keeper | Local |

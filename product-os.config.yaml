@@ -77,9 +77,40 @@ jira:
   default_labels:
     - "product-os"
 
+# Who reads what Product OS writes, and your role (see .claude/skills/engineering-handoff.md)
+# Guided mode asks once and saves the answers here. Later projects confirm them in one line.
+audience:
+  # Any of: "engineers", "product-lead", "designers", "executives", "client", "self"
+  # Empty means the question has not been asked yet.
+  readers: []
+
+  # One of: "pm", "design-lead", "pm-and-design", "founder", "other"
+  role: ""
+
+# The design system every design follows (see .claude/skills/engineering-handoff.md → "Question 4")
+# Guided mode asks at the start of the first project and saves the answer here.
+design_system:
+  # Each source: kind ("figma", "claude" or "code"), ref (a link, or the name of
+  # the Claude design system) and an optional note. Example:
+  #   - kind: "figma"
+  #     ref: "https://www.figma.com/design/abc123/Acme-Design-System"
+  #     note: "Components, variables and text styles"
+  sources: []
+
+  # Which source wins when two disagree: "figma", "claude" or "code"
+  source_of_truth: ""
+
+  # "provided", "none" (the team has no design system yet), or "" (not asked yet)
+  status: ""
+
+  # Pages and screens already designed for this product, for every new design to match.
+  # Each: kind ("figma", "claude" or "screenshots"), ref and an optional note.
+  existing_designs: []
+
 # Engineering handoff: what the team gets (see .claude/skills/engineering-handoff.md)
-# These are defaults. Guided mode asks the outputs question per project and
-# saves the answers in that project's progress.yaml.
+# These are the team's defaults. Guided mode confirms them per project, saves the
+# answers in that project's progress.yaml, and updates the defaults here when the
+# team's feedback after a handoff changes them (with your yes).
 handoff:
   # "standard"   - PRD, project brief, user flows, final design,
   #                end-to-end prototype, epic and tickets
@@ -101,6 +132,10 @@ handoff:
     - "frontend"
     - "backend"
     - "design"
+
+  # true once the team's ticket shape has been asked and saved. While false,
+  # guided mode asks how tickets are organized, once.
+  organization_confirmed: false
 
   # Largest ticket size without a written reason (story points)
   max_points: 5

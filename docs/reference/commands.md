@@ -1,6 +1,6 @@
 # Command Reference
 
-Complete reference for all 47 Product OS slash commands.
+Complete reference for all 48 Product OS slash commands.
 
 In Claude Code, commands come from the `product-os` plugin and are always namespaced as `/product-os:<command>` (see the README for enabling the plugin). In Cursor, read the agent file listed for each command instead (role-based invocation).
 
@@ -445,6 +445,20 @@ Evaluate designs against UX heuristics and patterns.
 
 ---
 
+### /product-os:ux-writing
+
+Run the UX writing pass on the real designs and write the UX writing guide: the voice, the words, and the final copy for every screen. Paired with `/product-os:critique`. Asks first for prior designs, screenshots or a style guide that show how the product already writes; with none, it works from the designs alone.
+
+```
+/product-os:ux-writing --designs <path> --prd <prd.md> [--prior <paths>] [--critique <design-critique.md>]
+```
+
+**Output:** `ux-writing.md`, and the designs with the approved copy in them
+
+**Agent:** `ux-writer.md`
+
+---
+
 ### /product-os:a11y
 
 Run comprehensive accessibility audit.
@@ -473,7 +487,7 @@ Check Definition of Ready or Definition of Done for stories.
 
 ### /product-os:deliver
 
-Generate the engineering handoff: an epic that links to everything, lean tickets with estimates, and a ticket tree you approve. Asks the outputs question first.
+Generate the engineering handoff: an epic that links to everything, lean tickets with estimates, and a ticket tree you approve. Confirms what goes to each reader group first.
 
 ```
 /product-os:deliver --from <prd.md> --designs <design-brief.md,wireframes.md>

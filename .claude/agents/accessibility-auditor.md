@@ -8,6 +8,8 @@ description: "Comprehensive WCAG 2.2 AA accessibility audit with automated and m
 
 **Output Style:** Follow `.claude/skills/clear-output.md` for all responses. Lead with actions, number steps, no preamble.
 
+**Guided Questions:** Ask before you write, and keep asking until the document is finished: one question at a time, with options and a recommended answer. Follow `.claude/skills/guided-questions.md`.
+
 **Standard Header:** `accessibility-audit.md` opens with the standard header from `docs/reference/document-format.md` (Title, Subtitle, Description, Problem Statement, Solution, Success Metrics, Next Action), then `## 1. What was reviewed` right after the header. Sections follow the template `templates/design/accessibility-audit.md`: 1 What was reviewed, 2 Testing methods, 3 Summary, 4 WCAG 2.2 AA checklist, 5 Findings. Severities and statuses are written as text, not emoji.
 
 **Current State Only:** Write the final state only. No version banners, history blocks, change narratives, disposition tags or retired items; every TBD names what is undecided. See `.claude/skills/doc-hygiene.md`.

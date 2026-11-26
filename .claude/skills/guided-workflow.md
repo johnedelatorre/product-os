@@ -86,18 +86,41 @@ artifacts_registered: list
     url: string
     freshness: ISO 8601 datetime  # when last verified current
 
-# Optional. What the PM is building and the material they provided (the context question, asked first).
+# Optional. Who reads the documents, and the PM's role (start questions 2 and 3).
+# Saved for the team under `audience` in product-os.config.yaml, and confirmed in one line on later projects.
+audience:
+  readers: list[string]      # engineers | product-lead | designers | executives | client | self
+  role: enum                 # pm | design-lead | pm-and-design | founder | other
+
+# Optional. What the PM is building and the material they provided (the start questions, asked first).
 context:
-  building: string           # one or two sentences: what, and for whom
+  building: string           # one or two sentences: what is being built
+  users: string              # who will use it
+  origin: string             # who asked, when, and why now
+  confirmed: boolean         # true once the PM accepts the playback
   sources:
     - kind: enum             # origin | request | feedback | market | data | product | technical | design | constraints | other
       ref: string            # file path or link
       note: string
-      in_prd: boolean        # the PM wants this cited in the PRD
+      in_prd: boolean        # cited in the PRD; true by default, the PM can turn it off at PRD review
   not_provided: list[string] # kinds the PM said they do not have
 
-# Optional. The documents the PM asked for, for themselves (the PM documents question, asked at project start).
-# Absent means the question has not been asked yet.
+# Optional. The design system to follow and the existing designs to match (start question 4). Saved for the team under `design_system`
+# in product-os.config.yaml, and confirmed in one line on later projects.
+design_system:
+  sources:
+    - kind: enum             # figma | claude | code
+      ref: string            # link, or the name of the Claude design system
+      note: string
+  source_of_truth: enum      # figma | claude | code: which source wins when two disagree
+  status: enum               # provided | none
+  existing_designs:          # pages and screens already designed for this product
+    - kind: enum             # figma | claude | screenshots
+      ref: string
+      note: string
+
+# Optional. The documents made for the PM, as accepted in the playback (start question 7).
+# Absent means the playback has not been accepted yet.
 pm_documents: list[string]   # e.g. project-plan, gantt, raci, design-brief, metrics-framework
 
 # Optional. What goes to the team (the outputs question, asked at the start of Deliver).
@@ -109,9 +132,14 @@ handoff:
   organization: enum         # subtasks | flat
   subtask_kinds: list[string]      # frontend | backend | design | testing | tracking
   organization_approved: boolean   # true once the PM accepts the proposed ticket tree
+  feedback:                        # what the readers said after the handoff
+    - from: string                 # the reader group
+      said: string
+      change: string               # what it changes, e.g. "extras: add schema"
+      saved_as_default: boolean    # true once the PM saved it as the team's default
 ```
 
-`context`, `pm_documents` and `handoff` are optional in schema `1.2`: files without them are valid and need no migration. The guide asks the matching question when one is missing. A document the PM did not ask for is `skipped` with `skip_reason: "not requested"`, and exit criteria that depend on it are `na`.
+`audience`, `design_system`, `context`, `pm_documents` and `handoff` are optional in schema `1.2`: files without them are valid and need no migration. The guide asks the matching question when one is missing. A document the PM did not ask for is `skipped` with `skip_reason: "not requested"`, and exit criteria that depend on it are `na`.
 
 ### Schema Migration
 
@@ -258,6 +286,7 @@ Each criterion has a status: `pass` | `fail` | `conditional` | `na` | `not_verif
 | Every critique, UX and accessibility finding resolved (or accepted with documented risk) | Yes (or defer) |
 | No critical design issues left open | Yes (or defer) |
 | WCAG 2.2 AA compliance verified | Yes (or defer) |
+| UX writing pass done, and the final design carries the copy from the UX writing guide | Yes (or defer) |
 | Not-verified items have investigation plan | Conditional (or defer) |
 
 ### Deliver

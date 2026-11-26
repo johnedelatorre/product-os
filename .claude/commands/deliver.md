@@ -25,10 +25,10 @@ Generate the engineering handoff: an epic that links to everything, lean tickets
 
 Asked once per project, when `progress.yaml` has no `handoff` block (`.claude/skills/engineering-handoff.md`):
 
-1. **What goes to the team?** A · Standard handoff (recommended): PRD, project brief, user flows, final design, end-to-end prototype, the epic and its tickets. B · Everything.
-2. **Any other outputs to attach to the epic?** For example low-fidelity wireframes or a schema.
-3. **Which design is final?** Only when a Figma file and a Claude design both exist.
-4. **How should tickets be organized?** Parent tickets with sub-tasks (recommended), or a flat list.
+1. **Is this what goes to the team?** One list to confirm: what each reader group gets (engineers get the standard handoff: PRD, project brief, user flows, final design, end-to-end prototype, the epic and its tickets), what else is attached (for example a schema or low-fidelity wireframes), the one final design, and the ticket shape saved for your team. Say yes, or change any line.
+2. **Is this ticket tree right?** After the tickets are drafted.
+
+On your team's first project it also asks, once, how tickets are organized: parent tickets with sub-tasks (recommended), or a flat list.
 
 ## Output
 
@@ -52,6 +52,7 @@ Each story includes, in this order:
 - Problem: one or two sentences
 - Requirements: 3–5 short lines, naming labels, components and rules
 - UX and design requirements
+- Copy: on every ticket with a screen, "use the copy in the design as is", with a link to the UX writing guide
 - Design: a link to this ticket's own page or frame in the main Figma file, and its step in the prototype
 - Done when: a checklist of 3–5 testable lines
 - Estimate: points, **discipline label** (`frontend`, `backend`, or `fullstack`), PRD requirement, dependencies

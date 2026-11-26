@@ -44,8 +44,13 @@ Perform structured visual design critique.
 - **Major (P1)**: Should fix before launch
 - **Minor (P2)**: Polish item
 
+## Paired With the UX Writing Pass
+
+A design critique is followed by `/product-os:ux-writing`. You decide the critique's findings first, then the UX writing pass runs on the design with those fixes in it. Together they give you the final designs and the UX writing guide.
+
 ## Output
 - `design-critique.md` — Findings with scorecard
+- Then, from the paired pass: `ux-writing.md` and the final designs with the copy in them
 
 ## Agent
 Uses: `design-critic.md`

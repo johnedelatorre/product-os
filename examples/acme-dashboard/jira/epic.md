@@ -18,14 +18,16 @@ Kenji Mori closes the open Critical and Major design critique findings (C-001, M
 
 ## What Priya chose
 
-The answers to the outputs question (`.claude/skills/engineering-handoff.md`), saved in `progress.yaml`:
+The answers to the start questions and the outputs question (`.claude/skills/engineering-handoff.md`), saved in `progress.yaml`:
 
 | Question | Answer |
 |----------|--------|
-| What goes to the team? | A · Standard handoff |
-| Any other outputs to attach to the epic? | Low-fidelity wireframes |
+| Who will read what is written? | Engineers |
+| What is your role on this project? | Product manager |
+| What goes to the team? | The standard handoff |
+| What else is attached? | Low-fidelity wireframes |
 | Which design is final? | The Claude design (this project has no Figma file) |
-| How should tickets be organized? | Parent tickets with sub-tasks: frontend, backend, tracking |
+| How are tickets organized? | Parent tickets with sub-tasks: frontend, backend, tracking (saved as the team's shape) |
 
 ## Jira fields
 
@@ -65,6 +67,7 @@ Enterprise admins wait 16.4 s (p95) at a blank dashboard, and one failed widget 
 | Project brief | Dashboard Performance — Project Brief |
 | User flows | Dashboard Performance — User Flows (FLOW-001 to FLOW-003) |
 | Final design (Claude design) | Dashboard Performance — design screens SCR-001 to SCR-005 |
+| UX writing guide | Dashboard Performance — UX Writing Guide (the copy for every screen; the designs already use it) |
 | End-to-end prototype | Dashboard Performance — handoff prototype (one path per user) |
 | Low-fidelity wireframes | Dashboard Performance — Wireframes |
 | Links page | Dashboard Performance (Confluence) |
@@ -85,6 +88,8 @@ Enterprise admins wait 16.4 s (p95) at a blank dashboard, and one failed widget 
 ## Dependencies
 - Per-widget endpoints (Platform team): in progress. Blocks DASH-102.
 - DASH-107 spike result: blocks DASH-101 and DASH-102.
+
+**Feedback:** what was missing, and what was too much? Comment on this epic.
 ```
 
 ## The ticket tree Priya accepted

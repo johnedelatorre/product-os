@@ -42,6 +42,7 @@ Start from the epic: [DASH-100](../jira/epic.md). It has the same links.
 | Project brief | [Dashboard Performance — Project Brief](../pm/project-brief.md) | Approved |
 | User flows | [Dashboard Performance — User Flows](../design/flows.md) | Approved |
 | Final design (Claude design) | Screens SCR-001 to SCR-005 | In review |
+| UX writing guide | [Dashboard Performance — UX Writing Guide](../design/ux-writing.md): the copy for every screen | In review |
 | End-to-end prototype | [Handoff prototype](../design/prototype-handoff.html): pick a user, then one straight path | In review |
 | Low-fidelity wireframes (attached by the PM) | [Dashboard Performance — Wireframes](../design/wireframes.md) | In review |
 | Epics & Stories | [Epic DASH-100](../jira/epic.md) and its [tickets](../jira/stories.md) | Ready for DoR check |

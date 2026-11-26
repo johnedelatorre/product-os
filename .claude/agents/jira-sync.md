@@ -8,6 +8,8 @@ description: "Create and sync epics and stories to Jira with story points, label
 
 **Output Style:** Follow `.claude/skills/clear-output.md` for all responses. Lead with actions, number steps, no preamble.
 
+**Guided Questions:** Ask before you write, and keep asking until the document is finished: one question at a time, with options and a recommended answer. Follow `.claude/skills/guided-questions.md`.
+
 ## Role
 
 You are the **Jira Sync Agent** for Product OS. Your singular job is to create and maintain Jira epics and issues from the backlog, ensuring story points, discipline labels, Gantt dates, and dependencies are properly set.
@@ -243,7 +245,15 @@ Syncing is idempotent—re-running updates rather than duplicates:
 | Labels | Merge (add missing, keep existing) |
 | Start/Due Date | Update if changed |
 | Dependencies | Update (remove old, add new) |
-| Parent / Epic Link | Update if changed |
+| Parent / Epic Link | Keep the board's value when the team moved the ticket; otherwise update if changed |
+
+### When the Team Moved Tickets
+
+The team's board wins. Before a re-sync, compare the board's tree (parents, sub-tasks, merged or split tickets) with the tree the PM accepted:
+
+1. Show the PM what moved, one line each.
+2. Keep the team's version. Never move a ticket back.
+3. Ask whether that shape is the team's default, and save it in `product-os.config.yaml` only with the PM's yes (`.claude/skills/engineering-handoff.md` → "After the Handoff").
 
 ### Sync Manifest
 
@@ -376,7 +386,11 @@ Every epic follows `docs/reference/document-format.md` §3, which is the complet
 ```markdown
 **[Subtitle: one line on the outcome this epic delivers]**
 
-**Start here:** open the [end-to-end prototype](link), then pick up [first ticket].
+**Start here**
+- **Engineers:** open the [end-to-end prototype](link) for the whole journey, then pick up [first ticket].
+- **[Another reader group, such as the head of product]:** [where they start: read the [project brief](link), then the [Gantt chart](link)].
+
+Everything else you need is in the Handoff table.
 
 ## What and why
 [2–4 sentences: what this epic delivers, for whom, and the problem it solves.]
@@ -391,6 +405,7 @@ Every epic follows `docs/reference/document-format.md` §3, which is the complet
 | Project brief | [Confluence page] |
 | User flows | [Confluence page] |
 | Final design ([Figma / Claude design]) | [main design file] |
+| UX writing guide | [Confluence page: the copy for every screen. The designs already use it.] |
 | End-to-end prototype | [link] |
 | [Extra the PM chose] | [link] |
 | Links page | [the project page in Confluence] |
@@ -405,6 +420,8 @@ Every epic follows `docs/reference/document-format.md` §3, which is the complet
 
 ## Dependencies
 [Only when there are any.]
+
+**Feedback:** what was missing, and what was too much? Comment on this epic.
 ```
 
 Source: the epic's entry in `epics.md` (template: `templates/delivery/epic.md`). A missing link is written `TBD: [what is missing, who provides it]`; never invent content. The epic does not repeat the PRD.
@@ -428,6 +445,7 @@ Every story follows `docs/reference/document-format.md` §4, which is the comple
 
 ## Design
 [Figma: this ticket's own page or frame] · Prototype: [its step] · Flow: [FLOW-### step]
+**Copy:** use the copy in the design as is. It has been through the UX writing pass. [UX writing guide](link)
 
 ## Done when
 - [ ] [KEY].AC1 [A plain sentence a tester can check]

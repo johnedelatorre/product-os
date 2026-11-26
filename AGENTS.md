@@ -8,8 +8,8 @@ Product OS works in both **Claude Code** and **Cursor**:
 
 | Platform | Agents | Commands | Skills | Native Adapters |
 |----------|--------|----------|--------|-----------------|
-| Claude Code | 40 (subagents) | 47 (plugin slash commands, `/product-os:*`) | 42 (reference docs) | Full (Task tool) |
-| Cursor | 40 | Role-based invocation | 42 | 3 (`.cursor/agents/`) |
+| Claude Code | 41 (subagents) | 48 (plugin slash commands, `/product-os:*`) | 44 (reference docs) | Full (Task tool) |
+| Cursor | 41 | Role-based invocation | 44 | 3 (`.cursor/agents/`) |
 
 ### Cursor Native Adapters
 
@@ -18,7 +18,7 @@ Product OS provides 3 native Cursor agent adapters:
 - `prd-author.md` — Write PRDs
 - `intake-analyst.md` — Structure requirements
 
-### Role-Based Invocation (All 40 Roles)
+### Role-Based Invocation (All 41 Roles)
 
 For any role not in `.cursor/agents/`, use:
 ```
@@ -35,11 +35,13 @@ Key rules: Lead with the next action. Number multi-step tasks. End with one conc
 
 Documents include TL;DR blocks, scannable headings, and numbered steps while maintaining full depth.
 
+**Guided questions are always on.** Every agent asks before it writes and keeps asking until its document is finished: one question at a time, with options and a recommended answer, at most 5 before a document. No decision is made by the agent alone. See `.claude/skills/guided-questions.md`.
+
 **Current state only.** Docs, Confluence pages, epics and tickets show the final state: no version banners, history blocks, change narratives or retired items. See `.claude/skills/doc-hygiene.md`; `/product-os:cleanup` cleans docs that already carry history.
 
 ---
 
-## Agent Roster (40 Agents)
+## Agent Roster (41 Agents)
 
 ### Pipeline Agents (7)
 
@@ -74,11 +76,12 @@ Documents include TL;DR blocks, scannable headings, and numbered steps while mai
 | Prototyper | `prototyper.md` | Clickable HTML/React prototypes | `/product-os:prototype` |
 | Figma Agent | `figma-agent.md` | Figma MCP integration | `/product-os:figma` |
 
-### Review & Gate Agents (4)
+### Review & Gate Agents (5)
 
 | Agent | File | Role | Command |
 |-------|------|------|---------|
 | Design Critic | `design-critic.md` | Visual design critique | `/product-os:critique` |
+| UX Writer | `ux-writer.md` | The UX writing pass, paired with the design critique; the UX writing guide | `/product-os:ux-writing` |
 | UX Reviewer | `ux-reviewer.md` | Nielsen heuristics, Laws of UX | `/product-os:ux-review` |
 | Accessibility Auditor | `accessibility-auditor.md` | WCAG 2.2 AA audit | `/product-os:a11y` |
 | Gate Keeper | `gate-keeper.md` | DoR/DoD validation | `/product-os:gate` |
@@ -188,17 +191,17 @@ The orchestrator runs 7 stages (plus an optional PRD review), matching `.claude/
 **Checkpoint:** Human approves prototype
 
 ### Stage 5: Design Review
-**Agents:** `.claude/agents/design-critic.md`, `.claude/agents/ux-reviewer.md`, `.claude/agents/accessibility-auditor.md`  
-**Commands:** `/product-os:critique`, `/product-os:ux-review`, `/product-os:a11y`  
-**Input:** Design artifacts + PRD  
-**Output:** `design-critique.md`, `ux-review.md`, `accessibility-audit.md`  
+**Agents:** `.claude/agents/design-critic.md` paired with `.claude/agents/ux-writer.md`, `.claude/agents/ux-reviewer.md`, `.claude/agents/accessibility-auditor.md`  
+**Commands:** `/product-os:critique`, `/product-os:ux-writing`, `/product-os:ux-review`, `/product-os:a11y`  
+**Input:** Design artifacts + PRD, and prior designs or screenshots that show how the product already writes  
+**Output:** `design-critique.md`, `ux-writing.md` and the final designs with the copy in them, `ux-review.md`, `accessibility-audit.md`  
 **Checkpoint:** Human addresses critical findings before delivery
 
 ### Stage 6: Delivery
 **Agents:** `.claude/agents/delivery-agent.md`, `.claude/agents/gate-keeper.md`  
 **Commands:** `/product-os:deliver`, `/product-os:gate`  
 **Input:** Approved design + PRD  
-**First:** The outputs question: what goes to the team, any extras to attach to the epic, which design is final, how tickets are organized (`.claude/skills/engineering-handoff.md`)  
+**First:** The outputs question, as one confirmation: what each reader group gets, what else is attached to the epic, the one final design, and the ticket shape saved for the team (`.claude/skills/engineering-handoff.md`)  
 **Output:** `epics.md`, `stories.md`, `backlog.csv`, `gate-report.md`, `traceability.md`  
 **Checkpoint:** Human accepts the proposed ticket tree, then approves stories and gate status (DoR failures block sprint entry)
 
@@ -305,7 +308,7 @@ The definitions below summarize each pipeline role. The full instructions live i
 
 ### Design Review Agents
 
-**Files:** `.claude/agents/design-critic.md`, `.claude/agents/ux-reviewer.md`, `.claude/agents/accessibility-auditor.md`
+**Files:** `.claude/agents/design-critic.md`, `.claude/agents/ux-writer.md`, `.claude/agents/ux-reviewer.md`, `.claude/agents/accessibility-auditor.md`
 
 **Role:** Evaluate design artifacts against established heuristics, accessibility standards, consistency rules, and PRD alignment.
 
@@ -316,6 +319,7 @@ The definitions below summarize each pipeline role. The full instructions live i
 
 **Outputs:**
 - `design-critique.md`, `ux-review.md`, `accessibility-audit.md` — Severity-rated findings
+- `ux-writing.md` — The UX writing guide from the pass paired with the critique: voice, words and the final copy for every screen
 
 **Evaluation Dimensions:**
 1. **Nielsen's Heuristics** — Visibility, match to real world, user control, consistency, error prevention, recognition over recall, flexibility, aesthetic minimalism, error recovery, help/docs
@@ -364,6 +368,7 @@ Problem: [one or two sentences]
 Requirements: [3–5 short lines]
 UX and design requirements: [components, copy, states, accessibility]
 Design: [this ticket's own Figma page or frame] · [prototype step] · [flow step]
+Copy: use the copy in the design as is. It has been through the UX writing pass. [UX writing guide]
 
 Done when:
 - [ ] [a plain sentence a tester can check]
@@ -504,11 +509,11 @@ The `/product-os:new-project` command runs the full pipeline (see `.claude/agent
    └── **CHECKPOINT:** Human approves prototype
 
 5. DESIGN REVIEW
-   └── Generate design-critique.md, ux-review.md, accessibility-audit.md
+   └── Generate design-critique.md with the paired UX writing pass (ux-writing.md, final designs), ux-review.md, accessibility-audit.md
    └── **CHECKPOINT:** Human addresses critical findings
 
 6. DELIVERY
-   └── Ask the outputs question (what goes to the team, extras, final design, ticket organization)
+   └── Confirm the outputs (what each reader group gets, extras, final design, the team's ticket shape)
    └── Generate epics.md, stories.md, gate-report.md, traceability.md
    └── Propose the ticket tree
    └── **CHECKPOINT:** Human accepts the ticket tree, then approves stories and gate status
