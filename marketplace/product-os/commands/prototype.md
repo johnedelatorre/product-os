@@ -1,0 +1,49 @@
+---
+description: "Generate clickable HTML/React prototypes from wireframes, and the end-to-end handoff prototype for the team."
+argument-hint: "--from <wireframes.md> --flows <flows.yaml>"
+---
+
+> This file names Product OS files by their path in the Product OS repo (`.claude/...`, `templates/...`, `docs/reference/...`). In this plugin those files are in the `product-os` skill: load that skill first, and use its "Where the files are" table to find each one.
+
+# /product-os:prototype
+
+Generate clickable HTML/React prototypes from wireframes.
+
+## Usage
+```
+/product-os:prototype --from <wireframes.md> --flows <flows.yaml>
+```
+
+## Output
+- `prototype.html` — Self-contained clickable prototype with every screen and state, for design review
+- `prototype-handoff.html` — The team's prototype: pick a user, then one straight path end to end (`--handoff` builds only this one)
+- `prototype-react.tsx` — Claude Artifact-compatible React
+- `prompt-pack.md` — Prompts for Claude.ai
+
+## Where It Goes and How to Open It
+
+| File (in `initiatives/<initiative>/<project>/`) | How to view | Confluence |
+|-------------------------------------------------|-------------|------------|
+| `prototype.html`: clickable low-fi prototype, one self-contained file | Double-click to open in any browser; no install or server. Share the file or host it as static HTML | **Prototype** page under **2. Design** links to or attaches it. TBD: the publisher does not yet define attach vs hosted link; the PM decides per project |
+| `prototype-react.tsx` | Paste into claude.ai and ask for an Artifact; it renders there as a clickable prototype | Link the artifact from the Prototype page |
+| `prompt-pack.md` | Copy prompts into claude.ai to generate Artifacts | Not published |
+
+In the prototype: `→`/`←` move through the flow, `a` toggles annotations.
+
+## Handoff Prototype
+
+```
+/product-os:prototype --from <wireframes.md> --flows <flows.yaml> --handoff
+```
+
+For engineers and the head of product: it opens on "Who is using this?", then gives each user one straight path with Next and Back. No option panels or use-case switchers; a state appears only when a ticket builds it, as its own step. The epic links to it. Rules: `.claude/skills/engineering-handoff.md`.
+
+## Features
+- All screens from flows, one section per screen: `id="scr-###"` matching `SCR-###` in `wireframes.md`, opened by `#scr-###`
+- Navigation between screens
+- State variations (loading, error, empty, success)
+- Annotations toggle
+- Keyboard navigation
+
+## Agent
+Uses: `prototyper.md`

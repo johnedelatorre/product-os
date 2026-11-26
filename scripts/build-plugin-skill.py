@@ -1,30 +1,30 @@
 #!/usr/bin/env python3
-"""Build the Product OS plugin skill: skills/product-os/.
+"""Build the Product OS plugin skill, and write the version and the agents list where they show.
 
-Claude chat (web, desktop and the mobile apps) loads a plugin's skills and
-ignores its agents. This skill carries every Product OS agent, playbook,
-command, template and the board page as files a chat can read, so a PM
-who adds the plugin to their own Claude account has all of Product OS there.
+A Claude chat loads a plugin's skills, but not its agents, and a chat cannot
+open the repo. This script assembles one skill that carries every agent,
+playbook, command, template and the board page as files a chat can read, so a
+PM who adds the plugin to their own Claude account has all of Product OS.
+Sources: .claude/, templates/, docs/reference/, claude-ai/ and artifact/.
 
-The canonical content stays in .claude/, templates/, docs/reference/ and
-artifact/. Everything under skills/product-os/ is generated: do not edit it.
-The script also lists every agent file in .claude-plugin/plugin.json, so that
-Cowork and Claude Code register all of them as subagents.
+build() returns the skill's files. scripts/build-directory-plugin.py writes
+them into the two plugin folders, marketplace/product-os/ and plugin/.
+
+Run directly, this script writes the version (set under "metadata" in
+.claude-plugin/marketplace.json) into the marketplace entry, the board and the
+README, and the agents list into the board.
 
 Usage:
-    python3 scripts/build-plugin-skill.py           # write skills/product-os/
-    python3 scripts/build-plugin-skill.py --check   # exit 1 if it is out of date
+    python3 scripts/build-plugin-skill.py           # write the version and the agents list
+    python3 scripts/build-plugin-skill.py --check   # exit 1 if a file is out of date
 """
 import io
 import json
 import os
 import re
-import shutil
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-OUT = os.path.join(ROOT, "skills", "product-os")
-MANIFEST = os.path.join(ROOT, ".claude-plugin", "plugin.json")
 MARKETPLACE = os.path.join(ROOT, ".claude-plugin", "marketplace.json")
 BOARD = os.path.join(ROOT, "artifact", "product-os-board.html")
 README = os.path.join(ROOT, "README.md")
@@ -250,23 +250,14 @@ def build():
 
 
 def version():
-    """The one place the version is set: "version" in .claude-plugin/plugin.json."""
-    with io.open(MANIFEST, encoding="utf-8") as fh:
-        return json.load(fh)["version"]
+    """The one place the version is set: "metadata.version" in .claude-plugin/marketplace.json."""
+    with io.open(MARKETPLACE, encoding="utf-8") as fh:
+        return json.load(fh)["metadata"]["version"]
 
 
 def with_version(description):
     """A description that ends with the version, so the plugin's overview shows it."""
     return re.sub(r"\s*Version \d+\.\d+\.\d+\.$", "", description.strip()) + " Version %s." % version()
-
-
-def manifest_text():
-    """plugin.json with every agent file listed, so Cowork and Claude Code register all of them."""
-    with io.open(MANIFEST, encoding="utf-8") as fh:
-        data = json.load(fh)
-    data["description"] = with_version(data["description"])
-    data["agents"] = ["./.claude/agents/" + n for n in sorted(os.listdir(os.path.join(ROOT, ".claude", "agents"))) if n.endswith(".md")]
-    return json.dumps(data, indent=2, ensure_ascii=False) + "\n"
 
 
 # Where each agent sits on the board's Agents view, and what a PM says in the chat to call it.
@@ -355,46 +346,22 @@ def stamped():
     return out
 
 
-def on_disk():
-    found = set()
-    for folder, _, names in os.walk(OUT):
-        for name in names:
-            found.add(os.path.relpath(os.path.join(folder, name), OUT).replace(os.sep, "/"))
-    return found
-
-
 def main():
-    if "--check" not in sys.argv:
-        for path, text in stamped().items():
-            with io.open(path, "w", encoding="utf-8") as fh:
-                fh.write(text)
-    files = build()
+    """Write the version and the agents list into the files that show them. The skill itself is
+    written into the plugin folders by scripts/build-directory-plugin.py, which calls build()."""
     if "--check" in sys.argv:
-        stale = [os.path.relpath(p, ROOT) + " (version)" for p, t in stamped().items() if io.open(p, encoding="utf-8").read() != t]
-        for rel, content in files.items():
-            path = os.path.join(OUT, rel)
-            if not os.path.isfile(path) or io.open(path, encoding="utf-8").read() != content:
-                stale.append(rel)
-        extra = sorted(on_disk() - set(files))
-        if io.open(MANIFEST, encoding="utf-8").read() != manifest_text():
-            stale.append(".claude-plugin/plugin.json (agents list or version in the description)")
-        if stale or extra:
-            print("skills/product-os is out of date: %s" % ", ".join((stale + extra)[:8]))
+        stale = [os.path.relpath(p, ROOT) for p, t in stamped().items() if io.open(p, encoding="utf-8").read() != t]
+        build()
+        if stale:
+            print("Out of date: %s" % ", ".join(stale))
             print("Run: python3 scripts/build-plugin-skill.py")
             return 1
-        print("skills/product-os is up to date (%d files)." % len(files))
+        print("The version and the agents list are up to date (%s)." % version())
         return 0
-    if os.path.isdir(OUT):
-        shutil.rmtree(OUT)
-    for rel, content in files.items():
-        path = os.path.join(OUT, rel)
-        os.makedirs(os.path.dirname(path), exist_ok=True)
+    for path, text in stamped().items():
         with io.open(path, "w", encoding="utf-8") as fh:
-            fh.write(content)
-    text = manifest_text()
-    with io.open(MANIFEST, "w", encoding="utf-8") as fh:
-        fh.write(text)
-    print("Wrote %d files to skills/product-os/ and the agents list in plugin.json" % len(files))
+            fh.write(text)
+    print("Wrote version %s and the agents list. Next: python3 scripts/build-directory-plugin.py" % version())
     return 0
 
 

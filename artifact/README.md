@@ -29,7 +29,7 @@ The board is yours and private to you, until you share it from its page. **For a
 |------|--------------|
 | `product-os-board.html` | The page. It reads the project from its own database and redraws when the data changes. |
 | Claude, in your chat | Writes the project's state to that database after every step: where it is, the next step, each document, each ticket, the insights, the connectors it checked. |
-| The plugin skill | Tells Claude when to make the board and what to write (`skills/product-os/SKILL.md`, "The board"). |
+| The plugin skill | Tells Claude when to make the board and what to write (`marketplace/product-os/skills/product-os/SKILL.md`, "The board"). |
 
 The page's `capabilities` block lists what it needs from Claude: a database, and who is viewing. It asks Claude nothing and it calls no connector.
 

@@ -8,9 +8,12 @@
   "plugins": [
     {
       "name": "product-os",
-      "source": "./",
-      "description": "All of Product OS: Claude leads a PM through nine phases with 41 agents, 48 commands (/product-os:<command>), 44 playbooks and templates, publishes to Confluence and Jira, and keeps a live board. Version 1.9.0.",
-      "version": "1.9.0"
+      "source": "./marketplace/product-os",
+      "description": "All of Product OS: Claude leads a PM through nine phases with 41 agents, 48 commands (/product-os:<command>), 44 playbooks and templates, publishes to Confluence and Jira, and keeps a live board. Version 1.9.1.",
+      "version": "1.9.1"
     }
-  ]
+  ],
+  "metadata": {
+    "version": "1.9.1"
+  }
 }

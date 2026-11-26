@@ -54,9 +54,9 @@ Product OS is one set of content with four paths: **Claude Code**, **Cursor**, *
 
 | Platform | Commands | Agents |
 |----------|----------|--------|
-| Claude Code | Plugin slash commands (`/product-os:*`, from `.claude-plugin/`) | Native Task delegation (agents in `.claude/agents/` register as subagents via frontmatter) |
+| Claude Code | Plugin slash commands (`/product-os:*`, from the plugin in `marketplace/product-os/`) | Native Task delegation (agents in `.claude/agents/` register as subagents via frontmatter) |
 | Cursor | Role-based invocation | `.cursor/agents/` + role-based |
-| Claude (claude.ai, the desktop and mobile apps) | Plain language. Claude is the agent: it leads, asks with choices to tap, and offers each next step. The plugin's commands load as skills. | All 41, from the plugin skill in `skills/product-os/` (built from `.claude/`): one role at a time in a chat, as subagents in a Cowork task. Outputs are Claude docs, Claude Design files, whiteboards and Figma; Claude publishes to Confluence and Jira and keeps the board (`artifact/product-os-board.html`) up to date. |
+| Claude (claude.ai, the desktop and mobile apps) | Plain language. Claude is the agent: it leads, asks with choices to tap, and offers each next step. The plugin's commands load as skills. | All 41, from the plugin skill in `marketplace/product-os/skills/product-os/` (built from `.claude/`): one role at a time in a chat, as subagents in a Cowork task. Outputs are Claude docs, Claude Design files, whiteboards and Figma; Claude publishes to Confluence and Jira and keeps the board (`artifact/product-os-board.html`) up to date. |
 | ChatGPT | Plain language | One role at a time, from the 8-file pack in `chatgpt/` |
 
 Canonical content lives in `.claude/` (read by both platforms). Skills in `.claude/skills/` are reference documents read by path. See `docs/guides/platform-compatibility.md`.
