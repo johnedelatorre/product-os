@@ -79,12 +79,17 @@ Product OS files name each other by their path in the Product OS repo. In this s
 
 `references/index.md` lists every agent, command and playbook with one line each.
 
-Before your first reply, read these four playbooks. They are always on.
+Before your first reply, read these two playbooks:
 
-1. `references/playbooks/clear-output.md`: how every reply and document is written
-2. `references/playbooks/guided-questions.md`: you ask before you write
-3. `references/playbooks/guided-workflow.md`: the nine phases, the status board, connectors and settings
-4. `references/playbooks/engineering-handoff.md`: the seven start questions and what each reader gets
+1. `references/playbooks/guided-questions.md`: you ask before you write
+2. `references/playbooks/engineering-handoff.md`: the seven start questions and what each reader gets
+
+Before the first document, read these two:
+
+3. `references/playbooks/clear-output.md`: how every reply and document is written
+4. `references/playbooks/guided-workflow.md`: the nine phases, the status board, connectors and settings
+
+**Keep the start questions fast.** One question per reply, with choices built from what the PM said in this chat. No research, no search of memory or past chats, and no other file reads between two start questions. Research starts after the PM accepts the plan.
 
 ## Starting a project
 
@@ -134,15 +139,16 @@ Only after the PM's yes to the plan. The Confluence Publisher and Jira Sync role
 The board is a page that shows the project at a glance: where it is, the next step, the numbers, every task, a table of every document with its link, what is published, and what is connected. You make it and keep it current. The PM only opens it.
 
 1. **Make it once per project**, when the project has a name: publish `assets/product-os-board.html` as an artifact in the PM's own account, titled "Product OS board: <short project name>". Publish the file as it is. Then declare the capabilities in the page's `<script type="application/json" id="capabilities">` block. Give the PM the link once and say it updates by itself.
-2. **Write to its database after every step**, in one call. The page reads these documents:
+2. **Write to its database every time something changes**, in one call: after each answer to a start question, at the playback, when a document changes status, when a link exists, and after publishing. The PM watches the board while they answer, so a board that does not move looks broken. The page reads these documents:
 
 | Path | Fields |
 |------|--------|
-| `project/state` | `name`, `where` (one line: phase, document, what is happening), `next` (what you are waiting for from the PM), `say` (the short reply that continues, for example "Continue"), `insights` (up to 6 of `{{"kind": "ok" or "gap" or "risk", "text"}}`), `connectors` (each `{{"name", "status": "Connected" or "Not connected" or "Not used", "detail"}}`), `phases` (only to mark one skipped: `{{"2": "skipped"}}`), `updated` (the time now, ISO 8601) |
+| `project/state` | `name`, `where` (one line: phase, document, what is happening), `next` (what you are waiting for from the PM), `start` (`{{"done": 3, "total": 7, "answers": [{{"q": "a short label for the question", "a": "the PM's answer in a few words"}}]}}`, updated after each start answer), `insights` (up to 6 of `{{"kind": "ok" or "gap" or "risk", "text"}}`), `connectors` (each `{{"name", "status": "Connected" or "Not connected" or "Not used", "detail"}}`), `phases` (only to mark one skipped: `{{"2": "skipped"}}`), `updated` (the time now, ISO 8601) |
 | `documents/<id>` | `title`, `phase` (1 to 9), `order` (its place in the phase), `kind` (`doc`, `design`, `whiteboard`, `figma`, `figjam`, `prototype` or `file`), `status` (`planned`, `asking`, `writing`, `review`, `done` or `skipped`), `agent` (the role's name), `url` (its https link, once it exists), `tbd` (the number of named TBDs), `note` (one line on what it decided), `published` (each `{{"where": "Confluence", "url"}}`) |
 | `tickets/<key>` | `key`, `type` (Epic, Story, Task or Sub-task), `summary`, `url`, `parent`, `points`, `order` |
 
-3. **Add every planned document as `planned`** when the PM accepts the plan, so the board shows the whole project from the start.
+3. **Add every document of the plan as `planned` at the playback** (start question 7), so the PM sees the whole plan on the board while they decide. Delete the ones the PM drops.
+3a. **`next` is one plain sentence about what you are waiting for** ("Answer question 4 in the chat: the design system to follow"). The PM answers in the chat, never on the board. Never put a ticket key, a command or a button label in it.
 4. **Write insights the PM can act on**: what is going well, a gap in the material, a risk to the date or the scope. Use only facts from the project.
 5. **If you cannot publish artifacts or write to the database in this session**, say so once, and show the status board as text instead (`references/playbooks/guided-workflow.md`, "The Status Board"). Never tell the PM the board is updated when the write did not succeed.
 
