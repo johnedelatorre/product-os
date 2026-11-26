@@ -56,9 +56,9 @@ Not sure? A PM who does not use a terminal picks A or C. The questions, the docu
 
 **On your phone.** Paths A, B and C also run in the Claude and ChatGPT apps for iOS and Android. Set the project up once on a computer, then open it in the app: the questions and the documents are the same. The board is one tap or one word away: the artifact slides it out over the conversation, and in chat you reply `board`, `task 4` or `docs`.
 
-![The same question, "Who will read what I write?", on three paths: in a Claude Code terminal, in a chat in Claude or ChatGPT, and as a page in the Claude artifact](docs/images/paths.png)
+![Product OS on three paths: a question in a Claude Code terminal, the same question in a chat in Claude or ChatGPT, and the workspace page in a Claude artifact with a PRD ready for review](docs/images/paths.png)
 
-*The same question on three paths. Claude Code and the chat are illustrations. The Claude artifact is a screenshot.*
+*Product OS on three paths. Claude Code and the chat are illustrations. The Claude artifact is a screenshot of the workspace with an example project.*
 
 ### 2. Have these ready
 
