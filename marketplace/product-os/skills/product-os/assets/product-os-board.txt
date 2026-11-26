@@ -462,7 +462,7 @@ td a { font-weight: 600; }
     var i = el("i", null, SIGN[kind] || ""); i.setAttribute("aria-hidden", "true"); b.appendChild(i); b.appendChild(document.createTextNode(text)); return b;
   }
   function phaseBadge(p) { return p === "done" ? badge("ok", "Done") : p === "now" ? badge("live", "In progress") : p === "skipped" ? badge("skip", "Skipped") : badge("idle", "Not started"); }
-  function tbdBadge(n) { return badge("miss", n + (n === 1 ? " TBD" : " TBDs")); }
+  function tbdBadge(n) { return badge("idle", n + (n === 1 ? " open question, with an owner" : " open questions, each with an owner")); }
 
   function draw() {
     var has = !!(state && str(state.name, 120)) || docs.length > 0;
@@ -482,7 +482,7 @@ td a { font-weight: 600; }
     $("note").textContent = "You answer in the Claude chat. This board shows the project, and it updates by itself.";
 
     var kb = $("kpis"); kb.textContent = "";
-    [[done + " of " + docs.length, "documents done", "ok"], [open, "in progress", "now"], [tbd, "named TBDs, still missing", tbd ? "miss" : ""], [phDone + " of 9", "phases done", "ok"]].forEach(function (k) { var li = el("li", "card " + k[2]); li.appendChild(el("b", null, String(k[0]))); li.appendChild(el("span", null, k[1])); kb.appendChild(li); });
+    [[done + " of " + docs.length, "documents done", "ok"], [open, "in progress", "now"], [tbd, "open questions, each with an owner", ""], [phDone + " of 9", "phases done", "ok"]].forEach(function (k) { var li = el("li", "card " + k[2]); li.appendChild(el("b", null, String(k[0]))); li.appendChild(el("span", null, k[1])); kb.appendChild(li); });
 
     var ins = (state && Array.isArray(state.insights) ? state.insights : []).filter(function (x) { return x && str(x.text, 400); }).slice(0, 6), ib = $("insights");
     ib.textContent = ""; $("insH").hidden = ib.hidden = !ins.length;
@@ -684,7 +684,7 @@ td a { font-weight: 600; }
   // The guide.
   (function () {
     var lg = $("legend"), how = $("how"), gb = $("guideBtn");
-    [["ok", "Done", "Finished, and you accepted it."], ["live", "In progress", "Claude is working on it."], ["you", "Questions for you", "Claude is waiting for you in the chat."], ["you", "Ready for your review", "Read it, then accept it or ask for a change."], ["miss", "3 TBDs", "Facts still missing. Each one is named in the document."], ["pause", "Paused", "Stopped for now. Say “continue” in the chat to pick it up."], ["risk", "Blocked", "Waiting on something outside the chat."], ["idle", "Not started", "Planned, and not begun yet."], ["skip", "Skipped", "Left out of this project."]]
+    [["ok", "Done", "Finished, and you accepted it."], ["live", "In progress", "Claude is working on it."], ["you", "Questions for you", "Claude is waiting for you in the chat."], ["you", "Ready for your review", "Read it, then accept it or ask for a change."], ["idle", "3 open questions, each with an owner", "Facts still missing. Each one is named in the document, with who provides it."], ["pause", "Paused", "Stopped for now. Say “continue” in the chat to pick it up."], ["risk", "Blocked", "Waiting on something outside the chat."], ["idle", "Not started", "Planned, and not begun yet."], ["skip", "Skipped", "Left out of this project."]]
       .forEach(function (r) { var li = el("li"), w = el("span"); w.appendChild(badge(r[0], r[1])); li.appendChild(w); li.appendChild(el("span", null, r[2])); lg.appendChild(li); });
     // The guide is closed until the reader presses Guide. Open, it sits above everything and pushes the board down.
     function guide(open) { how.hidden = !open; gb.setAttribute("aria-expanded", String(open)); }
