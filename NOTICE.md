@@ -91,4 +91,6 @@ SOFTWARE.
 
 Product OS itself is licensed under the MIT License. See [LICENSE](LICENSE) for details.
 
-MIT License © 2026 John De La Torre-Ugarte
+Copyright © 2026 John De La Torre-Ugarte. MIT License.
+
+The name "Product OS™" and its look are not part of that licence. See [TRADEMARKS.md](TRADEMARKS.md).
