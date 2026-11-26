@@ -15,9 +15,9 @@
 | Audience | What they get | Where |
 |----------|---------------|-------|
 | **The team** (engineering, head of product) | The handoff set below, and nothing else | The epic, its tickets and the project's links page |
-| **The PM** | Every other document Product OS writes | The **PM workspace** page in Confluence and the project folder |
+| **The PM** | The other documents they asked for | The **PM workspace** page in Confluence and the project folder |
 
-The team's pages and tickets never link into the PM workspace. Nothing is deleted: the PM keeps the full set.
+The team's pages and tickets never link into the PM workspace. Documents that already exist are kept.
 
 ## Guided Questions: One at a Time
 
