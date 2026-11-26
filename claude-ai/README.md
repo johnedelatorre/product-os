@@ -4,6 +4,10 @@
 
 **Want a page for the first questions?** The visual start in [`artifact/`](../artifact/README.md) asks the seven start questions on a page and copies a brief you paste into this project.
 
+## On Your Phone
+
+Claude Projects and artifacts open in the Claude apps for iOS and Android. Set the project up once on a computer, then start a chat in it from your phone.
+
 ## Setup
 
 1. **Download Product OS.** On GitHub choose Code → Download ZIP, then unzip it.

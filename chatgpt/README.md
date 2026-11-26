@@ -27,6 +27,10 @@ Before each document it asks the decisions that document needs. You never have t
 5. **Confluence and Jira (optional):** connect the Atlassian Rovo app in ChatGPT if your workspace and region offer it ([Atlassian's setup guide](https://support.atlassian.com/atlassian-rovo-mcp-server/docs/setting-up-chatgpt/)). ChatGPT shows the publish plan and waits for your OK before any write. Without it, ChatGPT gives you the content to paste.
 6. **Start:** open a chat in the project and say *"Start Product OS guided mode for initiative customer-onboarding, project self-serve-signup."*
 
+## On Your Phone
+
+ChatGPT Projects and custom GPTs open in the ChatGPT apps for iOS and Android. Set the project up once on a computer (pasting the instructions and uploading 8 files is easier there), then run it from your phone: the same questions, in the same order.
+
 ## Setup for a Team: One Custom GPT, One Link
 
 For PMs who should not do any setup at all:
@@ -36,6 +40,8 @@ For PMs who should not do any setup at all:
 3. They upload the 8 files in [`pack/`](pack/) as Knowledge. A custom GPT holds 20 files.
 4. They share the GPT's link with the team.
 5. Each PM opens the link and says "Start a new project."
+
+**If your workspace cannot create custom GPTs** (OpenAI has turned off new custom GPTs in some Enterprise workspaces): share a ChatGPT Project with your team instead. The setup is the same as above.
 
 ## Which Plans It Fits
 

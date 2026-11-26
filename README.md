@@ -4,6 +4,10 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
+![Product OS on a desktop screen and on a phone: the visual start page asks "Give me everything you have", sorts the answer into Found and Missing, and fills in a brief titled "What I understood"](docs/images/hero.jpg)
+
+*The visual start (path B), on a computer and on a phone. Screenshots of `artifact/product-os-start.html`.*
+
 ## What is Product OS?
 
 Product OS is **41 AI agents that write the documents of product management and design**. You make the decisions. The agents ask, write, and wait for your approval at every step.
@@ -49,6 +53,8 @@ Where do you work? Pick one row and follow its steps.
 | In Cursor | **E · Cursor** | About 5 minutes | [Path E steps](#path-e--cursor) |
 
 Not sure? A PM who does not use a terminal picks A or C. The questions, the documents and the handoff are the same on every path.
+
+**On your phone.** Paths A, B and C also run in the Claude and ChatGPT apps for iOS and Android. Set the project up once on a computer, then open it in the app: the questions and the documents are the same.
 
 ![The same question, "Who will read what I write?", on three paths: in a Claude Code terminal, in a chat in Claude or ChatGPT, and as a page in the Claude artifact](docs/images/paths.png)
 
