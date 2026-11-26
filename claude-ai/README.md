@@ -2,6 +2,8 @@
 
 > **TL;DR:** Create a Claude Project, paste [`project-instructions.md`](project-instructions.md) into its Instructions, upload the 27 starter files listed below as Knowledge, then say "Start Product OS guided mode for initiative X, project Y." Add more agent files later as you need them.
 
+**Want a page for the first questions?** The visual start in [`artifact/`](../artifact/README.md) asks the seven start questions on a page and copies a brief you paste into this project.
+
 ## Setup
 
 1. **Download Product OS.** On GitHub choose Code → Download ZIP, then unzip it.

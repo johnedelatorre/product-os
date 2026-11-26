@@ -32,6 +32,10 @@ ChatGPT runs Product OS the way claude.ai does: plain language, one role at a ti
 
 The pack is built by `python3 scripts/build-chatgpt-pack.py`. Run it after changing any bundled file; `scripts/validate.sh` fails when the pack is out of date.
 
+## Claude Artifact: the Visual Start
+
+`artifact/product-os-start.html` is a guided page for the seven start questions. Published as a Claude artifact, it shows one question per screen with the brief filling in beside it, then copies a brief in the `progress.yaml` format to paste into claude.ai or ChatGPT. It covers the start only: the questions before each document, and the documents, happen in the chat. Steps: [Product OS as a Claude artifact](../../artifact/README.md).
+
 ## Installation
 
 ### Fresh Install (Both Platforms)

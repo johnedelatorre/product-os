@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Product OS Start</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Public+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: the question on the left, and on the right a brief that writes itself as you answer. */
+:root {
+  --paper: #EDF0F4;
+  --sheet: #FFFFFF;
+  --ink: #0F1B2D;
+  --muted: #556176;
+  --line: #C8D0DB;
+  --accent: #2443E0;
+  --accent-ink: #FFFFFF;
+  --found: #136B49;
+  --missing: #9A5B00;
+  --wash: #E3E8FF;
+  --display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --body: "Public Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --paper: #0E141D; --sheet: #17202C; --ink: #EEF2F7; --muted: #A3AFC0; --line: #334154;
+    --accent: #8FA2FF; --accent-ink: #0B1020; --found: #6FD3A6; --missing: #F0B455; --wash: #1F2A4A;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #0E141D; --sheet: #17202C; --ink: #EEF2F7; --muted: #A3AFC0; --line: #334154;
+  --accent: #8FA2FF; --accent-ink: #0B1020; --found: #6FD3A6; --missing: #F0B455; --wash: #1F2A4A;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--paper); color: var(--ink); font: 400 1rem/1.55 var(--body); }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 24px 20px 56px; display: flex; flex-direction: column; gap: 24px; }
+.top { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; }
+.brand { font: 700 1.125rem/1.2 var(--display); margin: 0; }
+.brand span { color: var(--muted); font: 400 0.9375rem/1.2 var(--body); margin-left: 10px; }
+.example { margin: 0; font-size: 0.875rem; color: var(--muted); display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.linkish { background: none; border: 0; padding: 0; color: var(--accent); font: inherit; text-decoration: underline; cursor: pointer; }
+
+.steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+.steps button { width: 100%; text-align: left; background: none; border: 0; border-top: 3px solid var(--line); padding: 8px 2px 0; color: var(--muted); font: 600 0.8125rem/1.3 var(--body); cursor: pointer; }
+.steps button b { display: block; font: 700 0.9375rem/1.2 var(--display); font-variant-numeric: tabular-nums; }
+.steps .done button { border-top-color: var(--found); }
+.steps .on button { border-top-color: var(--accent); color: var(--ink); }
+.steps span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.main { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: 28px; align-items: start; }
+.ask { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+.place { margin: 0; font: 600 0.875rem/1.2 var(--body); color: var(--accent); font-variant-numeric: tabular-nums; }
+.ask h1 { margin: 0; font: 700 clamp(1.75rem, 1.2rem + 2.2vw, 2.625rem)/1.1 var(--display); letter-spacing: -0.015em; text-wrap: balance; }
+.why { margin: 0; color: var(--muted); max-width: 34rem; }
+.fields { display: flex; flex-direction: column; gap: 14px; }
+label.f { display: flex; flex-direction: column; gap: 6px; font-weight: 600; font-size: 0.9375rem; }
+input[type="text"], textarea { width: 100%; font: 400 1rem/1.45 var(--body); color: var(--ink); background: var(--sheet); border: 1px solid var(--line); border-radius: 6px; padding: 11px 12px; }
+textarea { min-height: 9.5rem; resize: vertical; }
+.opts { display: flex; flex-wrap: wrap; gap: 8px; border: 0; padding: 0; margin: 0; }
+.opts legend { padding: 0; margin-bottom: 8px; font-weight: 600; font-size: 0.9375rem; }
+.opt { position: relative; }
+.opt input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.opt span { display: block; padding: 10px 14px; border: 1px solid var(--line); border-radius: 6px; background: var(--sheet); font-weight: 600; font-size: 0.9375rem; }
+.opt em { font-style: normal; font-weight: 400; color: var(--muted); }
+.opt input:checked + span { background: var(--wash); border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.opt input:focus-visible + span, button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.nav { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding-top: 4px; }
+.btn { font: 600 1rem/1 var(--body); padding: 13px 18px; border-radius: 6px; border: 1px solid var(--ink); background: none; color: var(--ink); cursor: pointer; text-decoration: none; display: inline-block; }
+.btn.go { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn[disabled] { opacity: 0.4; cursor: default; }
+.hint { margin: 0; font-size: 0.875rem; color: var(--muted); }
+.sorted { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.sorted h2 { margin: 0 0 6px; font: 700 0.9375rem/1.2 var(--display); }
+.sorted ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; font-size: 0.9375rem; }
+.sorted .f h2 { color: var(--found); } .sorted .m h2 { color: var(--missing); }
+.sorted li b { font-weight: 600; }
+.make { display: flex; flex-direction: column; gap: 12px; }
+.make div { border-left: 3px solid var(--accent); padding-left: 12px; }
+.make h2 { margin: 0 0 2px; font: 700 1rem/1.3 var(--display); }
+.make p { margin: 0; }
+.copied { margin: 0; font-weight: 600; color: var(--found); min-height: 1.5em; }
+
+.brief { background: var(--sheet); border: 1px solid var(--line); border-radius: 4px; padding: 22px 22px 18px; position: sticky; top: 16px; min-width: 0; }
+.brief h2 { margin: 0 0 2px; font: 700 1.125rem/1.2 var(--display); }
+.brief .sub { margin: 0 0 14px; font-size: 0.875rem; color: var(--muted); }
+.brief dl { margin: 0; display: flex; flex-direction: column; }
+.brief .row { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); gap: 10px; padding: 9px 0; border-top: 1px solid var(--line); font-size: 0.9375rem; }
+.brief dt { color: var(--muted); }
+.brief dd { margin: 0; overflow-wrap: anywhere; }
+.brief dd.empty { color: var(--muted); font-style: italic; }
+.brief .row.now dt { color: var(--accent); font-weight: 600; }
+@media (max-width: 820px) {
+  .main { grid-template-columns: minmax(0, 1fr); }
+  .brief { position: static; }
+  .steps span { display: none; }
+}
+@media (max-width: 480px) { .sorted { grid-template-columns: minmax(0, 1fr); } .brief .row { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
+@media (prefers-reduced-motion: no-preference) { .opt span, .steps button { transition: border-color .15s, background-color .15s; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <p class="brand">Product OS<span>Start a project</span></p>
+    <p class="example"><span id="exNote">Filled in with example answers. Change any of them.</span><button class="linkish" id="clear" type="button">Clear all answers</button></p>
+  </header>
+
+  <ol class="steps" id="steps" aria-label="The seven start questions"></ol>
+
+  <div class="main">
+    <form class="ask" id="ask" novalidate>
+      <p class="place" id="place"></p>
+      <h1 id="q"></h1>
+      <p class="why" id="why"></p>
+      <div class="fields" id="fields"></div>
+      <div class="nav">
+        <button class="btn" type="button" id="back">Back</button>
+        <button class="btn go" type="submit" id="next">Next question</button>
+        <p class="hint" id="hint"></p>
+      </div>
+      <p class="copied" id="copied" role="status" aria-live="polite"></p>
+    </form>
+
+    <aside class="brief" aria-label="What Product OS understood so far">
+      <h2>What I understood</h2>
+      <p class="sub">This fills in as you answer. Nothing is written until you say it is right.</p>
+      <dl id="brief"></dl>
+    </aside>
+  </div>
+</div>
+
+<script>
+(function () {
+  var READERS = [
+    ["engineers", "Engineers"], ["product-lead", "A head of product"], ["designers", "Designers"],
+    ["executives", "Executives or investors"], ["client", "A client"], ["self", "Only me"]
+  ];
+  var ROLES = [["pm", "Product manager"], ["design-lead", "Design lead"], ["pm-and-design", "Both: PM and design lead"], ["founder", "Founder"], ["other", "Something else"]];
+  var SYSTEMS = [["figma", "A Figma library"], ["claude", "A Claude design system"], ["both", "Both"], ["code", "A coded component library"], ["none", "None yet"]];
+  var KINDS = [
+    ["request", "The request", /email|proposal|notes|ticket|ask|brief|slack|memo/i],
+    ["feedback", "Customer feedback", /interview|survey|feedback|support|call|nps|quote/i],
+    ["market", "Market", /compet|market|analyst|benchmark/i],
+    ["data", "Data", /pendo|analytic|funnel|metric|baseline|dashboard|\.csv|amplitude|mixpanel/i],
+    ["product", "The product today", /prd|roadmap|platform doc|product doc|help center|release note/i],
+    ["technical", "Technical", /schema|api|architecture|stack|database|erd|swagger|repo/i],
+    ["design", "Design", /figma|design|screenshot|wireframe|mock|prototype|brand|style guide/i],
+    ["constraints", "Constraints", /deadline|due|engineers|compliance|legal|budget|launch date/i]
+  ];
+  var TEAM = {
+    "engineers": "Engineers: PRD, project brief, user flows, final design, UX writing guide, end-to-end prototype, epic and tickets",
+    "product-lead": "Head of product: project brief, PRD and the epic, plus the project plan and Gantt chart",
+    "designers": "Designers: design brief, user flows, wireframes, final design, UX writing guide",
+    "executives": "Executives or investors: the project brief, and nothing else",
+    "client": "Client: project brief and the end-to-end prototype"
+  };
+  var MINE = {
+    "pm": ["Project plan", "Gantt chart", "Metrics framework"],
+    "design-lead": ["Design brief", "Low-fidelity wireframes", "Design critique"],
+    "pm-and-design": ["Project plan", "Gantt chart", "Design brief", "Design critique", "Metrics framework"],
+    "founder": ["Project plan", "Metrics framework"],
+    "other": []
+  };
+  var EXAMPLE = {
+    building: "Self-serve signup, so small teams can start without a sales call",
+    users: "Small teams of 2 to 10 people",
+    readers: ["engineers", "product-lead"],
+    role: "pm-and-design",
+    system: "figma",
+    systemRef: "Acme Design System (Figma library)",
+    origin: "The CEO, 2 November, after three lost deals",
+    everything: "CEO email, 2 Nov\nSignup funnel export from Pendo, last 30 days\nAccounts schema (wiki link)\nScreenshots of the current signup",
+    example: true
+  };
+  var EMPTY = { building: "", users: "", readers: [], role: "", system: "", systemRef: "", origin: "", everything: "", example: false };
+  var KEY = "product-os-start";
+  var state = load() || copy(EXAMPLE);
+  var step = 0;
+
+  function copy(o) { return JSON.parse(JSON.stringify(o)); }
+  function load() { try { var v = localStorage.getItem(KEY); return v ? JSON.parse(v) : null; } catch (e) { return null; } }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { /* storage is optional */ } }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function cap(t) { return t ? t.charAt(0).toUpperCase() + t.slice(1) : t; }
+  function label(list, id) { for (var i = 0; i < list.length; i++) if (list[i][0] === id) return list[i][1]; return ""; }
+
+  function sortEverything() {
+    var lines = state.everything.split(/\n+/).map(function (l) { return l.trim(); }).filter(Boolean);
+    var found = {}, other = [];
+    lines.forEach(function (line) {
+      var hit = null;
+      for (var i = 0; i < KINDS.length; i++) if (KINDS[i][2].test(line)) { hit = KINDS[i][0]; break; }
+      if (hit) (found[hit] = found[hit] || []).push(line); else other.push(line);
+    });
+    var missing = KINDS.filter(function (k) { return !found[k[0]]; }).map(function (k) { return k[1]; });
+    return { found: found, other: other, missing: missing, count: lines.length };
+  }
+  function teamLines() {
+    var r = state.readers.filter(function (x) { return x !== "self"; });
+    if (!r.length) return ["Nothing is published for a team. Everything stays in your project folder."];
+    return r.map(function (x) { return TEAM[x]; });
+  }
+  function mineList() {
+    var docs = (MINE[state.role] || []).slice();
+    if (state.readers.indexOf("product-lead") > -1) docs = docs.filter(function (d) { return d !== "Project plan" && d !== "Gantt chart"; });
+    if (state.readers.indexOf("designers") > -1) docs = docs.filter(function (d) { return d !== "Design brief" && d !== "Low-fidelity wireframes"; });
+    return docs;
+  }
+  function systemText() {
+    if (!state.system) return "";
+    if (state.system === "none") return "None yet. Designs use plain, accessible defaults.";
+    return label(SYSTEMS, state.system) + (state.systemRef ? ": " + state.systemRef : "");
+  }
+
+  var STEPS = [
+    { short: "What and who", q: "What are you building, and who will use it?", why: "One or two sentences. This is the frame for everything else.",
+      done: function () { return state.building && state.users; },
+      fields: function () { return text("building", "What you are building", state.building) + text("users", "Who will use it", state.users); } },
+    { short: "Readers", q: "Who will read what I write?", why: "Pick any. This decides which documents are made, and where each reader starts.",
+      done: function () { return state.readers.length; },
+      fields: function () { return group("readers", "checkbox", READERS, state.readers, "Readers"); } },
+    { short: "Your role", q: "What is your role on this project?", why: "This sets the documents recommended for you. You can change them at the end.",
+      done: function () { return state.role; },
+      fields: function () { return group("role", "radio", ROLES, [state.role], "Your role"); } },
+    { short: "Design system", q: "Is there a design system to follow?", why: "Every design follows it, whether Product OS or you make it. Tickets name its real components.",
+      done: function () { return state.system; },
+      fields: function () { return group("system", "radio", SYSTEMS, [state.system], "Design system") + (state.system && state.system !== "none" ? text("systemRef", "Its link or name", state.systemRef) : ""); } },
+    { short: "Where from", q: "Where did this come from?", why: "Who asked, when, and why now: a customer, an executive, a data signal, a competitor move.",
+      done: function () { return state.origin; },
+      fields: function () { return text("origin", "Who asked, when, and why now", state.origin); } },
+    { short: "Everything", q: "Give me everything you have.", why: "One step, any order. List each email, document, export or link on its own line. I sort it, and you see what is missing.",
+      done: function () { return true; },
+      fields: function () {
+        var s = sortEverything();
+        var f = KINDS.filter(function (k) { return s.found[k[0]]; }).map(function (k) { return "<li><b>" + k[1] + ":</b> " + esc(s.found[k[0]].join("; ")) + "</li>"; });
+        if (s.other.length) f.push("<li><b>Other:</b> " + esc(s.other.join("; ")) + "</li>");
+        return '<label class="f" for="everything">What you have, one item per line<textarea id="everything" name="everything">' + esc(state.everything) + "</textarea></label>" +
+          '<div class="sorted" id="sorted"><div class="f"><h2>Found</h2><ul>' + (f.join("") || "<li>Nothing yet.</li>") + '</ul></div><div class="m"><h2>Missing</h2><ul>' +
+          (s.missing.map(function (m) { return "<li>" + m + "</li>"; }).join("") || "<li>Nothing.</li>") + "</ul></div></div>" +
+          '<p class="hint">Here I sort by name. In Claude or ChatGPT you attach the files themselves. "That is all" is always a valid answer.</p>';
+      } },
+    { short: "Is this right?", q: "Is this right?", why: "Read what I understood on the right. Below is what I will make from it. Nothing is written before your yes.",
+      done: function () { return false; },
+      fields: function () {
+        var mine = mineList();
+        return '<div class="make"><div><h2>For the team</h2>' + teamLines().map(function (l) { return "<p>" + esc(l) + "</p>"; }).join("") + "</div>" +
+          "<div><h2>For you</h2><p>" + (mine.length ? esc(mine.join(", ")) : "Nothing else. Only what the readers need.") + "</p></div>" +
+          "<div><h2>Not made</h2><p>RACI chart, risk register, UX review. Ask for any of them, any time.</p></div></div>" +
+          '<p class="hint">Copy the brief, then paste it into your Product OS project in Claude or ChatGPT. It starts at intake, with these answers already saved.</p>' +
+          '<div class="nav"><a class="btn" href="https://claude.ai/new" target="_blank" rel="noopener">Open Claude</a><a class="btn" href="https://chatgpt.com/" target="_blank" rel="noopener">Open ChatGPT</a></div>';
+      } }
+  ];
+
+  function text(id, lab, val) { return '<label class="f" for="' + id + '">' + lab + '<input type="text" id="' + id + '" name="' + id + '" value="' + esc(val) + '" autocomplete="off"></label>'; }
+  function group(name, type, list, chosen, legend) {
+    return '<fieldset class="opts"><legend>' + legend + "</legend>" + list.map(function (o) {
+      var id = name + "-" + o[0];
+      return '<label class="opt" for="' + id + '"><input type="' + type + '" id="' + id + '" name="' + name + '" value="' + o[0] + '"' + (chosen.indexOf(o[0]) > -1 ? " checked" : "") + "><span>" + o[1] + "</span></label>";
+    }).join("") + "</fieldset>";
+  }
+
+  function brief() {
+    var s = sortEverything();
+    var have = KINDS.filter(function (k) { return s.found[k[0]]; }).map(function (k) { return k[1].toLowerCase(); });
+    var rows = [
+      ["Building", state.building, 0], ["Users", state.users, 0],
+      ["Readers", cap(state.readers.map(function (r) { return label(READERS, r).toLowerCase(); }).join(", ")), 1],
+      ["Your role", label(ROLES, state.role), 2], ["Design system", systemText(), 3],
+      ["Came from", state.origin, 4],
+      ["I have", s.count ? (have.join(", ") || "other material") : "", 5],
+      ["Missing", s.count ? (s.missing.join(", ").toLowerCase() || "nothing") : "", 5]
+    ];
+    document.getElementById("brief").innerHTML = rows.map(function (r) {
+      return '<div class="row' + (r[2] === step ? " now" : "") + '"><dt>' + r[0] + "</dt><dd" + (r[1] ? "" : ' class="empty"') + ">" + (r[1] ? esc(r[1]) : "Not answered yet") + "</dd></div>";
+    }).join("");
+  }
+  function steps() {
+    document.getElementById("steps").innerHTML = STEPS.map(function (s, i) {
+      var cls = i === step ? "on" : (s.done() ? "done" : "");
+      return '<li class="' + cls + '"><button type="button" data-step="' + i + '"' + (i === step ? ' aria-current="step"' : "") + "><b>" + (i + 1) + "</b><span>" + s.short + "</span></button></li>";
+    }).join("");
+  }
+  function render() {
+    var s = STEPS[step], last = step === STEPS.length - 1;
+    document.getElementById("place").textContent = "Question " + (step + 1) + " of " + STEPS.length;
+    document.getElementById("q").textContent = s.q;
+    document.getElementById("why").textContent = s.why;
+    document.getElementById("fields").innerHTML = s.fields();
+    document.getElementById("back").disabled = step === 0;
+    document.getElementById("next").textContent = last ? "Yes, copy the brief" : "Next question";
+    document.getElementById("hint").textContent = last ? "" : "\"I don't know yet\" is a valid answer. Leave it empty and go on.";
+    document.getElementById("copied").textContent = "";
+    document.getElementById("exNote").textContent = state.example ? "Filled in with example answers. Change any of them." : "Your answers stay in this browser.";
+    steps(); brief();
+  }
+  function read(e) {
+    var t = e.target;
+    if (!t.name) return;
+    state.example = false;
+    if (t.type === "checkbox") {
+      var i = state.readers.indexOf(t.value);
+      if (t.checked && i < 0) state.readers.push(t.value);
+      if (!t.checked && i > -1) state.readers.splice(i, 1);
+    } else { state[t.name] = t.value; }
+    save();
+    if (t.name === "system") { render(); var f = document.getElementById("system-" + state.system); if (f) f.focus(); return; }
+    if (t.name === "everything") {
+      var s = STEPS[5].fields(), box = document.createElement("div"); box.innerHTML = s;
+      document.getElementById("sorted").innerHTML = box.querySelector("#sorted").innerHTML;
+    }
+    steps(); brief();
+    document.getElementById("exNote").textContent = "Your answers stay in this browser.";
+  }
+  function dsLines() {
+    if (!state.system || state.system === "none") return [];
+    var kinds = state.system === "both" ? ["figma", "claude"] : [state.system], out = ["  sources:"];
+    kinds.forEach(function (k) { out.push("    - kind: " + k, "      ref: " + JSON.stringify(state.systemRef || "")); });
+    return out;
+  }
+  function briefText() {
+    var s = sortEverything(), q = function (v) { return JSON.stringify(v || ""); };
+    var y = [
+      "Start Product OS guided mode. I answered the start questions already. Save these answers, show me the playback, and wait for my yes before writing anything.",
+      "",
+      "audience:",
+      "  readers: [" + state.readers.join(", ") + "]",
+      "  role: " + (state.role || "other"),
+      "design_system:",
+      "  status: " + (state.system && state.system !== "none" ? "provided" : "none")
+    ].concat(dsLines()).concat([
+      "context:",
+      "  building: " + q(state.building),
+      "  users: " + q(state.users),
+      "  origin: " + q(state.origin),
+      "  sources:"
+    ]);
+    KINDS.forEach(function (k) { (s.found[k[0]] || []).forEach(function (l) { y.push("    - kind: " + k[0], "      ref: " + q(l)); }); });
+    s.other.forEach(function (l) { y.push("    - kind: other", "      ref: " + q(l)); });
+    y.push("  not_provided: [" + KINDS.filter(function (k) { return !s.found[k[0]]; }).map(function (k) { return k[0]; }).join(", ") + "]");
+    y.push("", "I will attach the files listed under sources.");
+    return y.join("\n");
+  }
+
+  document.getElementById("ask").addEventListener("input", read);
+  document.getElementById("ask").addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (step < STEPS.length - 1) { step++; render(); document.getElementById("q").scrollIntoView({ block: "nearest" }); return; }
+    var out = document.getElementById("copied"), t = briefText();
+    var ok = function () { out.textContent = "Copied. Paste it into your Product OS project."; };
+    var no = function () { out.textContent = "Copy did not work here. Select the text below and copy it."; var ta = document.createElement("textarea"); ta.id = "manual"; ta.value = t; ta.setAttribute("aria-label", "The brief to copy"); document.getElementById("fields").appendChild(ta); ta.select(); };
+    try { navigator.clipboard.writeText(t).then(ok, no); } catch (err) { no(); }
+  });
+  document.getElementById("back").addEventListener("click", function () { if (step > 0) { step--; render(); } });
+  document.getElementById("steps").addEventListener("click", function (e) { var b = e.target.closest("button"); if (b) { step = +b.getAttribute("data-step"); render(); } });
+  document.getElementById("clear").addEventListener("click", function () { state = copy(EMPTY); step = 0; save(); render(); document.getElementById("building").focus(); });
+  render();
+})();
+</script>
+</body>
+</html>

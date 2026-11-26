@@ -4,13 +4,13 @@
 
 **PM rigor leads; design serves product strategy.**
 
-**New PM? Read three sections:** [Key Terms](#key-terms) → [Quick Start](#quick-start) for your tool → [Your First Project](#your-first-project-step-by-step). Everything from [Guided Mode](#guided-mode) down is reference.
+**New PM? Read three sections:** [Key Terms](#key-terms) → [Pick Your Path](#pick-your-path), then its [Quick Start](#quick-start) steps → [Your First Project](#your-first-project-step-by-step). Everything from [Guided Mode](#guided-mode) down is reference.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Works in **claude.ai**, **ChatGPT**, **Claude Code** and **Cursor**.
+Works in **Claude chat**, as a **Claude artifact**, in **ChatGPT**, **Claude Code** and **Cursor**. [Pick your path](#pick-your-path).
 
-**On this page:** [What it is](#what-is-product-os) · [Key terms](#key-terms) · [Where it runs](#where-it-runs) · [Quick Start](#quick-start) · [Your first project](#your-first-project-step-by-step) · [Workflow](#how-it-works) · [Success and metrics](#what-success-looks-like-validation-and-metrics) · [Document format](#what-every-document-and-page-looks-like) · [Examples](#examples-you-can-copy) · [Guided Mode](#guided-mode) · [Commands](#commands) · [Agents](#agents) · [Skills](#skills) · [Documents](#documents) · [Rolling it out](#rolling-it-out-to-a-team) · [Configuration](#configuration)
+**On this page:** [What it is](#what-is-product-os) · [Key terms](#key-terms) · [Pick your path](#pick-your-path) · [Quick Start](#quick-start) · [Your first project](#your-first-project-step-by-step) · [Workflow](#how-it-works) · [Success and metrics](#what-success-looks-like-validation-and-metrics) · [Document format](#what-every-document-and-page-looks-like) · [Examples](#examples-you-can-copy) · [Guided Mode](#guided-mode) · [Commands](#commands) · [Agents](#agents) · [Skills](#skills) · [Documents](#documents) · [Rolling it out](#rolling-it-out-to-a-team) · [Configuration](#configuration)
 
 ---
 
@@ -144,29 +144,42 @@ Plain-language definitions of every term used on this page.
 
 ---
 
-## Where It Runs
+## Pick Your Path
 
-The same agents, skills and templates power every platform. Pick the one your team already uses.
+Product OS is one set of content with five ways to run it. The questions, the documents, the formats and the handoff are the same on every path. Pick by how you like to work.
 
-| | **claude.ai** | **Claude Code** | **Cursor** |
-|---|---|---|---|
-| **Best for** | PMs and designers who work in the browser or desktop app | PMs who keep docs in a repo; full automation | Teams already working in Cursor |
-| **Setup** | A Claude Project with the instructions and starter files in `claude-ai/` | Installer + `product-os` plugin | Installer (adds Cursor rules and agents) |
-| **How you start work** | Ask by name: "Start guided mode for project X" | `/product-os:guide` and the other slash commands | "Read `.claude/agents/guide.md` and start project X" |
-| **Slash commands** | No (ask in plain language) | Yes, `/product-os:*` | No (role-based) |
-| **Agents** | Claude takes on one agent role at a time from the project files | Each agent is a registered subagent | Native adapters + any agent by file |
-| **Where documents live** | In the chat and project; download or copy into your repo | `initiatives/<initiative>/<project>/` in your repo | `initiatives/<initiative>/<project>/` in your repo |
-| **Confluence and Jira** | Atlassian connector, if your workspace enables it (approval first) | Atlassian MCP or REST fallback (approval first) | Atlassian MCP or REST fallback (approval first) |
+| Path | Pick it when | What it feels like | Setup | Steps |
+|------|--------------|--------------------|-------|-------|
+| **A · Claude chat** | You work in the Claude app, not in a code editor | You ask in plain sentences. Claude asks the guided questions in the chat and gives you each document as a file. | About 10 minutes | [Path A](#path-a--claude-chat) |
+| **B · Claude artifact** | You want a page, not a chat, for the first questions | A guided page: seven questions, the brief filling in beside you, then a brief to paste into path A or C | About 2 minutes | [Path B](#path-b--claude-artifact-the-visual-start) |
+| **C · ChatGPT** | Your team works in ChatGPT | The same as path A, in a ChatGPT Project or a custom GPT your whole team opens from one link | About 10 minutes | [Path C](#path-c--chatgpt) |
+| **D · Claude Code** | You keep documents in a repo and want everything automated | Slash commands, 41 specialist agents, every document saved in your project folder | About 5 minutes | [Path D](#path-d--claude-code) |
+| **E · Cursor** | Your team already works in Cursor | You ask Cursor to take on a role by name | About 5 minutes | [Path E](#path-e--cursor) |
 
-**ChatGPT** works the same way as claude.ai: a ChatGPT Project (or a custom GPT) with the instructions and the 8-file pack in `chatgpt/`. You ask in plain language, ChatGPT takes on one role at a time, and documents arrive as files in the chat.
+**Not sure?** A PM who does not use a terminal picks A or C. A PM who wants a visual start adds B. A PM who lives in a repo picks D.
 
-Progress (`progress.yaml`) and session handovers (`HANDOVER.md`) are plain files, so you can start in one tool and continue in another.
+**How the paths compare**
+
+| | **A · Claude chat** | **C · ChatGPT** | **D · Claude Code** | **E · Cursor** |
+|---|---|---|---|---|
+| **Setup** | A Claude Project with the instructions and starter files in `claude-ai/` | A ChatGPT Project or custom GPT with the instructions and 8-file pack in `chatgpt/` | Installer + `product-os` plugin | Installer (adds Cursor rules and agents) |
+| **How you start work** | "Start guided mode for project X" | "Start guided mode for project X" | `/product-os:guide` and the other slash commands | "Read `.claude/agents/guide.md` and start project X" |
+| **Slash commands** | No (plain language) | No (plain language) | Yes, `/product-os:*` | No (role-based) |
+| **Agents** | One role at a time, from the project files | One role at a time, from the pack | Each agent is a registered subagent | Native adapters + any agent by file |
+| **Where documents live** | Files in the chat; download or copy them | Files in the chat or canvas; download them | `initiatives/<initiative>/<project>/` in your repo | `initiatives/<initiative>/<project>/` in your repo |
+| **Confluence and Jira** | Atlassian connector, if your workspace enables it (approval first) | Atlassian Rovo app, if your workspace and region have it (approval first) | Atlassian MCP or REST fallback (approval first) | Atlassian MCP or REST fallback (approval first) |
+
+Path B is the visual start for paths A and C: it asks the start questions on a page and hands a brief to the chat, where the documents are written.
+
+Progress (`progress.yaml`) and session handovers (`HANDOVER.md`) are plain files, so you can start on one path and continue on another.
 
 ---
 
 ## Quick Start
 
-### claude.ai
+The steps for each path in [Pick Your Path](#pick-your-path).
+
+### Path A · Claude chat
 
 1. Download this repo (Code → Download ZIP) and unzip it. On a Mac, press **Cmd+Shift+.** in Finder to show the hidden `.claude` folder.
 2. In claude.ai, create a **Project** (for example "Product OS").
@@ -177,7 +190,19 @@ Progress (`progress.yaml`) and session handovers (`HANDOVER.md`) are plain files
 
 Full steps and tips: [Product OS in claude.ai](claude-ai/README.md).
 
-### ChatGPT
+### Path B · Claude artifact, the visual start
+
+For PMs who want a page, not a chat, for the first questions.
+
+1. Download [`artifact/product-os-start.html`](artifact/product-os-start.html).
+2. In Claude, attach the file and say: *"Publish this page as an artifact."*
+3. Open the artifact and answer the seven questions. The brief fills in beside you.
+4. Press **Yes, copy the brief**.
+5. Paste the brief into your Product OS project in Claude chat (path A) or ChatGPT (path C), and attach the files you listed. The chat shows the playback and waits for your yes.
+
+The page covers the start questions. The documents are written in the chat. What it does and does not do: [Product OS as a Claude artifact](artifact/README.md).
+
+### Path C · ChatGPT
 
 For PMs who work in ChatGPT and not in a code editor.
 
@@ -190,7 +215,7 @@ For PMs who work in ChatGPT and not in a code editor.
 
 A head of product can also build it once as a custom GPT and share one link with every PM. Full steps, plan limits and what differs from Claude Code: [Product OS in ChatGPT](chatgpt/README.md).
 
-### Claude Code
+### Path D · Claude Code
 
 1. Install into your project:
 
@@ -209,7 +234,7 @@ A head of product can also build it once as a custom GPT and share one link with
    /product-os:guide --initiative customer-onboarding --project self-serve-signup
    ```
 
-### Cursor
+### Path E · Cursor
 
 1. Run the installer: `./scripts/install.sh /path/to/your/project --platform cursor`
 2. Restart Cursor so it loads `.cursor/rules/product-os.mdc`.
@@ -217,7 +242,7 @@ A head of product can also build it once as a custom GPT and share one link with
 
 In Cursor you get 3 native Cursor agent adapters (Guide, PRD Author, Intake Analyst) in the agent picker; every other agent works by asking Cursor to read its file.
 
-**Then, on any platform:** follow [Your First Project, Step by Step](#your-first-project-step-by-step). When you're ready to publish, Product OS shows the exact Confluence pages and Jira issues it will write and waits for your OK.
+**Then, on any path:** follow [Your First Project, Step by Step](#your-first-project-step-by-step). When you're ready to publish, Product OS shows the exact Confluence pages and Jira issues it will write and waits for your OK.
 
 ---
 

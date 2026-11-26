@@ -48,13 +48,14 @@ John De La Torre-Ugarte — Head of Product / Product Design Lead with 25+ years
 
 ## Platform Compatibility
 
-Product OS works in **Claude Code**, **Cursor**, **claude.ai** and **ChatGPT**:
+Product OS is one set of content with five paths: **Claude Code**, **Cursor**, **claude.ai**, a **Claude artifact** for the start, and **ChatGPT**. README → "Pick Your Path" has the steps for each.
 
 | Platform | Commands | Agents |
 |----------|----------|--------|
 | Claude Code | Plugin slash commands (`/product-os:*`, from `.claude-plugin/`) | Native Task delegation (agents in `.claude/agents/` register as subagents via frontmatter) |
 | Cursor | Role-based invocation | `.cursor/agents/` + role-based |
 | claude.ai | Plain language | One role at a time, from the files in `claude-ai/` |
+| Claude artifact | A guided page for the start questions (`artifact/`) | Hands a brief to claude.ai or ChatGPT |
 | ChatGPT | Plain language | One role at a time, from the 8-file pack in `chatgpt/` |
 
 Canonical content lives in `.claude/` (read by both platforms). Skills in `.claude/skills/` are reference documents read by path. See `docs/guides/platform-compatibility.md`.
