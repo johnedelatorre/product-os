@@ -70,7 +70,7 @@ All projects follow this structure (`docs/reference/document-format.md` §2): on
                 └── 4. Decisions & Launch       ← Decision Log, Event Tracking Plan, Release Notes, Post-Launch Review
 ```
 
-Publish only the pages the project has. A document the PM attached to the epic (question 2 of the outputs question) is published under the project page, not under PM workspace.
+Publish only the pages the project has. A document attached to the epic (step 1 of the outputs question) is published under the project page, not under PM workspace.
 
 ### Page Rules
 

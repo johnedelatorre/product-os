@@ -95,7 +95,11 @@ The epic is the hub for the team. An engineer opens it and finds a link to every
 ```markdown
 **[Subtitle: one line on the outcome this epic delivers]**
 
-**Start here:** open the [end-to-end prototype](link) for the whole journey, then pick up [first ticket]. Everything else you need is in the Handoff table.
+**Start here**
+- **Engineers:** open the [end-to-end prototype](link) for the whole journey, then pick up [first ticket].
+- **[Another reader group, such as the head of product]:** [where they start: read the [project brief](link), then the [Gantt chart](link)].
+
+Everything else you need is in the Handoff table.
 
 ## What and why
 [2–4 sentences: what this epic delivers, for whom, and the problem it solves. The PRD holds the detail.]
@@ -111,7 +115,7 @@ The epic is the hub for the team. An engineer opens it and finds a link to every
 | User flows | [link] |
 | Final design ([Figma / Claude design]) | [link to the main design file] |
 | End-to-end prototype | [link: one straight path per user] |
-| [Extra the PM chose: low-fidelity wireframes, schema, …] | [link] |
+| [Extra: low-fidelity wireframes, schema, the Gantt chart for the head of product, …] | [link] |
 | Links page | [link to the project page in Confluence] |
 
 ## Tickets
@@ -123,12 +127,14 @@ The epic is the hub for the team. An engineer opens it and finds a link to every
 
 ## Dependencies
 [Only when there are any. Otherwise leave this section out.]
+
+**Feedback:** what was missing, and what was too much? Comment on this epic.
 ```
 
 Rules:
 1. The epic does not repeat the PRD: no problem statement, scope lists or metrics tables.
 2. The team gets one final design. When a Figma file and a Claude design both exist, the PM picks one; the other stays in the PM workspace.
-2a. The epic opens with **Start here**, lists tickets in build order, and gets the Clear Output pass before it is shown (`.claude/skills/engineering-handoff.md` → "The Last Pass").
+2a. The epic opens with **Start here**, one line per reader group (a single line when there is one group), lists tickets in build order, ends with the **Feedback** line, and gets the Clear Output pass before it is shown (`.claude/skills/engineering-handoff.md` → "The Last Pass").
 3. Every link in the Handoff table opens. A missing output is a named TBD (what is missing, who provides it), never an empty row.
 4. Each handoff output is also added as a web link on the epic, so it shows in the epic's links panel. The links page in Confluence carries the same table and links back to the epic.
 5. The team is given one link: the epic.

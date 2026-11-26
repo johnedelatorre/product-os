@@ -39,13 +39,13 @@ Follow `.claude/skills/clear-output.md`:
 
 Product OS follows a 9-phase guided workflow:
 
-1. **Intake** — Structure raw requirements → `.claude/agents/intake-analyst.md`
+1. **Intake** — Ask the six start questions (what and for which users, who reads it, your role, where it came from, everything you have, the playback), then structure raw requirements → `.claude/agents/intake-analyst.md`, `.claude/skills/engineering-handoff.md`
 2. **Discovery** — Explore problem space (optional) → `.claude/agents/opportunity-tree.md`
 3. **Prioritize** — Score and sequence → `.claude/agents/strategist.md`
 4. **Define** — PRD, brief, plan, metrics → `.claude/agents/prd-author.md`
 5. **Design** — Brief, flows, wireframes → `.claude/agents/product-designer.md`
 6. **Review** — Gates and critique → `.claude/agents/gate-keeper.md`
-7. **Deliver** — Ask the outputs question, then the epic (the team's hub), lean tickets, the ticket tree, traceability → `.claude/agents/delivery-agent.md`, `.claude/skills/engineering-handoff.md`
+7. **Deliver** — Confirm what each reader group gets, then the epic (the team's hub), lean tickets, the ticket tree, traceability → `.claude/agents/delivery-agent.md`, `.claude/skills/engineering-handoff.md`
 8. **Launch** — Release notes, enablement → `.claude/agents/launch-manager.md`
 9. **Measure** — Post-launch review → `.claude/agents/post-launch-reviewer.md`
 

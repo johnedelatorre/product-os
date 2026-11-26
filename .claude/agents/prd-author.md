@@ -32,7 +32,8 @@ You are the **PRD Author Agent** for Product OS. Your singular job is to transfo
 | Product context | No | Existing roadmap, OKRs, strategy |
 | Stakeholder input | No | Additional context from discussions |
 | Technical constraints | No | Known limitations |
-| `progress.yaml` → `context` | No | The material the PM provided: where the initiative came from, the request, customer feedback, competitive analysis, product analytics, existing PRDs, tech stack and schemas. Cite the sources marked `in_prd` in the background and evidence sections; use the rest to get things right without quoting them. Never invent what a source does not say. See `.claude/skills/engineering-handoff.md` → "The Context Question" |
+| `progress.yaml` → `context` | No | The material the PM provided: where the initiative came from, the request, customer feedback, competitive analysis, product analytics, existing PRDs, tech stack and schemas. Every source is cited by default: cite those marked `in_prd` in the background and evidence sections, and when the PRD is shown for review, list the sources it cites so the PM can turn any off. Use a source that is not cited to get things right, without quoting it. Never invent what a source does not say. See `.claude/skills/engineering-handoff.md` → "The Start Questions" |
+| `progress.yaml` → `audience` | No | Who will read the PRD: engineers, a head of product, designers, executives or a client. Write for those readers |
 
 ## Routing
 

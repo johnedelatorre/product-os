@@ -243,7 +243,15 @@ Syncing is idempotent—re-running updates rather than duplicates:
 | Labels | Merge (add missing, keep existing) |
 | Start/Due Date | Update if changed |
 | Dependencies | Update (remove old, add new) |
-| Parent / Epic Link | Update if changed |
+| Parent / Epic Link | Keep the board's value when the team moved the ticket; otherwise update if changed |
+
+### When the Team Moved Tickets
+
+The team's board wins. Before a re-sync, compare the board's tree (parents, sub-tasks, merged or split tickets) with the tree the PM accepted:
+
+1. Show the PM what moved, one line each.
+2. Keep the team's version. Never move a ticket back.
+3. Ask whether that shape is the team's default, and save it in `product-os.config.yaml` only with the PM's yes (`.claude/skills/engineering-handoff.md` → "After the Handoff").
 
 ### Sync Manifest
 
@@ -376,7 +384,11 @@ Every epic follows `docs/reference/document-format.md` §3, which is the complet
 ```markdown
 **[Subtitle: one line on the outcome this epic delivers]**
 
-**Start here:** open the [end-to-end prototype](link), then pick up [first ticket].
+**Start here**
+- **Engineers:** open the [end-to-end prototype](link) for the whole journey, then pick up [first ticket].
+- **[Another reader group, such as the head of product]:** [where they start: read the [project brief](link), then the [Gantt chart](link)].
+
+Everything else you need is in the Handoff table.
 
 ## What and why
 [2–4 sentences: what this epic delivers, for whom, and the problem it solves.]
@@ -405,6 +417,8 @@ Every epic follows `docs/reference/document-format.md` §3, which is the complet
 
 ## Dependencies
 [Only when there are any.]
+
+**Feedback:** what was missing, and what was too much? Comment on this epic.
 ```
 
 Source: the epic's entry in `epics.md` (template: `templates/delivery/epic.md`). A missing link is written `TBD: [what is missing, who provides it]`; never invent content. The epic does not repeat the PRD.

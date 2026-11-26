@@ -473,7 +473,7 @@ Check Definition of Ready or Definition of Done for stories.
 
 ### /product-os:deliver
 
-Generate the engineering handoff: an epic that links to everything, lean tickets with estimates, and a ticket tree you approve. Asks the outputs question first.
+Generate the engineering handoff: an epic that links to everything, lean tickets with estimates, and a ticket tree you approve. Confirms what goes to each reader group first.
 
 ```
 /product-os:deliver --from <prd.md> --designs <design-brief.md,wireframes.md>

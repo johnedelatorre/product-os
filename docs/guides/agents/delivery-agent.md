@@ -6,7 +6,7 @@ Creates the engineering handoff: one epic that links to everything the team need
 
 Turns the approved PRD and designs into a backlog the team can read quickly and build from without rewriting it. The rules are in [`.claude/skills/engineering-handoff.md`](../../../.claude/skills/engineering-handoff.md).
 
-1. **Asks the outputs question**: what goes to the team, any extras to attach to the epic, which design is final, how tickets are organized.
+1. **Asks the outputs question** as one confirmation: what each reader group gets, what else is attached to the epic, the one final design, and the ticket shape saved for your team.
 2. **Writes the epic as the hub**: a short summary, who it is for, and a table of links to the PRD, project brief, user flows, final design and end-to-end prototype.
 3. **Writes lean tickets**: each one is a single thing a user can see or do, at 1–5 points.
 4. **Proposes the ticket tree**: which work sits under which ticket, as sub-tasks, and what it merged or split and why. You accept it or move items.

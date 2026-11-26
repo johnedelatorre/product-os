@@ -198,7 +198,7 @@ The orchestrator runs 7 stages (plus an optional PRD review), matching `.claude/
 **Agents:** `.claude/agents/delivery-agent.md`, `.claude/agents/gate-keeper.md`  
 **Commands:** `/product-os:deliver`, `/product-os:gate`  
 **Input:** Approved design + PRD  
-**First:** The outputs question: what goes to the team, any extras to attach to the epic, which design is final, how tickets are organized (`.claude/skills/engineering-handoff.md`)  
+**First:** The outputs question, as one confirmation: what each reader group gets, what else is attached to the epic, the one final design, and the ticket shape saved for the team (`.claude/skills/engineering-handoff.md`)  
 **Output:** `epics.md`, `stories.md`, `backlog.csv`, `gate-report.md`, `traceability.md`  
 **Checkpoint:** Human accepts the proposed ticket tree, then approves stories and gate status (DoR failures block sprint entry)
 
@@ -508,7 +508,7 @@ The `/product-os:new-project` command runs the full pipeline (see `.claude/agent
    └── **CHECKPOINT:** Human addresses critical findings
 
 6. DELIVERY
-   └── Ask the outputs question (what goes to the team, extras, final design, ticket organization)
+   └── Confirm the outputs (what each reader group gets, extras, final design, the team's ticket shape)
    └── Generate epics.md, stories.md, gate-report.md, traceability.md
    └── Propose the ticket tree
    └── **CHECKPOINT:** Human accepts the ticket tree, then approves stories and gate status
