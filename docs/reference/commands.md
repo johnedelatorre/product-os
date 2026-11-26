@@ -113,7 +113,7 @@ Structure a raw requirement into a problem/opportunity statement.
 
 ### /product-os:propose
 
-Research an idea and propose what to build, interface first. For new ideas — not agreed changes or bugs.
+Research an idea and propose what to build, interface first. For new ideas, not agreed changes or bugs.
 
 ```
 /product-os:propose --idea "I have an idea for..." --initiative <slug> --project <slug>

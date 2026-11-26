@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.8.0] - 2026-11-26
+
+### Added
+- **A copy for Claude's plugin directory** — `plugin/`, built by `scripts/build-directory-plugin.py` from the same sources as the rest of Product OS. It holds only what the directory accepts from an organization that is not Verified: the skill, the agents, the commands, a README, the license and the icon, as Markdown, text, JSON, YAML and one image. Its name in the directory is `jdlt-product-os`, and its title stays "Product OS". `scripts/validate.sh` checks it (check 19).
+
+### Changed
+- **`/product-os:propose`** — its description no longer uses an escaped character, which the directory's check could not read.
+
 ## [1.7.3] - 2026-11-26
 
 ### Added

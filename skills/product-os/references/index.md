@@ -81,7 +81,7 @@ Every agent, command and playbook in this skill, with one line each.
 - `references/commands/prd.md`: Generate a comprehensive Product Requirements Document.
 - `references/commands/prfaq.md`: Write Amazon-style PR/FAQ.
 - `references/commands/prioritize.md`: Score and prioritize features using frameworks.
-- `references/commands/propose.md`: Research an idea and propose what to build, interface first. For new ideas \u2014 not agreed changes or bugs.
+- `references/commands/propose.md`: Research an idea and propose what to build, interface first. For new ideas, not agreed changes or bugs.
 - `references/commands/prototype.md`: Generate clickable HTML/React prototypes from wireframes, and the end-to-end handoff prototype for the team.
 - `references/commands/publish.md`: Publish to Confluence: a links page and the team's pages, with your own documents under one PM workspace page.
 - `references/commands/release-gate.md`: Run the release gate: owner preview, go/no-go, independent review, verify build serves.

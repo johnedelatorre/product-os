@@ -1,0 +1,28 @@
+---
+description: "Score and prioritize features using frameworks."
+argument-hint: "--items <prd.md|features.md> --framework <rice|wsjf|moscow|kano>"
+---
+
+> This file names Product OS files by their path in the Product OS repo (`.claude/...`, `templates/...`, `docs/reference/...`). In this plugin those files are in the `product-os` skill: load that skill first, and use its "Where the files are" table to find each one.
+
+# /jdlt-product-os:prioritize
+
+Score and prioritize features using frameworks.
+
+## Usage
+```
+/jdlt-product-os:prioritize --items <prd.md|features.md> --framework <rice|wsjf|moscow|kano>
+```
+
+## Frameworks
+- **RICE**: Reach × Impact × Confidence ÷ Effort
+- **WSJF**: Cost of Delay ÷ Job Duration
+- **MoSCoW**: Must/Should/Could/Won't
+- **Kano**: Basic/Performance/Delighter
+
+## Output
+- `prioritization.md` — Scored and ranked items
+- `priority-matrix.csv` — Export for spreadsheets
+
+## Agent
+Uses: `strategist.md`

@@ -87,8 +87,9 @@ Every agent must include:
 
 1. Change `"version"` in `.claude-plugin/plugin.json`. It is the only place the version is set.
 2. Run `python3 scripts/build-plugin-skill.py`. It writes the version into the plugin's description, the marketplace entry, the skill, the board and the README.
-3. Add the version and date as a heading in `CHANGELOG.md`.
-4. Run `bash scripts/validate.sh`.
+3. Run `python3 scripts/build-directory-plugin.py`. It rebuilds `plugin/`, the copy that Claude's plugin directory reads.
+4. Add the version and date as a heading in `CHANGELOG.md`.
+5. Run `bash scripts/validate.sh`.
 
 ## Commit Messages
 
