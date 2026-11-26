@@ -28,7 +28,7 @@ claude.ai setup steps: [Product OS in claude.ai](../../claude-ai/README.md). Fla
 
 ## The Plugin in Claude Chat, Cowork and Claude Code
 
-One plugin carries all of Product OS. A PM adds it to their own Claude account from **Customize > Plugins**: **Add marketplace** with `johnedelatorre/product-os`, or **Upload plugin** with the repo ZIP. It then reaches chat on the web, the desktop app, the mobile apps and Claude Code. With it, Claude is the Product OS agent: it leads the PM, checks the connectors, makes each output in its real form, publishes after the PM's yes and keeps the board up to date.
+One plugin carries all of Product OS. A PM adds it to their own Claude account from **Plugins**: **Add**, **Add marketplace**, **Add from a repository**, paste `johnedelatorre/product-os`, **Sync**. Or **Upload plugin** with the repo ZIP. It then reaches chat on the web, the desktop app, the mobile apps and Claude Code. With it, Claude is the Product OS agent: it leads the PM, checks the connectors, makes each output in its real form, publishes after the PM's yes and keeps the board up to date.
 
 | Surface | Commands | Agents | The skill `skills/product-os/` |
 |---------|----------|--------|--------------------------------|

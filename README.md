@@ -107,10 +107,11 @@ For PMs who do not use a terminal. Claude is the Product OS agent. It leads you 
 
 **Set it up once (about 3 minutes)**
 
-1. In Claude (claude.ai or the desktop app), open **Customize > Plugins**.
-2. Choose **Add > Add marketplace** and enter `johnedelatorre/product-os`. Claude pulls Product OS in from GitHub. Then add the **Product OS** plugin from it.
-   Or download this repo (Code → Download ZIP) and choose **Add > Upload plugin** with the ZIP.
-3. In **Customize > Connectors**, add what your projects use: Atlassian (Jira and Confluence) and Figma. You can skip this: Claude checks your connections at the start of a project and walks you through the ones that are missing.
+1. In Claude (claude.ai or the desktop app), open **Plugins**. It is in the left sidebar, or under Settings or Customize, depending on your app.
+2. Choose **Add**, then **Add marketplace**, then **Add from a repository**. ("Browse Anthropic sources" lists Anthropic's own plugins. Product OS is not there.)
+3. Paste `johnedelatorre/product-os` and choose **Sync**. Claude pulls Product OS in from GitHub. If **Product OS** shows an **Add** button in the list, click it.
+   Or download this repo (Code → Download ZIP) and choose **Add**, then **Upload plugin**, with the ZIP.
+4. In **Connectors**, add what your projects use: Atlassian (Jira and Confluence) and Figma. You can skip this: Claude checks your connections at the start of a project and walks you through the ones that are missing.
 
 The plugin is saved to your own account, with all 41 agents, 48 commands, 44 playbooks and the templates. It is also in the Claude apps for iOS and Android and in Claude Code.
 

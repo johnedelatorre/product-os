@@ -6,9 +6,10 @@
 
 The Product OS plugin makes Claude the Product OS agent, with all 41 agents, 48 commands, 44 playbooks and the templates in your own account. You do not create a Project or upload files.
 
-1. In Claude (claude.ai or the desktop app), open **Customize > Plugins**.
-2. Choose **Add > Add marketplace**, enter `johnedelatorre/product-os`, and add the **Product OS** plugin. Or download the repo ZIP and choose **Add > Upload plugin**.
-3. Start a chat: *"Start Product OS."*
+1. In Claude (claude.ai or the desktop app), open **Plugins**. It is in the left sidebar, or under Settings or Customize, depending on your app.
+2. Choose **Add**, then **Add marketplace**, then **Add from a repository**.
+3. Paste `johnedelatorre/product-os` and choose **Sync**. If **Product OS** shows an **Add** button in the list, click it. Or download the repo ZIP and choose **Add**, then **Upload plugin**.
+4. Start a chat: *"Start Product OS."*
 
 Claude leads you through the nine phases, makes each output as a Claude doc, a Claude Design file, a whiteboard or a Figma file, publishes to Confluence and Jira after your yes, and keeps a [board](../artifact/README.md) up to date.
 
