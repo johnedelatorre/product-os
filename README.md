@@ -4,7 +4,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Product OS™ 1.10.1 · Copyright © 2026 John De La Torre-Ugarte · Code and documents under the [MIT License](LICENSE) · [Name and brand](TRADEMARKS.md)
+Product OS™ 1.11.0 · Copyright © 2026 John De La Torre-Ugarte · Code and documents under the [MIT License](LICENSE) · [Name and brand](TRADEMARKS.md)
 
 ![The Product OS board on a desktop screen and on a phone: the file being worked on now, where the project is, the next step, four numbers, three insights, and the start of the task list](docs/images/hero.jpg)
 
@@ -138,7 +138,7 @@ The plugin is saved to your own account, with all 41 agents, 48 commands, 44 pla
 
 ![The Product OS board with the Documents view open: the next step, four numbers, three insights, and the table of every document with its status, a link to open it, and where it is published](docs/images/visual-start.png)
 
-When the project has a name, Claude opens a board and keeps it up to date: where you are, the next step, the numbers, how the project is doing, every task, a table of every document with its link, what is published and what is connected. You only open it. More: [The Product OS board](artifact/README.md).
+When the project has a name, Claude opens a board and keeps it up to date: where you are, the next step, your tasks and your team's, the numbers, how the project is doing, every task, a table of every document with its link, what is published and what is connected. You open it, and tick a task when it is done. More: [The Product OS board](artifact/README.md).
 
 **How this compares with Claude Code**
 

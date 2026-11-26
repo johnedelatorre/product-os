@@ -32,4 +32,4 @@ Product OS is a set of instructions, templates and one board page. It has no ser
 
 Product OS is open source under the MIT License: https://github.com/johnedelatorre/product-os
 
-Product OS 1.10.1. Copyright 2026 John De La Torre-Ugarte.
+Product OS 1.11.0. Copyright 2026 John De La Torre-Ugarte.
