@@ -6,12 +6,13 @@
 
 ![The Product OS board on a desktop screen and on a phone: where the project is, the next step, four numbers, three insights, and the nine phases with their status](../docs/images/hero.jpg)
 
-1. **Where the project is**: the phase, the document in hand, and a bar of the nine phases.
-2. **The next step**: what Claude is waiting for from you, with a button that copies the short reply.
-3. **Four numbers**: documents done, in progress, named TBDs, phases done.
-4. **How the project is doing**: up to six notes written by Claude. What is going well, a gap in the material, a risk.
-5. **Four views, one at a time**: Tasks (the start questions, the nine phases and their documents), Documents (a table of every document, what it was made as, its status, its link, and where it is published), Published and connected (the Jira epic and tickets, the Confluence pages, and your connectors), and Agents (all 41 roles by phase, what each one does, and what to say in your chat to call it).
-6. **Badges for every state**: Done, In progress, Questions for you, Ready for your review, Not started, Skipped, and the number of TBDs still missing. Each badge has a sign and a word, so it does not depend on colour.
+1. **How Product OS works**: a one-minute guide at the top. Four steps, what each badge means, and five things to say in your chat. Hide it when you know it.
+2. **Where the project is**: the phase, the document in hand, and a bar of the nine phases.
+3. **The next step**: what Claude is waiting for from you, with a button that copies the short reply.
+4. **Four numbers**: documents done, in progress, named TBDs, phases done.
+5. **How the project is doing**: up to six notes written by Claude. What is going well, a gap in the material, a risk.
+6. **Four views, one at a time**: Tasks (the start questions, the nine phases and their documents), Documents (a table of every document, what it was made as, its status, its link, and where it is published), Published and connected (the Jira epic and tickets, the Confluence pages, and your connectors), and Agents (all 41 roles by phase, what each one does, and what to say in your chat to call it).
+7. **Badges for every state**: Done, In progress, Questions for you, Ready for your review, Not started, Skipped, and the number of TBDs still missing. Each badge has a sign and a word, so it does not depend on colour.
 
 The board is read-only. You answer Claude in the chat, and the board changes by itself. It follows your device's light or dark setting, or your own choice with the Auto, Light and Dark switch at the top. It fits a phone. The "Open in new tab" button at the top opens the board in its own browser tab, and every document link opens in a new tab too.
 
