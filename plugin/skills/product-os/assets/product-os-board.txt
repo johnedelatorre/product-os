@@ -241,8 +241,8 @@ td a { font-weight: 600; }
   <section class="card how" id="how" aria-labelledby="howT" hidden>
     <header class="how-h">
       <h2 id="howT">How Product OS works</h2>
-      <p>A one-minute guide. Bring it back any time with the Guide button at the top.</p>
-      <button type="button" class="btn go" id="howClose">Got it, hide the guide</button>
+      <p>A one-minute guide. Open it any time with the Guide button at the top.</p>
+      <button type="button" class="btn go" id="howClose">Hide the guide</button>
     </header>
     <ol class="steps">
       <li><b>Claude leads, in your chat</b>It asks one question at a time. Tap an answer, or type your own.</li>
@@ -435,9 +435,6 @@ td a { font-weight: 600; }
   function draw() {
     var has = !!(state && str(state.name, 120)) || docs.length > 0;
     $("empty").hidden = has || !(gotState && gotDocs); $("main").hidden = !has;
-    // The file in hand comes first. The guide sits under it once there is a project, and on top while the board is empty.
-    var how = $("how"), nc = $("nowCard"), em = $("empty");
-    if (has) { if (nc.nextElementSibling !== how) nc.parentNode.insertBefore(how, nc.nextSibling); } else if (em.previousElementSibling !== how) em.parentNode.insertBefore(how, em);
     if (!has) return;
     $("name").textContent = str(state && state.name, 120) || "Product OS project";
     $("where").textContent = str(state && state.where, 200);
@@ -612,20 +609,16 @@ td a { font-weight: 600; }
     });
   })();
 
-  // The guide: shown on a first visit, hidden once the reader says "Got it", and back with the Guide button.
-  // The choice is kept in this browser only.
+  // The guide.
   (function () {
-    var lg = $("legend"), how = $("how"), gb = $("guideBtn"), HOW = "product-os-board-guide";
+    var lg = $("legend"), how = $("how"), gb = $("guideBtn");
     [["ok", "Done", "Finished, and you accepted it."], ["live", "In progress", "Claude is working on it."], ["you", "Questions for you", "Claude is waiting for you in the chat."], ["you", "Ready for your review", "Read it, then accept it or ask for a change."], ["miss", "3 TBDs", "Facts still missing. Each one is named in the document."], ["pause", "Paused", "Stopped for now. Say “continue” in the chat to pick it up."], ["risk", "Blocked", "Waiting on something outside the chat."], ["idle", "Not started", "Planned, and not begun yet."], ["skip", "Skipped", "Left out of this project."]]
       .forEach(function (r) { var li = el("li"), w = el("span"); w.appendChild(badge(r[0], r[1])); li.appendChild(w); li.appendChild(el("span", null, r[2])); lg.appendChild(li); });
-    function guide(open, keep) {
-      how.hidden = !open; gb.setAttribute("aria-expanded", String(open));
-      if (keep) { try { window.localStorage.setItem(HOW, open ? "open" : "closed"); } catch (e) { /* the choice lasts for this visit only */ } }
-    }
-    gb.addEventListener("click", function () { guide(how.hidden, true); });
-    $("howClose").addEventListener("click", function () { guide(false, true); gb.focus(); });
-    var first = true; try { first = window.localStorage.getItem(HOW) !== "closed"; } catch (e) { first = true; }
-    guide(first, false);
+    // The guide is closed until the reader presses Guide. Open, it sits above everything and pushes the board down.
+    function guide(open) { how.hidden = !open; gb.setAttribute("aria-expanded", String(open)); }
+    gb.addEventListener("click", function () { guide(how.hidden); });
+    $("howClose").addEventListener("click", function () { guide(false); gb.focus(); });
+    guide(false);
   })();
 
   // Colours: follow the device, or the reader's own choice. The choice is kept in this browser only.

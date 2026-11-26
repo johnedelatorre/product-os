@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - **In progress is green everywhere on the board** — the badge is solid green with a dot; Done stays outlined with a check mark.
-- **The guide sits under the "Working on now" card** once a project exists.
+- **The guide opens only from the Guide button** — it is closed when the board loads. Open, it sits above the "Working on now" card and pushes the board down until "Hide the guide".
 
 ## [1.9.3] - 2026-11-26
 
