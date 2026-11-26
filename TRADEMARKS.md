@@ -33,4 +33,4 @@
 
 ## Questions and Permission
 
-Open an issue in this repo, or write to the owner through [johndelatorre.com](https://www.johndelatorre.com).
+Open an issue in this repo.
