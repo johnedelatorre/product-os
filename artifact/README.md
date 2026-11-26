@@ -4,12 +4,12 @@
 
 ## What It Looks Like
 
-![The visual start page at question 6 of 7, "Give me everything you have": the items sorted into Found and Missing on the left, and the brief filling in on the right](../docs/images/visual-start.png)
+![The review screen on a desktop screen and on a phone: four numbers, what it noticed, a table of the documents it will make, and what it understood](../docs/images/hero.jpg)
 
-1. **Seven questions, one per screen**, each with its place ("Question 2 of 7"): what and who, readers, your role, the design system, where it came from, everything you have, and "Is this right?"
+1. **Seven questions, one per screen**, each with its place ("Question 2 of 7"): what and who, readers, your role, the design system, where it came from, what you already have, and "Does this look right?"
 2. **The brief on the right fills in as you answer.** It is the playback, built live.
-3. **"Give me everything you have" sorts what you list** into Found and Missing.
-4. **The last screen shows what will be made**: for the team, for you, and what is not made.
+3. **"What do you already have?" sorts what you list** into Found and Missing.
+4. **The last screen is a review of the project**: four numbers (questions answered, kinds of material found, documents to be made, reader groups), what it noticed, a table of every document with who it is for and its phase, and what it understood.
 5. **One button copies the brief**, and two links open Claude and ChatGPT.
 
 The page opens with example answers so you can see a finished run. "Clear all answers" starts yours.
@@ -26,7 +26,7 @@ The page opens with example answers so you can see a finished run. "Clear all an
 
 **Without Claude:** the file is one self-contained HTML page. Opening it in a browser works too.
 
-**On a phone:** the page fits a phone screen, with the brief below the question. Artifacts open in the Claude apps for iOS and Android.
+**On a phone:** the page fits a phone screen. The table becomes a list, and the brief folds into one line you can open. Artifacts open in the Claude apps for iOS and Android.
 
 ## What It Does and Does Not Do
 

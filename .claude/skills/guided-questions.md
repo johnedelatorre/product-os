@@ -22,6 +22,7 @@
 3. **Short numbered options, the recommended one marked**, with one line on why. The PM can answer with a number, "recommended", or their own words.
 4. **Ask only what changes the document.** If both answers lead to the same text, do not ask.
 5. **Never ask twice.** An answer in `progress.yaml`, in a source the PM gave, or in an approved document is used, not asked again.
+6. **Ask, do not demand.** Word each question as an invitation: "What do you already have?", not "Give me everything you have."
 
 ## What to Ask
 

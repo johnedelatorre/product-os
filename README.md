@@ -4,9 +4,9 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-![Product OS on a desktop screen and on a phone: the visual start page asks "Give me everything you have", sorts the answer into Found and Missing, and fills in a brief titled "What I understood"](docs/images/hero.jpg)
+![Product OS on a desktop screen and on a phone, both on the review screen "Does this look right?": four numbers, what it noticed, a table of the documents it will make, and what it understood](docs/images/hero.jpg)
 
-*The visual start (path B), on a computer and on a phone. Screenshots of `artifact/product-os-start.html`.*
+*The review screen of the visual start (path B), on a computer and on a phone. Screenshots of `artifact/product-os-start.html`.*
 
 ## What is Product OS?
 
@@ -117,11 +117,11 @@ Full steps and tips: [Product OS in claude.ai](claude-ai/README.md).
 
 For PMs who want a page, not a chat, for the first questions.
 
-![The visual start page at question 6 of 7, "Give me everything you have": the items sorted into Found and Missing on the left, and the brief filling in on the right](docs/images/visual-start.png)
+![The visual start page at question 6 of 7, "What do you already have?": the items sorted into Found and Missing on the left, and the brief filling in on the right](docs/images/visual-start.png)
 
 1. Download [`artifact/product-os-start.html`](artifact/product-os-start.html).
 2. In Claude, attach the file and say: *"Publish this page as an artifact."*
-3. Open the artifact and answer the seven questions. The brief fills in beside you.
+3. Open the artifact and answer the seven questions. The brief fills in beside you, and the last screen is a review of the whole project: four numbers, what it noticed, and a table of every document it will make.
 4. Press **Yes, copy the brief**.
 5. Paste the brief into your Product OS project in Claude chat (path A) or ChatGPT (path C), and attach the files you listed. The chat shows the playback and waits for your yes.
 
@@ -202,8 +202,8 @@ Product OS does not produce every document it can. It asks guided questions, one
 | 3 | **What is your role on this project?** PM, design lead, both, founder | The documents recommended for you |
 | 4 | **Is there a design system to follow, and are there existing designs to match?** Each can be in Figma, in Claude Design, or both | Every design Product OS or you make, in Claude Design or in Figma, follows the system and matches the existing pages: the design brief, wireframes, prototype and final design, and the components named in tickets |
 | 5 | **Where did this come from?** | The origin of the initiative, stated plainly in the intake |
-| 6 | **Give me everything you have.** One step: emails, proposals, customer feedback, analytics, existing PRDs, the tech stack, schemas, existing designs | Product OS sorts it and answers with **Found** and **Missing**. "That is all" is always a valid answer. |
-| 7 | **Is this right?** The playback: what it understood and what it will make | Nothing is written before your yes |
+| 6 | **What do you already have?** One step: emails, proposals, customer feedback, analytics, existing PRDs, the tech stack, schemas, existing designs | Product OS sorts it and answers with **Found** and **Missing**. "That is all" is always a valid answer. |
+| 7 | **Does this look right?** The playback: what it understood and what it will make | Nothing is written before your yes |
 
 Questions 2, 3 and 4 are saved for your team. On the next project they become one line to confirm, and you answer four questions.
 
