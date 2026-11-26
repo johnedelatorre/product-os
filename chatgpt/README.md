@@ -4,6 +4,10 @@
 
 ## What It Looks Like for a PM
 
+![The same question on three paths: a Claude Code terminal, a chat in Claude or ChatGPT, and the Claude artifact page](../docs/images/paths.png)
+
+*The middle panel is an illustration of the chat. It is the same conversation in ChatGPT and in Claude.*
+
 1. **You open the project and say what you want**, in plain words: "Start a new project."
 2. **ChatGPT asks, one question at a time**: what you are building and who will use it, who will read the documents, your role, the design system to follow, where it came from. Each question says its place ("Question 2 of 7") and marks a recommended answer.
 3. **You drop in everything you have**: emails, screenshots, an existing PRD, a schema. ChatGPT sorts it and answers with Found and Missing.

@@ -50,6 +50,10 @@ Where do you work? Pick one row and follow its steps.
 
 Not sure? A PM who does not use a terminal picks A or C. The questions, the documents and the handoff are the same on every path.
 
+![The same question, "Who will read what I write?", on three paths: in a Claude Code terminal, in a chat in Claude or ChatGPT, and as a page in the Claude artifact](docs/images/paths.png)
+
+*The same question on three paths. Claude Code and the chat are illustrations. The Claude artifact is a screenshot.*
+
 ### 2. Have these ready
 
 1. **The request**: the email, message or note that started this.
@@ -106,6 +110,8 @@ Full steps and tips: [Product OS in claude.ai](claude-ai/README.md).
 ### Path B · Claude artifact, the visual start
 
 For PMs who want a page, not a chat, for the first questions.
+
+![The visual start page at question 6 of 7, "Give me everything you have": the items sorted into Found and Missing on the left, and the brief filling in on the right](docs/images/visual-start.png)
 
 1. Download [`artifact/product-os-start.html`](artifact/product-os-start.html).
 2. In Claude, attach the file and say: *"Publish this page as an artifact."*
