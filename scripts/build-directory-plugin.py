@@ -34,13 +34,14 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "plugin")
 NAME = "jdlt-product-os"
+TITLE = "Product OS by JDLT"
 ALLOWED = (".md", ".txt", ".json", ".yaml", ".yml", ".png", ".jpg", ".jpeg")
 
 spec = importlib.util.spec_from_file_location("skill_builder", os.path.join(ROOT, "scripts", "build-plugin-skill.py"))
 skill_builder = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(skill_builder)
 
-README = """# Product OS
+README = """# Product OS by JDLT
 
 Product OS turns Claude into the agent that runs a product project with you, from the first request to the handoff your engineers read. It is for product managers and designers. You do not need a terminal.
 
@@ -144,7 +145,7 @@ def build():
         root = json.load(fh)
     manifest = {
         "name": NAME,
-        "displayName": root["displayName"],
+        "displayName": TITLE,
         "version": version,
         "description": skill_builder.with_version(root["description"].replace("/product-os:", "/%s:" % NAME)),
         "author": root["author"],

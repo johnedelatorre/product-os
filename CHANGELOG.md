@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.8.1] - 2026-11-26
+
+### Changed
+- **Title in Claude's directory** — the directory copy in `plugin/` is titled "Product OS by JDLT". The directory's check held the title "Product OS" as too close to an existing listing.
+
 ## [1.8.0] - 2026-11-26
 
 ### Added

@@ -40,7 +40,7 @@ One plugin carries all of Product OS. A PM adds it to their own Claude account f
 
 ## The Copy for Claude's Plugin Directory
 
-`plugin/` is the copy of Product OS that is submitted to Claude's plugin directory, under the name `jdlt-product-os` (its title stays "Product OS"). The directory accepts only Markdown, text, JSON, YAML and images in a plugin, so this copy has the skill, the 41 agents, the 48 commands, a README and the license, and nothing else.
+`plugin/` is the copy of Product OS that is submitted to Claude's plugin directory, under the name `jdlt-product-os` and the title "Product OS by JDLT". The directory accepts only Markdown, text, JSON, YAML and images in a plugin, so this copy has the skill, the 41 agents, the 48 commands, a README and the license, and nothing else.
 
 | | The repo root | `plugin/` |
 |---|---|---|
