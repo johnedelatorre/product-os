@@ -562,7 +562,7 @@ prd.md (stage: Early → Defined → Delivery-ready)                            
     design-brief.md ──▶ flows.yaml ──▶ wireframes.md ──▶ prototype.html    │
              │                                                               │
              ▼                                                               │
-    design-critique.md, ux-review.md, accessibility-audit.md                │
+    design-critique.md, ux-writing.md, ux-review.md, accessibility-audit.md │
              │                                                               │
              ▼                                                               │
     Review exit check (Phase 6): findings resolved or accepted              │
@@ -669,6 +669,7 @@ A complete fictional project, **Acme Dashboard Performance**, filled in end to e
 | 7 | [Clickable prototype](examples/acme-dashboard/design/prototype.html) | The full version with every state, for design review. Download and open in a browser; `←` `→` move between screens | `/product-os:prototype` |
 | 7a | [Handoff prototype](examples/acme-dashboard/design/prototype-handoff.html) | The team's version: pick a user, then one straight path end to end | `/product-os:prototype --handoff` |
 | 8 | [Design critique](examples/acme-dashboard/design/design-critique.md) | A critique of the actual prototype; every finding cites a screen and element | `/product-os:critique` |
+| 8a | [UX writing guide](examples/acme-dashboard/design/ux-writing.md) | The output of the UX writing pass, paired with the critique: voice, words and the final copy for every screen | `/product-os:ux-writing` |
 | 9 | [Jira epic](examples/acme-dashboard/jira/epic.md) | The team's hub: the Handoff links, the ticket list, and the ticket tree the PM accepted | `/product-os:deliver` |
 | 10 | [Jira stories](examples/acme-dashboard/jira/stories.md) | Short tickets with a "Done when" checklist, design links and sub-tasks; backend parts left for engineering; PM notes at the end | `/product-os:deliver` |
 | 11 | [Confluence links page](examples/acme-dashboard/confluence/00-hub-page.md) | The project page with the Handoff table, pointing to the epic | `/product-os:publish` |
