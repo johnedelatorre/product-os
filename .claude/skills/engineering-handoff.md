@@ -42,7 +42,7 @@ Ask at the start of a project, before intake and before any document is written.
 | 1 | **What are you building, and who will use it?** One or two sentences. | The frame for everything else, and the users |
 | 2 | **Who will read what I write?** Pick any: engineers · a head of product or another product leader · designers · executives or investors · a client · only me. | Which outputs are made, how they are written, and where each reader starts |
 | 3 | **What is your role on this project?** Product manager · design lead · both · founder · something else. | The documents recommended for the PM |
-| 4 | **Is there a design system to follow?** A Figma library · a Claude design system · both · a coded component library · none yet (below). | Every design Product OS or the PM makes: the design brief, wireframes, prototype and final design, and the components named in tickets |
+| 4 | **Is there a design system to follow, and are there existing designs to match?** Each can be in Figma, in Claude Design, or both (below). | Every design Product OS or the PM makes, in Claude Design or in Figma: the design brief, wireframes, prototype and final design, and the components named in tickets |
 | 5 | **Where did this come from?** Who asked, when, and why now: a customer, an executive, a data signal, a competitor move. | Intake: the origin of the initiative, stated plainly |
 | 6 | **Give me everything you have.** One step, any order (below). | The evidence everything else is written from |
 | 7 | **Is this right?** The playback (below). | The PM confirms what was understood and what will be made |
@@ -72,26 +72,40 @@ The answers pick the defaults. The PM changes any of them at the playback.
 
 A document a reader group gets is not repeated in the PM's list.
 
-**Saved for the team.** Readers and role are saved under `audience` in `product-os.config.yaml`, and the design system under `design_system`. On the next project the three questions become one line: "Same as on the last project: engineers and a head of product as readers, you as PM and design lead, and the Acme Figma library?" With a yes, that project has four start questions.
+**Saved for the team.** Readers and role are saved under `audience` in `product-os.config.yaml`, and the design system under `design_system`. On the next project the three questions become one line: "Same as on the last project: engineers and a head of product as readers, you as PM and design lead, the Acme Figma library, and the Acme app designs in Figma?" With a yes, that project has four start questions.
 
-### Question 4: The Design System
+### Question 4: The Design System and Existing Designs
 
-Ask at the very start, before any design is made, whether Product OS or the PM makes the designs.
+Ask at the very start, before any design is made, whether Product OS or the PM makes the designs, and whether they are made in Claude Design or in Figma. The question has two parts. Ask both.
+
+**Part 1 · Is there a design system to follow?**
 
 | Option | What Product OS does with it |
 |--------|------------------------------|
 | **A · A Figma library** | Ask for the link. The Figma Agent reads its components, variables and styles through the Figma MCP. |
-| **B · A Claude design system** | List the design systems available to the PM and ask which one. Read its colors, type, spacing and components. |
+| **B · A design system in Claude Design** | List the design systems available to the PM and ask which one. Read its colors, type, spacing and components. |
 | **C · Both** | Take both, and ask which one wins when they disagree. Record it as the source of truth. |
 | **D · A coded component library** | Ask for the link (Storybook, a repo, documentation). Read the component names and props. |
-| **E · None yet** | Record it. Designs use plain, accessible defaults, and the playback says so. Offer to start a design system from the existing designs the PM gives in question 6. |
+| **E · None yet** | Record it. Designs use plain, accessible defaults, and the playback says so. Offer to start a design system from the existing designs in part 2. |
+
+**Part 2 · Are there existing designs to match?** The pages and screens already designed for this product.
+
+| Option | What Product OS does with it |
+|--------|------------------------------|
+| **A · Design files in Figma** | Ask for the links. The Figma Agent reads the pages and frames through the Figma MCP. |
+| **B · Designs in Claude Design** | List the PM's designs and ask which ones. Read their screens. |
+| **C · Both** | Take both, and ask which is current where they differ. |
+| **D · Screenshots only** | Take the images. Read layout, components and copy from them. |
+| **E · None** | Record it. This project's designs are the first. |
+
+Existing designs are context, not a template: new screens match their layout, components and wording, and a place where the new design departs from them is named with the reason.
 
 What it is used for:
 
-1. **Design brief, wireframes, prototype and final design** use the system's components, tokens and names. Nothing is invented that the system already has.
+1. **Design brief, wireframes, prototype and final design** use the system's components, tokens and names, and match the existing designs, whether the new design is made in Claude Design or in Figma. Nothing is invented that the system already has.
 2. **Tickets** name the system's real components in "UX and design requirements".
 3. **The design critique** checks the design against the system and cites any place it departs from it.
-4. **The UX writing pass** follows the system's content guidelines when it has them.
+4. **The UX writing pass** follows the system's content guidelines when it has them, and reads the existing designs to learn how the product already writes.
 5. **A gap** (a component the project needs and the system lacks) is named in the design brief with who decides, never filled in silently.
 
 Save it in `product-os.config.yaml` and in the project's `progress.yaml`:
@@ -107,6 +121,10 @@ design_system:
       note: "Colors, type, spacing, components"
   source_of_truth: figma     # which source wins when two disagree
   status: provided           # provided | none
+  existing_designs:          # pages and screens already designed for this product
+    - kind: figma            # figma | claude | screenshots
+      ref: "https://www.figma.com/design/def456/Acme-App"
+      note: "Signup and onboarding pages"
 ```
 
 ### Question 6: Give Me Everything
@@ -498,7 +516,8 @@ Before publishing, show file paths. After publishing, show the Confluence and Ji
 
 - [ ] The start questions were asked one at a time, each with its place ("Question 2 of 7"), and no saved answer was asked again
 - [ ] The readers, the PM's role and the design system are saved, for the project and as the team default
-- [ ] Every design uses the saved design system; a gap in it is named with who decides
+- [ ] The PM was asked for existing designs in Figma and in Claude Design, and they are saved
+- [ ] Every design uses the saved design system and matches the existing designs; a gap or a departure is named with who decides
 - [ ] The PM's material was taken in one step and played back as Found and Missing; every source was read, and nothing was invented beyond them
 - [ ] The PM accepted the playback before any document was written; only the documents listed in it were created
 - [ ] The outputs question was asked as two confirmations and the answers are in `progress.yaml`

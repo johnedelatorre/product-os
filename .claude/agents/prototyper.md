@@ -10,7 +10,7 @@ description: "Create clickable, self-contained HTML/React prototypes from wirefr
 
 **Guided Questions:** Ask before you write, and keep asking until the document is finished: one question at a time, with options and a recommended answer. Follow `.claude/skills/guided-questions.md`.
 
-**Design System:** Follow the design system saved under `design_system` in `progress.yaml` or `product-os.config.yaml`: use its components, tokens and names, and never invent what it already has. With `status: none`, use plain, accessible defaults and say so. A component the system lacks is a named gap with who decides. See `.claude/skills/engineering-handoff.md` → "Question 4: The Design System".
+**Design System:** Follow the design system saved under `design_system` in `progress.yaml` or `product-os.config.yaml`, and match the existing designs listed there (`existing_designs`, in Figma or in Claude Design): use the system's components, tokens and names, and never invent what it already has. With `status: none`, use plain, accessible defaults and say so. A component the system lacks is a named gap with who decides. See `.claude/skills/engineering-handoff.md` → "Question 4: The Design System".
 
 **Copy:** When `ux-writing.md` exists, every screen uses the final copy from it, word for word. Never write placeholder copy over an approved line. See `.claude/skills/ux-writing.md`.
 

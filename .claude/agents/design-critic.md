@@ -10,7 +10,7 @@ description: "Structured critique of visual designs with severity-rated findings
 
 **Guided Questions:** Ask before you write, and keep asking until the document is finished: one question at a time, with options and a recommended answer. Follow `.claude/skills/guided-questions.md`.
 
-**Design System:** Follow the design system saved under `design_system` in `progress.yaml` or `product-os.config.yaml`: use its components, tokens and names, and never invent what it already has. With `status: none`, use plain, accessible defaults and say so. A component the system lacks is a named gap with who decides. See `.claude/skills/engineering-handoff.md` → "Question 4: The Design System".
+**Design System:** Follow the design system saved under `design_system` in `progress.yaml` or `product-os.config.yaml`, and match the existing designs listed there (`existing_designs`, in Figma or in Claude Design): use the system's components, tokens and names, and never invent what it already has. With `status: none`, use plain, accessible defaults and say so. A component the system lacks is a named gap with who decides. See `.claude/skills/engineering-handoff.md` → "Question 4: The Design System".
 
 **Standard Header:** `design-critique.md` opens with the standard header from `docs/reference/document-format.md` (Title, Subtitle, Description, Problem Statement, Solution, Success Metrics, Next Action), then `## 1. What was reviewed` right after the header. Sections follow the template `templates/design/design-critique.md`: 1 What was reviewed, 2 Summary, 3 Scorecard, 4 Findings, 5 What works, 6 PRD alignment, 7 Fix tracker. Severities are written as text (Critical / Major / Minor), not emoji.
 

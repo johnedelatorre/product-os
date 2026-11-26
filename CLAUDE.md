@@ -101,7 +101,7 @@ Runs the complete pipeline with human checkpoints at each stage. You review and 
 
 Product OS asks guided questions, one at a time, instead of producing everything:
 
-1. **Seven questions at the start.** What you are building and who will use it; who will read what it writes; your role; the design system to follow (a Figma library, a Claude design system, both, or none yet); where it came from; everything you have, in one step, sorted into Found and Missing; and the playback, which you accept before anything is written. "That is all" is always a valid answer.
+1. **Seven questions at the start.** What you are building and who will use it; who will read what it writes; your role; the design system to follow and the existing designs to match (each in Figma, in Claude Design, both, or none yet); where it came from; everything you have, in one step, sorted into Found and Missing; and the playback, which you accept before anything is written. "That is all" is always a valid answer.
 2. **Questions before every document.** The decisions that document needs, until it is finished (above).
 3. **Two confirmations at the handoff.** What each reader group gets, and the ticket tree. You accept it or move items before anything reaches Jira.
 4. **One question after the handoff.** What the team said was missing or too much. It becomes your team's default.

@@ -141,7 +141,7 @@ textarea { min-height: 9.5rem; resize: vertical; }
     ["executives", "Executives or investors"], ["client", "A client"], ["self", "Only me"]
   ];
   var ROLES = [["pm", "Product manager"], ["design-lead", "Design lead"], ["pm-and-design", "Both: PM and design lead"], ["founder", "Founder"], ["other", "Something else"]];
-  var SYSTEMS = [["figma", "A Figma library"], ["claude", "A Claude design system"], ["both", "Both"], ["code", "A coded component library"], ["none", "None yet"]];
+  var SYSTEMS = [["figma", "A Figma library"], ["claude", "A design system in Claude Design"], ["both", "Both"], ["code", "A coded component library"], ["none", "None yet"]];
   var KINDS = [
     ["request", "The request", /email|proposal|notes|ticket|ask|brief|slack|memo/i],
     ["feedback", "Customer feedback", /interview|survey|feedback|support|call|nps|quote/i],
@@ -173,11 +173,12 @@ textarea { min-height: 9.5rem; resize: vertical; }
     role: "pm-and-design",
     system: "figma",
     systemRef: "Acme Design System (Figma library)",
+    designs: "Acme app, signup and onboarding pages (Figma)",
     origin: "The CEO, 2 November, after three lost deals",
     everything: "CEO email, 2 Nov\nSignup funnel export from Pendo, last 30 days\nAccounts schema (wiki link)\nScreenshots of the current signup",
     example: true
   };
-  var EMPTY = { building: "", users: "", readers: [], role: "", system: "", systemRef: "", origin: "", everything: "", example: false };
+  var EMPTY = { building: "", users: "", readers: [], role: "", system: "", systemRef: "", designs: "", origin: "", everything: "", example: false };
   var KEY = "product-os-start";
   var state = load() || copy(EXAMPLE);
   var step = 0;
@@ -227,9 +228,9 @@ textarea { min-height: 9.5rem; resize: vertical; }
     { short: "Your role", q: "What is your role on this project?", why: "This sets the documents recommended for you. You can change them at the end.",
       done: function () { return state.role; },
       fields: function () { return group("role", "radio", ROLES, [state.role], "Your role"); } },
-    { short: "Design system", q: "Is there a design system to follow?", why: "Every design follows it, whether Product OS or you make it. Tickets name its real components.",
+    { short: "Design system", q: "Is there a design system to follow, and are there existing designs to match?", why: "Every design follows them, whether Product OS or you make it, in Claude Design or in Figma. Tickets name the real components.",
       done: function () { return state.system; },
-      fields: function () { return group("system", "radio", SYSTEMS, [state.system], "Design system") + (state.system && state.system !== "none" ? text("systemRef", "Its link or name", state.systemRef) : ""); } },
+      fields: function () { return group("system", "radio", SYSTEMS, [state.system], "Design system") + (state.system && state.system !== "none" ? text("systemRef", "Its link or name", state.systemRef) : "") + text("designs", "Existing designs to match: Figma files, Claude Design files or screenshots", state.designs || ""); } },
     { short: "Where from", q: "Where did this come from?", why: "Who asked, when, and why now: a customer, an executive, a data signal, a competitor move.",
       done: function () { return state.origin; },
       fields: function () { return text("origin", "Who asked, when, and why now", state.origin); } },
@@ -270,7 +271,7 @@ textarea { min-height: 9.5rem; resize: vertical; }
     var rows = [
       ["Building", state.building, 0], ["Users", state.users, 0],
       ["Readers", cap(state.readers.map(function (r) { return label(READERS, r).toLowerCase(); }).join(", ")), 1],
-      ["Your role", label(ROLES, state.role), 2], ["Design system", systemText(), 3],
+      ["Your role", label(ROLES, state.role), 2], ["Design system", systemText(), 3], ["Designs to match", state.designs || "", 3],
       ["Came from", state.origin, 4],
       ["I have", s.count ? (have.join(", ") || "other material") : "", 5],
       ["Missing", s.count ? (s.missing.join(", ").toLowerCase() || "nothing") : "", 5]
@@ -322,6 +323,10 @@ textarea { min-height: 9.5rem; resize: vertical; }
     kinds.forEach(function (k) { out.push("    - kind: " + k, "      ref: " + JSON.stringify(state.systemRef || "")); });
     return out;
   }
+  function designLines() {
+    if (!state.designs) return [];
+    return ["  existing_designs:", "    - ref: " + JSON.stringify(state.designs)];
+  }
   function briefText() {
     var s = sortEverything(), q = function (v) { return JSON.stringify(v || ""); };
     var y = [
@@ -332,7 +337,7 @@ textarea { min-height: 9.5rem; resize: vertical; }
       "  role: " + (state.role || "other"),
       "design_system:",
       "  status: " + (state.system && state.system !== "none" ? "provided" : "none")
-    ].concat(dsLines()).concat([
+    ].concat(dsLines()).concat(designLines()).concat([
       "context:",
       "  building: " + q(state.building),
       "  users: " + q(state.users),

@@ -49,7 +49,7 @@ Examples of the decisions each document needs. Ask the ones the sources do not a
 | **Intake** | Which problem matters most to the requester? · What evidence is strongest? · Who else has a say? |
 | **PRD** | What is out of scope? · Which metric decides success, and what is the target? · When do we stop? |
 | **Project brief** | Who reads it, and what do they decide after reading? · Which risk do they need to know first? |
-| **Design brief** | Which design system or brand applies? · Web, mobile or both? · Which principle wins when two conflict? |
+| **Design brief** | Where will the designs be made: Claude Design, Figma, or both? · Web, mobile or both? · Which principle wins when two conflict? (The design system and existing designs are already saved from start question 4.) |
 | **User flows and wireframes** | Which user journey comes first? · Which edge cases and error states must be shown? |
 | **Design critique** | Which design is being critiqued: Figma, the prototype or screenshots? · What matters most here: brand, clarity, density or speed of use? · For each Critical and Major finding: fix it now, or accept it with a reason? |
 | **UX writing guide** | Is there a voice or style guide to follow? · Which words does the product already use for its main things? · Who reads this copy, and in which languages? |

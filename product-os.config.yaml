@@ -103,6 +103,10 @@ design_system:
   # "provided", "none" (the team has no design system yet), or "" (not asked yet)
   status: ""
 
+  # Pages and screens already designed for this product, for every new design to match.
+  # Each: kind ("figma", "claude" or "screenshots"), ref and an optional note.
+  existing_designs: []
+
 # Engineering handoff: what the team gets (see .claude/skills/engineering-handoff.md)
 # These are the team's defaults. Guided mode confirms them per project, saves the
 # answers in that project's progress.yaml, and updates the defaults here when the

@@ -105,7 +105,7 @@ context:
       in_prd: boolean        # cited in the PRD; true by default, the PM can turn it off at PRD review
   not_provided: list[string] # kinds the PM said they do not have
 
-# Optional. The design system to follow (start question 4). Saved for the team under `design_system`
+# Optional. The design system to follow and the existing designs to match (start question 4). Saved for the team under `design_system`
 # in product-os.config.yaml, and confirmed in one line on later projects.
 design_system:
   sources:
@@ -114,6 +114,10 @@ design_system:
       note: string
   source_of_truth: enum      # figma | claude | code: which source wins when two disagree
   status: enum               # provided | none
+  existing_designs:          # pages and screens already designed for this product
+    - kind: enum             # figma | claude | screenshots
+      ref: string
+      note: string
 
 # Optional. The documents made for the PM, as accepted in the playback (start question 7).
 # Absent means the playback has not been accepted yet.

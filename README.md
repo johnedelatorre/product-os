@@ -46,7 +46,7 @@ Product OS does not produce every document it can. It asks guided questions, one
 | 1 | **What are you building, and who will use it?** | The frame for everything, and the product's users |
 | 2 | **Who will read what I write?** Engineers, a head of product, designers, executives or investors, a client, or only you | Which outputs are made, how they are written, and where each reader starts |
 | 3 | **What is your role on this project?** PM, design lead, both, founder | The documents recommended for you |
-| 4 | **Is there a design system to follow?** A Figma library, a Claude design system, both, a coded component library, or none yet | Every design Product OS or you make follows it: the design brief, wireframes, prototype and final design, and the components named in tickets |
+| 4 | **Is there a design system to follow, and are there existing designs to match?** Each can be in Figma, in Claude Design, or both | Every design Product OS or you make, in Claude Design or in Figma, follows the system and matches the existing pages: the design brief, wireframes, prototype and final design, and the components named in tickets |
 | 5 | **Where did this come from?** | The origin of the initiative, stated plainly in the intake |
 | 6 | **Give me everything you have.** One step: emails, proposals, customer feedback, analytics, existing PRDs, the tech stack, schemas, existing designs | Product OS sorts it and answers with **Found** and **Missing**. "That is all" is always a valid answer. |
 | 7 | **Is this right?** The playback: what it understood and what it will make | Nothing is written before your yes |
@@ -270,7 +270,7 @@ This is the whole workflow, in order. Guided mode walks you through it and asks 
 |---|---|
 | **Claude Code** | `/product-os:guide --initiative <initiative> --project <project>` (starts here), or `/product-os:intake --input "<the request>"` |
 | **claude.ai or Cursor** | "Start Product OS guided mode for initiative X, project Y. Here is the request: ..." |
-| **Product OS asks you** | The seven start questions: what you are building and who will use it · who will read what it writes · your role · the design system to follow · where it came from · everything you have, in one step · whether its playback is right. Then, for the intake: which problem matters most, which evidence is strongest, who else has a say |
+| **Product OS asks you** | The seven start questions: what you are building and who will use it · who will read what it writes · your role · the design system to follow and the existing designs to match · where it came from · everything you have, in one step · whether its playback is right. Then, for the intake: which problem matters most, which evidence is strongest, who else has a say |
 | **You get** | `intake.md`: the request rewritten as a problem statement with evidence, affected users and stakeholders. No solution yet. |
 | **Where it lives** | `intake.md` · Confluence: **PM workspace → 1. Strategy & Definition** |
 | **Check before moving on** | The problem is stated without a solution baked in · evidence is listed · stakeholders are named · you approve the framing |

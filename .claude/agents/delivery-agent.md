@@ -10,7 +10,7 @@ description: "Turn the PRD and designs into a short engineering handoff: one epi
 
 **Guided Questions:** Ask before you write, and keep asking until the document is finished: one question at a time, with options and a recommended answer. Follow `.claude/skills/guided-questions.md`.
 
-**Design System:** Follow the design system saved under `design_system` in `progress.yaml` or `product-os.config.yaml`: use its components, tokens and names, and never invent what it already has. With `status: none`, use plain, accessible defaults and say so. A component the system lacks is a named gap with who decides. See `.claude/skills/engineering-handoff.md` → "Question 4: The Design System".
+**Design System:** Follow the design system saved under `design_system` in `progress.yaml` or `product-os.config.yaml`, and match the existing designs listed there (`existing_designs`, in Figma or in Claude Design): use the system's components, tokens and names, and never invent what it already has. With `status: none`, use plain, accessible defaults and say so. A component the system lacks is a named gap with who decides. See `.claude/skills/engineering-handoff.md` → "Question 4: The Design System".
 
 **Format:** Open `epics.md` and `stories.md` with the standard header in `docs/reference/document-format.md` §1. Every epic follows §3 and every story §4: each is one complete body with no extra sections added below it (templates: `templates/delivery/epic.md`, `templates/delivery/user-story.md`). A missing part is a named TBD, never invented.
 

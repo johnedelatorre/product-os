@@ -118,7 +118,7 @@ context:
       in_prd: boolean        # cited in the PRD; true by default, the PM can turn it off at PRD review
   not_provided: list[string] # kinds the PM said they do not have
 
-# Optional. The design system to follow (start question 4). Saved for the team under `design_system`
+# Optional. The design system to follow and the existing designs to match (start question 4). Saved for the team under `design_system`
 # in product-os.config.yaml, and confirmed in one line on later projects.
 design_system:
   sources:
@@ -127,6 +127,10 @@ design_system:
       note: string
   source_of_truth: enum      # figma | claude | code: which source wins when two disagree
   status: enum               # provided | none
+  existing_designs:          # pages and screens already designed for this product
+    - kind: enum             # figma | claude | screenshots
+      ref: string
+      note: string
 
 # Optional. The documents made for the PM, as accepted in the playback (start question 7).
 # Absent means the playback has not been accepted yet.
@@ -648,7 +652,7 @@ On a new project, before intake and before any document is written, ask the seve
 1. **What are you building, and who will use it?** The product's users.
 2. **Who will read what I write?** Engineers, a head of product, designers, executives or investors, a client, or only the PM. The answer sets which outputs are made and where each reader starts.
 3. **What is your role on this project?** Product manager, design lead, both, founder, or something else. The answer sets the documents recommended for the PM.
-4. **Is there a design system to follow?** A Figma library, a Claude design system, both, a coded component library, or none yet. Take the link or the name, read it (the Figma Agent reads a Figma library through the Figma MCP), and with two sources ask which one wins. Every design made after this, by Product OS or by the PM, follows it.
+4. **Is there a design system to follow, and are there existing designs to match?** Two parts. The design system: a Figma library, a design system in Claude Design, both, a coded component library, or none yet. The existing designs: files in Figma, designs in Claude Design, both, screenshots, or none. Take the links or names, read them (the Figma Agent reads Figma through the Figma MCP), and with two sources ask which one wins. Every design made after this, by Product OS or by the PM, in Claude Design or in Figma, follows the system and matches the existing designs.
 5. **Where did this come from?** Who asked, when, and why now.
 6. **Give me everything you have.** One step. The PM drops files, links and pasted text in any order. Sort them into the kinds in the skill (request, customer feedback, market, data, product today, technical, design, constraints) and answer with one list: **Found** and **Missing**. Never ask for the kinds one by one. "That is all" never blocks: record the missing kinds under `not_provided`.
 7. **Is this right?** The playback: one screen with what was understood (building, users, readers and role, design system, origin, found and missing) and what will be made (for each reader group, for the PM, and what is not made). Nothing is written before the PM says yes.
