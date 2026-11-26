@@ -9,14 +9,14 @@
 :root {
   --paper: #EDF0F4; --sheet: #FFFFFF; --ink: #0F1B2D; --muted: #4D596D; --line: #C8D0DB;
   --accent: #2443E0; --accent-ink: #FFFFFF; --wash: #E3E8FF; --accent-text: #1B34B8;
-  --found: #136B49; --found-wash: #DDF3E8; --missing: #8A4B00; --missing-wash: #FBEBCF; --risk: #A32222; --risk-wash: #FBE3E3; --idle-wash: #EEF1F5;
+  --found: #136B49; --found-ink: #FFFFFF; --found-wash: #DDF3E8; --missing: #8A4B00; --missing-wash: #FBEBCF; --risk: #A32222; --risk-wash: #FBE3E3; --idle-wash: #EEF1F5;
   --display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
   --body: "Public Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
 }
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) { color-scheme: dark; --paper: #0E141D; --sheet: #17202C; --ink: #EEF2F7; --muted: #A9B4C4; --line: #334154; --accent: #8FA2FF; --accent-ink: #0B1020; --wash: #1F2A4A; --accent-text: #B4C1FF; --found: #6FD3A6; --found-wash: #143527; --missing: #F0B455; --missing-wash: #3A2A0C; --risk: #FF9B9B; --risk-wash: #3B1717; --idle-wash: #1E2936; }
+  :root:not([data-theme="light"]) { color-scheme: dark; --paper: #0E141D; --sheet: #17202C; --ink: #EEF2F7; --muted: #A9B4C4; --line: #334154; --accent: #8FA2FF; --accent-ink: #0B1020; --wash: #1F2A4A; --accent-text: #B4C1FF; --found: #6FD3A6; --found-ink: #0B1F16; --found-wash: #143527; --missing: #F0B455; --missing-wash: #3A2A0C; --risk: #FF9B9B; --risk-wash: #3B1717; --idle-wash: #1E2936; }
 }
-:root[data-theme="dark"] { color-scheme: dark; --paper: #0E141D; --sheet: #17202C; --ink: #EEF2F7; --muted: #A9B4C4; --line: #334154; --accent: #8FA2FF; --accent-ink: #0B1020; --wash: #1F2A4A; --accent-text: #B4C1FF; --found: #6FD3A6; --found-wash: #143527; --missing: #F0B455; --missing-wash: #3A2A0C; --risk: #FF9B9B; --risk-wash: #3B1717; --idle-wash: #1E2936; }
+:root[data-theme="dark"] { color-scheme: dark; --paper: #0E141D; --sheet: #17202C; --ink: #EEF2F7; --muted: #A9B4C4; --line: #334154; --accent: #8FA2FF; --accent-ink: #0B1020; --wash: #1F2A4A; --accent-text: #B4C1FF; --found: #6FD3A6; --found-ink: #0B1F16; --found-wash: #143527; --missing: #F0B455; --missing-wash: #3A2A0C; --risk: #FF9B9B; --risk-wash: #3B1717; --idle-wash: #1E2936; }
 :root[data-theme="light"] { color-scheme: light; }
 * { box-sizing: border-box; }
 html, body { margin: 0; }
@@ -47,6 +47,8 @@ a.open { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; 
 .badge { display: inline-flex; align-items: center; gap: 7px; padding: 4px 12px 4px 10px; border-radius: 999px; border: 1px solid transparent; font: 600 0.9375rem/1.3 var(--body); white-space: nowrap; text-decoration: none; }
 .badge i { font-style: normal; font-size: 0.875em; line-height: 1; }
 .badge.ok { background: var(--found-wash); color: var(--found); border-color: var(--found); }
+.badge.live { background: var(--found); color: var(--found-ink); border-color: var(--found); }
+.badge.pause { background: var(--missing-wash); color: var(--missing); border-color: var(--missing); }
 .badge.now { background: var(--wash); color: var(--accent-text); border-color: var(--accent); }
 .badge.you { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
 .badge.miss { background: var(--missing-wash); color: var(--missing); border-color: var(--missing); }
@@ -69,14 +71,44 @@ button.btn { cursor: pointer; }
 .steps li { counter-increment: step; color: var(--muted); font-size: 1rem; padding-left: 2.7rem; position: relative; }
 .steps li::before { content: counter(step); position: absolute; left: 0; top: 0; width: 2rem; height: 2rem; border-radius: 50%; background: var(--wash); color: var(--accent-text); border: 1px solid var(--accent); font: 700 1rem/2rem var(--display); text-align: center; }
 .steps b { display: block; color: var(--ink); font: 700 1.0625rem/1.35 var(--display); margin-bottom: 2px; }
-.how-more { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 28px; padding: 14px 24px 18px; align-items: start; }
-.how-more summary { cursor: pointer; font: 600 1rem/1.4 var(--body); color: var(--accent-text); padding: 8px 0; width: fit-content; }
-.how-more details[open] summary { margin-bottom: 6px; }
+.how-more { padding: 8px 24px 10px; }
+.how-more details + details { border-top: 1px solid var(--line); }
+.how-more summary { cursor: pointer; font: 600 1.0625rem/1.4 var(--body); color: var(--accent-text); padding: 12px 0; }
+.how-more details[open] { padding-bottom: 16px; }
+.says.start { counter-reset: go; } .says.start li { counter-increment: go; grid-template-columns: 1.75rem 12.5rem minmax(0, 1fr); }
+.says.start li::before { content: counter(go) "."; color: var(--muted); font-variant-numeric: tabular-nums; }
+.says b { font-weight: 600; color: var(--ink); }
 .legend, .says { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
 .legend li { display: grid; grid-template-columns: 13.5rem minmax(0, 1fr); gap: 12px; align-items: center; font-size: 1rem; color: var(--muted); }
 .legend li > span:first-child { display: flex; }
 .says li { display: grid; grid-template-columns: 13.5rem minmax(0, 1fr); gap: 12px; align-items: baseline; font-size: 1rem; color: var(--muted); }
 .says q { quotes: "“" "”"; font-weight: 600; color: var(--accent-text); }
+.nowc { border-left: 8px solid var(--line); overflow: hidden; }
+.nowc[data-s="live"], .nowc[data-s="ok"] { border-left-color: var(--found); }
+.nowc[data-s="pause"] { border-left-color: var(--missing); } .nowc[data-s="risk"] { border-left-color: var(--risk); }
+.now-h { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; padding: 14px 24px; border-bottom: 1px solid var(--line); }
+.nowc[data-s="live"] .now-h { background: var(--found-wash); }
+.nowc[data-s="pause"] .now-h { background: var(--missing-wash); } .nowc[data-s="risk"] .now-h { background: var(--risk-wash); }
+.now-l { margin: 0; display: flex; align-items: center; gap: 14px; font: 700 1.125rem/1.3 var(--body); }
+.pulse { position: relative; flex: none; width: 16px; height: 16px; border-radius: 50%; background: var(--muted); }
+[data-s="live"] .pulse, [data-s="ok"] .pulse { background: var(--found); } [data-s="pause"] .pulse { background: var(--missing); } [data-s="risk"] .pulse { background: var(--risk); }
+@media (prefers-reduced-motion: no-preference) {
+  [data-s="live"] .pulse::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: var(--found); animation: ping 1.8s ease-out infinite; }
+}
+@keyframes ping { from { transform: scale(1); opacity: 0.55; } to { transform: scale(2.8); opacity: 0; } }
+.now-b { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 20px 40px; padding: 20px 24px 22px; }
+.now-main h2 { margin: 0 0 10px; font: 700 1.875rem/1.15 var(--display); overflow-wrap: anywhere; }
+.now-dl { margin: 16px 0 0; display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); gap: 8px 16px; font-size: 1.0625rem; }
+.now-dl dt { color: var(--muted); font-weight: 600; } .now-dl dd { margin: 0; overflow-wrap: anywhere; }
+.now-prog { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; border-left: 1px solid var(--line); padding-left: 40px; min-width: 0; }
+.now-step { margin: 0; font: 700 1.375rem/1.25 var(--display); }
+.now-prog p { margin: 0; } .now-prog p:empty { display: none; }
+.now-do { font-size: 1.0625rem; overflow-wrap: anywhere; } .now-left { color: var(--muted); font-size: 1rem; overflow-wrap: anywhere; }
+.stages { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; width: 100%; }
+.stages li { border-top: 6px solid var(--line); padding-top: 6px; font-size: 0.9375rem; line-height: 1.3; color: var(--muted); }
+.stages li.done { border-top-color: var(--found); color: var(--ink); } .stages li.now { border-top-color: var(--found); color: var(--ink); font-weight: 700; }
+.stages li.held { border-top-color: var(--missing); color: var(--ink); font-weight: 700; }
+.stages i { font-style: normal; margin-right: 5px; }
 .where { padding: 20px 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; }
 .where h1 { margin: 0; font: 700 1.875rem/1.15 var(--display); flex: 1 1 18rem; min-width: 0; text-wrap: balance; }
 .where h1 small { display: block; margin-top: 6px; font: 400 1.125rem/1.35 var(--body); color: var(--muted); }
@@ -157,9 +189,9 @@ td a { font-weight: 600; }
 }
 @media (max-width: 1100px) {
   .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .how-more { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 980px) {
+  .now-b { grid-template-columns: minmax(0, 1fr); } .now-prog { border-left: 0; padding-left: 0; border-top: 1px solid var(--line); padding-top: 16px; }
   .rows li { grid-template-columns: minmax(0, 1fr) auto; }
   .rows .set { grid-column: 1; grid-row: 2; }
   .rows .v { grid-column: 1 / -1; grid-row: 3; }
@@ -168,6 +200,7 @@ td a { font-weight: 600; }
 @media (max-width: 720px) {
   body { font-size: 1rem; }
   .wrap { padding: 16px 16px 48px; gap: 16px; }
+  .now-h { padding: 12px 14px; } .now-b { padding: 16px 14px 18px; } .now-main h2 { font-size: 1.5rem; } .now-dl { grid-template-columns: minmax(0, 1fr); gap: 2px; } .now-dl dd { margin-bottom: 8px; }
   .where { padding: 16px; } .where h1 { font-size: 1.5rem; } .next { padding: 16px; } .next p { font-size: 1.125rem; }
   .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; } .kpis li { padding: 12px 14px; } .kpis b { font-size: 1.75rem; }
   .brand span { display: none; }
@@ -183,6 +216,7 @@ td a { font-weight: 600; }
   .how-h { grid-template-columns: minmax(0, 1fr); padding: 14px; } .how-h .btn { grid-column: 1; grid-row: auto; margin-top: 10px; justify-self: start; }
   .steps { grid-template-columns: minmax(0, 1fr); padding: 16px 14px 4px; gap: 14px; } .how-more { padding: 10px 14px 14px; }
   .legend li, .says li { grid-template-columns: minmax(0, 1fr); gap: 3px; }
+  .says.start li { grid-template-columns: 1.75rem minmax(0, 1fr); } .says.start li span { grid-column: 2; }
   .guide { padding: 16px 14px 4px; } .group { padding: 14px 14px 6px; } .agents { padding: 0 14px 10px; }
   .agents li { grid-template-columns: minmax(0, 1fr); }
 }
@@ -218,6 +252,16 @@ td a { font-weight: 600; }
     </ol>
     <div class="how-more">
       <details>
+        <summary>How to get started</summary>
+        <ol class="says start">
+          <li><b>Open a new Claude chat</b><span>With the Product OS plugin added.</span></li>
+          <li><q>Start Product OS</q><span>Claude welcomes you, names the version, and asks the first of seven start questions.</span></li>
+          <li><b>Answer the seven questions</b><span>Tap an answer or type your own. <q>That is all</q> is always a valid answer.</span></li>
+          <li><q>connectors</q><span>Shows what is connected (Jira, Confluence, Figma) and what happens without each one.</span></li>
+          <li><q>Yes</q><span>Your yes to the plan. Claude lists every document first, and nothing is written before it.</span></li>
+        </ol>
+      </details>
+      <details>
         <summary>What the badges mean</summary>
         <ul class="legend" id="legend"></ul>
       </details>
@@ -227,7 +271,7 @@ td a { font-weight: 600; }
           <li><q>What is next?</q><span>Claude offers the next step.</span></li>
           <li><q>Show me the plan</q><span>Every document it will make, and for whom.</span></li>
           <li><q>Come back to this later</q><span>Skips a question. It is kept as an open item.</span></li>
-          <li><q>connectors</q><span>What is connected: Jira, Confluence, Figma.</span></li>
+          <li><q>board</q><span>Claude gives you the link to this board.</span></li>
           <li><q>Write the PRD</q><span>Calls one agent directly. The Agents tab lists all 41.</span></li>
         </ul>
       </details>
@@ -246,6 +290,27 @@ td a { font-weight: 600; }
 
   <div id="main" hidden>
     <div class="wrap" style="padding:0">
+      <section class="card nowc" id="nowCard" aria-labelledby="nowLbl" data-s="idle">
+        <header class="now-h">
+          <p class="now-l"><span class="pulse" aria-hidden="true"></span><span id="nowLbl">Working on now</span></p>
+          <span class="set" id="nowBadges"></span>
+        </header>
+        <div class="now-b">
+          <div class="now-main">
+            <h2 id="nowTitle"></h2>
+            <p class="set" id="nowChips" style="margin:0"></p>
+            <dl class="now-dl" id="nowDl"></dl>
+          </div>
+          <div class="now-prog">
+            <p class="now-step" id="nowStep"></p>
+            <ol class="stages" id="nowStages"></ol>
+            <p class="now-do" id="nowDo"></p>
+            <p class="now-left" id="nowLeft"></p>
+            <p id="nowOpen"></p>
+          </div>
+        </div>
+      </section>
+
       <section class="card where" aria-label="Where the project is">
         <h1><span id="name"></span><small id="where"></small></h1>
         <div class="track"><ol id="track" aria-hidden="true"></ol><span id="trackTxt"></span></div>
@@ -295,7 +360,7 @@ td a { font-weight: 600; }
       </section>
     </div>
   </div>
-  <p class="credit">Product OS™ 1.9.3 · © 2026 John De La Torre-Ugarte · <a href="https://github.com/johnedelatorre/product-os" target="_blank" rel="noopener">open source on GitHub</a></p>
+  <p class="credit">Product OS™ 1.10.0 · © 2026 John De La Torre-Ugarte · <a href="https://github.com/johnedelatorre/product-os" target="_blank" rel="noopener">open source on GitHub</a></p>
 </div>
 
 <script type="application/json" id="agents">[{"name":"Intake Analyst","does":"Transform raw, unstructured requirements into clear problem/opportunity statements.","phase":1,"say":"Run intake on this request"},{"name":"Opportunity Solution Tree","does":"Creates and maintains opportunity solution trees for structured discovery and problem exploration.","phase":2,"say":"Build the opportunity tree"},{"name":"Hypothesis Logger","does":"Tracks product hypotheses from formation through validation with structured outcomes.","phase":2,"say":"Log our hypotheses"},{"name":"Market Analyst","does":"Creates market analysis briefs covering market size, trends, segments, and strategic positioning.","phase":2,"say":"Write the market analysis"},{"name":"Competitive Analyst","does":"Analyze competitive landscape and create comparison matrices.","phase":2,"say":"Compare us with the competitors"},{"name":"UX Researcher","does":"Create user research plans and synthesize interview findings.","phase":2,"say":"Plan the user research"},{"name":"Strategist","does":"Score and prioritize features using RICE, WSJF, MoSCoW, and Kano frameworks.","phase":3,"say":"Score this with RICE"},{"name":"Roadmap","does":"Create Now/Next/Later roadmaps that communicate product direction.","phase":3,"say":"Place it on the roadmap"},{"name":"OKR","does":"Define OKRs and metric trees that connect product work to business outcomes.","phase":3,"say":"Write the OKRs"},{"name":"PRD Author","does":"Write comprehensive Product Requirements Documents with full strategic context, business rationale, and measurable outcomes.","phase":4,"say":"Write the PRD"},{"name":"PR/FAQ Author","does":"Write Amazon-style Press Release and FAQ documents.","phase":4,"say":"Write the PR/FAQ"},{"name":"Project Brief Author","does":"Create one-page executive project briefs for stakeholder alignment.","phase":4,"say":"Write the project brief"},{"name":"Metrics Designer","does":"Defines north-star metrics, guardrails, and success criteria for product initiatives.","phase":4,"say":"Write the metrics framework"},{"name":"Project Planner","does":"Create RACI matrices, Gantt charts, and project timelines.","phase":4,"say":"Write the project plan"},{"name":"Risk Manager","does":"Identify, assess, and track product and project risks.","phase":4,"say":"List the risks"},{"name":"Dependency Tracker","does":"Maintains a risk and dependency register integrated with RACI and project planning.","phase":4,"say":"List the dependencies"},{"name":"Experiment Designer","does":"Design A/B tests with proper hypothesis, sample size, and success criteria.","phase":4,"say":"Design an A/B test"},{"name":"Event Tracker","does":"Creates event tracking plans for analytics platforms (Pendo, Amplitude, Mixpanel, Segment, etc.).","phase":4,"say":"Write the tracking plan"},{"name":"Product Designer","does":"Create design briefs that translate PRD requirements into design direction.","phase":5,"say":"Write the design brief"},{"name":"Flow Designer","does":"Create comprehensive user flows, journey maps, sitemaps, and system flows from PRD and design brief.","phase":5,"say":"Draw the user flows"},{"name":"Wireframer","does":"Create low-fidelity wireframes that structure screens defined by user flows.","phase":5,"say":"Make the wireframes"},{"name":"Prototyper","does":"Create clickable, self-contained HTML/React prototypes from wireframes and flows, including the end-to-end handoff prototype for the team.","phase":5,"say":"Build the clickable prototype"},{"name":"Figma","does":"Integrate with Figma via MCP to sync designs, extract tokens, and audit against PRD.","phase":5,"say":"Sync the designs with Figma"},{"name":"Design Critique","does":"Structured critique of visual designs with severity-rated findings and concrete fixes.","phase":6,"say":"Run the design critique"},{"name":"UX Writer","does":"Run the UX writing pass on the real designs, paired with the design critique, and write the UX writing guide with the final copy for every screen.","phase":6,"say":"Run the UX writing pass"},{"name":"UX Reviewer","does":"Evaluate designs against Nielsen's heuristics, Laws of UX, and established patterns.","phase":6,"say":"Run the UX review"},{"name":"Accessibility Auditor","does":"Comprehensive WCAG 2.2 AA accessibility audit with automated and manual testing.","phase":6,"say":"Run the accessibility audit"},{"name":"Delivery","does":"Turn the PRD and designs into a short engineering handoff: one epic that links to everything, lean tickets with estimates, and a ticket tree the PM approves.","phase":7,"say":"Write the epic and tickets"},{"name":"Gate Keeper","does":"Enforces Definition of Ready (DoR) and Definition of Done (DoD) gates for stories before sprint.","phase":7,"say":"Check the tickets are ready"},{"name":"Confluence Publisher","does":"Publish all project artifacts to Confluence with proper hierarchy and backlog tables.","phase":7,"say":"Show me the Confluence publish plan"},{"name":"Jira Sync","does":"Create and sync epics and stories to Jira with story points, labels, dates, and dependencies.","phase":7,"say":"Show me the Jira ticket tree"},{"name":"Launch Manager","does":"Coordinates go-to-market activities including release notes, enablement materials, and changelog updates.","phase":8,"say":"Prepare the launch"},{"name":"Stakeholder Comms","does":"Generate stakeholder updates, executive summaries, release notes, and launch communications.","phase":8,"say":"Write the stakeholder update"},{"name":"Post-Launch Reviewer","does":"Conducts post-launch reviews comparing actual results against PRD goals and feeding insights back to intake.","phase":9,"say":"Run the post-launch review"},{"name":"Retro Facilitator","does":"Facilitate retrospectives and document learnings.","phase":9,"say":"Run a retro"},{"name":"Guide","does":"Walk PMs through the complete product lifecycle, phase by phase, tracking progress and adapting to their needs.","phase":0,"say":"Start Product OS"},{"name":"Orchestrator","does":"Coordinate the Product OS pipeline by routing work between specialist agents with defined inputs, outputs, and human checkpoints.","phase":0,"say":"Run the whole pipeline"},{"name":"Decision Logger","does":"Document product decisions in ADR (Architecture Decision Record) style.","phase":0,"say":"Log this decision"},{"name":"Artifact Registry","does":"Maintains a centralized manifest of all design and product artifacts with status tracking and link validation.","phase":0,"say":"List every document and design"},{"name":"Debt Tracker","does":"Maintains a unified tracker for technical debt and design debt with prioritization.","phase":0,"say":"Track this debt"},{"name":"Doc Cleaner","does":"Clean version history out of project docs, Confluence pages, epics and Jira tickets so they show the current state only.","phase":0,"say":"Clean the history out of the documents"}]</script>
@@ -304,8 +369,36 @@ td a { font-weight: 600; }
 (function () {
   var PHASES = ["Intake", "Discovery", "Prioritize", "Define", "Design", "Review", "Deliver", "Launch", "Measure"];
   var KINDS = { doc: "Claude doc", design: "Claude Design", whiteboard: "Whiteboard", figma: "Figma", figjam: "FigJam", prototype: "Prototype", file: "File", page: "Page" };
-  var STATUS = { planned: ["Not started", "", "idle"], asking: ["Questions for you", "now", "you"], writing: ["Being written", "now", "now"], review: ["Ready for your review", "now", "you"], done: ["Done", "done", "ok"], skipped: ["Skipped", "", "skip"] };
-  var SIGN = { ok: "✓", now: "●", you: "●", miss: "!", risk: "▲", idle: "○", skip: "–" };
+  var STATUS = { planned: ["Not started", "", "idle"], asking: ["Questions for you", "now", "you"], writing: ["In progress", "now", "live"], review: ["Ready for your review", "now", "you"], paused: ["Paused", "now", "pause"], blocked: ["Blocked", "now", "risk"], done: ["Done", "done", "ok"], skipped: ["Skipped", "", "skip"] };
+  var SIGN = { ok: "✓", live: "●", now: "●", you: "●", pause: "‖", miss: "!", risk: "▲", idle: "○", skip: "–" };
+  // What each standard document is, and what it is for. Claude can write its own words in a document's `what` and `for`; these are used when it has not.
+  var ABOUT = [
+    [/post.?launch|review.?launch|retro/, "What happened after launch, measured against the goals in the PRD.", "You and your leaders, to decide what comes next."],
+    [/ux.?writ|copy/, "The final words for every screen: labels, buttons, errors and empty states.", "Designers and engineers, who use the copy as it is."],
+    [/critique/, "A review of the designs. Each finding is rated by how serious it is, with a fix.", "You and the designer, to correct the designs before the handoff."],
+    [/ux.?review|heuristic/, "A check of the designs against usability rules.", "You and the designer, to find problems before users do."],
+    [/a11y|accessib/, "A check of the designs against WCAG 2.2 AA, with each problem and its fix.", "The designer and engineers, so everyone can use the product."],
+    [/design.?brief/, "The design direction taken from the PRD: goals, users, limits and the screens to design.", "The designer, before any screen is drawn."],
+    [/project.?brief|\bbrief\b/, "The project on one page: the problem, the outcome, the scope and the dates.", "Leaders and stakeholders, to agree before work starts."],
+    [/pr.?faq/, "A press release and questions, written as if the product had launched.", "Leaders, to judge the idea from the customer's side."],
+    [/intake/, "Your request written as a clear problem: who has it, the evidence, and what success looks like.", "You and every agent after this one. The PRD is built on it."],
+    [/prioriti|rice|wsjf/, "A score for this work against your other work, with the reasoning.", "You and your leaders, to decide if it goes ahead now."],
+    [/prd|requirement/, "The full requirements: the problem, the users, what to build, what is left out, and how success is measured.", "Engineers, designers and leaders. Every later document is built from it."],
+    [/metric|okr/, "The numbers that show if this worked: one main metric, guardrails and their formulas.", "You and the data team, to measure the launch."],
+    [/flow|journey/, "The paths a user takes, step by step, with the edge cases and the errors.", "The designer and engineers, to agree on the steps before screens are drawn."],
+    [/wirefram/, "Simple layouts of each screen, without visual design.", "You and the designer, to agree on structure before the final designs."],
+    [/prototyp/, "A clickable version of the screens, from the first step to the last.", "The team, to try the flow before it is built."],
+    [/final.?design|\bdesigns?\b|mockup/, "The finished screens, with the final copy.", "Engineers, who build from them."],
+    [/epic|ticket|stor(y|ies)|handoff/, "One epic that links to everything, and short tickets with estimates.", "Engineers. After your yes, it goes to Jira."],
+    [/plan|raci|gantt/, "Who does what, and when: the plan, the roles and the timeline.", "The team and stakeholders, to follow the delivery."],
+    [/research|interview/, "What to learn from users, and what was learned.", "You and the designer, to base decisions on evidence."],
+    [/competit|market/, "How others solve this problem, side by side.", "You and your leaders, to choose where to be different."],
+    [/roadmap/, "What comes now, next and later.", "Leaders and the team, to see the direction."],
+    [/tracking|event/, "The events to record in your analytics tool, with their properties.", "Engineers and the data team, so the metrics can be measured."],
+    [/risk|dependenc/, "What could go wrong or hold the work up, with an owner for each.", "You and the team, to act before it costs time."],
+    [/release|launch|changelog|comms/, "What shipped, written for the people who use it and the people who support it.", "Customers and your internal teams, at launch."]
+  ];
+  var STAGES = ["Your answers", "Draft", "Your review"];
   var state = null, links = null, docs = [], tickets = [], filter = "all", view = "tasks", opened = {}, gotState = false, gotDocs = false, timer = 0;
   function $(id) { return document.getElementById(id); }
   function el(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; }
@@ -336,12 +429,15 @@ td a { font-weight: 600; }
     var a = url ? link(url, "") : null, b = a || el("span"); b.className = "badge " + kind;
     var i = el("i", null, SIGN[kind] || ""); i.setAttribute("aria-hidden", "true"); b.appendChild(i); b.appendChild(document.createTextNode(text)); return b;
   }
-  function phaseBadge(p) { return p === "done" ? badge("ok", "Done") : p === "now" ? badge("now", "In progress") : p === "skipped" ? badge("skip", "Skipped") : badge("idle", "Not started"); }
+  function phaseBadge(p) { return p === "done" ? badge("ok", "Done") : p === "now" ? badge("live", "In progress") : p === "skipped" ? badge("skip", "Skipped") : badge("idle", "Not started"); }
   function tbdBadge(n) { return badge("miss", n + (n === 1 ? " TBD" : " TBDs")); }
 
   function draw() {
     var has = !!(state && str(state.name, 120)) || docs.length > 0;
     $("empty").hidden = has || !(gotState && gotDocs); $("main").hidden = !has;
+    // The file in hand comes first. The guide sits under it once there is a project, and on top while the board is empty.
+    var how = $("how"), nc = $("nowCard"), em = $("empty");
+    if (has) { if (nc.nextElementSibling !== how) nc.parentNode.insertBefore(how, nc.nextSibling); } else if (em.previousElementSibling !== how) em.parentNode.insertBefore(how, em);
     if (!has) return;
     $("name").textContent = str(state && state.name, 120) || "Product OS project";
     $("where").textContent = str(state && state.where, 200);
@@ -363,8 +459,67 @@ td a { font-weight: 600; }
     ib.textContent = ""; $("insH").hidden = ib.hidden = !ins.length;
     ins.forEach(function (x) { var k = x.kind === "risk" ? "risk" : x.kind === "gap" ? "gap" : "ok", li = el("li", "card"); li.appendChild(k === "risk" ? badge("risk", "Risk") : k === "gap" ? badge("miss", "Gap") : badge("ok", "Going well")); li.appendChild(el("span", null, str(x.text, 400))); ib.appendChild(li); });
 
-    drawTasks(ph); drawDocs(); drawPublished();
+    drawNow(); drawTasks(ph); drawDocs(); drawPublished();
     $("tab-docs").textContent = "Documents"; $("tab-docs").appendChild(el("span", null, String(docs.length)));
+  }
+  // The file in hand. Claude names it in project/state.current; without that, the board takes the first file that is under way.
+  function current() {
+    var id = str(state && state.current, 80), hit = id ? docs.filter(function (d) { return d.id === id; })[0] : null, i, found;
+    if (hit && st(hit) !== "planned" && st(hit) !== "skipped") return hit;
+    var order = ["writing", "asking", "review", "blocked", "paused"];
+    for (i = 0; i < order.length; i++) { found = docs.filter(function (d) { return st(d) === order[i]; })[0]; if (found) return found; }
+    return null;
+  }
+  function about(d) {
+    var key = (str(d.id, 80) + " " + str(d.title, 120)).toLowerCase(), i;
+    for (i = 0; i < ABOUT.length; i++) if (ABOUT[i][0].test(key)) return [str(d.what, 300) || ABOUT[i][1], str(d.purpose, 300) || ABOUT[i][2]];
+    return [str(d.what, 300), str(d.purpose, 300)];
+  }
+  function drawNow() {
+    var card = $("nowCard"), d = current(), bx = $("nowBadges"), ch = $("nowChips"), dl = $("nowDl"), sg = $("nowStages"), op = $("nowOpen");
+    var sp = state && state.start && typeof state.start === "object" ? state.start : null, total = sp ? num(sp.total) || 7 : 0, got = sp ? Math.min(num(sp.done), total) : 0;
+    var tone = "idle", label = "Working on now", title = "", rows = [], stage = 0, held = false, step = "", doing = "", left = "";
+    [bx, ch, dl, sg, op].forEach(function (n) { n.textContent = ""; });
+    function row(k, v) { if (!v) return; dl.appendChild(el("dt", null, k)); dl.appendChild(el("dd", null, v)); }
+    if (d) {
+      var s = st(d), ab = about(d);
+      title = str(d.title, 120); doing = str(d.doing, 200); left = str(d.left, 200);
+      if (s === "writing" || s === "asking" || s === "review") {
+        tone = "live"; stage = s === "asking" ? 1 : s === "writing" ? 2 : 3; bx.appendChild(badge("live", "In progress"));
+        if (s !== "writing") bx.appendChild(badge("you", STATUS[s][0]));
+        step = "Step " + stage + " of 3 · " + STAGES[stage - 1];
+        if (!doing) doing = s === "asking" ? "Claude is waiting for your answers in the chat." : s === "writing" ? "Claude is writing it. You do not need to do anything." : "Read it, then accept it or ask for a change, in the chat.";
+        if (!left) left = stage === 1 ? "Then: the draft, then your review." : stage === 2 ? "Then: your review. That is the last step." : "This is the last step.";
+      } else if (s === "paused" || s === "blocked") {
+        tone = s === "paused" ? "pause" : "risk"; label = s === "paused" ? "Paused" : "Blocked"; held = true; stage = d.stage >= 1 && d.stage <= 3 ? d.stage : 0; bx.appendChild(badge(STATUS[s][2], STATUS[s][0]));
+        step = stage ? STATUS[s][0] + " at step " + stage + " of 3 · " + STAGES[stage - 1] : STATUS[s][0];
+        if (!doing) doing = str(d.note, 200) || (s === "paused" ? "Nothing is lost. Say “continue” in the chat to pick it up again." : "Claude is waiting for something outside the chat.");
+      } else { tone = "ok"; label = "Just finished"; stage = 4; bx.appendChild(badge("ok", "Done")); step = "All 3 steps are done"; if (!doing) doing = "You accepted it."; }
+      ch.appendChild(el("span", "chip", KINDS[d.kind] || "Document")); if (str(d.agent, 60)) ch.appendChild(el("span", "chip", "Made by the " + str(d.agent, 60)));
+      if (num(d.tbd)) ch.appendChild(tbdBadge(num(d.tbd)));
+      row("What it is", ab[0]); row("What it is for", ab[1]);
+      var a = openLink(d.url, title); if (a) op.appendChild(a);
+    } else if (sp && got < total) {
+      tone = "live"; title = "Start questions"; bx.appendChild(badge("live", "In progress")); bx.appendChild(badge("you", "Questions for you"));
+      row("What it is", "Seven short questions about what you are building and who reads the documents.");
+      row("What it is for", "Claude uses your answers to plan the right documents for your team.");
+      step = "Question " + (got + 1) + " of " + total; doing = "Claude is waiting for your answer in the chat."; left = (total - got) + (total - got === 1 ? " question left" : " questions left") + ", then you say yes to the plan.";
+    } else {
+      var nextUp = docs.filter(function (x) { return st(x) === "planned"; })[0], allDone = docs.length && !nextUp;
+      label = allDone ? "All finished" : "No file in progress"; tone = allDone ? "ok" : "idle";
+      title = allDone ? "Every document is done" : nextUp ? "Next up: " + str(nextUp.title, 120) : "No file yet";
+      bx.appendChild(allDone ? badge("ok", "Done") : badge("idle", "Nothing in progress"));
+      if (nextUp) { var ab2 = about(nextUp); row("What it is", ab2[0]); row("What it is for", ab2[1]); doing = "Say “What is next?” in the chat to start it."; }
+      else if (!allDone) doing = "Claude lists the documents here after the start questions.";
+    }
+    card.setAttribute("data-s", tone); $("nowLbl").textContent = label; $("nowTitle").textContent = title;
+    $("nowStep").textContent = step; $("nowDo").textContent = doing; $("nowLeft").textContent = left;
+    sg.hidden = !d;
+    if (d) STAGES.forEach(function (name, i) {
+      var n = i + 1, k = stage === 4 || n < stage ? "done" : n === stage ? (held ? "held" : "now") : "", li = el("li", k), sign = el("i", null, k === "done" ? "✓" : k === "now" ? "●" : k === "held" ? "‖" : "○");
+      sign.setAttribute("aria-hidden", "true"); li.appendChild(sign); li.appendChild(document.createTextNode(name));
+      li.setAttribute("aria-label", name + (k === "done" ? ", done" : k === "now" ? ", in progress now" : k === "held" ? ", stopped here" : ", not started")); sg.appendChild(li);
+    });
   }
   function drawTasks(ph) {
     var box = $("pane-tasks"); box.textContent = "";
@@ -375,7 +530,7 @@ td a { font-weight: 600; }
       d0.open = opened.start != null ? opened.start : !fin; s0.addEventListener("click", function () { opened.start = !d0.open; });
       s0.appendChild(el("span", "n", "S")); s0.appendChild(el("span", "t", "Start"));
       s0.appendChild(el("span", "m", got + " of " + total + " questions answered"));
-      s0.appendChild(fin ? badge("ok", "Done") : badge("now", "In progress"));
+      s0.appendChild(fin ? badge("ok", "Done") : badge("live", "In progress"));
       d0.appendChild(s0);
       var u0 = el("ul", "rows");
       ans.forEach(function (x) { var li = el("li"), g = el("span", "set"); g.appendChild(badge("ok", "Answered")); li.appendChild(el("span", "k", str(x.q, 120))); li.appendChild(g); li.appendChild(el("span", "v", str(x.a, 300))); li.appendChild(el("span")); u0.appendChild(li); });
@@ -461,7 +616,7 @@ td a { font-weight: 600; }
   // The choice is kept in this browser only.
   (function () {
     var lg = $("legend"), how = $("how"), gb = $("guideBtn"), HOW = "product-os-board-guide";
-    [["ok", "Done", "Finished, and you accepted it."], ["now", "In progress", "Claude is working on it."], ["you", "Questions for you", "Claude is waiting for you in the chat."], ["you", "Ready for your review", "Read it, then accept it or ask for a change."], ["miss", "3 TBDs", "Facts still missing. Each one is named in the document."], ["idle", "Not started", "Planned, and not begun yet."], ["skip", "Skipped", "Left out of this project."]]
+    [["ok", "Done", "Finished, and you accepted it."], ["live", "In progress", "Claude is working on it."], ["you", "Questions for you", "Claude is waiting for you in the chat."], ["you", "Ready for your review", "Read it, then accept it or ask for a change."], ["miss", "3 TBDs", "Facts still missing. Each one is named in the document."], ["pause", "Paused", "Stopped for now. Say “continue” in the chat to pick it up."], ["risk", "Blocked", "Waiting on something outside the chat."], ["idle", "Not started", "Planned, and not begun yet."], ["skip", "Skipped", "Left out of this project."]]
       .forEach(function (r) { var li = el("li"), w = el("span"); w.appendChild(badge(r[0], r[1])); li.appendChild(w); li.appendChild(el("span", null, r[2])); lg.appendChild(li); });
     function guide(open, keep) {
       how.hidden = !open; gb.setAttribute("aria-expanded", String(open));
@@ -496,7 +651,7 @@ td a { font-weight: 600; }
     db.doc("project/links").onSnapshot(function (snap) { links = snap.exists ? snap.data() : null; draw(); }, function () { /* the button stays hidden */ });
     db.collection("documents").limit(200).onSnapshot(function (snap) {
       gotDocs = true; seen(snap);
-      docs = snap.docs.map(function (d) { var x = d.data() || {}; return { id: d.id, title: x.title, phase: num(x.phase), kind: x.kind, status: x.status, agent: x.agent, url: x.url, published: x.published, tbd: x.tbd, note: x.note, order: num(x.order) }; })
+      docs = snap.docs.map(function (d) { var x = d.data() || {}; return { id: d.id, title: x.title, phase: num(x.phase), kind: x.kind, status: x.status, agent: x.agent, url: x.url, published: x.published, tbd: x.tbd, note: x.note, order: num(x.order), what: x.what, purpose: x["for"], doing: x.doing, left: x.left, stage: num(x.stage) }; })
         .filter(function (x) { return str(x.title, 120); }).sort(function (a, b) { return ((a.phase || 10) - (b.phase || 10)) || (a.order - b.order) || (a.id < b.id ? -1 : 1); });
       draw();
     }, dead);
