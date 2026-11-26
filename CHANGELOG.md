@@ -7,10 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.9.3] - 2026-11-26
+
+### Changed
+- **The guide follows common UX practice** — it is short by default: four steps, with what each badge means and what to say in the chat one click away. It shows on a first visit, "Got it, hide the guide" closes it, the Guide button in the header brings it back, and the board remembers the choice in the reader's browser. Keyboard focus moves to the Guide button when the guide closes. Buttons are at least 44 px tall on touch screens.
+
 ## [1.9.2] - 2026-11-26
 
 ### Added
-- **A guide at the top of the board** — "How Product OS works", a one-minute read: four steps, what each badge means, and five things to say in the chat. The reader can hide it, and the board remembers that in their browser.
+- **A guide at the top of the board** — "How Product OS works", a one-minute read: four steps, what each badge means, and five things to say in the chat.
 
 ## [1.9.1] - 2026-11-26
 

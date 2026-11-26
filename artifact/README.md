@@ -6,9 +6,9 @@
 
 ![The Product OS board on a desktop screen and on a phone: where the project is, the next step, four numbers, three insights, and the nine phases with their status](../docs/images/hero.jpg)
 
-1. **How Product OS works**: a one-minute guide at the top. Four steps, what each badge means, and five things to say in your chat. Hide it when you know it.
+1. **How Product OS works**: a one-minute guide, shown on your first visit. Four steps, with what each badge means and what you can say in your chat one click away. "Got it" hides it, and the Guide button at the top brings it back.
 2. **Where the project is**: the phase, the document in hand, and a bar of the nine phases.
-3. **The next step**: what Claude is waiting for from you, with a button that copies the short reply.
+3. **The next step**: what Claude is waiting for from you, in your chat.
 4. **Four numbers**: documents done, in progress, named TBDs, phases done.
 5. **How the project is doing**: up to six notes written by Claude. What is going well, a gap in the material, a risk.
 6. **Four views, one at a time**: Tasks (the start questions, the nine phases and their documents), Documents (a table of every document, what it was made as, its status, its link, and where it is published), Published and connected (the Jira epic and tickets, the Confluence pages, and your connectors), and Agents (all 41 roles by phase, what each one does, and what to say in your chat to call it).
