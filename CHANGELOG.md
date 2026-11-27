@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.12.1] - 2026-11-27
+
+### Added
+- **The board's guide explains the second chat** — a section, "When to start a new chat, and who does it", answers five questions: when, who, where the instructions are, what to do with the prompt, and how to see progress.
+- **The Workstreams card says what a workstream is**, in one line under its title.
+- **The steps after a yes to a second chat** — the agent replies with four steps and the prompt, and says that the PM starts the new chat.
+
+### Changed
+- **The guide's status phrase uses a real workstream name from the board.** The line is hidden on a board with no workstreams.
+
+### Fixed
+- **The "open questions" badge in the guide's legend no longer runs over its description.**
+
 ## [1.12.0] - 2026-11-27
 
 ### Added

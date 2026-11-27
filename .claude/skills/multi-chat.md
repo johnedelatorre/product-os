@@ -38,6 +38,15 @@ Propose a second chat, with one question to tap, when any of these is true:
 
 The question names what the split saves and what the PM does: "This phase is about 400 steps. In a second chat each step costs less. You paste one prompt there. Do you want that?" with the choices "Yes, a second chat", "No, stay here".
 
+After a yes, write the workstream and its handover to the board. Then reply with only these steps and the prompt:
+
+1. Open a new Claude chat.
+2. Paste this prompt as the first message, and send it.
+3. For each later round, paste the same prompt again. The board has it too: open the row in the Workstreams card and select "Copy the prompt".
+4. To see how it is going, open the board, or ask here for "status of <the name the PM gave it>".
+
+The PM starts the new chat. Say so. Never leave them to work out when, who or how.
+
 Rules:
 
 1. **Never propose a split for a small feature.** Small means the phase fits in one round of about 50 tool steps or fewer. This rule comes before the three conditions above.
@@ -49,7 +58,7 @@ Rules:
 A workstream is one line of work in a project, owned by one chat or one person.
 
 1. **The PM names each one**, in plain words: "Product management", "Design office". Ask once, with two or three suggestions to tap.
-2. **Use those names in every reply.** Never "the other chat" or "chat 2".
+2. **Use those names in every reply.** Never "the other chat" or "chat 2". A workstream's name is the one on the board. It is not the chat's title, which you cannot see or change.
 3. **Its id** is the name in lower case with hyphens: `design-office`.
 4. **One workstream leads.** It is the chat that started the project. `project/state.lead` holds its id.
 5. **A project with one chat has no workstream rows.** Add them when the second one starts.

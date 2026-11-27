@@ -38,7 +38,7 @@ If the new chat cannot read the board, open "If the new chat cannot read this bo
 
 ## Asking for Status
 
-Write "status of the design office" in any chat. The agent reads that workstream on the board and, where it has the tool, checks the real output: the screens in the design file, the pages in Confluence, the tickets in Jira. The answer is short:
+Write "status of" and the workstream's name in any chat, for example "status of the design office". The name is the one you gave the workstream, as the Workstreams card shows it. It is not the chat's title. The agent reads that workstream on the board and, where it has the tool, checks the real output: the screens in the design file, the pages in Confluence, the tickets in Jira. The answer is short:
 
 ```
 The design office finished round 2 of 8: 96 of 402 screens exist in both themes.
