@@ -16,6 +16,7 @@ description: "Write the handover for next session: state, evidence, next action,
 /product-os:handover
 /product-os:handover --initiative <slug> --project <slug>
 /product-os:handover --what-next "finish billing stage"
+/product-os:handover --workstream design-office
 ```
 
 ## Parameters
@@ -25,6 +26,7 @@ description: "Write the handover for next session: state, evidence, next action,
 | `--initiative` | No | Initiative slug (for project context) |
 | `--project` | No | Project slug |
 | `--what-next` | No | Hint about what next session will do |
+| `--workstream` | No | The workstream to hand over, by its name or id |
 
 ## When to Use
 
@@ -32,6 +34,17 @@ description: "Write the handover for next session: state, evidence, next action,
 - Work continues tomorrow
 - Handing off to another agent
 - Long-running work spanning sessions
+
+## With a Board
+
+When the project has a Product OS board, the handover lives on the board, not in a file. Rules: `.claude/skills/multi-chat.md`.
+
+1. Write `handover/<workstream id>`: the goal, the scope in the PM's words, ids and links, content rules, working rules, the steps left with done marks, the counts, the decisions already made, and how to report.
+2. Write `workstreams/<id>`, so the board shows the row.
+3. Give the PM the board link and the one prompt that starts the workstream, once, in one code block. The board shows the same prompt with a Copy button.
+4. Make a file only when the next chat cannot read the board. The board offers it as one Markdown file.
+
+The process below applies where there is no board.
 
 ## Process
 

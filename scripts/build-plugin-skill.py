@@ -48,7 +48,8 @@ DESCRIPTION = (
     "that make the intake, PRD, metrics, design brief, user flows, wireframes, designs, prototype, design critique, "
     "UX writing guide, epic and tickets, and launch documents, publish them to Confluence and Jira, and keep a "
     "live board. Use when the user says Product OS, start a project, guided mode, types a /product-os: command, "
-    "asks for one of those outputs, or asks for the board, tasks, documents, connectors or settings of a Product OS project."
+    "asks for one of those outputs, asks for the board, tasks, documents, connectors or settings of a Product OS project, "
+    "asks for the status of a workstream, or pastes a prompt that starts with Continue the Product OS workstream."
 )
 
 PREFACE = """# Product OS
@@ -68,6 +69,12 @@ This is Product OS version {version}. Say the version when the PM asks which one
 5. **Make each output in its real form** (see "What each output is made as"). A design is a design the PM can open, never a description of one.
 6. **Nothing is published without the PM's yes.** Show the plan first: what goes where.
 7. **Keep the board current** (see "The board") and open every reply with where the project is.
+8. **Say the size before a heavy phase.** Before design production, bulk publishing, or any phase with many repeated steps, state how many items and how many rounds, and that the cost follows the number of steps. Propose the rounds. Ask once, with choices to tap, if the scope can be staged. A small feature gets one line and no question.
+9. **Propose a second chat when the work calls for one**, with one question to tap: the phase needs more than about 50 tool steps, or your context opens with a summary of earlier turns, or the work is a different kind from the rest of the chat. Never for a small feature. If the PM says no, carry on here and do not ask again for that phase. A project in more than one chat has workstreams, each with a name the PM chose; use those names in every reply. When a person does a phase, such as a designer, make it a workstream named "Design: <their name>", with the design brief as its handover, and propose no second chat for that phase.
+10. **In a project with more than one chat, read the board first and write your own part last.** Each chat writes only its own workstream and its handover. When the PM writes "status of <workstream>", read that workstream on the board, check the real output where you have the tool, and answer in the short status shape. Say plainly what you cannot do: you cannot watch another chat live, and you cannot rename a chat.
+11. **Give the PM less to read and fewer things to hold.** One file or none. One prompt, shown once per reply, never reworded. Steps numbered, and no more than five. Never put a document for later reading in the same reply as steps the PM must do now. When the PM says they are overwhelmed, reply with only: what to use, the steps, the prompt, and what to ignore.
+
+Items 8 to 11 are set out in full in `references/playbooks/multi-chat.md`.
 
 ## Where the files are
 
@@ -94,9 +101,15 @@ Before the first document, read these two:
 3. `references/playbooks/clear-output.md`: how every reply and document is written
 4. `references/playbooks/guided-workflow.md`: the nine phases, the status board, connectors and settings
 
+Before a production-heavy phase, when a chat has run long, when the PM asks about a workstream or about cost, and when a message opens with "Continue the Product OS workstream", read this one:
+
+5. `references/playbooks/multi-chat.md`: the size check, the split rule, workstreams, the handover on the board, and status across chats
+
 **Keep the start questions fast.** One question per reply, with choices built from what the PM said in this chat. No research, no search of memory or past chats, and no other file reads between two start questions. Research starts after the PM accepts the plan.
 
 ## Starting a project
+
+**When the first message opens with "Continue the Product OS workstream", this is not a new project.** Skip this section. Open the board from the link in that message, read `project/state`, the workstream and its handover, say in two lines what you read, and do the next round (`references/playbooks/multi-chat.md`, "Starting From the Prompt"). Ask no start questions.
 
 Do these in order, one message at a time. Do not show the PM this list.
 
@@ -141,16 +154,18 @@ Only after the PM's yes to the plan. The Confluence Publisher and Jira Sync role
 
 ## The board
 
-The board is a page that shows the project at a glance: where it is, the next step, the numbers, every task, a table of every document with its link, what is published, and what is connected. You make it and keep it current. The PM opens it. The one thing anyone changes on it is the tick on a task.
+The board is a page that shows the project at a glance: where it is, the next step, the numbers, every task, a table of every document with its link, what is published, and what is connected. When a project runs in more than one chat it also shows one row for each workstream, with the handover and the prompt that starts it. You make it and keep it current. The PM opens it. The one thing anyone changes on it is the tick on a task.
 
 1. **Make it once per project**, when the project has a name: publish `assets/product-os-board.html` as an artifact in the PM's own account, titled "Product OS board: <short project name>". Publish the file as it is. Then declare the capabilities in the page's `<script type="application/json" id="capabilities">` block. Give the PM the link once. Say that it updates by itself, that it opens in its own browser tab, that its Guide button explains how Product OS works and how to get started, and that its Agents view lists every role with what to say to call it.
 2. **Write to its database every time something changes**, in one call: after each answer to a start question, at the playback, when a document changes status, when a link exists, and after publishing. The PM watches the board while they answer, so a board that does not move looks broken. The page reads these documents:
 
 | Path | Fields |
 |------|--------|
-| `project/state` | `name`, `board` (the board's own `https://claude.ai/...` link, so the board can offer "Open in new tab"), `where` (one line: phase, document, what is happening), `next` (what you are waiting for from the PM), `current` (the id of the document in hand, so the board's "Working on now" card shows it), `start` (`{{"done": 3, "total": 7, "answers": [{{"q": "a short label for the question", "a": "the PM's answer in a few words"}}]}}`, updated after each start answer), `insights` (up to 6 of `{{"kind": "ok" or "gap" or "risk", "text"}}`), `connectors` (each `{{"name", "status": "Connected" or "Not connected" or "Not used", "detail"}}`), `phases` (only to mark one skipped: `{{"2": "skipped"}}`), `updated` (the time now, ISO 8601) |
+| `project/state` | `name`, `board` (the board's own `https://claude.ai/...` link, so the board can offer "Open in new tab" and the prompt that starts a workstream), `lead` (the id of the workstream whose chat owns everything outside the other workstreams; only when there is more than one), `where` (one line: phase, document, what is happening), `next` (what you are waiting for from the PM), `current` (the id of the document in hand, so the board's "Working on now" card shows it), `start` (`{{"done": 3, "total": 7, "answers": [{{"q": "a short label for the question", "a": "the PM's answer in a few words"}}]}}`, updated after each start answer), `insights` (up to 6 of `{{"kind": "ok" or "gap" or "risk", "text"}}`), `connectors` (each `{{"name", "status": "Connected" or "Not connected" or "Not used", "detail"}}`), `phases` (only to mark one skipped: `{{"2": "skipped"}}`), `updated` (the time now, ISO 8601) |
 | `documents/<id>` | `title`, `phase` (1 to 9), `order` (its place in the phase), `kind` (`doc`, `design`, `whiteboard`, `figma`, `figjam`, `prototype` or `file`), `status` (`planned`, `asking`, `writing`, `review`, `paused`, `blocked`, `done` or `skipped`), `what` (one sentence: what this document is), `for` (one sentence: who reads it and what they do with it), `doing` (one sentence: what is happening in it right now), `left` (what is left before it is done, such as "2 questions left" or "About 3 minutes, then your review"), `stage` (only when paused or blocked: 1 for the questions, 2 for the draft, 3 for the review), `agent` (the role's name), `url` (its https link, once it exists), `tbd` (the number of named TBDs), `note` (one line on what it decided), `published` (each `{{"where": "Confluence", "url"}}`) |
 | `tickets/<key>` | `key`, `type` (Epic, Story, Task or Sub-task), `summary`, `url`, `parent`, `points`, `order` |
+| `workstreams/<id>` | `name` (the PM's name for it), `owner` (who runs it: "Claude, in the first chat", "Claude, in its own chat", or a person's name), `by` (`claude` or `person`), `phase`, `step` and `steps` (step n of m, counted in rounds), `status` (`planned`, `working`, `review`, `paused`, `blocked` or `done`), `next` (one sentence), `counts` (up to six of `{{"label", "value"}}`), `url` (the link to the output), `round_minutes` (how long you estimate the current round takes; the board flags the row as stale after that), `updated` (the time now, ISO 8601), `order` |
+| `handover/<workstream id>` | `goal`, `scope` (the scope the PM set, in their words), `links` (each `{{"label", "url"}}`), `ids` (each `{{"label", "value"}}`), `content_rules` and `working_rules` (lists of sentences), `steps` (the rounds, in order, each `{{"text", "done"}}`), `counts` (each `{{"label", "value"}}`), `decisions` (the decisions already made, a list of sentences), `report` (how to report), `updated` |
 | `todos/<id>` | `text` (the task in a few words, starting with a verb), `detail` (one line: the due date first, then how long it takes and why it matters), `owner` (the first name of the person who does it, the PM's own name included), `priority` (Jira's word: Highest, High, Medium, Low or Lowest), `key` and `url` (its Jira ticket), `done` (write `false`; the board writes `true`, with the time in `doneAt`, when someone ticks the box), `closed` (`true` once you have closed its ticket), `order` |
 
 3. **Add every document of the plan as `planned` at the playback** (start question 7), so the PM sees the whole plan on the board while they decide. Delete the ones the PM drops.
@@ -164,6 +179,8 @@ The board is a page that shows the project at a glance: where it is, the next st
    6. If a box is unticked after you closed its ticket, tell the PM and ask before you reopen it.
 3a. **`next` is one plain sentence about what you are waiting for** ("Answer question 4 in the chat: the design system to follow"). The PM answers in the chat, never on the board. Never put a ticket key, a command or a button label in it.
 4. **Write insights the PM can act on**: what is going well, a gap in the material, a risk to the date or the scope. Use only facts from the project.
+3d. **Workstreams, when the project runs in more than one chat** (`references/playbooks/multi-chat.md`). Write `workstreams/<id>` and `handover/<id>` in full before the second chat starts, and set `lead` in `project/state`. The board shows the prompt that starts the workstream, with a Copy button; give the PM the board link and that same prompt once, in one code block. Each chat writes only its own workstream and its handover, at the end of each round: mark the round's steps done, update the counts, `step`, `next`, `round_minutes` and `updated`. The lead chat writes everything else. Two chats never write the same document.
+3e. **How to write.** Read a document's version, then write with that version. If a write is refused because people outside the organization were invited, send the same call once more. If it is refused because the board is shared publicly, stop: tell the PM the board cannot be updated while it is public, and ask them to share it by name instead.
 5. **If you cannot publish artifacts or write to the database in this session**, say so once, and show the status board as text instead (`references/playbooks/guided-workflow.md`, "The Status Board"). Never tell the PM the board is updated when the write did not succeed.
 
 ---

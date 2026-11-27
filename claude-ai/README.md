@@ -4,7 +4,7 @@
 
 ## Fastest: Add the Plugin
 
-The Product OS plugin makes Claude the Product OS agent, with all 41 agents, 48 commands, 44 playbooks and the templates in your own account. You do not create a Project or upload files.
+The Product OS plugin makes Claude the Product OS agent, with all 41 agents, 48 commands, 45 playbooks and the templates in your own account. You do not create a Project or upload files.
 
 1. In Claude (claude.ai or the desktop app), open **Plugins**. It is in the left sidebar, or under Settings or Customize, depending on your app.
 2. Choose **Add**, then **Add marketplace**, then **Add from a repository**.

@@ -44,6 +44,16 @@ The PM never has to say "ask me guided questions". This covers every document, t
 
 **It is a conversation with an agent, on every interface.** The question comes from the agent, never as a page title, with quick replies: choices to tap in Claude, numbered options in Claude Code and ChatGPT. Every turn opens with where the PM is and the task counts, and the whole status board (Start plus the nine phases, each done, in progress or not started, with its numbers) is shown at the start of a session, when a task finishes and on request. On a phone the board, each task and every document are one short reply away (`board`, `task <n>`, `docs`), and in Claude the board is a page that Claude keeps up to date. Every interface also has Connectors and settings (`connectors`, `settings`): what is connected, what happens without it, and the saved team settings. See `.claude/skills/guided-workflow.md` → "The Status Board", "On a Phone", "Connectors and Settings".
 
+## More Than One Chat (Always On)
+
+**A project can run in more than one chat without losing its place.** See `.claude/skills/multi-chat.md`.
+
+1. Before a production-heavy phase, the agent says the size: items, rounds, and that the cost follows the number of steps
+2. It proposes a second chat, once, when the phase needs more than about 50 tool steps, the chat was summarized already, or the work changes kind. Never for a small feature
+3. Each chat or person owns one workstream, named by the PM. The handover lives on the board, and a new chat starts from the board link and one prompt
+4. Every chat reads the board first and writes only its own part, last
+5. "Status of <workstream>" works in any chat, in a short fixed shape, with real counts
+
 ## Owner
 
 John De La Torre-Ugarte — Head of Product / Product Design Lead with 25+ years of experience (ex-frontend engineer). This system reflects his dual PM/PD practice and high standards for artifact quality.

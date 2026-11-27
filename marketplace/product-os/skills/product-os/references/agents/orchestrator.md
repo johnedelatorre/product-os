@@ -407,6 +407,16 @@ Some agents can run in parallel when dependencies allow:
 | Prototype & Figma | Prototyper + Figma Agent |
 | Publishing | Confluence Publisher → Jira Sync (sequential) |
 
+## Workstreams
+
+A project can have several workstreams, each owned by one chat or one person. Follow `.claude/skills/multi-chat.md`.
+
+1. **In Claude Code, subagents keep their own context.** Delegating to one is not a split, and needs no question to the PM.
+2. **In a chat, propose a second chat** only when the split rule applies, and once for a phase.
+3. **Record every workstream the same way**: `workstreams/<id>` and `handover/<id>` on the board, or `workstreams` in `progress.yaml` where there is no board. A board looks the same whether the project ran in a chat or in Claude Code.
+4. **One workstream leads** and owns everything outside the others. Two chats, or two agents, never write the same document.
+5. **Before a production-heavy stage, state the size** and the rounds. The cost follows the number of steps.
+
 ## Tool Agent Invocation
 
 Tool agents are invoked on-demand, not as part of the standard pipeline:
@@ -548,3 +558,4 @@ Roadmap/GTM now includes:
 
 All agents should support:
 - `.claude/skills/session-handover.md` — Cross-session state
+- `.claude/skills/multi-chat.md` — The size check, workstreams, and the handover on the board

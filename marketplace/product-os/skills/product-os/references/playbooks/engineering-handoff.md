@@ -485,6 +485,16 @@ The full version with every state and use case is `prototype.html`. It is for de
 
 The documents the PM chose for themselves are published under one **PM workspace** page, below the project page, grouped as in `docs/reference/document-format.md` §2: project plan, RACI, Gantt, risk register, design brief, wireframes (unless attached), design critique, UX review, accessibility audit, metrics framework, hypothesis log, market analysis, traceability, decision log and the rest. The design files and the full prototype are the PM's too.
 
+## Before a Large Publish: Say the Size
+
+Publishing many pages or tickets is a phase with many repeated steps. Before the first one is created, follow `.claude/skills/multi-chat.md`.
+
+1. **Say the size**: how many pages, how many tickets and sub-tasks, and how many rounds. The cost follows the number of steps.
+2. **Propose the rounds**, the team's pages and the epic first.
+3. **Ask once, with choices to tap**, if the publish can be staged.
+4. **Propose a second chat** only when the split rule applies: more than about 50 tool steps, a chat already summarized once, or a chat whose work so far was a different kind.
+5. **A small handoff gets one line and no question**: "1 epic, 6 tickets, 7 pages: one round."
+
 ## The Final Output List
 
 End every run of Deliver, and every publish, with one list. The PM should never have to hunt for what was made.

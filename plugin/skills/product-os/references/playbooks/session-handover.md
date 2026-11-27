@@ -12,6 +12,16 @@
 - Long-running work spanning multiple sessions
 - Background jobs or waiting on decisions
 
+## With a Product OS Board
+
+In Claude, a Product OS project has a board, and the handover lives on it.
+
+1. **Write the handover to the board**, as `handover/<workstream id>`, with the fields in `.claude/skills/multi-chat.md`. Do not make a file.
+2. **The next chat starts from the board link and one prompt**, which the board shows with a Copy button.
+3. **A file is the fallback only**, when the next chat cannot read the board: the board offers the handover as one Markdown file. If a file replaces an earlier one, say so in one line.
+
+The rest of this skill applies where there is no board: Claude Code, Cursor and ChatGPT.
+
 ## Core Principle
 
 An agent's memory of what it's doing is the first casualty of a long session. Tool output scrolls away, context gets summarized, and what remains is plausible narrative with operational details sanded off.
@@ -52,6 +62,7 @@ Before writing a word, check what this session believes against what is there:
 ### 3. Put It Where Project Keeps Such Things
 
 Use project's existing location:
+- The Product OS board, when the project has one (see "With a Product OS Board")
 - Status board or progress file
 - Existing handoff file
 - Plan status lines

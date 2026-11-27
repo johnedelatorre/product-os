@@ -17,7 +17,10 @@ Show current progress through guided mode.
 /product-os:status --compact
 /product-os:status --connectors
 /product-os:status --settings
+/product-os:status --workstream "Design office"
 ```
+
+In a chat, "status of the design office" is the same request.
 
 ## Arguments
 
@@ -29,6 +32,7 @@ Show current progress through guided mode.
 | `--compact` | No | The short board for a phone: one task per line, under 40 characters |
 | `--connectors` | No | Each connector, its status, and what happens without it |
 | `--settings` | No | Readers, role, design system, Confluence space, Jira project, ticket size, accessibility level |
+| `--workstream` | No | One workstream, by the PM's name for it: its board line, checked against the real output |
 
 ## Output
 
@@ -99,6 +103,25 @@ Phase 4 of 9 · Define
 – Claude Design · not used
 ```
 
+### One workstream
+
+For a project that runs in more than one chat. The agent reads that workstream on the board and, where it has the tool, checks the real output itself: the screens per theme in the design file, the pages in Confluence, the tickets in Jira. The answer has this shape and is no longer. Rules: `.claude/skills/multi-chat.md` → "Status Across Chats".
+
+```
+The design office finished round 2 of 8: 96 of 402 screens exist in both themes.
+
+Screens: 96 of 402 · Dark 48 · Light 48
+Board line: changed 12 minutes ago
+
+What I checked
+1. The board document for the design office
+2. The design file: frames per page, counted by theme
+
+Stage: round 3 of 8, tablet sizes. Next check: at the end of that round, about 40 minutes.
+```
+
+The agent cannot watch another chat live. Where a scheduling tool exists it offers one check-in at the expected end of the round; where none exists it says so.
+
 ## What It Does
 
 1. Reads `initiatives/<initiative>/<project>/progress.yaml`
@@ -106,6 +129,7 @@ Phase 4 of 9 · Define
 3. Calculates phase and document completion
 4. Lists gates passed
 5. Recommends next action
+6. Lists each workstream with its step, status and last update, when the project has more than one
 
 ## Agent
 

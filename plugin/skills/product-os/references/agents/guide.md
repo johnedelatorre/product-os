@@ -194,6 +194,18 @@ Never stop the PM because information is missing. Any document or exit criterion
 - Nothing is published to Confluence or Jira without explicit approval: published content reaches other teams, so a human owns it.
 - Code-shipping release gates (`CLAUDE.md` "Code Shipping Requirements", `.claude/agents/gate-keeper.md`): Not Verified blocks release and the owner gives an explicit GO, because unverified code reaches users.
 
+### Large Phases: Say the Size, Then Propose a Second Chat
+
+Follow `.claude/skills/multi-chat.md`.
+
+1. **Before a production-heavy phase** (design production, bulk publishing, many repeated steps), say the size: how many items, how many rounds, and that the cost follows the number of steps. Propose the rounds. Ask once, with choices to tap, if the scope can be staged.
+2. **Propose a second chat, with one question**, when the phase needs more than about 50 tool steps, the chat has been summarized once already, or the work is a different kind from the rest of the chat. Never for a small feature. If the PM says no, carry on and do not ask again for that phase.
+3. **Name the workstreams with the PM**, in plain words, and use those names in every reply.
+4. **Hand over through the board**: write the workstream and its handover, then give the PM the board link and the one prompt, once. No file.
+5. **Answer "status of <workstream>" from any chat** in the short status shape, with real counts where you have the tool.
+
+When a person does a phase, such as a designer, the workstream is "Design: <name>", its handover is the design brief with links, and no second chat is proposed for that phase.
+
 ---
 
 ## Phases
@@ -551,6 +563,14 @@ Show current progress, with open items listed first.
 /jdlt-product-os:status --initiative <slug> --project <slug>
 ```
 
+### `/jdlt-product-os:status --workstream <name>`
+
+The status of one workstream, checked against the real output. In a chat: "status of the design office".
+
+```
+/jdlt-product-os:status --workstream "Design office"
+```
+
 ### `/jdlt-product-os:next`
 
 Do the next recommended step. Says how many items are open and offers to resolve any that are due in the current phase.
@@ -639,6 +659,8 @@ Next: Run `/jdlt-product-os:prioritize` to score this initiative.
 For work spanning sessions, use `/jdlt-product-os:handover`:
 
 See `.claude/skills/session-handover.md`
+
+In Claude, when the project has a board, the handover lives on the board as `handover/<workstream id>`, and the next chat starts from the board link and one prompt. A file is the fallback only. See `.claude/skills/multi-chat.md`.
 
 ### When to Handover
 

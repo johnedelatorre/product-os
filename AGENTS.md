@@ -37,6 +37,8 @@ Documents include TL;DR blocks, scannable headings, and numbered steps while mai
 
 **Guided questions are always on.** Every agent asks before it writes and keeps asking until its document is finished: one question at a time, with options and a recommended answer, at most 5 before a document. No decision is made by the agent alone. See `.claude/skills/guided-questions.md`.
 
+**A project can run in more than one chat.** Before a production-heavy phase the agent says the size and, when the split rule applies, proposes a second chat once. Each chat owns one workstream, hands over through the board, and writes only its own part. In Claude Code, subagents keep their own context, so delegating is not a split. See `.claude/skills/multi-chat.md`.
+
 **Current state only.** Docs, Confluence pages, epics and tickets show the final state: no version banners, history blocks, change narratives or retired items. See `.claude/skills/doc-hygiene.md`; `/product-os:cleanup` cleans docs that already carry history.
 
 ---

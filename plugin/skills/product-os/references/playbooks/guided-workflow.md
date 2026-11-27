@@ -137,9 +137,26 @@ handoff:
       said: string
       change: string               # what it changes, e.g. "extras: add schema"
       saved_as_default: boolean    # true once the PM saved it as the team's default
+
+# Optional. Only when the project runs in more than one chat or a person does a phase.
+# The same fields as the board's workstreams documents. See .claude/skills/multi-chat.md.
+workstreams:
+  - id: string                     # the name in lower case with hyphens, e.g. design-office
+    name: string                   # the PM's name for it
+    owner: string                  # which chat, or which person
+    by: enum                       # claude | person
+    lead: boolean                  # true for the one that owns everything else
+    phase: number
+    step: number                   # step n of m, counted in rounds
+    steps: number
+    status: enum                   # planned | working | review | paused | blocked | done
+    next: string
+    counts: list[string]           # e.g. "Screens: 96 of 402"
+    url: string                    # the link to the output
+    updated: datetime
 ```
 
-`audience`, `design_system`, `context`, `pm_documents` and `handoff` are optional in schema `1.2`: files without them are valid and need no migration. The guide asks the matching question when one is missing. A document the PM did not ask for is `skipped` with `skip_reason: "not requested"`, and exit criteria that depend on it are `na`.
+`audience`, `design_system`, `context`, `pm_documents`, `handoff` and `workstreams` are optional in schema `1.2`: files without them are valid and need no migration. The guide asks the matching question when one is missing. A document the PM did not ask for is `skipped` with `skip_reason: "not requested"`, and exit criteria that depend on it are `na`.
 
 ### Schema Migration
 
@@ -271,6 +288,23 @@ Rules:
 3. **One task is in progress at a time.** Say which, and which question of how many.
 4. **The board is a status table, not a list of advice.** It is the one place where a list runs past five lines.
 5. **Never show a task as done** while a document in it is in progress or an exit criterion has failed.
+
+### More Than One Chat
+
+A project can run in more than one chat, each with its own workstream. Rules: `.claude/skills/multi-chat.md`.
+
+1. **The board gains one line for each workstream**, under the task counts, with the PM's name for it:
+
+```
+Workstreams
+● Product management · this chat · step 5 of 9
+● Design office · its own chat · step 2 of 8 · 96 of 402 screens · 12 minutes ago
+```
+
+2. **Every chat reads the board first and writes its own part last.** In Claude the board is the page; a chat never keeps its own copy of another workstream's numbers.
+3. **"Status of <workstream>" works in any chat.** The agent reads that workstream on the board, checks the real output where it has the tool, and answers in the short status shape.
+4. **Progress between chats is saved on the board**, in the workstream and its handover. A new chat starts from the board link and one prompt, with no file.
+5. **Before a production-heavy phase, the agent says the size** and, when the split rule applies, proposes a second chat once.
 
 ### On a Phone
 
@@ -467,6 +501,8 @@ Each criterion has a status: `pass` | `fail` | `conditional` | `na` | `not_verif
 | `/jdlt-product-os:guide` | Start or resume guided mode |
 | `/jdlt-product-os:status` | Show current progress |
 | `/jdlt-product-os:next` | Execute next recommended step |
+| `/jdlt-product-os:status --workstream <name>` | The status of one workstream, checked against the real output |
+| `/jdlt-product-os:handover` | Write the handover for a workstream, on the board where there is one |
 
 ## Example Progress File
 

@@ -252,6 +252,25 @@ Before submitting, verify:
 - [ ] **Success criteria defined** — Measurable outcomes
 - [ ] **Accessibility explicit** — WCAG level, specific requirements
 
+## Producing at Volume
+
+When a round makes many screens, follow `.claude/skills/multi-chat.md`. The size was stated and the rounds agreed before the first screen.
+
+1. **Many screens per step**: 10 to 60. Never one screen per step.
+2. **One visual check per batch**, at low resolution. No check for a theme copy unless the original showed a problem.
+3. **No running commentary.** One report per round, with links and real counts.
+4. **Decide, and list each real decision on the page.** Do not ask during production.
+5. **Count and compare at the end of each round**: both themes and all sizes. The report states the counts.
+
+At the end of each round, mark the round done in the workstream's handover on the board, and update its counts.
+
+### When a Designer Does the Design Phase
+
+1. The workstream is "Design: <designer's name>", run by a person.
+2. The design brief, with its links, is that workstream's handover document on the board. Write it for a person: the goal, the scope, the links, the rules, the steps, and how to report back.
+3. The board shows the same row. The PM updates its status by telling the agent, or the agent updates it after checking the design file, when it has access.
+4. No second chat is proposed for design.
+
 ## Process
 
 1. Deep-read the PRD

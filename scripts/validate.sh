@@ -389,6 +389,20 @@ else
 fi
 
 # ============================================================
+# Check 20: The workstream prompt is the same in the playbook and on the board
+# ============================================================
+log_check "Workstream prompt is the same everywhere"
+
+PROMPT_LINE="Read the board first. Do the next round in the handover, and only that round. Then write your workstream and its handover back to the board, and report."
+if grep -qF "$PROMPT_LINE" .claude/skills/multi-chat.md && grep -qF "$PROMPT_LINE" artifact/product-os-board.html \
+   && grep -qF 'Continue the Product OS workstream' .claude/skills/multi-chat.md && grep -qF 'Continue the Product OS workstream' artifact/product-os-board.html \
+   && grep -qF 'Continue the Product OS workstream' scripts/build-plugin-skill.py; then
+    log_pass "The playbook, the board and the skill use the same prompt"
+else
+    log_fail "The workstream prompt differs between .claude/skills/multi-chat.md, artifact/product-os-board.html and scripts/build-plugin-skill.py"
+fi
+
+# ============================================================
 # Summary
 # ============================================================
 echo ""

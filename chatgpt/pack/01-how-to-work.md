@@ -156,6 +156,18 @@ Documents remain complete. PRDs keep all 19 sections. The style governs structur
 
 ---
 
+## One Thing at a Time
+
+A reply that asks the reader to act holds only what they need to act.
+
+1. **One file or none.** If the reader gets a second copy of a file, say in one line that it takes the place of the first.
+2. **One prompt, shown once per reply**, in one code block, never reworded. The same text shown twice reads as two prompts.
+3. **Never put a document for later reading in the same reply as steps the reader must do now.** Send it in its own reply, after the steps are done.
+4. **Steps are numbered, and no more than five.**
+5. **When the reader says they are overwhelmed**, reply with only: what to use, the steps, the prompt, and what to ignore.
+
+---
+
 ## When to Override
 
 1. **User asks to "explain" or "walk through"** — Explain fully. Still no preamble/closer.

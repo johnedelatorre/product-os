@@ -4,7 +4,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Product OS™ 1.11.0 · Copyright © 2026 John De La Torre-Ugarte · Code and documents under the [MIT License](LICENSE) · [Name and brand](TRADEMARKS.md)
+Product OS™ 1.12.0 · Copyright © 2026 John De La Torre-Ugarte · Code and documents under the [MIT License](LICENSE) · [Name and brand](TRADEMARKS.md)
 
 ![The Product OS board on a desktop screen and on a phone: the file being worked on now, where the project is, the next step, four numbers, three insights, and the start of the task list](docs/images/hero.jpg)
 
@@ -115,7 +115,7 @@ For PMs who do not use a terminal. Claude is the Product OS agent. It leads you 
    Or download this repo (Code → Download ZIP) and choose **Add**, then **Upload plugin**, with the ZIP.
 4. In **Connectors**, add what your projects use: Atlassian (Jira and Confluence) and Figma. You can skip this: Claude checks your connections at the start of a project and walks you through the ones that are missing.
 
-The plugin is saved to your own account, with all 41 agents, 48 commands, 44 playbooks and the templates. It is also in the Claude apps for iOS and Android and in Claude Code.
+The plugin is saved to your own account, with all 41 agents, 48 commands, 45 playbooks and the templates. It is also in the Claude apps for iOS and Android and in Claude Code.
 
 **Run a project**
 
@@ -252,6 +252,18 @@ Questions 2, 3 and 4 are saved for your team. On the next project they become on
 **After the handoff: one question.** What did the team say was missing, and what was too much? The answer is saved as your team's default for the next project.
 
 Every run ends with one list: **for the team** (one link to share, the epic), **for you**, and what was **not created**.
+
+### A project in more than one chat
+
+A long chat costs more with every step, because it re-reads its own history each time. Product OS handles that for you.
+
+1. **It says the size first.** Before design production or a large publish: how many items, how many rounds, and that the cost follows the number of steps.
+2. **It proposes a second chat when the work calls for one**, with one question. A small feature never gets it.
+3. **You paste one prompt.** The board shows it with a Copy button. There is no file to move.
+4. **One board, every chat.** Each workstream has a row with its step, status and last update, and its handover.
+5. **"Status of the design office"** works in any chat, with real counts from the design file.
+
+More: [Running a Project in More Than One Chat](docs/guides/multi-chat.md).
 
 ### What your team gets: the handoff
 
@@ -842,7 +854,7 @@ Every command is a Claude Code slash command. In claude.ai or Cursor, ask for th
 | `/product-os:guide` | Start or resume guided mode, or jump to a phase |
 | `/product-os:status` | Show progress through guided mode |
 | `/product-os:next` | Do the next recommended step |
-| `/product-os:handover` | Write a handover for the next session: state, evidence, next action |
+| `/product-os:handover` | Write a handover for the next session: state, evidence, next action. In Claude it is written to the board |
 | `/product-os:new-project` | Run the full pipeline from intake to publishing, with checkpoints |
 
 **Intake and discovery**
@@ -1003,10 +1015,10 @@ Each agent's inputs, outputs and examples: [Agent Guide Index](docs/guides/agent
 
 ## Skills
 
-Skills are the playbooks agents follow: frameworks, best practices and quality checklists. Product OS ships 44 reusable skills in `.claude/skills/`. Agents read them automatically; you can also point Claude at one ("use the prioritization skill to score these features").
+Skills are the playbooks agents follow: frameworks, best practices and quality checklists. Product OS ships 45 reusable skills in `.claude/skills/`. Agents read them automatically; you can also point Claude at one ("use the prioritization skill to score these features").
 
 <details>
-<summary><b>All 44 skills, by area, with the agents that use them</b> (click to expand)</summary>
+<summary><b>All 45 skills, by area, with the agents that use them</b> (click to expand)</summary>
 
 | Area | Skill | What it teaches | Used by |
 |------|-------|-----------------|---------|
@@ -1015,6 +1027,7 @@ Skills are the playbooks agents follow: frameworks, best practices and quality c
 | | Doc Hygiene | Current-state-only docs; cleanup of version history; lint and invention guard | Doc Cleaner, all artifact-writing agents |
 | **Workflow** | Guided Workflow | 9-phase `progress.yaml` state tracking | Guide |
 | | Session Handover | State, evidence, next action for the next session | Guide, `/product-os:handover` |
+| | More Than One Chat | The size check before a heavy phase, when to propose a second chat, workstreams, the handover on the board, status across chats | Guide, Orchestrator, Figma Agent, Product Designer, Wireframer, Prototyper |
 | | Context Freshness | Verify baselines and assumptions are current | Guide, Orchestrator |
 | **Strategy** | Proposal | Research an idea, propose a solution interface-first | Intake Analyst, PRD Author |
 | | Prioritization | RICE, WSJF, MoSCoW, Kano frameworks | Strategist |
@@ -1197,6 +1210,7 @@ Setup guides: [Installation and Platform Setup](docs/setup/installation.md) · [
 | [Installation and Platform Setup](docs/setup/installation.md) | claude.ai, Claude Code and Cursor setup; install options; upgrades; repo layout |
 | [Product OS in claude.ai](claude-ai/README.md) | claude.ai setup, the starter knowledge set and the [project instructions](claude-ai/project-instructions.md) to paste |
 | [Guided Workflow](docs/guides/guided-workflow.md) | The 9-phase playbook |
+| [Running a Project in More Than One Chat](docs/guides/multi-chat.md) | The size check, the second chat, workstreams on the board, and asking for status |
 | [From PRD to Reviewed Designs](docs/guides/design-workflow.md) | Where flows, wireframes and the clickable prototype are made, how to open them, and how they are reviewed |
 | [Document Format Standard](docs/reference/document-format.md) | The header documents and Confluence pages use, the trimmed Jira epic and story formats, and the Confluence page structure |
 | [Example gallery](examples/acme-dashboard/README.md) | A full fictional project, end to end, to read and copy |

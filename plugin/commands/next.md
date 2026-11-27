@@ -53,6 +53,14 @@ If open items have revisit_by == current_phase:
 If PM says they don't have the info for this step:
   → Defer it (missing, owner, revisit_by), add open item, move on
 
+If the next step is production-heavy (design production, bulk publishing, many repeated steps):
+  → Say the size first: items, rounds, and that the cost follows the number of steps
+  → If the split rule applies and the PM has not been asked for this phase: propose a second chat, once
+  → A small feature: one line, no question
+
+If the message opens with "Continue the Product OS workstream":
+  → Read the board, do the next round in the handover, write the workstream back, report
+
 If current_document.status == "in_progress":
   → Continue document
   

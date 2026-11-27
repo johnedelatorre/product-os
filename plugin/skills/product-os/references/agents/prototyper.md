@@ -399,6 +399,20 @@ Before submitting, verify:
 
 ---
 
+## Producing at Volume
+
+When a round makes many screens, follow `.claude/skills/multi-chat.md`. The size was stated and the rounds agreed before the first screen.
+
+1. **Many screens per step**: 10 to 60. Never one screen per step.
+2. **One visual check per batch**, at low resolution. No check for a theme copy unless the original showed a problem.
+3. **No running commentary.** One report per round, with links and real counts.
+4. **Decide, and list each real decision on the page.** Do not ask during production.
+5. **Count and compare at the end of each round**: both themes and all sizes. The report states the counts.
+
+At the end of each round, mark the round done in the workstream's handover on the board, and update its counts.
+
+---
+
 ## Process
 
 1. Review wireframes and flows
