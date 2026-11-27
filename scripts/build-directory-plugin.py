@@ -41,7 +41,7 @@ COPIES = [
     ("plugin", "jdlt-product-os", "Product OS by JDLT", True),
     ("marketplace/product-os", "product-os", "Product OS", False),
 ]
-DESCRIPTION = 'Product management and design operating system. Claude leads a PM through a guided 9-phase workflow with 41 agents, 48 commands (/product-os:*), 44 playbooks and templates, makes each output in its real form, publishes to Confluence and Jira, and keeps a live board. Works in Claude chat, Cowork and Claude Code.'
+DESCRIPTION = 'Product management and design operating system. Claude leads a PM through a guided 9-phase workflow with 41 agents, 48 commands (/product-os:*), 45 playbooks and templates, makes each output in its real form, publishes to Confluence and Jira, and keeps a live board. Works in Claude chat, Cowork and Claude Code.'
 AUTHOR = {"name": "John De La Torre-Ugarte", "url": "https://github.com/johnedelatorre"}
 REPOSITORY = "https://github.com/johnedelatorre/product-os"
 ALLOWED = (".md", ".txt", ".json", ".yaml", ".yml", ".png", ".jpg", ".jpeg")

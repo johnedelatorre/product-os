@@ -150,9 +150,26 @@ handoff:
       said: string
       change: string               # what it changes, e.g. "extras: add schema"
       saved_as_default: boolean    # true once the PM saved it as the team's default
+
+# Optional. Only when the project runs in more than one chat or a person does a phase.
+# The same fields as the board's workstreams documents. See .claude/skills/multi-chat.md.
+workstreams:
+  - id: string                     # the name in lower case with hyphens, e.g. design-office
+    name: string                   # the PM's name for it
+    owner: string                  # which chat, or which person
+    by: enum                       # claude | person
+    lead: boolean                  # true for the one that owns everything else
+    phase: number
+    step: number                   # step n of m, counted in rounds
+    steps: number
+    status: enum                   # planned | working | review | paused | blocked | done
+    next: string
+    counts: list[string]           # e.g. "Screens: 96 of 402"
+    url: string                    # the link to the output
+    updated: datetime
 ```
 
-`audience`, `design_system`, `context`, `pm_documents` and `handoff` are optional in schema `1.2`: files without them are valid and need no migration. The guide asks the matching question when one is missing. A document the PM did not ask for is `skipped` with `skip_reason: "not requested"`, and exit criteria that depend on it are `na`.
+`audience`, `design_system`, `context`, `pm_documents`, `handoff` and `workstreams` are optional in schema `1.2`: files without them are valid and need no migration. The guide asks the matching question when one is missing. A document the PM did not ask for is `skipped` with `skip_reason: "not requested"`, and exit criteria that depend on it are `na`.
 
 ### Schema Migration
 
@@ -284,6 +301,23 @@ Rules:
 3. **One task is in progress at a time.** Say which, and which question of how many.
 4. **The board is a status table, not a list of advice.** It is the one place where a list runs past five lines.
 5. **Never show a task as done** while a document in it is in progress or an exit criterion has failed.
+
+### More Than One Chat
+
+A project can run in more than one chat, each with its own workstream. Rules: `.claude/skills/multi-chat.md`.
+
+1. **The board gains one line for each workstream**, under the task counts, with the PM's name for it:
+
+```
+Workstreams
+● Product management · this chat · step 5 of 9
+● Design office · its own chat · step 2 of 8 · 96 of 402 screens · 12 minutes ago
+```
+
+2. **Every chat reads the board first and writes its own part last.** In Claude the board is the page; a chat never keeps its own copy of another workstream's numbers.
+3. **"Status of <workstream>" works in any chat.** The agent reads that workstream on the board, checks the real output where it has the tool, and answers in the short status shape.
+4. **Progress between chats is saved on the board**, in the workstream and its handover. A new chat starts from the board link and one prompt, with no file.
+5. **Before a production-heavy phase, the agent says the size** and, when the split rule applies, proposes a second chat once.
 
 ### On a Phone
 
@@ -480,6 +514,8 @@ Each criterion has a status: `pass` | `fail` | `conditional` | `na` | `not_verif
 | `/product-os:guide` | Start or resume guided mode |
 | `/product-os:status` | Show current progress |
 | `/product-os:next` | Execute next recommended step |
+| `/product-os:status --workstream <name>` | The status of one workstream, checked against the real output |
+| `/product-os:handover` | Write the handover for a workstream, on the board where there is one |
 
 ## Example Progress File
 
@@ -841,6 +877,18 @@ Never stop the PM because information is missing. Any document or exit criterion
 - Nothing is published to Confluence or Jira without explicit approval: published content reaches other teams, so a human owns it.
 - Code-shipping release gates (`CLAUDE.md` "Code Shipping Requirements", `.claude/agents/gate-keeper.md`): Not Verified blocks release and the owner gives an explicit GO, because unverified code reaches users.
 
+### Large Phases: Say the Size, Then Propose a Second Chat
+
+Follow `.claude/skills/multi-chat.md`.
+
+1. **Before a production-heavy phase** (design production, bulk publishing, many repeated steps), say the size: how many items, how many rounds, and that the cost follows the number of steps. Propose the rounds. Ask once, with choices to tap, if the scope can be staged.
+2. **Propose a second chat, with one question**, when the phase needs more than about 50 tool steps, the chat has been summarized once already, or the work is a different kind from the rest of the chat. Never for a small feature. If the PM says no, carry on and do not ask again for that phase.
+3. **Name the workstreams with the PM**, in plain words, and use those names in every reply.
+4. **Hand over through the board**: write the workstream and its handover, then give the PM the board link and the one prompt, once. No file.
+5. **Answer "status of <workstream>" from any chat** in the short status shape, with real counts where you have the tool.
+
+When a person does a phase, such as a designer, the workstream is "Design: <name>", its handover is the design brief with links, and no second chat is proposed for that phase.
+
 ---
 
 ## Phases
@@ -1198,6 +1246,14 @@ Show current progress, with open items listed first.
 /product-os:status --initiative <slug> --project <slug>
 ```
 
+### `/product-os:status --workstream <name>`
+
+The status of one workstream, checked against the real output. In a chat: "status of the design office".
+
+```
+/product-os:status --workstream "Design office"
+```
+
 ### `/product-os:next`
 
 Do the next recommended step. Says how many items are open and offers to resolve any that are due in the current phase.
@@ -1286,6 +1342,8 @@ Next: Run `/product-os:prioritize` to score this initiative.
 For work spanning sessions, use `/product-os:handover`:
 
 See `.claude/skills/session-handover.md`
+
+In Claude, when the project has a board, the handover lives on the board as `handover/<workstream id>`, and the next chat starts from the board link and one prompt. A file is the fallback only. See `.claude/skills/multi-chat.md`.
 
 ### When to Handover
 

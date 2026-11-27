@@ -79,8 +79,8 @@ Flows are written as Mermaid diagrams in `flows.md`. If a diagram does not rende
 
 ## 8. Saving progress between chats
 
-claude.ai does not keep files between chats on its own.
+claude.ai does not keep files between chats on its own. Follow `.claude/skills/multi-chat.md`.
 
-1. At the end of a session, or when the PM asks, produce an updated `progress.yaml` (phase, document status, open items) and a `HANDOVER.md` (state, evidence, next action), following `.claude/skills/guided-workflow.md`.
-2. Remind the PM to download both and upload them to the next chat or to the project knowledge.
-3. At the start of a chat, if a `progress.yaml` or `HANDOVER.md` is in the project knowledge or attached, read it and continue from its next action.
+1. **With a board**, progress is saved on the board: the project state, each workstream and its handover. A new chat starts from the board link and one prompt, with no file. Read the board first and write your own part last.
+2. **Without a board**, at the end of a session, or when the PM asks, produce an updated `progress.yaml` (phase, document status, open items) and a `HANDOVER.md` (state, evidence, next action), following `.claude/skills/guided-workflow.md`. Ask the PM to download both and upload them to the next chat or to the project knowledge. Give them once, and if one replaces an earlier copy, say so in one line.
+3. At the start of a chat, if a board link, a `progress.yaml` or a `HANDOVER.md` is in the message, attached or in the project knowledge, read it and continue from its next action.

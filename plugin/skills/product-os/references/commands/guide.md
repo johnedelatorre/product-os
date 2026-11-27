@@ -64,6 +64,17 @@ Any document or exit criterion in any phase can be deferred. Tell the guide you 
 
 Still hard stops: publishing to Confluence/Jira needs explicit approval, and code-shipping release gates (Not Verified blocks release, owner explicit GO) are unchanged.
 
+## Large Phases and a Second Chat
+
+Before design production, bulk publishing, or any phase with many repeated steps, the guide says the size: how many items, how many rounds, and that the cost follows the number of steps. It proposes the rounds and asks once if the scope can be staged.
+
+- It proposes a second chat, with one question, when the phase needs more than about 50 tool steps, the chat has been summarized once already, or the work is a different kind from the rest of the chat
+- A small feature never gets that question. If you say no, it does not ask again for that phase
+- Saying yes gives you one board link and one prompt. The new chat starts from them, with no file
+- In Claude Code, roles run as subagents with their own context, so no second chat is proposed
+
+Rules: `.claude/skills/multi-chat.md`.
+
 ## What It Does
 
 1. Loads or creates `initiatives/<initiative>/<project>/progress.yaml` (migrating older files to schema `1.2`)

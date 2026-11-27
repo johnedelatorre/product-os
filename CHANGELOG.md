@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.12.0] - 2026-11-27
+
+### Added
+- **A project can run in more than one chat** — a new playbook, `.claude/skills/multi-chat.md`, and the matching rules in the skill, the guided workflow, the output style, the engineering handoff, four commands and six agents.
+- **A size check before a production-heavy phase** — the agent states how many items and how many rounds, and that the cost follows the number of steps. It proposes the rounds and asks once if the scope can be staged.
+- **A split rule** — the agent proposes a second chat, with one question, when a phase needs more than about 50 tool steps, the chat has been summarized once, or the work changes kind. Never for a small feature, and once for a phase.
+- **Workstreams and the handover on the board** — two board collections, `workstreams` and `handover`. Each chat writes only its own. A new chat starts from the board link and one fixed prompt, with no file.
+- **A Workstreams card on the board** — one row for each workstream: name, owner, step n of m, status, last update and link, with a flag when a row is stale. A row opens to the handover and to the prompt, with a Copy button. The handover is offered as one Markdown file when a new chat cannot read the board.
+- **"Status of <workstream>" from any chat** — a short fixed answer, with real counts where the agent has the tool, and one check-in where a scheduling tool exists.
+- **Production rules for the design agents** — many screens per step, one visual check per batch, one report per round, and counts compared at the end of each round.
+- **A person as a workstream** — a designer's phase shows as "Design: <name>", with the design brief as its handover.
+- **Docs** — "Running a Project in More Than One Chat" (`docs/guides/multi-chat.md`).
+
+### Changed
+- **The board declares the downloads capability**, used only for the handover file.
+- **Handover in Claude is written to the board.** A file is the fallback.
+
 ## [1.11.0] - 2026-11-27
 
 ### Added

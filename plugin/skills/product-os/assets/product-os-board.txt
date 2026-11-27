@@ -143,6 +143,24 @@ button.btn { cursor: pointer; }
 .todo-n { margin: 0; padding: 6px 0 4px; font-size: 0.9375rem; color: var(--muted); }
 #todoMsg { color: var(--missing); font-weight: 600; } #todoMsg:empty { display: none; }
 .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.ws { padding: 16px 24px 10px; }
+.wsr { border-top: 1px dashed var(--line); } .wsr:first-child { border-top: 0; }
+.wsr > summary { list-style: none; display: grid; grid-template-columns: minmax(0, 1.3fr) auto minmax(0, 1.3fr) auto auto; gap: 6px 18px; align-items: center; padding: 12px 0; cursor: pointer; }
+.wsr > summary::-webkit-details-marker { display: none; }
+.wsr > summary::after { content: "Show"; font-size: 0.9375rem; font-weight: 600; color: var(--accent-text); } .wsr[open] > summary::after { content: "Hide"; }
+.wn { font: 700 1.125rem/1.3 var(--display); overflow-wrap: anywhere; min-width: 0; } .wn small { display: block; font: 400 0.9375rem/1.35 var(--body); color: var(--muted); }
+.wstep { font-weight: 600; white-space: nowrap; font-variant-numeric: tabular-nums; } .wu { color: var(--muted); font-size: 0.9375rem; white-space: nowrap; }
+.ws-b { display: grid; gap: 18px; padding: 4px 0 20px; }
+.ws-b h3 { margin: 0 0 6px; font: 700 1rem/1.3 var(--display); } .ws-b p { margin: 0; overflow-wrap: anywhere; } .ws-b .hint { color: var(--muted); font-size: 0.9375rem; }
+.ws-b .now-dl { margin: 0; }
+.prompt { display: grid; gap: 10px; justify-items: start; padding: 14px 16px; border: 1px solid var(--line); border-left: 6px solid var(--accent); border-radius: 8px; background: var(--paper); }
+.prompt textarea { width: 100%; min-height: 7rem; resize: vertical; padding: 10px 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--sheet); color: var(--ink); font: 400 0.9375rem/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.prompt textarea:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.prompt [role="status"] { font-weight: 600; } .prompt [role="status"]:empty { display: none; }
+.hand { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 32px; } .hand > .wide { grid-column: 1 / -1; }
+.hand ul, .hand ol { margin: 0; padding-left: 1.2rem; } .hand li { overflow-wrap: anywhere; }
+.hsteps { list-style: none; padding: 0 !important; display: grid; gap: 7px; } .hsteps li { display: grid; grid-template-columns: 5.6rem minmax(0, 1fr); gap: 10px; align-items: baseline; } .hsteps li.done > span:last-child { color: var(--muted); }
+.ws-b details > summary { cursor: pointer; font-weight: 600; color: var(--accent-text); padding: 4px 0; } .ws-b details[open] > summary { margin-bottom: 10px; }
 .kpis { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
 .kpis li { padding: 16px 20px; display: flex; flex-direction: column; gap: 2px; border-top-width: 5px; }
 .kpis li.ok { border-top-color: var(--found); } .kpis li.now { border-top-color: var(--accent); } .kpis li.miss { border-top-color: var(--missing); }
@@ -205,6 +223,7 @@ td a { font-weight: 600; }
 @media (pointer: coarse) {
   .btn, .theme button, .tabs button, .filters button, .how-more summary { min-height: 44px; }
   .how-more summary { display: flex; align-items: center; }
+  .wsr > summary, .ws-b details > summary { min-height: 44px; } .ws-b details > summary { display: flex; align-items: center; }
   .todos input { width: 1.625rem; height: 1.625rem; margin: 1px 0 0; } .todos li { padding: 14px 0; }
 }
 @media (max-width: 1100px) {
@@ -221,6 +240,8 @@ td a { font-weight: 600; }
   body { font-size: 1rem; }
   .wrap { padding: 16px 16px 48px; gap: 16px; }
   .now-h { padding: 12px 14px; } .now-b { padding: 16px 14px 18px; } .now-main h2 { font-size: 1.5rem; } .now-dl { grid-template-columns: minmax(0, 1fr); gap: 2px; } .now-dl dd { margin-bottom: 8px; }
+  .prompt textarea { min-height: 13rem; }
+  .ws { padding: 14px 14px 8px; } .wsr > summary { grid-template-columns: minmax(0, 1fr) auto; } .wsr > summary .set { grid-column: 1 / -1; } .hand { grid-template-columns: minmax(0, 1fr); }
   .todo { padding: 14px 14px 8px; } .todos li { grid-template-columns: auto minmax(0, 1fr); } .todos .tp { grid-column: 2; grid-row: auto; justify-self: start; margin-top: 4px; }
   .where { padding: 16px; } .where h1 { font-size: 1.5rem; } .next { padding: 16px; } .next p { font-size: 1.125rem; }
   .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; } .kpis li { padding: 12px 14px; } .kpis b { font-size: 1.75rem; }
@@ -292,7 +313,7 @@ td a { font-weight: 600; }
           <li><q>What is next?</q><span>Claude offers the next step.</span></li>
           <li><q>Show me the plan</q><span>Every document it will make, and for whom.</span></li>
           <li><q>Come back to this later</q><span>Skips a question. It is kept as an open item.</span></li>
-          <li><q>board</q><span>Claude gives you the link to this board.</span></li>
+          <li><q>Status of the design office</q><span>In a project with more than one chat: Claude checks that workstream and answers in a few lines.</span></li>
           <li><q>Write the PRD</q><span>Calls one agent directly. The Agents tab lists all 41.</span></li>
         </ul>
       </details>
@@ -352,6 +373,11 @@ td a { font-weight: 600; }
         <p class="todo-n" id="todoMsg" role="status"></p>
       </section>
 
+      <section class="card ws" id="wsBox" aria-labelledby="wsH" hidden>
+        <div class="todo-h"><h2 id="wsH">Workstreams</h2><span id="wsMeta"></span></div>
+        <div id="wsRows"></div>
+      </section>
+
       <ul class="kpis" id="kpis" aria-label="The project in numbers"></ul>
 
       <h2 class="sec-h" id="insH" hidden>How the project is doing<span>written by Claude</span></h2>
@@ -390,11 +416,11 @@ td a { font-weight: 600; }
       </section>
     </div>
   </div>
-  <p class="credit">Product OS™ 1.11.0 · © 2026 John De La Torre-Ugarte · <a href="https://github.com/johnedelatorre/product-os" target="_blank" rel="noopener">open source on GitHub</a></p>
+  <p class="credit">Product OS™ 1.12.0 · © 2026 John De La Torre-Ugarte · <a href="https://github.com/johnedelatorre/product-os" target="_blank" rel="noopener">open source on GitHub</a></p>
 </div>
 
 <script type="application/json" id="agents">[{"name":"Intake Analyst","does":"Transform raw, unstructured requirements into clear problem/opportunity statements.","phase":1,"say":"Run intake on this request"},{"name":"Opportunity Solution Tree","does":"Creates and maintains opportunity solution trees for structured discovery and problem exploration.","phase":2,"say":"Build the opportunity tree"},{"name":"Hypothesis Logger","does":"Tracks product hypotheses from formation through validation with structured outcomes.","phase":2,"say":"Log our hypotheses"},{"name":"Market Analyst","does":"Creates market analysis briefs covering market size, trends, segments, and strategic positioning.","phase":2,"say":"Write the market analysis"},{"name":"Competitive Analyst","does":"Analyze competitive landscape and create comparison matrices.","phase":2,"say":"Compare us with the competitors"},{"name":"UX Researcher","does":"Create user research plans and synthesize interview findings.","phase":2,"say":"Plan the user research"},{"name":"Strategist","does":"Score and prioritize features using RICE, WSJF, MoSCoW, and Kano frameworks.","phase":3,"say":"Score this with RICE"},{"name":"Roadmap","does":"Create Now/Next/Later roadmaps that communicate product direction.","phase":3,"say":"Place it on the roadmap"},{"name":"OKR","does":"Define OKRs and metric trees that connect product work to business outcomes.","phase":3,"say":"Write the OKRs"},{"name":"PRD Author","does":"Write comprehensive Product Requirements Documents with full strategic context, business rationale, and measurable outcomes.","phase":4,"say":"Write the PRD"},{"name":"PR/FAQ Author","does":"Write Amazon-style Press Release and FAQ documents.","phase":4,"say":"Write the PR/FAQ"},{"name":"Project Brief Author","does":"Create one-page executive project briefs for stakeholder alignment.","phase":4,"say":"Write the project brief"},{"name":"Metrics Designer","does":"Defines north-star metrics, guardrails, and success criteria for product initiatives.","phase":4,"say":"Write the metrics framework"},{"name":"Project Planner","does":"Create RACI matrices, Gantt charts, and project timelines.","phase":4,"say":"Write the project plan"},{"name":"Risk Manager","does":"Identify, assess, and track product and project risks.","phase":4,"say":"List the risks"},{"name":"Dependency Tracker","does":"Maintains a risk and dependency register integrated with RACI and project planning.","phase":4,"say":"List the dependencies"},{"name":"Experiment Designer","does":"Design A/B tests with proper hypothesis, sample size, and success criteria.","phase":4,"say":"Design an A/B test"},{"name":"Event Tracker","does":"Creates event tracking plans for analytics platforms (Pendo, Amplitude, Mixpanel, Segment, etc.).","phase":4,"say":"Write the tracking plan"},{"name":"Product Designer","does":"Create design briefs that translate PRD requirements into design direction.","phase":5,"say":"Write the design brief"},{"name":"Flow Designer","does":"Create comprehensive user flows, journey maps, sitemaps, and system flows from PRD and design brief.","phase":5,"say":"Draw the user flows"},{"name":"Wireframer","does":"Create low-fidelity wireframes that structure screens defined by user flows.","phase":5,"say":"Make the wireframes"},{"name":"Prototyper","does":"Create clickable, self-contained HTML/React prototypes from wireframes and flows, including the end-to-end handoff prototype for the team.","phase":5,"say":"Build the clickable prototype"},{"name":"Figma","does":"Integrate with Figma via MCP to sync designs, extract tokens, and audit against PRD.","phase":5,"say":"Sync the designs with Figma"},{"name":"Design Critique","does":"Structured critique of visual designs with severity-rated findings and concrete fixes.","phase":6,"say":"Run the design critique"},{"name":"UX Writer","does":"Run the UX writing pass on the real designs, paired with the design critique, and write the UX writing guide with the final copy for every screen.","phase":6,"say":"Run the UX writing pass"},{"name":"UX Reviewer","does":"Evaluate designs against Nielsen's heuristics, Laws of UX, and established patterns.","phase":6,"say":"Run the UX review"},{"name":"Accessibility Auditor","does":"Comprehensive WCAG 2.2 AA accessibility audit with automated and manual testing.","phase":6,"say":"Run the accessibility audit"},{"name":"Delivery","does":"Turn the PRD and designs into a short engineering handoff: one epic that links to everything, lean tickets with estimates, and a ticket tree the PM approves.","phase":7,"say":"Write the epic and tickets"},{"name":"Gate Keeper","does":"Enforces Definition of Ready (DoR) and Definition of Done (DoD) gates for stories before sprint.","phase":7,"say":"Check the tickets are ready"},{"name":"Confluence Publisher","does":"Publish all project artifacts to Confluence with proper hierarchy and backlog tables.","phase":7,"say":"Show me the Confluence publish plan"},{"name":"Jira Sync","does":"Create and sync epics and stories to Jira with story points, labels, dates, and dependencies.","phase":7,"say":"Show me the Jira ticket tree"},{"name":"Launch Manager","does":"Coordinates go-to-market activities including release notes, enablement materials, and changelog updates.","phase":8,"say":"Prepare the launch"},{"name":"Stakeholder Comms","does":"Generate stakeholder updates, executive summaries, release notes, and launch communications.","phase":8,"say":"Write the stakeholder update"},{"name":"Post-Launch Reviewer","does":"Conducts post-launch reviews comparing actual results against PRD goals and feeding insights back to intake.","phase":9,"say":"Run the post-launch review"},{"name":"Retro Facilitator","does":"Facilitate retrospectives and document learnings.","phase":9,"say":"Run a retro"},{"name":"Guide","does":"Walk PMs through the complete product lifecycle, phase by phase, tracking progress and adapting to their needs.","phase":0,"say":"Start Product OS"},{"name":"Orchestrator","does":"Coordinate the Product OS pipeline by routing work between specialist agents with defined inputs, outputs, and human checkpoints.","phase":0,"say":"Run the whole pipeline"},{"name":"Decision Logger","does":"Document product decisions in ADR (Architecture Decision Record) style.","phase":0,"say":"Log this decision"},{"name":"Artifact Registry","does":"Maintains a centralized manifest of all design and product artifacts with status tracking and link validation.","phase":0,"say":"List every document and design"},{"name":"Debt Tracker","does":"Maintains a unified tracker for technical debt and design debt with prioritization.","phase":0,"say":"Track this debt"},{"name":"Doc Cleaner","does":"Clean version history out of project docs, Confluence pages, epics and Jira tickets so they show the current state only.","phase":0,"say":"Clean the history out of the documents"}]</script>
-<script type="application/json" id="capabilities">{"db":{},"user":{}}</script>
+<script type="application/json" id="capabilities">{"db":{},"user":{},"downloads":true}</script>
 <script>
 (function () {
   var PHASES = ["Intake", "Discovery", "Prioritize", "Define", "Design", "Review", "Deliver", "Launch", "Measure"];
@@ -429,6 +455,8 @@ td a { font-weight: 600; }
     [/release|launch|changelog|comms/, "What shipped, written for the people who use it and the people who support it.", "Customers and your internal teams, at launch."]
   ];
   var STAGES = ["Your answers", "Draft", "Your review"];
+  var streams = [], hands = {}, wsOpen = {}, saver = null;
+  var WSS = { planned: ["Not started", "idle"], working: ["In progress", "live"], writing: ["In progress", "live"], asking: ["Waiting for you", "you"], review: ["Ready for your review", "you"], paused: ["Paused", "pause"], blocked: ["Blocked", "risk"], done: ["Done", "ok"] };
   var todos = [], saving = {}, theDb = null, WHO = "product-os-board-task-owner", who = "";
   try { who = window.localStorage.getItem(WHO) || ""; } catch (e) { who = ""; }
   var state = null, links = null, docs = [], tickets = [], filter = "all", view = "tasks", opened = {}, gotState = false, gotDocs = false, timer = 0;
@@ -488,7 +516,7 @@ td a { font-weight: 600; }
     ib.textContent = ""; $("insH").hidden = ib.hidden = !ins.length;
     ins.forEach(function (x) { var k = x.kind === "risk" ? "risk" : x.kind === "gap" ? "gap" : "ok", li = el("li", "card"); li.appendChild(k === "risk" ? badge("risk", "Risk") : k === "gap" ? badge("miss", "Gap") : badge("ok", "Going well")); li.appendChild(el("span", null, str(x.text, 400))); ib.appendChild(li); });
 
-    drawNow(); drawTasks(ph); drawDocs(); drawPublished();
+    drawNow(); drawTasks(ph); drawDocs(); drawPublished(); drawStreams();
     $("tab-docs").textContent = "Documents"; $("tab-docs").appendChild(el("span", null, String(docs.length)));
   }
   // The file in hand. Claude names it in project/state.current; without that, the board takes the first file that is under way.
@@ -605,6 +633,112 @@ td a { font-weight: 600; }
       tb.appendChild(tr);
     });
   }
+  // Workstreams: one row for each chat or person that runs a part of the project. Each row holds its handover and the one prompt that starts it in a new chat.
+  function list(v, n) { return (Array.isArray(v) ? v : []).map(function (x) { return str(x, 400).trim(); }).filter(Boolean).slice(0, n || 30); }
+  function pairs(v, key) { return (Array.isArray(v) ? v : []).filter(function (x) { return x && str(x.label, 80) && (key === "url" ? /^https:\/\//.test(str(x.url, 500)) : str(String(x[key] == null ? "" : x[key]), 120)); }).slice(0, 20); }
+  function span(ms) { var m = Math.max(1, Math.round(ms / 60000)); return m < 60 ? m + (m === 1 ? " minute" : " minutes") : m < 1440 ? Math.round(m / 60) + (Math.round(m / 60) === 1 ? " hour" : " hours") : Math.round(m / 1440) + (Math.round(m / 1440) === 1 ? " day" : " days"); }
+  function boardLink() { var own = str(state && state.board, 300) || str(links && links.board, 300); return /^https:\/\/claude\.ai\//.test(own) ? own : ""; }
+  // The prompt is the same for every round. It is the one in the Product OS playbook, word for word.
+  function promptFor(w) { return "Continue the Product OS workstream \"" + w.name.replace(/"/g, "") + "\" (" + w.id + ") from this board: " + boardLink() + "\nRead the board first. Do the next round in the handover, and only that round. Then write your workstream and its handover back to the board, and report."; }
+  function handoverText(w, h) {
+    var out = ["# Handover: " + w.name, "", "Project: " + (str(state && state.name, 120) || "Product OS project")];
+    if (boardLink()) out.push("Board: " + boardLink());
+    function sec(t, lines) { if (lines.length) { out.push("", "## " + t, ""); lines.forEach(function (l) { out.push(l); }); } }
+    sec("Goal", str(h.goal, 1200) ? [str(h.goal, 1200)] : []);
+    sec("Scope, in the PM's words", str(h.scope, 2000) ? [str(h.scope, 2000)] : []);
+    sec("Ids and links", pairs(h.links, "url").map(function (x) { return "- " + str(x.label, 80) + ": " + str(x.url, 500); }).concat(pairs(h.ids, "value").map(function (x) { return "- " + str(x.label, 80) + ": " + str(String(x.value), 120); })));
+    sec("Content rules", list(h.content_rules).map(function (x, i) { return (i + 1) + ". " + x; }));
+    sec("Working rules", list(h.working_rules).map(function (x, i) { return (i + 1) + ". " + x; }));
+    sec("Steps", (Array.isArray(h.steps) ? h.steps : []).filter(function (x) { return x && str(x.text, 400); }).slice(0, 60).map(function (x, i) { return (i + 1) + ". " + (x.done === true ? "DONE · " : "") + str(x.text, 400); }));
+    sec("Counts", pairs(h.counts, "value").map(function (x) { return "- " + str(x.label, 80) + ": " + str(String(x.value), 120); }));
+    sec("Decisions already made", list(h.decisions).map(function (x, i) { return (i + 1) + ". " + x; }));
+    sec("How to report", str(h.report, 1200) ? [str(h.report, 1200)] : []);
+    return out.join("\n") + "\n";
+  }
+  function copyFrom(text, box, msg, ok) {
+    var miss = function () { try { box.focus(); box.select(); } catch (e) { /* the text stays visible */ } msg.textContent = "Copy did not work here. The text is selected: press Ctrl+C, or Cmd+C on a Mac."; };
+    try { navigator.clipboard.writeText(text).then(function () { msg.textContent = ok; }, miss); } catch (e) { miss(); }
+  }
+  function field(parent, title, node, wide) { if (!node) return; var d = el("div", wide ? "wide" : ""); d.appendChild(el("h3", null, title)); d.appendChild(node); parent.appendChild(d); }
+  function olist(items, tag) { if (!items.length) return null; var l = el(tag || "ol"); items.forEach(function (x) { l.appendChild(el("li", null, x)); }); return l; }
+  function drawStreams() {
+    var box = $("wsBox"), rows = $("wsRows"), keep = document.activeElement && document.activeElement.id, now = Date.now();
+    box.hidden = !streams.length; rows.textContent = "";
+    if (!streams.length) return;
+    $("wsMeta").textContent = streams.length + (streams.length === 1 ? " workstream" : " workstreams");
+    streams.forEach(function (w) {
+      var h = hands[w.id] || null, person = w.by === "person", sk = WSS[w.status] ? w.status : "planned", t = Date.parse(w.updated) || 0;
+      var stale = sk === "working" && w.round > 0 && t > 0 && now - t > w.round * 60000;
+      var d = el("details", "wsr"), sm = el("summary"), nm = el("span", "wn", w.name), bs = el("span", "set");
+      d.open = !!wsOpen[w.id]; sm.id = "ws-" + w.id; sm.addEventListener("click", function () { wsOpen[w.id] = !d.open; });
+      if (w.owner) nm.appendChild(el("small", null, w.owner));
+      sm.appendChild(nm); sm.appendChild(el("span", "wstep", w.steps > 0 ? "Step " + Math.min(w.step, w.steps) + " of " + w.steps : ""));
+      bs.appendChild(badge(WSS[sk][1], WSS[sk][0])); if (stale) bs.appendChild(badge("miss", "No update for " + span(now - t)));
+      sm.appendChild(bs); sm.appendChild(el("span", "wu", t ? "updated " + ago(w.updated) : "no update yet"));
+      d.appendChild(sm);
+      var body = el("div", "ws-b"), dl = el("dl", "now-dl");
+      function row(k, node) { if (!node) return; dl.appendChild(el("dt", null, k)); var dd = el("dd"); dd.appendChild(node); dl.appendChild(dd); }
+      if (stale) row("No update", el("span", null, "The round was estimated at " + span(w.round * 60000) + ". Ask for “status of " + w.name + "” in any chat."));
+      if (w.next) row("What is next", el("span", null, w.next));
+      if (w.phase >= 1 && w.phase <= 9) row("Phase", el("span", null, w.phase + " · " + PHASES[w.phase - 1]));
+      var cs = pairs(w.counts, "value"); if (cs.length) { var cg = el("span", "set"); cs.slice(0, 6).forEach(function (c) { cg.appendChild(el("span", "chip", str(c.label, 80) + ": " + str(String(c.value), 120))); }); row("Counts", cg); }
+      row("Output", openLink(w.url, "the output of " + w.name));
+      if (person) row("Updated by", el("span", null, "You, in the chat, or Claude after it checks the design file."));
+      if (dl.childNodes.length) body.appendChild(dl);
+      if (!person) {
+        var pb = el("div", "prompt"), here = boardLink();
+        pb.appendChild(el("h3", null, "Start or continue this workstream in a new chat"));
+        if (here) {
+          var ta = el("textarea"), cp = el("button", "btn go", "Copy the prompt"), ms = el("p"), text = promptFor(w);
+          pb.appendChild(el("p", "hint", "Paste this as the first message of a new Claude chat that has the Product OS plugin. It is the same prompt for every round, and no file is needed."));
+          ta.readOnly = true; ta.value = text; ta.id = "prompt-" + w.id; ta.setAttribute("aria-label", "The prompt for " + w.name);
+          cp.type = "button"; cp.id = "copy-" + w.id; ms.setAttribute("role", "status");
+          cp.addEventListener("click", function () { copyFrom(text, ta, ms, "Copied. Paste it into a new Claude chat."); });
+          pb.appendChild(ta); pb.appendChild(cp); pb.appendChild(ms);
+        } else pb.appendChild(el("p", "hint", "The prompt appears here when Claude has saved this board's link."));
+        body.appendChild(pb);
+      }
+      if (h) {
+        var hd = el("div", "hand"), steps = (Array.isArray(h.steps) ? h.steps : []).filter(function (x) { return x && str(x.text, 400); }).slice(0, 60);
+        var head = el("div", "wide"), doneN = steps.filter(function (x) { return x.done === true; }).length;
+        head.appendChild(el("h3", null, person ? "The brief for " + (w.owner || "the designer") : "The handover, kept current by Claude"));
+        if (steps.length) head.appendChild(el("p", "hint", doneN + " of " + steps.length + " steps done" + (Date.parse(str(h.updated, 40)) ? " · updated " + ago(h.updated) : "")));
+        hd.appendChild(head);
+        field(hd, "Goal", str(h.goal, 1200) ? el("p", null, str(h.goal, 1200)) : null);
+        field(hd, person ? "Scope" : "Scope, in your words", str(h.scope, 2000) ? el("p", null, str(h.scope, 2000)) : null);
+        if (steps.length) { var sl = el("ol", "hsteps"); steps.forEach(function (x) { var li = el("li", x.done === true ? "done" : ""), mk = el("span"), b = badge(x.done === true ? "ok" : "idle", x.done === true ? "DONE" : "To do"); b.className += " sm"; mk.appendChild(b); li.appendChild(mk); li.appendChild(el("span", null, str(x.text, 400))); sl.appendChild(li); }); field(hd, "Steps", sl, true); }
+        var lk = pairs(h.links, "url"), ids = pairs(h.ids, "value");
+        if (lk.length || ids.length) { var ul = el("ul"); lk.forEach(function (x) { var li = el("li"), a = link(x.url, str(x.label, 80)); li.appendChild(a); ul.appendChild(li); }); ids.forEach(function (x) { ul.appendChild(el("li", null, str(x.label, 80) + ": " + str(String(x.value), 120))); }); field(hd, "Ids and links", ul); }
+        var hc = pairs(h.counts, "value"); if (hc.length) { var hg = el("span", "set"); hc.forEach(function (c) { hg.appendChild(el("span", "chip", str(c.label, 80) + ": " + str(String(c.value), 120))); }); field(hd, "Counts", hg); }
+        field(hd, "Content rules", olist(list(h.content_rules)));
+        field(hd, "Working rules", olist(list(h.working_rules)));
+        field(hd, "Decisions already made", olist(list(h.decisions)), true);
+        field(hd, "How to report", str(h.report, 1200) ? el("p", null, str(h.report, 1200)) : null, true);
+        body.appendChild(hd);
+        if (!person) {
+          var fb = el("details"), fs = el("summary", null, "If the new chat cannot read this board"), fbx = el("div", "prompt"), fm = el("p"), md = handoverText(w, h);
+          fs.id = "fall-" + w.id; fb.open = !!wsOpen["fall-" + w.id]; fs.addEventListener("click", function () { wsOpen["fall-" + w.id] = !fb.open; });
+          fm.setAttribute("role", "status");
+          fbx.appendChild(el("p", "hint", "Use this only then. Give the new chat this one file with the prompt above. A newer copy takes the place of an older one."));
+          if (saver) {
+            var dn = el("button", "btn", "Download the handover (.md)"); dn.type = "button"; dn.id = "down-" + w.id;
+            dn.addEventListener("click", function () {
+              fm.textContent = "";
+              saver.save({ filename: "handover-" + w.id + ".md", data: md }).then(function () { fm.textContent = "Saved as one Markdown file."; }, function (e) { fm.textContent = e && e.code === "declined" ? "Not saved." : "This view cannot save files. Open the board in a browser on a computer and try again."; });
+            });
+            fbx.appendChild(dn);
+          } else {
+            var ht = el("textarea"), hb = el("button", "btn", "Copy the handover"); ht.readOnly = true; ht.value = md; ht.id = "hand-" + w.id; ht.setAttribute("aria-label", "The handover for " + w.name + ", as Markdown"); hb.type = "button"; hb.id = "copyh-" + w.id;
+            hb.addEventListener("click", function () { copyFrom(md, ht, fm, "Copied. Paste it into the new chat, under the prompt."); });
+            fbx.appendChild(ht); fbx.appendChild(hb);
+          }
+          fbx.appendChild(fm); fb.appendChild(fs); fb.appendChild(fbx); body.appendChild(fb);
+        }
+      } else if (!person) body.appendChild(el("p", "hint", "Claude writes the handover here before the new chat starts."));
+      d.appendChild(body); rows.appendChild(d);
+    });
+    if (keep && $(keep) && $(keep) !== document.activeElement) $(keep).focus();
+  }
   // Tasks for people: the PM's own and the team's. Claude writes them; the reader ticks one when it is done, and that tick is the only thing this page writes.
   function drawTodos() {
     var box = $("todoBox"), ul = $("todos"), wb = $("todoWho"), keep = document.activeElement && document.activeElement.id;
@@ -702,7 +836,8 @@ td a { font-weight: 600; }
   }
   Array.prototype.forEach.call(themeButtons, function (b) { b.addEventListener("click", function () { theme(b.getAttribute("data-theme-set"), true); }); });
   try { theme(window.localStorage.getItem(KEY) || "auto", false); } catch (e) { theme("auto", false); }
-  setInterval(stamp, 60000);
+  // Once a minute: the "updated x minutes ago" lines and the stale flags. Not while the reader is inside the card.
+  setInterval(function () { stamp(); if (!$("wsBox").contains(document.activeElement)) drawStreams(); }, 60000);
 
   function offline(title, text) {
     gotState = gotDocs = true; state = null; docs = [];
@@ -720,6 +855,15 @@ td a { font-weight: 600; }
         .filter(function (x) { return str(x.title, 120); }).sort(function (a, b) { return ((a.phase || 10) - (b.phase || 10)) || (a.order - b.order) || (a.id < b.id ? -1 : 1); });
       draw();
     }, dead);
+    db.collection("workstreams").limit(50).onSnapshot(function (snap) {
+      streams = snap.docs.map(function (d) { var x = d.data() || {}; return { id: d.id, name: str(x.name, 80).trim(), owner: str(x.owner, 80).trim(), by: x.by === "person" ? "person" : "claude", phase: num(x.phase), step: num(x.step), steps: num(x.steps), status: str(x.status, 20), next: str(x.next, 400), counts: x.counts, url: x.url, round: num(x.round_minutes), updated: str(x.updated, 40), order: num(x.order) }; })
+        .filter(function (x) { return x.name && /^[a-z0-9][a-z0-9-]{0,60}$/.test(x.id); }).sort(function (a, b) { return (a.order - b.order) || (a.id < b.id ? -1 : 1); });
+      drawStreams();
+    }, function () { /* the card stays hidden */ });
+    db.collection("handover").limit(50).onSnapshot(function (snap) {
+      hands = {}; snap.docs.forEach(function (d) { hands[d.id] = d.data() || {}; });
+      drawStreams();
+    }, function () { /* the rows show without a handover */ });
     theDb = db;
     db.collection("todos").limit(100).onSnapshot(function (snap) {
       todos = snap.docs.map(function (d) { var x = d.data() || {}; return { id: d.id, text: str(x.text, 200), detail: str(x.detail, 240), owner: str(x.owner, 40).trim(), priority: str(x.priority, 24), key: str(x.key, 40), url: x.url, done: x.done === true, order: num(x.order) }; })
@@ -732,6 +876,8 @@ td a { font-weight: 600; }
     }, function () { /* the tickets list stays as it was */ });
   }
   if (window.claude && typeof window.claude.use === "function") {
+    // Saving a file needs the downloads capability. Without it the handover is offered as text to copy.
+    try { window.claude.use("downloads").then(function (d) { saver = d && typeof d.save === "function" ? d : null; drawStreams(); }, function () { saver = null; }); } catch (e) { saver = null; }
     window.claude.use("db").then(function (db) { if (db) start(db); else offline("This board cannot read its data here", "Open it in Claude, signed in as the person it belongs to."); }, function () { offline("This board cannot read its data here", "Open it in Claude, signed in as the person it belongs to."); });
   } else offline("Open this board in Claude", "This is the Product OS board. It shows a project that Claude runs in your chat, so it needs to be opened as a Claude artifact.");
 })();

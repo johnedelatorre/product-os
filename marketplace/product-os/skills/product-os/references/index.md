@@ -125,6 +125,7 @@ Every agent, command and playbook in this skill, with one line each.
 - `references/playbooks/jobs-screen-map.md`: Map user jobs to screens: job → screen → question → primary action. For design briefs, flows, and design critique.
 - `references/playbooks/launch-gtm.md`: Create release notes, enablement materials, and changelog entries.
 - `references/playbooks/metrics-framework.md`: Define north-star metrics, guardrails, and success criteria.
+- `references/playbooks/multi-chat.md`: A project can run in more than one chat without losing its place. The agent states the size of a heavy phase before it starts, proposes a second chat…
 - `references/playbooks/opportunity-tree.md`: Create opportunity solution trees for structured discovery.
 - `references/playbooks/post-launch-review.md`: Evaluate shipped features against PRD goals and close the learning loop.
 - `references/playbooks/prd-writing.md`: Write comprehensive Product Requirements Documents with PM rigor.

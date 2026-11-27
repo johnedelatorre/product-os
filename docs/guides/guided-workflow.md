@@ -42,6 +42,12 @@ Only Discovery can be skipped as a whole phase. In every phase you can defer a d
 
 ---
 
+## A Project in More Than One Chat
+
+Before a production-heavy phase, the guide says the size and, when the work calls for it, proposes a second chat. The board carries the handover and shows a row for each workstream. See [Running a Project in More Than One Chat](multi-chat.md).
+
+---
+
 ## Missing Information? Keep Going
 
 1. **Say you don't have it yet.** For example: "No baseline yet, come back to it later."
