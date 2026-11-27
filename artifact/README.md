@@ -7,7 +7,7 @@
 ![The Product OS board on a desktop screen and on a phone: the file being worked on now, where the project is, the next step, four numbers, three insights, and the start of the task list](../docs/images/hero.jpg)
 
 1. **Working on now**: the file in hand, first on the board. What it is, what it is for, the step it is at, what is happening and what is left. A green dot marks a file in progress; the card also shows Paused, Blocked and Just finished.
-2. **How Product OS works**: a one-minute guide that opens from the Guide button at the top. Four steps, with three sections that open: how to get started, what the badges mean, and what you can say in your chat. It sits above the board until you press "Hide the guide".
+2. **How Product OS works**: a one-minute guide that opens from the Guide button at the top. Four steps, with four sections that open: how to get started, when to start a new chat and who does it, what the badges mean, and what you can say in your chat. It sits above the board until you press "Hide the guide".
 3. **Where the project is**: the phase, the document in hand, and a bar of the nine phases.
 4. **The next step**: what Claude is waiting for from you, in your chat.
 5. **Your tasks**: what you and your team have to do, one row each, with a checkbox, the owner's name, a priority tag and the Jira link. Tick a task when it is done, and Claude closes its ticket the next time you write in the chat. With more than one owner, a row of buttons shows one person's tasks.
